@@ -22,7 +22,7 @@ void() animate_pillar = { self.frame++;
 		self.think = animate_pillar;
 	else
 	{
-		local entity pl;
+		entity pl;
 		pl = find(world, classname, "player");
 		pl.used_relicsinhub++;
 		if (pl.used_relicsinhub == relics_forhub)
@@ -101,12 +101,12 @@ void() portal_hub1 = { precache_model("models/objects/hubs/hub1_portal.md3");
 	setmodel(self, "models/objects/hubs/hub1_portal.md3");
 	relics_forhub = 5;
 
-	local entity pillar_a, pillar_a_mesh, pillar_a_beam;
+	entity pillar_a, pillar_a_mesh, pillar_a_beam;
 
 	pillar_a_mesh = spawn();
 	pillar_a_mesh.solid = SOLID_BSP;
 	pillar_a_mesh.owner = self;
-	local vector tagorg;
+	vector tagorg;
 	tagorg = tag_origin("tag_a", self);
 	pillar_a_mesh.origin = tagorg;
 	pillar_a_mesh.usable = 3;
@@ -142,7 +142,7 @@ void() portal_hub1 = { precache_model("models/objects/hubs/hub1_portal.md3");
 	pillar_a_beam.think = beam_pillar;
 	pillar_a_beam.nextthink = time;
 
-	local entity pillar_b, pillar_b_mesh, pillar_b_beam;
+	entity pillar_b, pillar_b_mesh, pillar_b_beam;
 
 	pillar_b_mesh = spawn();
 	pillar_b_mesh.solid = SOLID_BSP;
@@ -175,7 +175,7 @@ void() portal_hub1 = { precache_model("models/objects/hubs/hub1_portal.md3");
 	pillar_b_beam.think = beam_pillar;
 	pillar_b_beam.nextthink = time;
 
-	local entity pillar_c, pillar_c_mesh, pillar_c_beam;
+	entity pillar_c, pillar_c_mesh, pillar_c_beam;
 
 	pillar_c_mesh = spawn();
 	pillar_c_mesh.solid = SOLID_BSP;
@@ -208,7 +208,7 @@ void() portal_hub1 = { precache_model("models/objects/hubs/hub1_portal.md3");
 	pillar_c_beam.think = beam_pillar;
 	pillar_c_beam.nextthink = time;
 
-	local entity pillar_d, pillar_d_mesh, pillar_d_beam;
+	entity pillar_d, pillar_d_mesh, pillar_d_beam;
 
 	pillar_d_mesh = spawn();
 	pillar_d_mesh.solid = SOLID_BSP;
@@ -248,7 +248,7 @@ void() portal_hub1 = { precache_model("models/objects/hubs/hub1_portal.md3");
 	pillar_d_beam.think = beam_pillar;
 	pillar_d_beam.nextthink = time;
 
-	local entity pillar_e, pillar_e_mesh, pillar_e_beam;
+	entity pillar_e, pillar_e_mesh, pillar_e_beam;
 
 	pillar_e_mesh = spawn();
 	pillar_e_mesh.solid = SOLID_BSP;
@@ -291,12 +291,12 @@ void() portal_intro = { precache_model("models/objects/hubs/intro_portal.md3");
 	setmodel(self, "models/objects/hubs/intro_portal.md3");
 	relics_forhub = 1;
 	
-	local entity pillar_a, pillar_a_mesh, pillar_a_beam;
+	entity pillar_a, pillar_a_mesh, pillar_a_beam;
 
 	pillar_a_mesh = spawn();
 	pillar_a_mesh.solid = SOLID_BSP;
 	pillar_a_mesh.owner = self;
-	local vector tagorg;
+	vector tagorg;
 	tagorg = tag_origin("tag_a", self);
 	pillar_a_mesh.origin = tagorg;
 	pillar_a_mesh.usable = 3;
@@ -342,12 +342,12 @@ void() portal_hub2 = { precache_model("models/objects/hubs/hub2_portal.md3");
 	setmodel(self, "models/objects/hubs/hub2_portal.md3");
 	relics_forhub = 5;
 	
-	local entity pillar_a, pillar_a_mesh, pillar_a_beam;
+	entity pillar_a, pillar_a_mesh, pillar_a_beam;
 
 	pillar_a_mesh = spawn();
 	pillar_a_mesh.solid = SOLID_BSP;
 	pillar_a_mesh.owner = self;
-	local vector tagorg;
+	vector tagorg;
 	tagorg = tag_origin("tag_a", self);
 	pillar_a_mesh.origin = tagorg;
 	pillar_a_mesh.usable = 3;
@@ -376,7 +376,7 @@ void() portal_hub2 = { precache_model("models/objects/hubs/hub2_portal.md3");
 	pillar_a_beam.think = beam_pillar;
 	pillar_a_beam.nextthink = time;
 
-	local entity pillar_b, pillar_b_mesh, pillar_b_beam;
+	entity pillar_b, pillar_b_mesh, pillar_b_beam;
 
 	pillar_b_mesh = spawn();
 	pillar_b_mesh.solid = SOLID_BSP;
@@ -409,7 +409,7 @@ void() portal_hub2 = { precache_model("models/objects/hubs/hub2_portal.md3");
 	pillar_b_beam.think = beam_pillar;
 	pillar_b_beam.nextthink = time;
 
-	local entity pillar_c, pillar_c_mesh, pillar_c_beam;
+	entity pillar_c, pillar_c_mesh, pillar_c_beam;
 
 	pillar_c_mesh = spawn();
 	pillar_c_mesh.solid = SOLID_BSP;
@@ -442,7 +442,7 @@ void() portal_hub2 = { precache_model("models/objects/hubs/hub2_portal.md3");
 	pillar_c_beam.think = beam_pillar;
 	pillar_c_beam.nextthink = time;
 
-	local entity pillar_d, pillar_d_mesh, pillar_d_beam;
+	entity pillar_d, pillar_d_mesh, pillar_d_beam;
 
 	pillar_d_mesh = spawn();
 	pillar_d_mesh.solid = SOLID_BSP;
@@ -475,7 +475,7 @@ void() portal_hub2 = { precache_model("models/objects/hubs/hub2_portal.md3");
 	pillar_d_beam.think = beam_pillar;
 	pillar_d_beam.nextthink = time;
 
-	local entity pillar_e, pillar_e_mesh, pillar_e_beam;
+	entity pillar_e, pillar_e_mesh, pillar_e_beam;
 
 	pillar_e_mesh = spawn();
 	pillar_e_mesh.solid = SOLID_BSP;
@@ -524,12 +524,12 @@ void() portal_hub3 = { precache_model("models/objects/hubs/hub3_portal.md3");
 	setmodel(self, "models/objects/hubs/hub3_portal.md3");
 	relics_forhub = 5;
 	
-	local entity pillar_a, pillar_a_mesh, pillar_a_beam;
+	entity pillar_a, pillar_a_mesh, pillar_a_beam;
 
 	pillar_a_mesh = spawn();
 	pillar_a_mesh.solid = SOLID_BSP;
 	pillar_a_mesh.owner = self;
-	local vector tagorg;
+	vector tagorg;
 	tagorg = tag_origin("tag_a", self);
 	pillar_a_mesh.origin = tagorg;
 	pillar_a_mesh.usable = 3;
@@ -558,7 +558,7 @@ void() portal_hub3 = { precache_model("models/objects/hubs/hub3_portal.md3");
 	pillar_a_beam.think = beam_pillar;
 	pillar_a_beam.nextthink = time;
 
-	local entity pillar_b, pillar_b_mesh, pillar_b_beam;
+	entity pillar_b, pillar_b_mesh, pillar_b_beam;
 
 	pillar_b_mesh = spawn();
 	pillar_b_mesh.solid = SOLID_BSP;
@@ -591,7 +591,7 @@ void() portal_hub3 = { precache_model("models/objects/hubs/hub3_portal.md3");
 	pillar_b_beam.think = beam_pillar;
 	pillar_b_beam.nextthink = time;
 
-	local entity pillar_c, pillar_c_mesh, pillar_c_beam;
+	entity pillar_c, pillar_c_mesh, pillar_c_beam;
 
 	pillar_c_mesh = spawn();
 	pillar_c_mesh.solid = SOLID_BSP;
@@ -624,7 +624,7 @@ void() portal_hub3 = { precache_model("models/objects/hubs/hub3_portal.md3");
 	pillar_c_beam.think = beam_pillar;
 	pillar_c_beam.nextthink = time;
 
-	local entity pillar_d, pillar_d_mesh, pillar_d_beam;
+	entity pillar_d, pillar_d_mesh, pillar_d_beam;
 
 	pillar_d_mesh = spawn();
 	pillar_d_mesh.solid = SOLID_BSP;
@@ -657,7 +657,7 @@ void() portal_hub3 = { precache_model("models/objects/hubs/hub3_portal.md3");
 	pillar_d_beam.think = beam_pillar;
 	pillar_d_beam.nextthink = time;
 
-	local entity pillar_e, pillar_e_mesh, pillar_e_beam;
+	entity pillar_e, pillar_e_mesh, pillar_e_beam;
 
 	pillar_e_mesh = spawn();
 	pillar_e_mesh.solid = SOLID_BSP;

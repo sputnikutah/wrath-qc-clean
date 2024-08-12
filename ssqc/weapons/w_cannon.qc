@@ -60,9 +60,9 @@ void() slag_explode1 = { self.skin += 0;self.think = slag_explode2;self.nextthin
 };
 void() orenextframe = 
 {
-	if(self.solid == SOLID_CORPSE)
+	if (self.solid == SOLID_CORPSE)
 		self.solid = SOLID_BBOX;
-	if(self.frame != 1)
+	if (self.frame != 1)
 	{	
 		self.vweaponangles = self.angles;
 		self.frame = 1;
@@ -71,7 +71,7 @@ void() orenextframe =
 
 	float speed;
 	speed = vlen (self.velocity);
-	if(speed < (slagspeed2 * 0.9))
+	if (speed < (slagspeed2 * 0.9))
 	{
 		setorigin (self,self.originoffset);
 		makevectors2 (self.vweaponangles);
@@ -83,7 +83,7 @@ void() orenextframe =
 	}
 
 	self.originoffset = self.origin + normalize (self.angles) * slagspeed2;
-	if(self.lifetime < time)
+	if (self.lifetime < time)
 		self.think = SUB_Remove;
 	else
 		self.think = orenextframe;
@@ -93,7 +93,7 @@ void() orenextframe =
 void()cannon_proj_touch;
 void() slagdrunk = 
 { 
-	if(!self.frame)
+	if (!self.frame)
 		self.frame = 1;
 	
 	self.explodcount += 1;
@@ -143,7 +143,7 @@ void() cannon_proj_touch_fade=
 	self.nextthink = time + 0.05;
 
 
-	if(self.classname == "fallen_burning_head")
+	if (self.classname == "fallen_burning_head")
 	{
 		entity head = findradius(self.origin, slagsplashradius2 -32);
 		while (head)
@@ -204,7 +204,7 @@ void(entity attacker, entity perpetrator, float value, vector exp_origin, float 
 	vector org = (perpetrator.absmin + perpetrator.absmax) / 2;
 	exp_origin_z -= bboxslag2_z;
 
-	if(rocketradius < vlen(org - exp_origin))
+	if (rocketradius < vlen(org - exp_origin))
 		return;	
 	float aircntjmp = cvar("aircannonfactor");
 	perpetrator.rocketjumpcnt += aircntjmp;
@@ -241,14 +241,14 @@ void() cannon_proj_touch =
 		return;
 	}
 
-	local vector org;
+	vector org;
 	org = self.origin;
-	local string snd;
-	if(other == self.owner)
+	string snd;
+	if (other == self.owner)
 	return;
 
 
-	if((other.wrathflags &FL_PROJECTILE) &&  (self.cnt == 2))
+	if ((other.wrathflags &FL_PROJECTILE) &&  (self.cnt == 2))
 	{
 		self.originoffset = self.origin;
 		self.velocity = '0 0 0';
@@ -256,7 +256,7 @@ void() cannon_proj_touch =
 		return;
 	}
 
-	if(other.classentity == "projectiles")
+	if (other.classentity == "projectiles")
 		return;
 	if (other.solid == SOLID_TRIGGER)
 		return;
@@ -276,16 +276,16 @@ void() cannon_proj_touch =
 	traceline(self.origin, self.origin + v_forward *1024, MOVE_HITMODEL, self);
 	if (trace_ent != other)
 		trace_endpos = old_impact;
-    if(other.bloody == 2)
+    if (other.bloody == 2)
     {
 		makevectors2 (self.angles);
 		if ((bossvulnerable == 1))
 		{
-			if(other == trace_ent)
+			if (other == trace_ent)
 			{
 
 				float r = random(); 
-					if(other.classname == "boss_guardian2")
+					if (other.classname == "boss_guardian2")
 						explo_blood_sprite(2, trace_endpos);
 					else
 						explo_blood_sprite(5, trace_endpos);
@@ -305,7 +305,7 @@ void() cannon_proj_touch =
 	{
 	self.classname = "explosion_ore";
 	
-		if((deathmatch == 1) || (other.classname == "player"))
+		if ((deathmatch == 1) || (other.classname == "player"))
 		{
 			T_Damage(other, self, self.owner,slagcannon_damage1_mp);
 			T_SplashDamage(self, self.owner,slagsplashdamage_mp, other, slagsplashradius);
@@ -333,16 +333,16 @@ void() cannon_proj_touch =
 	else
 	{
 		self.classname = "explosion_oreb";
-		if((deathmatch == 1) || (other.classname == "player"))
+		if ((deathmatch == 1) || (other.classname == "player"))
 		{
 			T_Damage(other, self, self.owner,slagcannon_damage2_mp);
 			T_SplashDamage(self, self.owner, slagsplashdamage2_mp, other, slagsplashradius2);
 		}
 		else
 		{
-			if(other.classname == "monster_oppressor")
+			if (other.classname == "monster_oppressor")
 				other.monster_long_pain = 1;
-			if((other.classname == "monster_brute"))
+			if ((other.classname == "monster_brute"))
 				other.monster_long_pain = 1;
 			T_Damage(other, self, self.owner,slagcannon_damage2);
 
@@ -365,11 +365,11 @@ void() cannon_proj_touch =
 		}
 	}
 };
-void(float type, float forg) W_FireCannon = { local vector dir, rorg, tagorg;
-	local float sv, tagindex;
+void(float type, float forg) W_FireCannon = { vector dir, rorg, tagorg;
+	float sv, tagindex;
 
 	// Reki (December 1 2023): Fixed this not having punch angle
-	if(cvar("cl_punch"))
+	if (cvar("cl_punch"))
 	{
 		if (type == 2)	
 		{
@@ -401,7 +401,7 @@ void(float type, float forg) W_FireCannon = { local vector dir, rorg, tagorg;
 	if (type == 1)
 	{
 		flask_v_fx(0.5);
-		local string tagname;
+		string tagname;
 		tagname = strcat("muzzle_", ftos(forg));
 		tagindex = gettagindex(self.vweapon, tagname);
 		newmis.classname = "ore";
@@ -700,14 +700,14 @@ void() wsfire_cannon = { if (self.ammo_cannon < 5)
 void() pipes_think =
 {
 
-	if(self.owner.weapon != IT_CANNON)
+	if (self.owner.weapon != IT_CANNON)
 	{
 		remove(self);
 		return;
 	}
-	if(self.owner.fire_time_cannon > time)
+	if (self.owner.fire_time_cannon > time)
 	{
-		if(self.glowmod_x < 1) 
+		if (self.glowmod_x < 1) 
 		{
 			self.glowmod_x += 0.0125; 
 			self.glowmod_z = self.glowmod_x; 
@@ -716,7 +716,7 @@ void() pipes_think =
 	}
 	else
 	{
-		if(self.glowmod_x > 0.0125) 
+		if (self.glowmod_x > 0.0125) 
 		{
 			self.glowmod_x -= 0.0125; 
 			self.glowmod_z = self.glowmod_x; 
@@ -728,7 +728,7 @@ void() pipes_think =
 
 void(entity e, entity vweapn) spawn_pipes = 
 {
-	if((!(wasfreed(e.pipes))) && (e.pipes.wrathflags & FL_SUBWEAPONMODEL))
+	if ((!(wasfreed(e.pipes))) && (e.pipes.wrathflags & FL_SUBWEAPONMODEL))
 	{
 		remove(e.pipes);
 	}
@@ -805,7 +805,7 @@ void() raise_cannon =
 	self.vweaponstate = 1;
 
 
-	if(!(self.playerflags & FL_RESTARWEAPON))
+	if (!(self.playerflags & FL_RESTARWEAPON))
 		spawn_pipes (self, self.vweapon);
 
 	self.attack_finished = time +  0.0125; //0.25;
@@ -817,7 +817,7 @@ void() lower_cannon2 = {
 	self.vweaponframe += 1;
 	if (self.vweaponframe == 55)
 	{
-		if((!(wasfreed(self.pipes))) && (self.vgear.wrathflags & FL_SUBWEAPONMODEL))
+		if ((!(wasfreed(self.pipes))) && (self.vgear.wrathflags & FL_SUBWEAPONMODEL))
 			remove(self.pipes);
 	}
 	if (self.vweaponframe >= 60)

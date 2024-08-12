@@ -9,9 +9,9 @@ float enemy_yaw;
 //float	current_yaw;
 float() CheckAttack = 
 {
-	local vector spot1, spot2;
-	local entity targ;
-	local float chance;
+	vector spot1, spot2;
+	entity targ;
+	float chance;
 
 	targ = self.enemy;
 
@@ -98,20 +98,20 @@ void()afflicted_run1;
 void()deactivate_turret =
 {
 	
-	if((self.health <= 0) && (self.flags & FL_MONSTER))
+	if ((self.health <= 0) && (self.flags & FL_MONSTER))
 		return;
-	if(self.turret == 1)
+	if (self.turret == 1)
 	self.turret = 0;
 	self.temp_turret = 0;
-	if(self.classname == "monster_stricken")
+	if (self.classname == "monster_stricken")
 	self.th_run = stricken_run1;
-	if(self.classname == "monster_afflicted")
+	if (self.classname == "monster_afflicted")
 	self.th_run = afflicted_run1;
-	if(self.classname == "monster_invader")
+	if (self.classname == "monster_invader")
 	self.th_run = invader_run;
-	if(self.classname == "monster_wretch")
+	if (self.classname == "monster_wretch")
 	self.th_run = wretch_run1;
-	if(self.classname == "monster_oppressor")
+	if (self.classname == "monster_oppressor")
 	self.th_run = oppressor_run1;
 	self.turret_enemy_visible = 0;
 	self.turret_time = time + 2.5;	
@@ -125,17 +125,17 @@ void()deactivate_turret =
 void()deactivate_turret2 =
 {
 	
-	if((self.health <= 0) && (self.flags & FL_MONSTER))
+	if ((self.health <= 0) && (self.flags & FL_MONSTER))
 		return;
-	if(self.classname == "monster_stricken")
+	if (self.classname == "monster_stricken")
 	self.th_run = stricken_run1;
-	if(self.classname == "monster_afflicted")
+	if (self.classname == "monster_afflicted")
 	self.th_run = afflicted_run1;
-	if(self.classname == "monster_invader")
+	if (self.classname == "monster_invader")
 	self.th_run = invader_run;
-	if(self.classname == "monster_wretch")
+	if (self.classname == "monster_wretch")
 	self.th_run = wretch_run1;
-	if(self.classname == "monster_oppressor")
+	if (self.classname == "monster_oppressor")
 	self.th_run = oppressor_run1;
 
 	self.temp_turret = 0;
@@ -159,24 +159,24 @@ void() ai_face =
 	
 
 
-	if(!self.enemy.health)
+	if (!self.enemy.health)
 	{
 		next_enemy();
 		return;
 	}
-	if((!self.takedamage) && (self.classentity == "monsters"))
+	if ((!self.takedamage) && (self.classentity == "monsters"))
 	self.takedamage = DAMAGE_AIM;
 
 	float enemy_is_visible = visible(self.enemy);
 
 
 		
-	if((enemy_is_visible) && (time < self.run_time) && (self.turret != 1))
+	if ((enemy_is_visible) && (time < self.run_time) && (self.turret != 1))
 		self.lastplace_spoted = self.enemy.origin;
 
 	self.ideal_yaw = vectoyaw(rorigin(self.enemy) - rorigin(self));
 	
-	if((self.turret ==  2) && (self.time_noturret2 < time)) 
+	if ((self.turret ==  2) && (self.time_noturret2 < time)) 
 	{
 		if (!enemy_is_visible) 
 		{
@@ -187,7 +187,7 @@ void() ai_face =
 		}
 	}
 	
-	if((self.temp_turret ==  1))
+	if ((self.temp_turret ==  1))
 	{
 		makevectors2(self.subangles);
 		vector vec = normalize((rorigin(self.enemy) - rorigin(self)));
@@ -215,8 +215,8 @@ void(float d) ai_charge =
 
 void() ai_charge_side = 
 {
-	local vector dtemp;
-	local float heading;
+	vector dtemp;
+	float heading;
 
 	// aim to the left of the enemy for a flyby
 	self.ideal_yaw = vectoyaw(rorigin(self.enemy) - rorigin(self));
@@ -236,8 +236,8 @@ ai_melee
 =============*/
 void() ai_melee = 
 {
-	local vector delta;
-	local float ldmg;
+	vector delta;
+	float ldmg;
 
 	if (!self.enemy)
 		return;	// removed before stroke
@@ -253,8 +253,8 @@ void() ai_melee =
 
 void() ai_melee_side = 
 {
-	local vector delta;
-	local float ldmg;
+	vector delta;
+	float ldmg;
 
 	if (!self.enemy)
 		return;	// removed before stroke
@@ -324,7 +324,7 @@ void() path_corner_start =
 
 void() t_movetarget = 
 {
-	local entity temp;
+	entity temp;
 
 
 	if (other.movetarget != self)
@@ -338,7 +338,7 @@ void() t_movetarget =
 	other.lastpathed = self;
 
 
-	if((self.pausetime >= 0) && (other.flags & FL_MONSTER))
+	if ((self.pausetime >= 0) && (other.flags & FL_MONSTER))
 		other.pausetime =  self.pausetime + time;
 
 	temp = self;
@@ -366,7 +366,7 @@ void() t_movetarget =
 	if ((self.pathed == 1) && (self.pathtime < time) && (r > 0.8))
 		self.pathtime = time + 0.5;
 
-	if((self.health <= 0) && (self.flags & FL_MONSTER))
+	if ((self.health <= 0) && (self.flags & FL_MONSTER))
 		return;
 
 	if (visible(self.oldenemy))
@@ -380,7 +380,7 @@ void() t_movetarget =
 		}
 	}
 
-	if((self.flags & FL_MONSTER) && (self.pausetime > time))
+	if ((self.flags & FL_MONSTER) && (self.pausetime > time))
 	{
 		self.th_stand();
 		return;
@@ -396,8 +396,8 @@ void() t_movetarget =
 
 float(entity targ) hear_range = 
 {
-	local vector spot1, spot2;
-	local float r;
+	vector spot1, spot2;
+	float r;
 	spot1 = rorigin(self) + self.view_ofs;
 	spot2 = rorigin(targ) + targ.view_ofs;
 
@@ -416,8 +416,8 @@ float(entity targ) hear_range =
 .float noattack;
 float(entity targ) range = 
 {
-	local vector spot1, spot2;
-	local float r;
+	vector spot1, spot2;
+	float r;
 	spot1 = rorigin(self) + self.view_ofs;
 	spot2 = rorigin(targ) + targ.view_ofs;
 
@@ -480,7 +480,7 @@ float(entity targ) range =
 	}
 	else if (self.classname == "monster_stricken")
 	{
-		//if((self.enemy.classname == "monster_stricken") || (self.enemy.classname == "executioner"))
+		//if ((self.enemy.classname == "monster_stricken") || (self.enemy.classname == "executioner"))
 		//stricken_near += 128;
 		
 		if (r < stricken_near)
@@ -503,7 +503,7 @@ float(entity targ) range =
 	else if (self.classname == "monster_heretic")
 	{
 	
-		if(self.movingz == 1)
+		if (self.movingz == 1)
 		{
 			if (r < heretic_near + 16)
 				return RANGE_MELEE;
@@ -580,7 +580,7 @@ float(entity targ) range =
 
 float(entity targ) rvisible = 
 {
-	local vector spot1, spot2;
+	vector spot1, spot2;
 
 	spot1 = rorigin(self);
 	spot2 = rorigin(targ);
@@ -597,11 +597,11 @@ float(entity targ) rvisible =
 
 float(entity targ, float forent) rvisible2 = 
 {
-	local vector spot1, spot2;
+	vector spot1, spot2;
 
 	spot1 = rorigin(self);
 	spot2 = rorigin(targ);
-	local vector step_height;
+	vector step_height;
 	step_height_z = self.stepheight_delta + 16;
 	tracebox(spot1, self.absmin + step_height, self.absmax, spot2, FALSE, self);
 
@@ -615,13 +615,13 @@ float(entity targ, float forent) rvisible2 =
 
 float(entity targ) oldvisible = 
 {
-	local vector spot1, spot2;
+	vector spot1, spot2;
 
 	spot1 = self.origin + '0 0 16';
 	spot2 = targ.origin + '0 0 16';
 	traceline(spot1, spot2, TRUE, self);	// see through other monsters
 	
-	if((targ.flags & FL_MONSTER) && (targ.health <= 0))
+	if ((targ.flags & FL_MONSTER) && (targ.health <= 0))
 		return FALSE;	// sight line crossed contents
 	
 	if (trace_inopen && trace_inwater)
@@ -649,13 +649,13 @@ float(entity targ, entity e) reachable2 =
 
 float(entity targ) run_visible = 
 {
-	local vector spot1, spot2;
-	if(!targ)
+	vector spot1, spot2;
+	if (!targ)
 		return FALSE;
 	spot1 = self.origin + '0 0 16';
 	spot2 = targ.origin + '0 0 16';
 	wtraceline(spot1, spot2, TRUE, world);	// see through other monsters
-	if((targ.flags & FL_MONSTER) && (targ.health <= 0))
+	if ((targ.flags & FL_MONSTER) && (targ.health <= 0))
 		return FALSE;	// sight line crossed contents
 	if (trace_inopen && trace_inwater)
 		return FALSE;	// sight line crossed contents
@@ -666,22 +666,22 @@ float(entity targ) run_visible =
 
 float(entity targ) visiblebox = 
 {
-	local vector spot1, spot2;
-	if(!targ)
+	vector spot1, spot2;
+	if (!targ)
 		return FALSE;
 
-	if((self.classname == "monster_keeper") && (self.time_noturret2 > time))
+	if ((self.classname == "monster_keeper") && (self.time_noturret2 > time))
 		spot1 = self.origin + '0 0 70';
 
 	spot1 = self.origin + '0 0 16';
-	if(self.classname == "boss_guardian1")
+	if (self.classname == "boss_guardian1")
 		spot1 = self.origin + '0 0 92';
 	
 	spot2 = targ.origin + '0 0 16';
 
 	tracebox(spot1,'-12 -12 -12','12 12 12', spot2, TRUE, world);	// see through other monsters
 
-	if((targ.flags & FL_MONSTER) && (targ.health <= 0))
+	if ((targ.flags & FL_MONSTER) && (targ.health <= 0))
 		return FALSE;	// sight line crossed contents
 	
 
@@ -696,32 +696,32 @@ float(entity targ) visiblebox =
 
 float(entity targ) visible = 
 {
-	local vector spot1, spot2;
-	if(!targ)
+	vector spot1, spot2;
+	if (!targ)
 		return FALSE;
 
 
 
 	spot1 = self.origin + '0 0 16';
-	if(self.classname == "boss_guardian1")
+	if (self.classname == "boss_guardian1")
 		spot1 = self.origin + '0 0 92';
-	if((self.classname == "monster_lurker") && (targ == self.enemy)&&(!targ.fakewatertype))
+	if ((self.classname == "monster_lurker") && (targ == self.enemy)&&(!targ.fakewatertype))
 		return FALSE;
 
-	if((self.classname == "monster_keeper") && (self.time_noturret2 > time))
+	if ((self.classname == "monster_keeper") && (self.time_noturret2 > time))
 		spot1 = self.origin + '0 0 70';
 	
 	spot2 = targ.origin + '0 0 16';
-	if(self.classname == "monster_widow")
+	if (self.classname == "monster_widow")
 		wtraceline(spot1, spot2, TRUE, self);	// see through other monsters
 	else
 		wtraceline(spot1, spot2, TRUE, world);	// see through other monsters
 
-	//if(self.classname == "monster_symbol")
+	//if (self.classname == "monster_symbol")
 	//	wtracebox(spot1, spot2, TRUE, self,'3 3 3');
 
 
-	if((targ.flags & FL_MONSTER) && (targ.health <= 0))
+	if ((targ.flags & FL_MONSTER) && (targ.health <= 0))
 		return FALSE;	// sight line crossed contents
 	
 
@@ -748,9 +748,9 @@ float(vector spot1, vector spot2, entity e) visibleb =
 
 float(entity targ, float dist, float drange) visible2 = 
 {
-	local vector spot1, spot2;
-	local float d;
-	if(!targ)
+	vector spot1, spot2;
+	float d;
+	if (!targ)
 		return FALSE;
 
 
@@ -761,10 +761,10 @@ float(entity targ, float dist, float drange) visible2 =
 	spot1 = rorigin(self) + self.view_ofs;
 	spot2 = rorigin(targ) + targ.view_ofs;
 
-	local vector vec;
-	local float dot;
+	vector vec;
+	float dot;
 	
-	if((self.classname == "executioner") && ((self.enemy.classname == "monster_stricken") || (self.enemy.classname == "executioner")))
+	if ((self.classname == "executioner") && ((self.enemy.classname == "monster_stricken") || (self.enemy.classname == "executioner")))
 	dist += 64;
 
 	d = vlen(spot1 - spot2);
@@ -792,12 +792,12 @@ float(entity targ, float dist, float drange) visible2 =
 
 float(entity targ, float dist) visibleinfront = 
 { 
-	local vector vec, spot1, spot2;
-	local float dot, d;
+	vector vec, spot1, spot2;
+	float dot, d;
 	
-	if(targ.health < 0)
+	if (targ.health < 0)
 		return FALSE;
-	if(!targ)
+	if (!targ)
 		return FALSE;
 	
 	spot1 = rorigin(self) + self.view_ofs;
@@ -829,13 +829,13 @@ float(entity targ, float dist) visibleinfront =
 
 float(vector targorigin, vector viewerangles,vector viewerorigin,float viewerdeviance) custom_infront2 = 
 { 
-	local vector vec;
-	local float dot, dotvalue;
+	vector vec;
+	float dot, dotvalue;
 
 	dotvalue = 1 - (viewerdeviance / 180);
 
 
-	if(self.classname == "boss_guardian1")
+	if (self.classname == "boss_guardian1")
 	{
 	vector spot1 = targorigin;
 	spot1_z = self.origin_z;
@@ -861,10 +861,10 @@ float(vector targorigin, vector viewerangles,vector viewerorigin,float viewerdev
 
 float(entity targ, vector viewerangles,vector viewerorigin,float viewerdeviance) custom_infront = 
 { 
-	local vector vec;
-	local float dot, dotvalue;
+	vector vec;
+	float dot, dotvalue;
 
-	if(self.classname == "boss_guardian1")
+	if (self.classname == "boss_guardian1")
 	{
 	vector spot1 = rorigin(targ);
 	spot1_z = self.origin_z;
@@ -886,8 +886,8 @@ float(entity targ, vector viewerangles,vector viewerorigin,float viewerdeviance)
 
 float(entity targ) infront = 
 { 
-	local vector vec;
-	local float dot;
+	vector vec;
+	float dot;
 	makevectors2(self.angles);
 	vec = normalize(rorigin(targ) - rorigin(self));
 	dot = vec * v_forward;
@@ -912,7 +912,7 @@ void()boss3_start;
 void() HuntTarget = 
 { 
 	self.goalentity = self.enemy;
-	if((self.health <= 0) && (self.flags & FL_MONSTER))
+	if ((self.health <= 0) && (self.flags & FL_MONSTER))
 		return;
 	float r;
 	r = random();
@@ -955,7 +955,7 @@ void() HuntTarget =
 void() FoundTarget = 
 { 
 
-	if(self.enemy == self)
+	if (self.enemy == self)
 	{
 		self.enemy = world;
 		return;
@@ -971,7 +971,7 @@ void() FoundTarget =
 	self.show_hostile = time + 1;	// wake up other monsters
 	self.sight_time = time + 1;
 		
-	if(!self.nextenemy)
+	if (!self.nextenemy)
 	{
 		if (self.classname == "monster_widow")
 		{
@@ -984,7 +984,7 @@ void() FoundTarget =
 	}
 	//void(vector org, float radius, float lifetime, vector color) te_customflash = #417;
 	HuntTarget();
-	/*if((self.classname == "executioner")||(self.classname == "monster_invader") ||(self.classname == "monster_stricken")||(self.classname == "monster_fallen"))
+	/*if ((self.classname == "executioner")||(self.classname == "monster_invader") ||(self.classname == "monster_stricken")||(self.classname == "monster_fallen"))
 	return;
 	else
 	self.colormod = '0 1 0'; */
@@ -994,8 +994,8 @@ void() FoundTarget =
 
 void() FindNearestPath = 
 { 
-	local entity head, near;
-	local float dist, low;
+	entity head, near;
+	float dist, low;
 	low = 999999999;	
 
 
@@ -1009,7 +1009,7 @@ void() FindNearestPath =
 
 	while (head)
 	{
-		//	if((reachable(head)) && (head !=  self.lastpathed) && (head !=  self.lastpathed2)&& (head !=  self.lastpathed3)) 
+		//	if ((reachable(head)) && (head !=  self.lastpathed) && (head !=  self.lastpathed2)&& (head !=  self.lastpathed3)) 
 		if (reachable(head))
 		{
 			dist = vlen(head.origin - self.origin);
@@ -1038,15 +1038,15 @@ void() player_enemy =
 {
 	if (self.friendly_monster > 1)
 		return;
-	if(self.enemy.classname == "player")
+	if (self.enemy.classname == "player")
 		return;
-	if((single_player.flags &FL_NOTARGET))
+	if ((single_player.flags &FL_NOTARGET))
 		return;
 
-	local entity pl;
+	entity pl;
 		pl = find(world, classname, "player");
 
-	if(pl.health > 0)
+	if (pl.health > 0)
 	{
 		self.enemy = pl;
 		self.goalentity = pl;
@@ -1065,11 +1065,11 @@ void() player_enemy =
 
 void() FindNearestEnemy = 
 { 
-	local entity head, near;
-	local float dist, low;
+	entity head, near;
+	float dist, low;
 	low = 99999999;	
 	head = find(world, classentity, "monsters");
-	if(!head)
+	if (!head)
 		{player_enemy(); return;}
 	while (head)
 	{
@@ -1078,11 +1078,11 @@ void() FindNearestEnemy =
 			if (head.health > 0)
 			{
 				dist = vlen(head.origin - self.origin);
-				if((!(self.th_missile)) && (head.flyer == 1)&& (self.friendly_monster != 2))
+				if ((!(self.th_missile)) && (head.flyer == 1)&& (self.friendly_monster != 2))
 					dist = 999999999; 
-				if(self.classname == head.classname)
+				if (self.classname == head.classname)
 					dist += 512;
-				if(head.friendly_monster == 1)
+				if (head.friendly_monster == 1)
 					dist += 2048;
 				if (dist < low)
 				{
@@ -1123,8 +1123,8 @@ void() next_enemy =
 
 float() FindTarget = 
 { 
-	local entity client;
-	local float r;
+	entity client;
+	float r;
 
 	// if the first spawnflag bit is set, the monster will only wake up on
 	// really seeing the player, not another monster getting angry
@@ -1143,7 +1143,7 @@ float() FindTarget =
 	}
 	else
 	{
-		if(!(single_player.flags &FL_NOTARGET))
+		if (!(single_player.flags &FL_NOTARGET))
 		client = checkclient();
 		if (!client)
 			return FALSE;	// current check entity isn't in PVS
@@ -1259,7 +1259,7 @@ void(float dist) ai_walk =
 
 	if (self.rollwalktoattack)
 	{
-		local float r;
+		float r;
 		r = random() *100;
 		if ((self.rollwalktoattack >= r) && (self.findtargettime > time))
 		{
@@ -1292,7 +1292,7 @@ void(float dist) ai_walk =
 		self.pausetime = time + 1.5;
 		self.th_stand();
 	}
-	if(self.enemy != world)
+	if (self.enemy != world)
 		self.th_run();
 };
 
@@ -1300,14 +1300,14 @@ void(float dist) ai_walk =
 
 void() ai_stand = 
 {
-	if(self.trinket_touched == 1)
+	if (self.trinket_touched == 1)
 		self.trinket_touched = 0;
 	touchtriggers(self);
 
 	self.timeangles  =  time + 0.5;
 
 
-	if(self.nextenemy)
+	if (self.nextenemy)
 	{
 		next_enemy();
 		self.nextthink = time + 0.1;
@@ -1324,7 +1324,7 @@ void() ai_stand =
 		}
 	}
 
-	if((self.exenemy) && (self.exenemy.health > 0) && (!self.enemy.health) && (self.friendly_monster != 1) )
+	if ((self.exenemy) && (self.exenemy.health > 0) && (!self.enemy.health) && (self.friendly_monster != 1) )
 	{
 		self.enemy = self.exenemy;
 		ai_face();
@@ -1336,7 +1336,7 @@ void() ai_stand =
 	if ((self.grosstime > time) && (!(single_player.flags &FL_NOTARGET)))
 	{
 		FoundTarget();
-		local entity pl;
+		entity pl;
 		pl = find(world, classname, "player");
 		self.enemy = pl;
 		return;
@@ -1368,7 +1368,7 @@ void() ai_turn =
 
 void(vector dest3) ChooseTurn = 
 { 
-	local vector dir, newdir;
+	vector dir, newdir;
 	dir = rorigin(self) - dest3;
 	newdir_x = trace_plane_normal_y;
 	newdir_y = 0 - trace_plane_normal_x;
@@ -1391,7 +1391,7 @@ void(vector dest3) ChooseTurn =
 
 float() FacingIdeal = 
 { 
-	local float delta;
+	float delta;
 	delta = anglemod(self.angles_y - self.ideal_yaw);
 	if (delta > 45 && delta < 315)
 		return FALSE;
@@ -1402,8 +1402,8 @@ float() wraithCheckAttack;
 
 float() CheckAnyAttack = 
 { 
-	if(self.health < 0)
-		return;
+	if (self.health < 0)
+		return FALSE; 
 	if (!enemy_vis)
 		return FALSE;
 	if (self.classname == "monster_wraith")
@@ -1438,8 +1438,8 @@ void() ai_run_missile =
 
 float(float righty) test_side_wall = 
 { 
-	local vector source;
-	local float dist;
+	vector source;
+	float dist;
 	if (righty == 1)
 		dist = 64;
 	else
@@ -1455,14 +1455,14 @@ float(float righty) test_side_wall =
 
 void() ai_run_slide = 
 { 
-	local float ofs;
+	float ofs;
 	self.ideal_yaw = enemy_yaw;
 	ChangeYaw();
 	if (self.lefty)
 		ofs = 90;
 	else
 		ofs = -90;
-	//if(self.classname == "monster_symbol")
+	//if (self.classname == "monster_symbol")
 	self.angles_z = 0;
 
 	if (walkmove(self.ideal_yaw + ofs, movedist))
@@ -1478,7 +1478,7 @@ void(float dist) ai_runwalkb =
 { 
 	movedist = dist;
 	// see if the enemy is dead
-	if(self.health < 0)
+	if (self.health < 0)
 	{
 	self.think = self.th_die;
 	self.nextthink = time;
@@ -1549,9 +1549,9 @@ void(float dist) ai_run =
 { 
 	movedist = dist;
 	// see if the enemy is dead
-	if((!(self.flags & FL_ONGROUND)) && (self.jumptime > time))
+	if ((!(self.flags & FL_ONGROUND)) && (self.jumptime > time))
 		return;
-	if(self.magnettime > time)
+	if (self.magnettime > time)
 		return;						   
 	if ((!self.enemy.health) || (self.enemy.health < 0))
 	{
@@ -1589,7 +1589,7 @@ void(float dist) ai_run =
 	enemy_yaw = vectoyaw((rorigin(self.enemy)) - rorigin(self));
 
 
-	if((self.classname == "monster_symbol") && (self.attack_finished > time))
+	if ((self.classname == "monster_symbol") && (self.attack_finished > time))
 	{
 		movetogoal(dist);
 		return;
@@ -1637,8 +1637,8 @@ void(float dist) ai_runwalk2 =
 .float pathtomonstertime;
 void(entity e, entity excep) changegoalentity = 
 { 
-	local entity head, near;
-	local float dist, low;
+	entity head, near;
+	float dist, low;
 	low = 99999999;	
 
 	head = find(world, classname, "path_waypoint");
@@ -1676,8 +1676,8 @@ void(entity e, entity excep) changegoalentity =
 
 void(entity e, entity excep) changegoalentity2 = 
 { 
-	local entity head, near;
-	local float dist, low;
+	entity head, near;
+	float dist, low;
 	low = 99999999;	
 
 	head = find(world, classname2, "path_waypoint");
@@ -1742,8 +1742,8 @@ void() path_waypoint =
 
 void(vector org, entity e) dropwaypoint = 
 { 
-	local entity head, near;
-	local float dist, low;
+	entity head, near;
+	float dist, low;
 	low = 99999999;	
 
 	head = find(world, classname2, "path_waypoint");
@@ -1797,7 +1797,7 @@ void () blocked_by_monster =
 	}
 	else
 	{
-		if(trace_ent.flags & FL_MONSTER)
+		if (trace_ent.flags & FL_MONSTER)
 			self.blocked_monster = 1;
 		else
 			self.blocked_monster = 0;
@@ -1813,7 +1813,8 @@ void () blocked_by_monster =
 float()check_step =
 {
 	makevectors(self.angles);
-	local vector source = self.origin;
+	vector source = self.origin;
+	float tracefraction = 0;
 
 	float step_height = self.stepheight_delta + cvar("sv_stepheight");	
 	source_z = self.absmin_z + step_height;
@@ -1829,14 +1830,14 @@ float()check_step =
 
 	float dist = vlen(source - trace_endpos);
 
-	if(dist <= (step_height * 2))
-	float tracefraction = 1;
+	if (dist <= (step_height * 2))
+		tracefraction = 1;
 		
-	if((dist >= (step_height * 2)) && (dist < 256))
-	float tracefraction = 2;
+	if ((dist >= (step_height * 2)) && (dist < 256))
+		tracefraction = 2;
 
-	if(dist > 256)
-	float tracefraction = 3;
+	if (dist > 256)
+		tracefraction = 3;
 
 	/*
 	entity dimaond = spawn();
@@ -1865,27 +1866,27 @@ void()ai_check_dest;
 void(float a)check_angles_heretic;
 void()check_angles =
 {
-	if(self.timeangles > time)
+	if (self.timeangles > time)
 		return;
-	if(self.classname == "monster_widow")
+	if (self.classname == "monster_widow")
 		return;
-	if(self.classname == "monster_wretch")
+	if (self.classname == "monster_wretch")
 	{
 		ai_check_dest();
 		return;
 	}
-	if(self.classname == "monster_heretic")
+	if (self.classname == "monster_heretic")
 	{
 		check_angles_heretic(128);
 		return;
 	}
 
-	if(self.classname == "monster_brute")
+	if (self.classname == "monster_brute")
 		float extratime = 1;
 
 	float r = random();
 
-	if(r > 0.5)
+	if (r > 0.5)
 	{	
 		float localturretime = self.turret_time;
 		ai_check_dest();
@@ -1894,7 +1895,7 @@ void()check_angles =
 	}
 	
 	makevectors(self.angles);
-	local vector source = self.origin;
+	vector source = self.origin;
 	
 	float forwardcheck = self.absmax_y / 2 + 2;
 
@@ -1904,7 +1905,7 @@ void()check_angles =
 
 	if (trace_fraction == 1.0)
 	{
-		local vector best_place;
+		vector best_place;
 		
 		traceline(source,source + v_forward * -64 +  v_right * 128 +  v_up * -50, FALSE, self);
 		if (trace_fraction != 1.0)
@@ -1993,43 +1994,48 @@ void()check_angles =
 
 void() check_strafe =
 {	
-	if(self.classname == "monster_stricken")
+	float ofs;
+
+	if (self.classname == "monster_stricken")
 		return;
-	if(self.strafing >time)
+	if (self.strafing >time)
 		return;
 	float y_size;
 	y_size = movedist * 1;
 	if (self.lefty)
-		float ofs = 60;
+		ofs = 60;
 	else
 		ofs = -60;		
 
-
-	if(self.classname == "monster_heretic")	
+	if (self.classname == "monster_heretic")	
 	{
 		if (self.lefty)
-			float ofs = 128;
+			ofs = 128;
 		else
 			ofs = -128;		
 	}
 
 	if (walkmove (self.ideal_yaw + ofs, y_size))
 	{
-	self.strafing =  time + 0.5;return;
+		self.strafing =  time + 0.5;
+		return;
 	}
 	self.lefty = 1 - self.lefty;
 	if (walkmove (self.ideal_yaw - ofs, y_size))
 	{
-		self.strafing =  time + 0.5;return;
+		self.strafing =  time + 0.5;
+		return;
 	}
 	if (walkmove (self.ideal_yaw + ofs, y_size * 0.5))
 	{
-		self.strafing =  time + 0.5;return;
+		self.strafing =  time + 0.5;
+		return;
 	}
 	self.lefty = 1 - self.lefty;
-	if(walkmove (self.ideal_yaw - ofs, y_size * 0.5))
+	if (walkmove (self.ideal_yaw - ofs, y_size * 0.5))
 	{
-		self.strafing =  time + 0.1;return;
+		self.strafing =  time + 0.1;
+		return;
 	}
 };
 	
@@ -2092,21 +2098,21 @@ void(float a)ai_test_monster_run;
 void(float dist) ai_runwalk = 
 {
 
-	if((self.classname == "monster_wretch") )
+	if ((self.classname == "monster_wretch") )
 	{
-		if(self.origin == self.oldorigin2 )
+		if (self.origin == self.oldorigin2 )
 			ai_check_dest();
 		self.oldorigin2 = rorigin(self);
 		//return;
 	}
-	if((self.classname == "monster_brute") )
+	if ((self.classname == "monster_brute") )
 	{
 		vector voffset;
 		voffset_z = self.absmin_z - 16;
 		traceline(self.origin, self.origin + voffset, 3, self);	
-		if((trace_fraction == 1) && (self.flags & FL_ONGROUND) && (time > self.walktime2)) 
+		if ((trace_fraction == 1) && (self.flags & FL_ONGROUND) && (time > self.walktime2)) 
 		self.flags -= FL_ONGROUND;
-		if(!((self.flags & FL_ONGROUND) &&(self.groundentity == world)))
+		if (!((self.flags & FL_ONGROUND) &&(self.groundentity == world)))
 		{	
 			self.movetype = MOVETYPE_WALK;
 			self.walktime2 = time  + 3;
@@ -2119,23 +2125,23 @@ void(float dist) ai_runwalk =
 		}
 	}
 
-	if(self.movetype == MOVETYPE_WALK)
+	if (self.movetype == MOVETYPE_WALK)
 	{
 		self.movetype = MOVETYPE_STEP;
 		return;
 	}
-	if((!(self.flags & FL_ONGROUND)) && (self.jumptime > time))
+	if ((!(self.flags & FL_ONGROUND)) && (self.jumptime > time))
 		return;
 	self.run_time = time + 0.1;
 
-	if(self.magnettime > time)
+	if (self.magnettime > time)
 		return;					
 
 
-	if(self.timeangles > time)
+	if (self.timeangles > time)
 	{
 
-		if(self.timeangles2 > time)
+		if (self.timeangles2 > time)
 		{
 			self.ideal_yaw = vectoyaw(self.lastplace_spoted - rorigin(self));
 			ChangeYaw();
@@ -2144,16 +2150,16 @@ void(float dist) ai_runwalk =
 		return;
 	}
 	   
-	if(self.health < 0)
+	if (self.health < 0)
 	{
 		self.think = self.th_die;
 		self.nextthink = time;
 		return;
 	}	
 
-	if(self.forced_idle_time < time)
+	if (self.forced_idle_time < time)
 	{
-		if(self.trinket_touched == 1)
+		if (self.trinket_touched == 1)
 		{
 			self.trinket_touched = 0;
 		
@@ -2162,29 +2168,29 @@ void(float dist) ai_runwalk =
 	}
 	movedist = dist;
 
-	if((self.classname == "monster_widow") && (self.runingcycle == 1))
+	if ((self.classname == "monster_widow") && (self.runingcycle == 1))
 	{
 		walkmovedist(self.angles_y, movedist);
 		self.runingcycle = 0;
 		return;
 	}
-	if((self.classname == "monster_widow") && (self.runingcycle != 1))
+	if ((self.classname == "monster_widow") && (self.runingcycle != 1))
 	{
 		self.runingcycle = 1;
 	}
 
-	if(self.evading_time > time)
+	if (self.evading_time > time)
 	{
 		float walk_dist = dist;
-		if(self.strafing >time)
+		if (self.strafing >time)
 			walk_dist = dist * 0.5;
 
 		walkeddist = walkmovedist(self.angles_y, walk_dist);
 		
-		if(walkeddist < dist * 0.5)
+		if (walkeddist < dist * 0.5)
 		{
 
-			if(self.timeangles2 < time)
+			if (self.timeangles2 < time)
 			{
 				//self.ideal_yaw = vectoyaw(self.lastplace_spoted - rorigin(self));
 				//self.angles_y += random(-45, 45) ;
@@ -2209,7 +2215,7 @@ void(float dist) ai_runwalk =
 	return;
 	}
 
-	if(!self.trigger_angle_use)
+	if (!self.trigger_angle_use)
 	self.trigger_angle_use = 1; 
 	/*if ((self.fakewatertype == CONTENT_LAVA) || (self.lavatime > time))	// do lava damage
 	{
@@ -2217,7 +2223,7 @@ void(float dist) ai_runwalk =
 		return;
 	}*/
 
-	if((!self.takedamage) && (self.classentity == "monsters"))
+	if ((!self.takedamage) && (self.classentity == "monsters"))
 	self.takedamage = DAMAGE_AIM;
 
 	if (self.movetype == MOVETYPE_FLYMISSILE)
@@ -2236,13 +2242,13 @@ void(float dist) ai_runwalk =
 	if ((self.friendly_monster == 1) && (self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
 		next_enemy();
 	
-	if( (self.enemy) &&((!self.enemy.health) || (self.enemy.health < 0)))
+	if ( (self.enemy) &&((!self.enemy.health) || (self.enemy.health < 0)))
 		next_enemy();	
 	enemy_infront = infront(self.enemy);
 	enemy_range = range(self.enemy);
 	enemy_yaw = vectoyaw(self.enemy.origin - self.origin);
 
-	if((self.always_active_time < time) && (self.always_active))
+	if ((self.always_active_time < time) && (self.always_active))
 		self.always_active = 0;
 
 
@@ -2253,25 +2259,25 @@ void(float dist) ai_runwalk =
 
 
 
-	if(enemy_is_visible)
+	if (enemy_is_visible)
 	{	
 		if (nodegraph_query_is_valid(self.nodegraph_query_id))
 		{
 			nodegraph_query_release(self.nodegraph_query_id);
 			self.following_a_node = FALSE;
 		}
-		if((self.turret == 2) && (self.timeangles > time))
+		if ((self.turret == 2) && (self.timeangles > time))
 			self.timeangles = 0;
-		if((self.follow_trigger_angle) && (!self.always_active))
+		if ((self.follow_trigger_angle) && (!self.always_active))
 			self.follow_trigger_angle =0;
-		if(self.following_a_node_timer < time)	
+		if (self.following_a_node_timer < time)	
 		{
 			self.lastplace_spoted = self.enemy.origin;
 			self.following_a_node = FALSE;
 		}
 		
 	}
-	if((enemy_is_visible ) && (!self.always_active)&& (self.timeangles < time)  && (self.evade != 1))
+	if ((enemy_is_visible ) && (!self.always_active)&& (self.timeangles < time)  && (self.evade != 1))
 	{
 
 		self.finding_node_time = 0;
@@ -2303,26 +2309,26 @@ void(float dist) ai_runwalk =
 
 	else
 	{
-		if((!(enemy_is_visible)) && (!(self.follow_trigger_angle)) && (self.timeangles < time) )	
+		if ((!(enemy_is_visible)) && (!(self.follow_trigger_angle)) && (self.timeangles < time) )	
 		{
-			if(self.finding_node_time < time)
+			if (self.finding_node_time < time)
 			{
 				if (nodegraph_query_is_valid(self.nodegraph_query_id))
 					nodegraph_query_release(self.nodegraph_query_id);	
 				find_node_path();
 				self.finding_node_time = time + 1.0 + random() * 3.0;
-				if(self.classname == "widow")
+				if (self.classname == "widow")
 				self.finding_node_time = self.finding_node_time * 0.5;
 			}    
-			local float i, threshold, currentnodeid, query_entries_count;
-			local vector currentnode, nodefrom, nodeto;
+			float i, threshold, currentnodeid, query_entries_count;
+			vector currentnode, nodefrom, nodeto;
 			threshold = max(self.maxs[0] - self.mins[0], self.maxs[1] - self.mins[1]) * 1.4142135623730950488016887242097 * 2.0;
 			if (nodegraph_query_is_valid(self.nodegraph_query_id))
 			{
 				query_entries_count = nodegraph_query_entries_count(self.nodegraph_query_id);
 				nodefrom = nodegraph_graph_get_node(0, nodegraph_query_get_nodeid(self.nodegraph_query_id, 0));
 				i = 1;
-				if(test_ia == 1)
+				if (test_ia == 1)
 				{
 					while (i < query_entries_count)
 					{
@@ -2353,28 +2359,28 @@ void(float dist) ai_runwalk =
 					{self.lastplace_spoted = rorigin(self.enemy);self.finding_node_time = 0;}
 
 			}
-			if(self.following_a_node_timer < time)
+			if (self.following_a_node_timer < time)
 				self.following_a_node_timer = time + 1  + random();	
 		}
 		self.ideal_yaw = vectoyaw((self.lastplace_spoted) - rorigin(self));	
 			ChangeYaw();
 	}	
 	walk_dist = dist;
-	if(self.strafing >time)
+	if (self.strafing >time)
 		walk_dist = dist * 0.5;
 	
 
 
 	walkeddist = walkmovedist(self.angles_y, walk_dist);
 	
-	if(time > self.walktime2_timelimit)
+	if (time > self.walktime2_timelimit)
 		self.walktime2_counter = 0;
-	if(walkeddist < dist * 0.5)
+	if (walkeddist < dist * 0.5)
 	{
 
-		if(self.classname == "monster_brute")
+		if (self.classname == "monster_brute")
 		{	
-			if(self.walktime2_counter >= 0)
+			if (self.walktime2_counter >= 0)
 			{
 				self.walktime2_counter = 0;		
 				self.walktime2 = time + random(1.5,2.75);
@@ -2388,10 +2394,10 @@ void(float dist) ai_runwalk =
 
 		self.zigzaging = 0;
 		check_strafe();	
-		if((!self.follow_trigger_angle) && (self.following_a_node != TRUE))
+		if ((!self.follow_trigger_angle) && (self.following_a_node != TRUE))
 			{check_angles();}
 
-		if(self.classname == "monster_stricken")
+		if (self.classname == "monster_stricken")
 		{
 			movetogoal (dist * 0.25);
 		}
@@ -2467,8 +2473,8 @@ void(float dist) ai_runattack =
 .string oldmodel;
 void(entity e, entity excep) changegoalentity3 = 
 { 
-	local entity head, near;
-	local float dist, low;
+	entity head, near;
+	float dist, low;
 	low = 99999999;	
 
 	head = find(world, classname, "path_waypoint");
@@ -2627,7 +2633,7 @@ void(entity path, entity plyr) check_player_slots_paths =
 
 void() path_waypoint_enemies = 
 { 
-	local entity head;
+	entity head;
 	head = findradius(self.origin, 90);	// finds all entitys within 250 (2.5 meters?)
 	while (head)
 	{
@@ -2671,7 +2677,7 @@ void() trigger_waypoint_touch =
 	if (self.lifetime > time)
 		return;
 	self.lifetime = time + 30;
-	local entity pathw;
+	entity pathw;
 	pathw = spawn();
 	setmodel(pathw, "");
 	pathw.origin = self.origin + '0 0 0';
@@ -2739,10 +2745,10 @@ void() info_angle=
 .vector vangles;
 void()determine_subangle =
 {
-	local entity t;
+	entity t;
 	t = find(world, targetname, self.target);
 
-	if(t)
+	if (t)
 	{
 		self.enemy = t;
 		self.angles_y = self.enemy.angles_y;
@@ -2751,14 +2757,14 @@ void()determine_subangle =
 };
 void()determine_subangleb =
 {
-	local entity t;
+	entity t;
 	t = find(world, targetname, self.target);
 	self.ideal_yaw = vectoyaw(t.origin - self.origin);
 	self.angles_y = self.ideal_yaw;
 };
 void() trigger_angle_touchs =
 {
-	local entity oself;
+	entity oself;
 	if (!(other.flags & FL_MONSTER))
 		return;	
 
@@ -2785,16 +2791,14 @@ void() trigger_angle_touchs =
 float(vector end) ai_recheable;
 void() trigger_angle_touch =
 {
-
-	local entity oself;
-	if(other.warped_time > time)	
+	if (other.warped_time > time)	
 		return;	
 	if (!(other.flags & FL_MONSTER))
 		return;
 	
-	if((other.following_a_node == TRUE) && ((self.spawnflags & 1)))
+	if ((other.following_a_node == TRUE) && ((self.spawnflags & 1)))
 		return;	
-	//if(!other.trigger_angle_use)
+	//if (!other.trigger_angle_use)
 	//return;
 
 	if (((other.lasttrigger == self) && (other.timeangles > time)))
@@ -2802,18 +2806,17 @@ void() trigger_angle_touch =
 		other.timeangles2 = time +0.5;
 		return;
 	}
-
-
 	
-	if(other.notouchtime > time)
-	return;
+	if (other.notouchtime > time)
+		return;
 
 	entity oself = self;
 	self = other;
-	if(self.enemy)
+	
+	if (self.enemy)
 	{
 		vector tempvec = self.enemy.origin; 
-		if((ai_recheable(tempvec)))
+		if ((ai_recheable(tempvec)))
 		{
 			self.notouchtime = time + random(3,5) + self.timeangles;
 			return;	
@@ -2821,17 +2824,17 @@ void() trigger_angle_touch =
 	}
 	self = oself;
 
-	if(other.charging != 0)
+	if (other.charging != 0)
 		return;
 	//self.colormod = '1 1 1';
-	local float angle_return;
+	float angle_return;
 
-	if((other.classname == "monster_widow")|| (other.classname == "monster_heretic") || (other.classname == "monster_brute")|| (other.classname == "monster_executioner")||(other.classname == "monster_aflicted"))   
+	if ((other.classname == "monster_widow")|| (other.classname == "monster_heretic") || (other.classname == "monster_brute")|| (other.classname == "monster_executioner")||(other.classname == "monster_aflicted"))   
 		other.notouchtime = time + random(3,5) + self.timeangles;
 	else
 		other.notouchtime = time + random(1,2) + self.timeangles;
 
-	if(self.viewer_deviance)
+	if (self.viewer_deviance)
 	{
 		float viewerdeviance = self.viewer_deviance;
 		float dotvalue = 1 - (viewerdeviance / 180);
@@ -2844,16 +2847,14 @@ void() trigger_angle_touch =
 			angle_return = 0;
 		else
 			angle_return = 1;
-		if(angle_return)
+		if (angle_return)
 			return;	
 	}
-
-
 
 	other.lasttrigger = self;
 	oself = self;
 	self = other;
-	if((oself.always_active != 1) && (rvisible2(self.enemy, 1)))
+	if ((oself.always_active != 1) && (rvisible2(self.enemy, 1)))
 	{
 		self.timeangles3 = time + 0;
 		self.timeangles2 = time + 2;
@@ -2862,7 +2863,7 @@ void() trigger_angle_touch =
 	}
 	self.follow_trigger_angle = 1;
 
-	if(oself.always_active == 1)
+	if (oself.always_active == 1)
 	{	
 		self.always_active_time = time + 5;
 		self.always_active = 1;
@@ -2872,7 +2873,7 @@ void() trigger_angle_touch =
 	self.ideal_yaw = oself.vangles_y;
 	ChangeYaw();
 	makevectors(self.angles);
-	local vector source = self.origin;
+	vector source = self.origin;
 	traceline(source,source + v_forward *1024, TRUE, self);
 	self.lastplace_spoted = trace_endpos;
 	self = oself;
@@ -2882,9 +2883,9 @@ void() trigger_angle_touch =
 void() trigger_angle =
 {
 	self.vangles = self.angles;
-	if(!(self.always_active))
+	if (!(self.always_active))
 		self.always_active = 1;
-	if(!(self.wait))
+	if (!(self.wait))
 		self.wait = 1;
 
 	self.solid = SOLID_TRIGGER;
@@ -2893,7 +2894,7 @@ void() trigger_angle =
 	self.alpha = -1;
 	self.touch = trigger_angle_touch;
 
-	if(self.targetname)
+	if (self.targetname)
 	{
 		self.think = determine_subangle;
 		self.nextthink = self.ltime + 0.1;
@@ -2920,7 +2921,7 @@ void() trigger_no_check_angles =
 void(entity e) checkburnable =
 {
 
-	if(e.solid == SOLID_TRIGGER)
+	if (e.solid == SOLID_TRIGGER)
 		e.burnable = 1;
 	
 	touchtriggers(e);
@@ -2932,7 +2933,7 @@ void(entity e) checkburnable =
 		vdisttofloor_z = self.mins_z - 4;
 		traceline (self.origin, self.origin + vdisttofloor, TRUE,self); 
 
-		if(trace_fraction == 1)
+		if (trace_fraction == 1)
 		{
 			makevectors(self.angles);
 			self.flags -= FL_ONGROUND;

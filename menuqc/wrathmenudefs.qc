@@ -115,13 +115,13 @@ float currentprofilessaves;
 
 float profilesammount;
 
-vector(vector vctr) fixed_vector = { local vector vectr;
+vector(vector vctr) fixed_vector = { vector vectr;
 	vectr_x = vctr_x * vx_rel;
 	vectr_y = vctr_y * vy_rel;
 	return (vectr);
 };
 
-vector(vector vctr) fixed_vector2 = { local vector vectr;
+vector(vector vctr) fixed_vector2 = { vector vectr;
 	vectr_x = vctr_x * vy_rel;
 	vectr_y = vctr_y * vy_rel;
 

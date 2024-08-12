@@ -22,9 +22,9 @@ void(vector txt_pos) menu_type_main = { vector buttions_locs;
 
 	buttions_locs_y += 32 * vy_rel;
 
-	local float totalprofileslots;
+	float totalprofileslots;
 
-	//if(oldtotalprofileslots != totalprofileslots)
+	//if (oldtotalprofileslots != totalprofileslots)
 	totalprofileslots = check_profileslottotal();
 
 	if (totalprofileslots < 7)
@@ -114,7 +114,7 @@ void() confirm_profile = { check_profileslot();
 
 };
 
-void() menu_type_options = { local vector size, buttions_locs;
+void() menu_type_options = { vector size, buttions_locs;
 	size_x = vid_x;
 	size_y = vid_y;
 	if (oldprofileslot)
@@ -142,7 +142,7 @@ void() menu_type_options = { local vector size, buttions_locs;
 	buttions_locs_y += 56 * vy_rel;
 };
 
-void() menu_type_difficult = { local vector size, buttions_locs;
+void() menu_type_difficult = { vector size, buttions_locs;
 	size_x = vid_x;
 	size_y = vid_y;
 
@@ -161,7 +161,7 @@ void() menu_type_difficult = { local vector size, buttions_locs;
 	draw_buttion(buttions_locs, "OUTLANDER", 48);
 };
 
-void() menu_type_options_controls = { local vector size, buttions_locs;
+void() menu_type_options_controls = { vector size, buttions_locs;
 	size_x = vid_x;
 	size_y = vid_y;
 
@@ -187,7 +187,7 @@ void() menu_type_options_controls = { local vector size, buttions_locs;
 	buttions_locs_y += 16 * vy_rel;
 	drawfill(buttions_locs, fixed_vector('256 4 0'), '0.5 0.5 0.35', 0.7, 0);
 	senm = cvar("sensitivity");
-	local vector barpos;
+	vector barpos;
 	barpos = buttions_locs - fixed_vector('28 0 0');
 	barpos_y -= 8 * vy_rel;
 	barpos_x += senm *28 * vx_rel;
@@ -208,7 +208,7 @@ void() menu_type_options_controls = { local vector size, buttions_locs;
 	buttions_locs_x -= 145 * vx_rel;
 	drawfill(buttions_locs, fixed_vector('256 4 0'), '0.5 0.5 0.35', 0.7, 0);
 	macel = cvar("saved5");
-	local vector barpos2_a;
+	vector barpos2_a;
 	barpos2_a = buttions_locs - fixed_vector('28 0 0');
 	barpos2_a_y -= 8 * vy_rel;
 	barpos2_a_x += (macel *256 + 25.5) *vx_rel;
@@ -227,7 +227,7 @@ void() menu_type_options_controls = { local vector size, buttions_locs;
 	buttions_locs_x -= 145 * vx_rel;
 	drawfill(buttions_locs, fixed_vector('256 4 0'), '0.5 0.5 0.35', 0.7, 0);
 	acel = cvar("m_accelerate");
-	local vector barpos2;
+	vector barpos2;
 	barpos2 = buttions_locs - fixed_vector('28 0 0');
 	barpos2_y -= 8 * vy_rel;
 	barpos2_x += (acel *25.5 + 25.5) *vx_rel;
@@ -272,7 +272,7 @@ void() menu_type_options_controls = { local vector size, buttions_locs;
 	//	buttions_locs_y +=  28 * vy_rel;
 
 };
-void() menu_type_options_controlbinds = { local vector size, buttions_locs;
+void() menu_type_options_controlbinds = { vector size, buttions_locs;
 	size_x = vid_x;
 	size_y = vid_y;
 	if (clientstate() != CS_CONNECTED)
@@ -491,12 +491,12 @@ void() menu_type_options_controlbinds = { local vector size, buttions_locs;
 
 	string walkrunstring;
 	float checked_alwaysrun = cvar("cl_alwaysrun");
-	if(checked_alwaysrun == 1)
+	if (checked_alwaysrun == 1)
 	walkrunstring = "Walk";
-	if(checked_alwaysrun != 1)
+	if (checked_alwaysrun != 1)
 	walkrunstring = "Run";
 	float checked_togglerun = cvar("cl_togglerun");
-	if(checked_togglerun == 1)
+	if (checked_togglerun == 1)
 	walkrunstring = "Run / Walk";
 
 
@@ -611,7 +611,7 @@ void() menu_type_options_controlbinds = { local vector size, buttions_locs;
 	draw_buttion(buttions_locs, "Reset to defaults", 120);
 };
 
-void(float alternative) menu_type_confirmbind = { local vector buttions_locs;
+void(float alternative) menu_type_confirmbind = { vector buttions_locs;
 	buttions_locs_x = (vid_x / 2) - (128 *vx_rel);
 
 	buttions_locs_y = 172 * vy_rel;
@@ -710,7 +710,7 @@ void(float alternative) menu_type_confirmbind = { local vector buttions_locs;
 
 };
 
-void() menu_type_options_gameplay = { local vector size, buttions_locs;
+void() menu_type_options_gameplay = { vector size, buttions_locs;
 	size_x = vid_x;
 	size_y = vid_y;
 	if (clientstate() != CS_CONNECTED)
@@ -995,7 +995,7 @@ void() menu_type_options_gameplay = { local vector size, buttions_locs;
 	buttions_locs_y += 34 * vy_rel;
 
 	};
-void() menu_type_options_audio = { local vector size, buttions_locs;
+void() menu_type_options_audio = { vector size, buttions_locs;
 	size_x = vid_x;
 	size_y = vid_y;
 	if (clientstate() != CS_CONNECTED)
@@ -1019,7 +1019,7 @@ void() menu_type_options_audio = { local vector size, buttions_locs;
 	drawfill(buttions_locs, fixed_vector('256 4 0'), '0.5 0.5 0.35', 0.7, 0);
 	float capvolume = cvar ("capvolume");
 	mvol = cvar("mastervolume") * (1/capvolume);
-	local vector barpos;
+	vector barpos;
 	barpos = buttions_locs - fixed_vector('0 0 0');
 	barpos_y -= 8 * vy_rel;
 	barpos_x += mvol *(256 *vx_rel);
@@ -1040,7 +1040,7 @@ void() menu_type_options_audio = { local vector size, buttions_locs;
 	drawfill(buttions_locs, fixed_vector('256 4 0'), '0.5 0.5 0.35', 0.7, 0);
 	float capvolume2 = cvar ("capvolume2");
 	effvol = cvar("volume") * (1/capvolume2);
-	local vector barpos2;
+	vector barpos2;
 	barpos2 = buttions_locs - fixed_vector('0 0 0');
 	barpos2_y -= 8 * vy_rel;
 	barpos2_x += effvol *256 * vx_rel;
@@ -1059,7 +1059,7 @@ void() menu_type_options_audio = { local vector size, buttions_locs;
 	drawfill(buttions_locs, fixed_vector('256 4 0'), '0.5 0.5 0.35', 0.7, 0);
 	float capvolume3 = cvar ("capvolume3")
 	bgmvol = cvar("bgmvolume") * (1/capvolume3);
-	local vector barpos3;
+	vector barpos3;
 	barpos3 = buttions_locs - fixed_vector('0 0 0');
 	barpos3_y -= 8 * vy_rel;
 	barpos3_x += bgmvol *256 * vx_rel;
@@ -1069,7 +1069,7 @@ void() menu_type_options_audio = { local vector size, buttions_locs;
 	buttions_locs_y += 28 * vy_rel;
 };
 
-void() menu_type_confirmresolution = { local vector buttions_locs;
+void() menu_type_confirmresolution = { vector buttions_locs;
 	buttions_locs_x = (vid_x / 2) - (128 *vx_rel);
 
 	buttions_locs_y = 172 * vy_rel;
@@ -1089,7 +1089,7 @@ void() menu_type_confirmresolution = { local vector buttions_locs;
 	draw_buttion(buttions_locs, "CANCEL", 279);
 };
 
-void() menu_type_confirmfullscreen = { local vector buttions_locs;
+void() menu_type_confirmfullscreen = { vector buttions_locs;
 	buttions_locs_x = (vid_x / 2) - (128 *vx_rel);
 
 	buttions_locs_y = 172 * vy_rel;
@@ -1108,7 +1108,7 @@ void() menu_type_confirmfullscreen = { local vector buttions_locs;
 	buttions_locs_x -= 148 * vx_rel;
 	draw_buttion(buttions_locs, "CANCEL", 322);
 };
-void() menu_type_confirmresettodefaults = { local vector buttions_locs;
+void() menu_type_confirmresettodefaults = { vector buttions_locs;
 	buttions_locs_x = (vid_x / 2) - (128 *vx_rel);
 
 	buttions_locs_y = 172 * vy_rel;
@@ -1128,7 +1128,7 @@ void() menu_type_confirmresettodefaults = { local vector buttions_locs;
 	draw_buttion(buttions_locs, "CANCEL", 19);
 };
 
-void() menu_type_deleteprofile = { local vector buttions_locs;
+void() menu_type_deleteprofile = { vector buttions_locs;
 	buttions_locs_x = (vid_x / 2) - (128 *vx_rel);
 
 	buttions_locs_y = 172 * vy_rel;
@@ -1150,7 +1150,7 @@ void() menu_type_deleteprofile = { local vector buttions_locs;
 
 
 
-void() menu_type_confirmantialias = { local vector buttions_locs;
+void() menu_type_confirmantialias = { vector buttions_locs;
 	buttions_locs_x = (vid_x / 2) - (128 *vx_rel);
 
 	buttions_locs_y = 172 * vy_rel;
@@ -1170,7 +1170,7 @@ void() menu_type_confirmantialias = { local vector buttions_locs;
 	draw_buttion(buttions_locs, "CANCEL", 312);
 };
 
-void() menu_type_options_resolution = { local vector size, buttions_locs;
+void() menu_type_options_resolution = { vector size, buttions_locs;
 	size_x = vid_x;
 	size_y = vid_y;
 
@@ -1292,7 +1292,7 @@ void() menu_type_options_resolution = { local vector size, buttions_locs;
 
 void() menu_type_options_video = 
 {
-	local vector size, buttions_locs;
+	vector size, buttions_locs;
 	size_x = vid_x;
 	size_y = vid_y;
 
@@ -1332,7 +1332,7 @@ void() menu_type_options_video =
 	buttions_locs_x -= 145 * vx_rel;
 	drawfill(buttions_locs, fixed_vector('256 4 0'), '0.5 0.5 0.35', 0.7, 0);
 	brightlev = cvar("r_hdr_scenebrightness");
-	local vector barpos1;
+	vector barpos1;
 	barpos1 = buttions_locs - '0 0 0';
 	barpos1_y -= 8 * vy_rel;
 	barpos1_x += brightlev *128 * vx_rel;
@@ -1352,7 +1352,7 @@ void() menu_type_options_video =
 	buttions_locs_x -= 145 * vx_rel;
 	drawfill(buttions_locs, fixed_vector('256 4 0'), '0.5 0.5 0.35', 0.7, 0);
 	gammalev = cvar("v_gamma");
-	local vector barpos2;
+	vector barpos2;
 	barpos2 = buttions_locs - fixed_vector('14 0 0');
 	barpos2_y -= 8 * vy_rel;
 	barpos2_x += gammalev *133 * vx_rel;
@@ -1372,7 +1372,7 @@ void() menu_type_options_video =
 	buttions_locs_x -= 145 * vx_rel;
 	drawfill(buttions_locs, fixed_vector('256 4 0'), '0.5 0.5 0.35', 0.7, 0);
 	contlev = cvar("v_contrast");
-	local vector barpos3;
+	vector barpos3;
 	barpos3 = buttions_locs - fixed_vector('28 0 0');
 	barpos3_y -= 8 * vy_rel;
 	barpos3_x += contlev *142 * vx_rel;
@@ -1394,7 +1394,7 @@ void() menu_type_options_video =
 	fovlev = cvar("fov");
 	float fovlev_v;
 	fovlev_v = (fovlev - 80) / 21;
-	local vector barpos4;
+	vector barpos4;
 	barpos4 = buttions_locs - fixed_vector('0 0 0');
 	barpos4_y -= 8 * vy_rel;
 	barpos4_x += fovlev_v *133 * vx_rel;
@@ -1941,8 +1941,8 @@ void(vector txt_pos) menu_type_profile = { vector buttions_locs;
 	if (oldtotalprofileslots)
 		oldtotalprofileslots = 0;
 
-	local float f, nameused;	// file handle, basically assigns a number to whatever file is open
-	local string ln;	// ln = line of the file being read
+	float f, nameused;	// file handle, basically assigns a number to whatever file is open
+	string ln;	// ln = line of the file being read
 	f = fopen("profiles/profilenames.txt", FILE_READ);
 	if (f != -1)	// if f = -1 then the file could not be found
 	{
@@ -2023,7 +2023,7 @@ void() menu_type_resume =
  if (oldtotalprofileslots > 0)
 		oldtotalprofileslots = 0;
 
-	local vector size, buttions_locs;
+	vector size, buttions_locs;
 	size_x = vid_x;
 	size_y = vid_y;
 
@@ -2049,7 +2049,7 @@ void() menu_type_resume =
 	{
 		check_profilenames_str(profileslot);	
 	}
-	if(show_dates ==  1)
+	if (show_dates ==  1)
 	{
 
 		checkdates (profilename);
@@ -2059,19 +2059,19 @@ void() menu_type_resume =
 		if (type_load_selected == 1)
 		{
 			string selected_date = autosave_date;	
-			if(fexists (timestamp_map1))
+			if (fexists (timestamp_map1))
 			drawpic(journalpos, timestamp_map1, sizeimage, '1 1 1', 1, 0);
 		}
 		if (type_load_selected == 2)
 		{
 			selected_date = tether_date;	
-			if(fexists (timestamp_map2))
+			if (fexists (timestamp_map2))
 			drawpic(journalpos, timestamp_map2, sizeimage, '1 1 1', 1, 0);
 		}
 		if (type_load_selected == 3)
 		{
 			selected_date = shrine_date;	
-			if(fexists (timestamp_map3))
+			if (fexists (timestamp_map3))
 			drawpic(journalpos,timestamp_map3, sizeimage, '1 1 1', 1, 0);
 		}
 		
@@ -2100,7 +2100,7 @@ void() menu_type_resume =
 	vector posstring, fixedpos;
 	fixedpos = fixed_vector('240 76 0');
 
-	local float posx_modifier;
+	float posx_modifier;
 	posx_modifier = (size_x / size_y);
 	if (posx_modifier >= 1.6)
 		posx_modifier = 1;
@@ -2115,10 +2115,10 @@ void() menu_type_resume =
 		posx_modifier = 1.15;
 	if (ceil((posx_modifier) *100) == (167))
 		posx_modifier = 1.15;
-	local float txt_len;
+	float txt_len;
 
 	posstring_x = (size_x / 2) - (fixedpos_x *posx_modifier);
-	local float pos_y;
+	float pos_y;
 	posstring_y = journalpos_y + fixedpos_y;
 	pos_y = posstring_y;
 	check_profilenames();
@@ -2170,13 +2170,13 @@ void() menu_type_resume =
 	if (c_profilename7 != "<empty profile>")
 		strunzone(c_profilename7);
 
-	/*	if(profileslotpage > 1)
+	/*	if (profileslotpage > 1)
 		draw_buttion(buttions_locs, "<", 5);
 		else
 		draw_fbuttion(buttions_locs, "<");
 
 		buttions_locs_x += 256* vx_rel;
-		if(profileslotpage < 10)
+		if (profileslotpage < 10)
 		draw_buttion(buttions_locs, ">", 6);
 		else
 		draw_fbuttion(buttions_locs, ">");
@@ -2200,13 +2200,13 @@ void() menu_type_resume =
 		posx_modifier = 1.15;
 
 
-	local vector deletebuttonpos;
+	vector deletebuttonpos;
 	deletebuttonpos_x = posstring_x + 24 * vx_rel;
 
 	buttions_locs_x = (size_x / 2) + (fixedpos_x *(posx_modifier));
 	buttions_locs_y = pos_y;
 	
-	local string sorete;
+	string sorete;
 	sorete = ftos(currentprofilessaves);
 	deletebuttonpos_y = pos_y + 192 * vy_rel;
 
@@ -2242,7 +2242,7 @@ void() menu_type_resume =
 			buttions_locs_y = pos_y + 192 * vy_rel;
 			fixedpos = fixed_vector('20 0 0');
 			buttions_locs_x += (fixedpos_x *(posx_modifier));
-			local vector txt_pos;
+			vector txt_pos;
 
 			vector posfix, imgsize;
 			posfix_x = 128 * vx_rel;
@@ -2262,7 +2262,7 @@ void() menu_type_resume =
 			draw_buttionwrath(deletebuttonpos, "Delete", 16);
 		}
 		
-		if(show_dates ==  1)
+		if (show_dates ==  1)
 		{			
 			txt_pos_y -= 87 * vy_rel;
 			txt_pos_x += 24 * vx_rel;

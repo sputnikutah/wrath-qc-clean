@@ -35,7 +35,7 @@ void() door_done = { sound(self, CHAN_VOICE, self.noise2, self.volume, self.atte
 	if (!self.notouch)
 		self.usable = 1;
 	self.solid = SOLID_BSP;
-	/*if(self.fake_lighted != 1)
+	/*if (self.fake_lighted != 1)
 	{
 	self.colormod = '0 0 0';
 	self.effects = 0;
@@ -51,15 +51,15 @@ void() door_return = { self.state = STATE_DOWN;
 void() door_fire = 
 { 
 
-	if((self.spawnflags & 8) && (!(self.spawnflags & 16)))
+	if ((self.spawnflags & 8) && (!(self.spawnflags & 16)))
 		self.use = SUB_Null;
 
-	if((self.spawnflags & 16) && (!(self.spawnflags & 8)))
+	if ((self.spawnflags & 16) && (!(self.spawnflags & 8)))
 	{
 		self.spawnflags -= 16;
 		self.spawnflags += 8;
 	}
-	if((self.spawnflags & 16) && (self.spawnflags & 8))
+	if ((self.spawnflags & 16) && (self.spawnflags & 8))
 	{
 		self.spawnflags -= 8;
 	}
@@ -74,9 +74,9 @@ void() door_fire =
 	self.state = STATE_UP;
 	self.usable = 0;
 
-	if(self.wait == -2)
+	if (self.wait == -2)
 	{
-		self.targetname == "";
+		self.targetname = "";
 		self.use = SUB_Null;
 	}
 
@@ -100,12 +100,12 @@ void() door_puse = { SUB_UseTargets();
 void() lighter_think =
 {
 
-	if((self.owner.minlight > 0) )
+	if ((self.owner.minlight > 0) )
 	{
-		if( (self.owner.velocity != '0 0 0')|| (self.count != 1))
+		if ( (self.owner.velocity != '0 0 0')|| (self.count != 1))
 		{
 			
-			if(self.count != 1)
+			if (self.count != 1)
 			{
 				vector vlight  = getlight(self.origin);	
 				self.owner.lastcolormod_x = vlight_x * ((self.owner.minlight / 100));
@@ -121,7 +121,7 @@ void() lighter_think =
 				self.owner.nextcolormod_z = nvlight_z * ((self.owner.minlight / 100));
 
 			}
-			if(self.cnt == 0)
+			if (self.cnt == 0)
 			{
 				nvlight  = getlight(self.origin + (dir * speed));	
 				self.owner.nextcolormod_x = nvlight_x * ((self.owner.minlight / 100));
@@ -129,7 +129,7 @@ void() lighter_think =
 				self.owner.nextcolormod_z = nvlight_z * ((self.owner.minlight / 100));
 			}
 
-			if(self.cnt >= 0)
+			if (self.cnt >= 0)
 			{
 				float fcm = self.cnt * 0.1;
 				self.owner.colormod_x = self.owner.lastcolormod_x * (1 - fcm) + self.owner.nextcolormod_x * (fcm) ;
@@ -138,7 +138,7 @@ void() lighter_think =
 
 			}
 			self.cnt ++;
-			if(self.cnt == 11)
+			if (self.cnt == 11)
 			{
 				self.owner.lastcolormod = self.owner.colormod;
 				self.cnt = 0;
@@ -151,7 +151,7 @@ void() lighter_think =
 	}
 	else
 	{
-		if( (self.owner.velocity != '0 0 0'))
+		if ( (self.owner.velocity != '0 0 0'))
 			fake_light(self.owner, self.origin + '0 0 0');
 		self.think = lighter_think;
 		self.nextthink = time + 0.05;
@@ -161,7 +161,7 @@ void() lighter_think =
 .string attached_model;
 void(entity ownr) spawn_lighter =
 {
-	local entity lighter;
+	entity lighter;
 	lighter = spawn();
 	setmodel (lighter, "models/misc/null.md3");
 	lighter.solid = SOLID_TRIGGER;
@@ -212,7 +212,7 @@ void() func_door =
 		self.noise2 = "doors/coffer_locked.ogg";
 	}
 
-	local float attn;
+	float attn;
 	if (!self.volume)
 		self.volume = 1;
 	if (!self.rad_sound)
@@ -228,10 +228,10 @@ void() func_door =
 	self.movetype = MOVETYPE_PUSH;
 	self.solid = SOLID_BSP;
 
-	if((world.model == "maps/e1m5.bsp") && (!self.startnonsolid))
+	if ((world.model == "maps/e1m5.bsp") && (!self.startnonsolid))
 		self.startnonsolid = 1;
 
-	if(self.startnonsolid == 1)
+	if (self.startnonsolid == 1)
 	{
 		self.oldsolid = self.solid;
 		self.wrathflags += FL_STARTNONSOLID;
@@ -280,7 +280,7 @@ void() func_door =
 
 	//self.minlight  = 70;
 
-	if(!(self.vminlight))
+	if (!(self.vminlight))
 	{
 		self.fake_origin = 0.5 *(self.absmax + self.absmin);
 		self.fake_origin_z = self.absmax_z + 8;
@@ -289,7 +289,7 @@ void() func_door =
 		vector vlight  = getlight(self.fake_origin);	
 		self.vminlight = vlight;
 	}
-	if(self.minlight > 0)
+	if (self.minlight > 0)
 	{
 		self.effects = EF_FULLBRIGHT;
 		self.colormod_x = self.vminlight_x * (self.minlight / 100);
@@ -298,18 +298,18 @@ void() func_door =
 		//self.fake_lighted = 0;
 	}
 
-	if(self.fake_lighted == 1)
+	if (self.fake_lighted == 1)
 	{
-		if(!(self.effects & EF_DYNAMICMODELLIGHT))
+		if (!(self.effects & EF_DYNAMICMODELLIGHT))
 		self.effects += EF_DYNAMICMODELLIGHT;
 	}
-	if(self.fake_lighted == 2)
+	if (self.fake_lighted == 2)
 	{
 		self.fake_origin = 0.5 *(self.absmax + self.absmin);
 		self.fake_origin_z = self.absmax_z + 8;
 
 
-		local entity attachedmodel;
+		entity attachedmodel;
 		attachedmodel = spawn();
 		setmodel (attachedmodel, "models/misc/null.md3");
 		attachedmodel.solid = SOLID_NOT;
@@ -323,11 +323,11 @@ void() func_door =
 		attachedmodel.nextthink = time + 0.025;
 	}
 
-	if((self.targetname == "Floor")||(self.wrathflags & FL_GIB))
+	if ((self.targetname == "Floor")||(self.wrathflags & FL_GIB))
 	{
 		self.fake_origin = 0.5 *(self.absmax + self.absmin);
 		self.fake_origin_z = self.absmin_z - 4;
-		local entity attachedgib;
+		entity attachedgib;
 		attachedgib = spawn();
 		setmodel (attachedgib, "models/misc/null.md3");
 		attachedgib.scale = 3;
@@ -345,15 +345,15 @@ void() func_door =
 
 	}
 
-    if(self.wrathflags & FL_GIB)
+    if (self.wrathflags & FL_GIB)
         self.wrathflags -= FL_GIB;
-	if(self.attached_model != string_null)
+	if (self.attached_model != string_null)
 	{
 		self.fake_origin = 0.5 *(self.absmax + self.absmin);
 		self.fake_origin_z = self.absmax_z;
 		spawn_attached_model (self);
 	}
-	if(self.displacement == 1)
+	if (self.displacement == 1)
 	{
 		self.wrathflags += FL_INVISIBLE;
 		self.effects += EF_NODRAW;

@@ -76,7 +76,7 @@ void() invader_stand =[$inv_idle1, invader_stand2]
 
 	if (!(self.spawnflags &1))
 	{
-		local float r;
+		float r;
 		r = random() *10;
 		if (r < 1)
 			monstersound1("enemies/invader/idle", 3, CHAN_VOICE);
@@ -163,10 +163,10 @@ void() invader_stand20 =[$inv_idle20, invader_stand]
 /*
 void()	invader_stand1	=[	$inv_idle1,	invader_stand1	] 
 {
-local float r;
+float r;
 r = random() *100;
 
-if(invader_wth <= r)
+if (invader_wth <= r)
 ai_stand();
 }; 
 */
@@ -179,19 +179,19 @@ void() invader_waiting =[$inv_idle1, invader_waiting2]
 	float enemy_is_visible = visible(self.enemy);
 	if ((self.friendly_monster == 1) && (self.turret))
 	{
-		if(!self.enemy)
+		if (!self.enemy)
 		{
 			next_enemy();
 		}
 		else
 		{
-			if(!enemy_is_visible)
+			if (!enemy_is_visible)
 			{	
 				next_enemy();
 			}
 			else
 			{
-			if((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
+			if ((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
 				next_enemy();
 			}	
 		}		
@@ -288,9 +288,9 @@ void() invader_waiting9 =[$inv_idle9, invader_waiting10]
 };
 void() invader_waiting10 =[$inv_idle10, invader_waiting11]
 {
-	if((!(self.enemy)) && (self.goalentity))
+	if ((!(self.enemy)) && (self.goalentity))
 		self.enemy = self.goalentity;
-	if((!self.enemy.health) || (!self.enemy)) next_enemy();
+	if ((!self.enemy.health) || (!self.enemy)) next_enemy();
 
 	if (visible(self.enemy))
 	{
@@ -392,7 +392,7 @@ void() invader_waiting19 =[$inv_idle19, invader_waiting20]
 };
 void() invader_waiting20 =[$inv_idle20, invader_waiting]
 {
-	if((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;
+	if ((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;
 	if (visible(self.enemy))
 	{
 		self.think = invader_preattack;
@@ -407,7 +407,7 @@ void() invader_walk =[$inv_run1, invader_walk2]
 {
 	ai_walk(invader_rs);
 
-	local float r;
+	float r;
 	r = random() *10;
 	if (r < 1)
 		monstersound5("enemies/invader/chatter", 5, CHAN_VOICE);
@@ -472,7 +472,7 @@ void() invader_run =[$inv_run1, invader_run2]
 {
 	ai_runwalk(invader_rs);
 	inv_check_melee();
-	local float r;
+	float r;
 	r = random() *10;
 	if (r < 0.5)
 		monstersound5("enemies/invader/chatter", 5, CHAN_VOICE);
@@ -483,7 +483,7 @@ void() invader_run =[$inv_run1, invader_run2]
 };
 void() invader_run2 =[$inv_run2, invader_run3]
 {
-	if(self.invader_search_time < time)
+	if (self.invader_search_time < time)
 	{
 		self.think = invader_waiting;
 		self.nextthink = time;
@@ -497,7 +497,7 @@ void() invader_run3 =[$inv_run3, invader_run4]
 	if ((visible(self.enemy)) && (self.enemy.classname != "path_waypoint"))
 	{
 		enemy_range = range(self.enemy);
-		if(self.turret >= 1)
+		if (self.turret >= 1)
 		{
 			self.think = invader_preattack;
 			return;
@@ -507,7 +507,7 @@ void() invader_run3 =[$inv_run3, invader_run4]
 			return;
 		if ((enemy_range == RANGE_NEAR) )
 		{
-			if(self.timeangles < time)
+			if (self.timeangles < time)
 				self.think = invader_preattack;
 		}
 
@@ -540,7 +540,7 @@ void() invader_run7 =[$inv_run7, invader_run8]
 	{
 		enemy_range = range(self.enemy);
 
-		if(self.turret >= 1)
+		if (self.turret >= 1)
 		{
 			self.think = invader_preattack;
 			return;
@@ -549,7 +549,7 @@ void() invader_run7 =[$inv_run7, invader_run8]
 			return;
 		if ((enemy_range == RANGE_NEAR) || (enemy_range == RANGE_MID))
 		{
-			if(self.timeangles < time)
+			if (self.timeangles < time)
 				self.think = invader_preattack;
 		}
 
@@ -571,7 +571,7 @@ void() invader_run9 =[$inv_run9, invader_run10]
 void() invader_run10 =[$inv_run10, invader_run]
 {
 	self.findtargettime = time + 0.1;
-	local float r;
+	float r;
 	if (self.zigzaging == 0)
 	{
 		r = random() *100;
@@ -589,7 +589,7 @@ void() invader_run10 =[$inv_run10, invader_run]
 	ai_runwalk(invader_rs);
 	if ((visible(self.enemy)) && (self.enemy.classname != "path_waypoint"))
 	{
-		if(self.turret >= 1)
+		if (self.turret >= 1)
 		{
 			self.think = invader_preattack;
 			return;
@@ -611,7 +611,7 @@ void() invader_run10 =[$inv_run10, invader_run]
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////projectile attack
-void() projectile_touch_inv = { local float damg;
+void() projectile_touch_inv = { float damg;
 	if (other == self.owner)
 		return;
 	self.solid = SOLID_NOT;
@@ -649,7 +649,7 @@ void() shotgun_proj_touch2 =
 		makevectors (self.angles);
 		traceline(self.origin + v_forward * -8, self.origin + v_forward *16, FALSE, self);
 
-		local vector org;
+		vector org;
 		org = self.origin;
 
 
@@ -687,7 +687,7 @@ void() shotgun_proj_touch2 =
 	if (other.health)
 	{
 		float r = random();
-		if(skill == 0)
+		if (skill == 0)
 		{
 			if (r > 0.3)
 				T_Damage(other, self, self.owner, invader_ad);
@@ -709,7 +709,7 @@ void() shotgun_proj_touch2 =
 
 void() shotgun_proj_touch2;
 
-void(vector org, vector dir, float order, entity ownerproj) launch_projectile_inv = { local entity shotgun_proj;
+void(vector org, vector dir, float order, entity ownerproj) launch_projectile_inv = { entity shotgun_proj;
 	shotgun_proj = spawn();
 	shotgun_proj.owner = ownerproj;
 	shotgun_proj.movetype = MOVETYPE_FLYMISSILE;
@@ -728,7 +728,7 @@ void(vector org, vector dir, float order, entity ownerproj) launch_projectile_in
 	makevectors(self.angles);
 	//org -=v_forward*order ;
 	setorigin(shotgun_proj, org);
-	local vector rvec;
+	vector rvec;
 	rvec_x += invader_shotgun_spread1 * 0.25;
 	rvec_y += invader_shotgun_spread1 * 0.25;
 	rvec = crandom() *(rvec_x) *v_right + crandom() *(rvec_y) *v_up;
@@ -770,13 +770,13 @@ void() invader_attacktorun10 =[$inv_attacktorun10, invader_run]
 void() invader_attack =[$inv_attack1, invader_attack2]
 {
 	ai_face();
-	local vector dir, tagorg;
-	local float pcount, tagindex;
+	vector dir, tagorg;
+	float pcount, tagindex;
 
 	monstersound2("enemies/invader/fire", 3, CHAN_WEAPON);
 	pcount = invader_nproj;
-	local entity muzzle;
-	local string muzzlemodel;
+	entity muzzle;
+	string muzzlemodel;
 	muzzlemodel = "models/enemies/invader/muzzle_flash.md3";
 	muzzle = spawn();
 	muzzle.owner = self;
@@ -790,7 +790,7 @@ void() invader_attack =[$inv_attack1, invader_attack2]
 		tagorg = gettaginfo(self, tagindex);
 
 		dir = aim(self, 1000);
-		local vector sre;
+		vector sre;
 		sre = self.angles;
 		makevectors2(sre);
 		dir = normalize(self.enemy.origin - tagorg);
@@ -827,9 +827,9 @@ void() invader_attack10 =[$inv_attack10, invader_attack]
 		
 		else
 		{
-			if(self.turret == 2)
+			if (self.turret == 2)
 				self.think = invader_run;
-			if(self.turret == 1)
+			if (self.turret == 1)
 				self.think = invader_waiting;
 		}
 
@@ -845,7 +845,7 @@ void() invader_attack10 =[$inv_attack10, invader_attack]
 					self.think = invader_run;
 				if ((enemy_range == RANGE_NEAR) )
 				{
-					local float r;
+					float r;
 					r = random() *100;
 					if (invader_ath >= r)
 						self.think = invader_attack;
@@ -884,9 +884,9 @@ void() invader_attack10 =[$inv_attack10, invader_attack]
 /*
 void()	invader_preattack	=[	$inv_runtoattack1,	invader_preattack3	] {
 
-if(!self.turret)ai_runwalk(invader_rs);};
-void()	invader_preattack2	=[	$inv_runtoattack2,	invader_preattack3	] {if(!self.turret)ai_runwalk(invader_rs);};
-void()	invader_preattack3	=[	$inv_runtoattack3,	invader_preattack5	] {if(!self.turret)ai_runwalk(invader_rs);};
+if (!self.turret)ai_runwalk(invader_rs);};
+void()	invader_preattack2	=[	$inv_runtoattack2,	invader_preattack3	] {if (!self.turret)ai_runwalk(invader_rs);};
+void()	invader_preattack3	=[	$inv_runtoattack3,	invader_preattack5	] {if (!self.turret)ai_runwalk(invader_rs);};
 void()	invader_preattack4	=[	$inv_runtoattack4,	invader_preattack5	] {ai_face();};
 void()	invader_preattack5	=[	$inv_runtoattack5,	invader_preattack7	] {ai_face();};
 void()	invader_preattack6	=[	$inv_runtoattack6,	invader_preattack7	] {ai_face();};
@@ -957,8 +957,8 @@ void() invader_preattack10 =[$inv_runtoattack10, invader_attack]
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////melee attack
 
-void(float wdmg) invader_melee_attack = { local vector delta;
-	local float dist;
+void(float wdmg) invader_melee_attack = { vector delta;
+	float dist;
 	if (!self.enemy)
 		return;	// removed before stroke
 	delta = self.enemy.origin - self.origin;
@@ -1084,19 +1084,19 @@ void() invader_sattack10 =[$inv_sattack10, invader_sattack]
 	float enemy_is_visible = visible(self.enemy);
 	if ((self.friendly_monster == 1) && (self.turret))
 	{
-		if(!self.enemy)
+		if (!self.enemy)
 		{
 			next_enemy();
 		}
 		else
 		{
-			if(!enemy_is_visible)
+			if (!enemy_is_visible)
 			{	
 				next_enemy();
 			}
 			else
 			{
-			if((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
+			if ((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
 				next_enemy();
 			}	
 		}		
@@ -1116,7 +1116,7 @@ void() invader_sattack10 =[$inv_sattack10, invader_sattack]
 
 		if ((enemy_range == RANGE_NEAR))
 		{
-			local float r;
+			float r;
 			r = random() *100;
 			if (invader_ath >= r)
 				self.think = invader_attack;
@@ -1155,7 +1155,7 @@ void() invader_postpain = { ai_face();
 		return;
 	}
 
-	local float r;
+	float r;
 	if (self.skin == 1)
 	{
 		self.zigzaging = 0;
@@ -1247,22 +1247,22 @@ void() invader_mutilated8 =[$inv_mutilate8, invader_mutilated9] {};
 void() invader_mutilated9 =[$inv_mutilate9, invader_mutilated10] {};
 void() invader_mutilated10 =[$inv_mutilate10, invader_postpain] {};
 
-void(entity enemy, float dmg) invader_pain = {	//if(self.pain_finished > time)
+void(entity enemy, float dmg) invader_pain = {	//if (self.pain_finished > time)
 	//	return;
 
-	if(enemy.weapon != IT_CRYSTAL)
+	if (enemy.weapon != IT_CRYSTAL)
 	{
 		if (dmg < invader_dtp)
 			return;
-		local float rp;
+		float rp;
 		rp = random() *100;
 		if (invader_rtp <= rp)
 			return;
 	}
-	//	if(self.pain_finished > time)
+	//	if (self.pain_finished > time)
 	//		return;
 	self.pain_finished = time + 0.25;	// 1.75
-	local float rpf;
+	float rpf;
 	rpf = floor(random() *3) + 1;
 	if (rpf == self.painanim)
 		rpf += 1;
@@ -1273,11 +1273,11 @@ void(entity enemy, float dmg) invader_pain = {	//if(self.pain_finished > time)
 
 	if ((self.health <= (invader_health *0.25)) && (!self.skin))
 	{
-		local float r;
+		float r;
 		r = random();
-		local string tagname;
-		local float tagindex;
-		local vector tagorg;
+		string tagname;
+		float tagindex;
+		vector tagorg;
 		if ((r > 0.5) && (!self.turret))
 		{
 			tagname = ("tag_head");
@@ -1338,7 +1338,7 @@ void(entity e) Spawn_Corpse =
 {
 
 /*
-local entity corpse;
+entity corpse;
 corpse = spawn();
 copyentity(e,corpse);
 corpse.solid = SOLID_CORPSE;
@@ -1456,7 +1456,7 @@ self.solid = SOLID_TRIGGER;
 checkburnable(self);
 };
 
-void() invader_gibdead = { local string tagname;local float tagindex;local vector tagorg;
+void() invader_gibdead = { string tagname;float tagindex;vector tagorg;
 	if (!self.headless)
 	{
 		tagname = ("tag_head");
@@ -1503,9 +1503,9 @@ void() invader_gibdead = { local string tagname;local float tagindex;local vecto
 	remove_monster(self);
 };
 
-void() invader_death = {	//	if(self.pain_finished > time)
+void() invader_death = {	//	if (self.pain_finished > time)
 	//		return;
-	local float rpf;
+	float rpf;
 	drop_item(self.origin + '0 0 0', "ammo_revolver_inv", 4, self);
 	monstersound4("enemies/invader/die", 5, CHAN_VOICE);
 	if (self.health < invader_gdv)
@@ -1518,7 +1518,7 @@ void() invader_death = {	//	if(self.pain_finished > time)
 		invader_gibdead();
 		return;
 	}
-		if((self.fakewatertype == CONTENT_LAVA) || (self.fakewatertype == CONTENT_SLIME))
+		if ((self.fakewatertype == CONTENT_LAVA) || (self.fakewatertype == CONTENT_SLIME))
 			self.solid = SOLID_TRIGGER;
 		else
 			self.solid = SOLID_NOT;
@@ -1534,9 +1534,9 @@ void() invader_death = {	//	if(self.pain_finished > time)
 
 	rpf = floor(random(1,4.99));
 	self.deathanim = rpf;
-	local string tagname;
-	local float tagindex;
-	local vector tagorg;
+	string tagname;
+	float tagindex;
+	vector tagorg;
 	
 	if ((self.deathanim >= 1) && (self.deathanim <= 3))
 	{
@@ -1585,7 +1585,7 @@ void() invader_death = {	//	if(self.pain_finished > time)
 			tagname = ("tag_head");
 			tagindex = gettagindex(self, tagname);
 			tagorg = gettaginfo(self, tagindex);
-			local vector distancedelta, nozdistancedelta, headvel;
+			vector distancedelta, nozdistancedelta, headvel;
 			makevectors(self.angles);
 			distancedelta = (self.enemy.origin + '0 0 8') - tagorg;	//work out distance vector  
 			nozdistancedelta = distancedelta;	//copy to no height distance vector 
@@ -1659,9 +1659,9 @@ void() precache_monster_invader = { precache_model("models/enemies/invader/invad
 
 void() invader_touch =
 {
-	if(!(other.flags & FL_MONSTER))
+	if (!(other.flags & FL_MONSTER))
 		return;
-	if(self.timeangles <= other.timeangles)
+	if (self.timeangles <= other.timeangles)
 	{
 		self.ideal_yaw = other.angles_y;
 		self.think = other.think;
@@ -1670,7 +1670,7 @@ void() invader_touch =
 	else
 	{
 		other.ideal_yaw = self.angles_y;
-		local entity oself;
+		entity oself;
 		oself = self;
 		self = other;
 		self.think = oself.think;
@@ -1699,7 +1699,7 @@ void() monster_invader = { precache_model("models/enemies/invader/invader.md3");
 		return;
 	}
 
-	local float r;
+	float r;
 	r = (random() *3);
 	if (r < 3)
 		self.noise = "enemies/invader/sight3.ogg";

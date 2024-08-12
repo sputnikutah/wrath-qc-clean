@@ -5,7 +5,7 @@ void() launch_projectile_artifact_think =
 };
 void() launch_projectile_artifact = 
 { 
-	local entity artifact_projectile;
+	entity artifact_projectile;
 	artifact_projectile = spawn();
 	artifact_projectile.owner = self;
 	artifact_projectile.movetype = MOVETYPE_FLYMISSILE;

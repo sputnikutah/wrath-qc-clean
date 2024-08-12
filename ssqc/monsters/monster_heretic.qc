@@ -58,7 +58,7 @@ $frame her_paind1 her_paind2 her_paind3 her_paind4 her_paind5
 	.float runing_time;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-void() heretic_checkidle = { local float r;
+void() heretic_checkidle = { float r;
 	r = random() *100;
 	if (heretic_ith >= r)
 		ai_stand();
@@ -66,7 +66,7 @@ void() heretic_checkidle = { local float r;
 void() heretic_idle =[$her_idle1, heretic_idle2]
 {
 	heretic_checkidle();
-	local float r;
+	float r;
 	r = random() *10;
 	if ((r < 1) && (!(self.spawnflags &1)))
 		monstersound1("enemies/heretic/idle", 3, CHAN_VOICE);
@@ -239,7 +239,7 @@ void() heretic_srun;
 void() heretic_endchase;
 
 .float chasing;
-void() heretic_subattack = { local entity head;
+void() heretic_subattack = { entity head;
 
 	head = findradius(rorigin(self), her_radius);	//send lightning line to anything in 250 radius
 	while (head)	// while looking for head
@@ -260,7 +260,7 @@ void() heretic_subattack = { local entity head;
 
 float(vector v) visiblev = 
 {
-	local vector spot1, spot2;
+	vector spot1, spot2;
 
 	spot1 = self.origin + '0 0 16';
 	spot2 = v;
@@ -281,73 +281,73 @@ void(float fdist) check_angles_heretic =
 
 	
 	tempvec = self.origin + v_forward * fdist+ v_right * fdist; 
-	if(visiblev(tempvec))
+	if (visiblev(tempvec))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
 	tempvec = self.origin + v_forward * fdist; 
-	if(visiblev(tempvec) && (ddest1 != '0 0 0'))
+	if (visiblev(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 		
 	}
 
 	tempvec = self.origin + v_forward * fdist+ v_right * -fdist; 
-	if(visiblev(tempvec) && (ddest1 != '0 0 0'))
+	if (visiblev(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
 	tempvec = self.origin + v_right * fdist;
-	if(visiblev(tempvec) && (ddest1 != '0 0 0'))
+	if (visiblev(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 
 	tempvec = self.origin + v_right * -fdist;
-	if(visiblev(tempvec) && (ddest1 != '0 0 0'))
+	if (visiblev(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 
 	tempvec = self.origin + v_forward * -fdist + v_right * fdist; 
-	if(visiblev(tempvec) && (ddest1 != '0 0 0'))
+	if (visiblev(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
 	tempvec = self.origin + v_forward * -fdist; 
-	if(visiblev(tempvec) && (ddest1 != '0 0 0'))
+	if (visiblev(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
 	tempvec = self.origin + v_forward * -fdist + v_right * -fdist; 
-	if(visiblev(tempvec) && (ddest1 != '0 0 0'))
+	if (visiblev(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
-	if(ddest1 != '0 0 0')
+	if (ddest1 != '0 0 0')
 	{
-		if(vspecial != '0 0 0')
+		if (vspecial != '0 0 0')
 			ddest1 = vspecial;
 
 		self.ideal_yaw = vectoyaw((ddest1) - self.origin);	
@@ -364,9 +364,9 @@ void(float fdist) check_angles_heretic =
 void(void() thinkst) heretic_checkchase = 
 { 
 	
-	if(self.wrathflags & FL_CRYSTAL)
+	if (self.wrathflags & FL_CRYSTAL)
 		return;
-	if(self.enemy != self.chase_enemy)
+	if (self.enemy != self.chase_enemy)
 	{
 		self.velocity_z = 0;
 		self.movingz = 0;
@@ -376,13 +376,13 @@ void(void() thinkst) heretic_checkchase =
 		self.nextthink = time + 0.1;
 		return;
 	}
-	local vector	dir, vtemp;
+	vector	dir, vtemp;
 	
 	
 	
-	if((!self.enemy) && ((self.friendly_monster != 1)))
+	if ((!self.enemy) && ((self.friendly_monster != 1)))
 	{
-	local entity pl;
+	entity pl;
 	pl = find (world,classname, "player");
 	if (self.enemy != pl)
 		self.enemy = pl;
@@ -392,18 +392,18 @@ void(void() thinkst) heretic_checkchase =
 	vtemp = self.enemy.origin + '0 0 38';
 
 
-	if(self.timeangles2 < time)
+	if (self.timeangles2 < time)
 		ai_face();
 	float speed = vlen (self.velocity);
 	if (speed < 20)
 		check_angles_heretic(128);	
 	
-	if(self.flags & FL_ONGROUND)
+	if (self.flags & FL_ONGROUND)
 		self.flags -= FL_ONGROUND;
 	if ((self.chasing == 1) && (visible(self.enemy)))
 	{
 		ai_face();
-		local float heretic_runvel;
+		float heretic_runvel;
 		heretic_runvel = heretic_rsr;
 	}
 	self.movingz = 1;
@@ -413,7 +413,7 @@ void(void() thinkst) heretic_checkchase =
 	
 
 
-	if((self.heretic_checkroof_time < time) && (speed < 20))
+	if ((self.heretic_checkroof_time < time) && (speed < 20))
 	{
 		vector t_dest = self.origin - '0 0 92';
 		tracebox((self.origin),'-8 -8 -8','8 8 8', t_dest, MOVE_WORLDONLY, self);
@@ -424,9 +424,9 @@ void(void() thinkst) heretic_checkchase =
 		if (trace_fraction != 1.0)
 		{
 
-			if(distance_to_roof > 64)
+			if (distance_to_roof > 64)
 			{
-				if(self.flags & FL_ONGROUND)
+				if (self.flags & FL_ONGROUND)
 					self.flags -= FL_ONGROUND;
 				ai_face();
 				self.velocity_z = random(64,distance_to_roof);
@@ -436,7 +436,7 @@ void(void() thinkst) heretic_checkchase =
 		}
 	}
 
-	if(time > self.charge_time)
+	if (time > self.charge_time)
 		self.think = heretic_endchase;
 	else
 	{	
@@ -455,7 +455,7 @@ void(void() thinkst) heretic_checkchase =
 			self.think = heretic_endchase;
 	}
 
-	if((speed <5) || (self.oldorigin == self.origin))
+	if ((speed <5) || (self.oldorigin == self.origin))
 			self.think = heretic_endchase;
 	self.oldorigin = self.origin;
 	self.nextthink = time + 0.1;
@@ -469,9 +469,9 @@ void() heretic_checkfloor =
 	float distance_to_floor = vlen (self.origin - trace_endpos);
 	if (trace_fraction != 1.0)
 	{
-		if(distance_to_floor < 72)
+		if (distance_to_floor < 72)
 		{
-			if(self.flags & FL_ONGROUND)
+			if (self.flags & FL_ONGROUND)
 			self.flags -= FL_ONGROUND;
 
 			t_dest = self.origin + '0 0 512';
@@ -527,7 +527,7 @@ void() heretic_flyup10 =[$her_run10, heretic_run11] {self.movetype = MOVETYPE_ST
 void() heretic_checkroof =
 {
 
-	if(self.heretic_checkroof_time > time)
+	if (self.heretic_checkroof_time > time)
 		return;
 	vector t_dest = self.origin - '0 0 92';
 	tracebox((self.origin),'-8 -8 -8','8 8 8', t_dest, MOVE_WORLDONLY, self);
@@ -538,9 +538,9 @@ void() heretic_checkroof =
 	if (trace_fraction != 1.0)
 	{
 
-		if(distance_to_roof > 64)
+		if (distance_to_roof > 64)
 		{
-			if(self.flags & FL_ONGROUND)
+			if (self.flags & FL_ONGROUND)
 				self.flags -= FL_ONGROUND;
 			ai_face();
 			self.velocity_z = random(64,distance_to_roof);
@@ -558,7 +558,7 @@ void() heretic_checkroof =
 .float soundlenghtchase;
 void() heretic_srun8
 {
-	if(self.soundlenghtchase < time)
+	if (self.soundlenghtchase < time)
 	{
 		self.soundlenghtchase = time + 5.9;
 		sound(self, CHAN_ITEM, "enemies/heretic/chase_loop.ogg", 1, 0.25);
@@ -570,7 +570,7 @@ void() heretic_srun8
 };
 void() heretic_srun7
 {
-	if(self.soundlenghtchase < time)
+	if (self.soundlenghtchase < time)
 	{
 		self.soundlenghtchase = time + 5.9;
 		sound(self, CHAN_ITEM, "enemies/heretic/chase_loop.ogg", 1, 0.25);
@@ -581,7 +581,7 @@ void() heretic_srun7
 void() heretic_srun6
 {
 	check_redinvulnerability();
-	if(self.soundlenghtchase < time)
+	if (self.soundlenghtchase < time)
 	{
 		self.soundlenghtchase = time + 5.9;
 		sound(self, CHAN_ITEM, "enemies/heretic/chase_loop.ogg", 1, 0.25);
@@ -591,7 +591,7 @@ void() heretic_srun6
 };
 void() heretic_srun5
 {
-	if(self.soundlenghtchase < time)
+	if (self.soundlenghtchase < time)
 	{
 		self.soundlenghtchase = time + 5.9;
 		sound(self, CHAN_ITEM, "enemies/heretic/chase_loop.ogg", 1, 0.25);
@@ -603,7 +603,7 @@ void() heretic_srun5
 };
 void() heretic_srun4
 {
-	if(self.soundlenghtchase < time)
+	if (self.soundlenghtchase < time)
 	{
 		self.soundlenghtchase = time + 5.9;
 		sound(self, CHAN_ITEM, "enemies/heretic/chase_loop.ogg", 1, 0.25);
@@ -613,7 +613,7 @@ void() heretic_srun4
 };
 void() heretic_srun3
 {
-	if(self.soundlenghtchase < time)
+	if (self.soundlenghtchase < time)
 	{
 		self.soundlenghtchase = time + 5.9;
 		sound(self, CHAN_ITEM, "enemies/heretic/chase_loop.ogg", 1, 0.25);
@@ -623,7 +623,7 @@ void() heretic_srun3
 };
 void() heretic_srun2
 {
-	if(self.soundlenghtchase < time)
+	if (self.soundlenghtchase < time)
 	{
 		self.soundlenghtchase = time + 5.9;
 		sound(self, CHAN_ITEM, "enemies/heretic/chase_loop.ogg", 1, 0.25);
@@ -636,7 +636,7 @@ void() heretic_srun2
 void() heretic_srun
 {
 
-	if(self.soundlenghtchase < time)
+	if (self.soundlenghtchase < time)
 	{
 		self.soundlenghtchase = time + 5.9;
 		sound(self, CHAN_ITEM, "enemies/heretic/chase_loop.ogg", 1, 0.25);
@@ -668,7 +668,7 @@ void() heretic_endchase4 =[$her_echase4, heretic_endchase5] {};
 void() heretic_endchase5 =[$her_echase5, heretic_run] {
 
 
-	if(visible(self.enemy))	
+	if (visible(self.enemy))	
 		self.think = heretic_attack;
 };
 
@@ -687,11 +687,11 @@ void() heretic_prechase2 =[$her_schase2, heretic_srun]
 
 void() heretic_checkrun = { 
 
-	if(self.oldorigin == self.origin)
+	if (self.oldorigin == self.origin)
 	check_strafe();
 	if (self.runing_time > time)
 		return;
-	local float r;
+	float r;
 	if (visible(self.enemy))
 	{
 		enemy_range = range(self.enemy);
@@ -705,9 +705,9 @@ void() heretic_checkrun = {
 		}
 		if (enemy_range == RANGE_NEAR)
 		{
-			//local float r;
+			//float r;
 			//r = random() *100;
-			//if(heretic_rth >= r)
+			//if (heretic_rth >= r)
 			self.think = heretic_prechase;
 		}
 		if (enemy_range == RANGE_MELEE)
@@ -743,7 +743,7 @@ void() heretic_run =[$her_run1, heretic_run2]
 		self.gravity = 1;
 	}
 
-	if(self.chasing == 1)
+	if (self.chasing == 1)
 		sound(self, CHAN_ITEM, "enemies/heretic/end_chase.ogg", 1, 0.25);
 	else
 		sound(self, CHAN_ITEM, "misc/null.wav", 0.1, 1);
@@ -879,18 +879,18 @@ void()	heretic_run1	=[	$her_run1,	heretic_run1	]
 
 	ai_runwalk(heretic_rs);	
 	self.colormod = ' 1 1 1';
-	if(time > self.runing_time)
+	if (time > self.runing_time)
 	{
-		if((visible(self.enemy)))
+		if ((visible(self.enemy)))
 		{
 			enemy_range = range(self.enemy);
 			if (enemy_range == RANGE_FAR)
 			return; 
 			if ((enemy_range == RANGE_NEAR) || (enemy_range == RANGE_MID))
 			{
-				local float r;
+				float r;
 			r = random() *100;
-			if(heretic_rth >= r)
+			if (heretic_rth >= r)
 			self.think = heretic_preattack;
 			else	
 			self.runing_time = time + heretic_rt;
@@ -913,10 +913,10 @@ void() proj_heretic_explo = { self.alpha -= 0.1;
 		self.think = proj_heretic_explo;
 	self.nextthink = time + 0.05;
 }
-void() projectile_touch_her = { local float damg;
+void() projectile_touch_her = { float damg;
 	if (other == self.owner)
 		return;
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
 	self.solid = SOLID_NOT;
 	if (pointcontents(self.origin) == CONTENT_SKY)
@@ -933,7 +933,7 @@ void() projectile_touch_her = { local float damg;
 	{
 		if (self.owner.chasing != 1)
 		{
-			local entity oself;
+			entity oself;
 			oself = self;
 			self = self.owner;
 			monstersound6("enemies/heretic/chase_start", 5, CHAN_AUTO);
@@ -960,13 +960,13 @@ void() projectile_touch_her = { local float damg;
 
 void()proj_heretic_explo_think =
 {
-	if(self.origin ==  self.oldorigin)
+	if (self.origin ==  self.oldorigin)
 	{
 		self.think = proj_heretic_explo;
 	}
 	else
 	{
-		if(self.lifetime < time)
+		if (self.lifetime < time)
 			self.think = proj_heretic_explo;
 		else
 			self.think = proj_heretic_explo_think;
@@ -976,7 +976,7 @@ void()proj_heretic_explo_think =
 };	
 
 
-void(vector org, vector dir, entity ownerproj) launch_projectile_her = { local entity projectile;
+void(vector org, vector dir, entity ownerproj) launch_projectile_her = { entity projectile;
 	projectile = spawn();
 	projectile.owner = ownerproj;
 	projectile.movetype = MOVETYPE_FLYMISSILE;
@@ -991,7 +991,7 @@ void(vector org, vector dir, entity ownerproj) launch_projectile_her = { local e
 	projectile.lifetime = time + 12;
 	projectile.classentity = "projectiles";
 	projectile.wrathflags += FL_PROJECTILE;
-	local entity oself;oself = self;self = projectile;
+	entity oself;oself = self;self = projectile;
 	randomsound2("enemies/heretic/proj_loop", 3, 1, CHAN_WEAPON, 0, 0.25);
 	self = oself;
 	setmodel(projectile, "models/projectiles/proj_heretic.md3");
@@ -1029,12 +1029,12 @@ void() heretic_attack4 =[$her_atk4, heretic_attack5]
 
 	if (visibleinfront(self.enemy, 4096))
 	{
-		local vector dir, tagorg;
-		local float tagindex;
+		vector dir, tagorg;
+		float tagindex;
 		tagindex = gettagindex(self, "tag_muzzle");
 		tagorg = self.origin;	// gettaginfo(self.vweapon, tagindex);
 		dir = aim(self, 1000);
-		local vector sre;
+		vector sre;
 		sre = self.angles;
 		makevectors2(sre);
 		dir = normalize(self.enemy.origin - tagorg);
@@ -1052,7 +1052,7 @@ void() heretic_attack5 = { self.frame = $her_atk5;
 			self.think = heretic_run;
 		if (enemy_range == RANGE_MID)
 		{
-			local float r;
+			float r;
 			r = random() *100;
 			if (heretic_ath >= r)
 				self.think = heretic_attack;
@@ -1075,10 +1075,10 @@ void() heretic_attack5 = { self.frame = $her_atk5;
 
 float(float wdmg) heretic_melee_attack = 
 { 
-	local vector delta;
-	local float dist;
+	vector delta;
+	float dist;
 	if (!self.enemy)
-		return;	// removed before stroke
+		return FALSE;	// removed before stroke
 	delta = self.enemy.origin - self.origin;
 	dist = vlen(delta);
 	walkmove (self.angles_y, random(12,24));
@@ -1090,12 +1090,12 @@ float(float wdmg) heretic_melee_attack =
 	else
 	{
 		
-		local vector tagorg;
-		local float tagindex;		
+		vector tagorg;
+		float tagindex;		
 		tagindex = gettagindex(self, "tag_tongues");
 		tagorg = gettaginfo(self, tagindex) + '0 0 0';
 		T_Damage(self.enemy, self, self, wdmg);
-		local vector bloodvel;
+		vector bloodvel;
 		bloodvel_x = crandom() * 64;
 		bloodvel_y = crandom() * 64;
 		bloodvel_z = random() * 128 + 64;
@@ -1112,19 +1112,20 @@ float(float wdmg) heretic_melee_attack =
 		decal_monster2(self.enemy.origin);
 	}
 	return TRUE;
-	makevectors (self.angles);
-	heretic_subattack();
+//monsters/monster_heretic.qc:1115: warning F323: heretic_melee_attack: contains unreachable code (line 1115)	
+//	makevectors (self.angles);
+//	heretic_subattack();
 };
 
 void() heretic_sattack =[$her_batk1, heretic_sattack2]
 {
 	ai_face();
 
-	if(self.chasing == 1)
+	if (self.chasing == 1)
 		sound(self, CHAN_ITEM, "enemies/heretic/end_chase.ogg", 1, 0.25);
 
 	monstersound4("enemies/heretic/bite", 3, CHAN_BODY);
-	if(self.enemy.classname == "player")
+	if (self.enemy.classname == "player")
 	self.origin_z = self.enemy.origin_z + 22 + 16;
 	if (self.movingz)
 	{
@@ -1138,7 +1139,7 @@ void() heretic_sattack2 =[$her_batk2, heretic_sattack3]
 {
 	ai_face();
 	float hitenemy = heretic_melee_attack(heretic_sad);
-	if(hitenemy != 1)	
+	if (hitenemy != 1)	
 		self.think = heretic_attack;
 };
 void() heretic_sattack3 =[$her_batk3, heretic_sattack4]
@@ -1161,7 +1162,7 @@ void() heretic_sattack5 =[$her_batk5, heretic_run]
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 void() heretic_postpain = { ai_pain(4);
-	local float r;
+	float r;
 	r = random() *100;
 	if (heretic_pth <= r)
 		self.think = heretic_run;
@@ -1216,7 +1217,7 @@ void() heretic_paind5 =[$her_paind5, heretic_postpain]
 void(entity enemy, float dmg) heretic_pain = 
 { 
 
-	if((self.warped == 1)||(self.friendly_monster > 0 ))
+	if ((self.warped == 1)||(self.friendly_monster > 0 ))
 	return;
 	if (self.movingz)
 	{
@@ -1226,12 +1227,12 @@ void(entity enemy, float dmg) heretic_pain =
 		self.gravity = 1;
 	}		
 	self.glowmod = '-1 -1 -1';
-	local float rp;
+	float rp;
 	rp = random() *100;
 	if (heretic_rtp <= rp)
 		return;
 	self.sustained_damage = 0;
-	local float rpf;
+	float rpf;
 	rpf = floor(random() *4) + 1;
 	if (rpf == self.painanim)
 		rpf += 1;
@@ -1310,7 +1311,7 @@ void() heretic_diea1 = { self.solid = 0;
 	tag_muzzle        proj_heretic                    
 	tag_tongues        gib_tongue_left, gib_tongue_right    (left and right vel)
 	*/
-	local vector tagorg;
+	vector tagorg;
 	tagorg = tag_origin("tag_backa", self);
 	ThrowGib3(self, "models/enemies/heretic/gibs/gib_backa.md3", self.health *0.25, 0.75, 1, 1, tagorg, relvel(her_gib1, self), 0, 3);	// relvel: forward, right, up
 	tagorg = tag_origin("tag_backb", self);
@@ -1432,7 +1433,7 @@ void() monster_heretic = { precache_model("models/projectiles/proj_heretic.md3")
 	precache_model("models/enemies/heretic/gibs/gib_tongue_left.md3");
 	precache_model("models/enemies/heretic/gibs/gib_tongue_right.md3");
 	precache_model("particles/explo/explo_heretic.md3");
-	local float r;
+	float r;
 	r = (random() *3);
 	if (r <= 3)
 		self.noise = "enemies/heretic/sight3.ogg";
@@ -1468,7 +1469,7 @@ void() monster_heretic = { precache_model("models/projectiles/proj_heretic.md3")
 	self.glowmod = '-1 -1 -1';
 	self.bloody = 1;
 	self.yaw_speed = 5;
-	local entity tonge;
+	entity tonge;
 	tonge = spawn();
 	tonge.owner = self;
 	setmodel(tonge, "models/enemies/heretic/tongues.md3");

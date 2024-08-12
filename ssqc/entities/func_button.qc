@@ -77,7 +77,7 @@ void() func_button =
 	{
 		self.solid = SOLID_NOT;
 		self.usable = 0;
-		local entity newbbox;
+		entity newbbox;
 		newbbox = spawn();
 		newbbox.owner = self;
 		newbbox.buttondecal = 1;

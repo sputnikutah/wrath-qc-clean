@@ -35,12 +35,12 @@ void() ai_face_boss =
 
 void()projectile_guardian1_think =
 {
-	if(self.frame < 3)
+	if (self.frame < 3)
 		self.frame ++;
-	if(self.enemy.health < 0)
+	if (self.enemy.health < 0)
 		self.lifetime = 0;
 	//self.count ++;
-	if((self.guardian_attack_finished < time) && (self.magnetized >= 1))
+	if ((self.guardian_attack_finished < time) && (self.magnetized >= 1))
 	{
 		float disttoenemy = vlen (self.origin - self.enemy.origin);
 		float playerspeed = (vlen (self.enemy.velocity)) * random (0.25,1);
@@ -48,29 +48,29 @@ void()projectile_guardian1_think =
 		vector newplayerorg =(self.enemy.origin + nextpos);
 		disttoenemy = vlen (self.origin - self.enemy.origin);
 		float mindisttoenemy;
-		if(self.owner.bosscnt == 3)
+		if (self.owner.bosscnt == 3)
 			mindisttoenemy = 256;
-		if(self.owner.bosscnt == 2)
+		if (self.owner.bosscnt == 2)
 			mindisttoenemy = 128;
-		if(self.owner.bosscnt == 1)
+		if (self.owner.bosscnt == 1)
 			mindisttoenemy = 96;
-		if(self.magnetized > 1)
+		if (self.magnetized > 1)
 			mindisttoenemy = 256;
 
 
-		if(( disttoenemy > mindisttoenemy) && (self.magnetized != -1))
+		if (( disttoenemy > mindisttoenemy) && (self.magnetized != -1))
 		{
 			if (self.magnetized == 2)
 				self.velocity = self.velocity * 0.5 + (self.enemy.origin - (self.origin + '0 0 -12')) * 0.5;
-			if(self.owner.bosscnt == 3)
+			if (self.owner.bosscnt == 3)
 				self.velocity = self.velocity * 0.3 + (self.enemy.origin - (self.origin + '0 0 -12')) * 0.7;
-			if(self.owner.bosscnt == 2)
+			if (self.owner.bosscnt == 2)
 				self.velocity = self.velocity * 0.2 + (self.enemy.origin - (self.origin + '0 0 -12')) * 0.8;
-			if(self.owner.bosscnt == 1)
+			if (self.owner.bosscnt == 1)
 				self.velocity = self.velocity * 0.1 + (self.enemy.origin - (self.origin + '0 0 -12')) * 0.9;
 			self.velocity = normalize(self.velocity);
 			
-			if(self.magnetized < 2)
+			if (self.magnetized < 2)
 			self.velocity = (self.velocity *(512 + self.count * 8));
 			else
 			self.velocity = (self.velocity *1024); //(512 + self.count * 8));
@@ -92,13 +92,13 @@ void()projectile_guardian1_think =
 		}
 		self.guardian_attack_finished = time + 0.1;
 	}
-	if(self.origin ==  self.oldorigin)
+	if (self.origin ==  self.oldorigin)
 	{
 		self.think = proj_wretch_explo;
 	}
 	else
 	{
-		if(self.lifetime < time)
+		if (self.lifetime < time)
 			self.think = proj_wretch_explo;
 		else
 			self.think = projectile_guardian1_think;
@@ -116,10 +116,10 @@ void()projectile_guardian1_delay_think =
 };
 void(vector org, vector dir, entity ownerproj, float delayy) launch_projectile_guardian1 = 
 { 
-	local entity guardian1_projectile;
+	entity guardian1_projectile;
 	monstersound3("enemies/wretch/fire", 5, CHAN_AUTO);	
 	guardian1_projectile = spawn();	
-	if((ownerproj.magnetized == 1))
+	if ((ownerproj.magnetized == 1))
 		guardian1_projectile.magnetized = 1;
 
 	guardian1_projectile.owner = ownerproj;
@@ -135,7 +135,7 @@ void(vector org, vector dir, entity ownerproj, float delayy) launch_projectile_g
 	guardian1_projectile.enemy = ownerproj.enemy;
 	guardian1_projectile.traileffectnum = particleeffectnum("proj_guardian1_trail");
 
-	local entity oself;oself = self;self = guardian1_projectile;
+	entity oself;oself = self;self = guardian1_projectile;
 	sound7(self, CHAN_WEAPON, "enemies/wraith/proj_loop1.ogg", 1, 0.25, 80 + random() *30, 0);
 	self = oself;
 
@@ -144,9 +144,9 @@ void(vector org, vector dir, entity ownerproj, float delayy) launch_projectile_g
 	makevectors(self.angles);
 	setorigin(guardian1_projectile, org);
 
-	//if(delayy > 0)
+	//if (delayy > 0)
 	//guardian1_projectile.magnetized = 2;
-		if(ownerproj.magnetized != 1)
+		if (ownerproj.magnetized != 1)
 		{
 			guardian1_projectile.velocity = dir *(wretch_projvel) * random (1,1);
 			//guardian1_projectile.velocity.colormod = '1 0.25 0.2';
@@ -157,7 +157,7 @@ void(vector org, vector dir, entity ownerproj, float delayy) launch_projectile_g
 		guardian1_projectile.think = projectile_guardian1_think;
 		guardian1_projectile.nextthink = time + 0.1;
 		//delayy = 0;
-		if(delayy > 0)
+		if (delayy > 0)
 		{
 			guardian1_projectile.alpha = -1;
 			guardian1_projectile.velocity = '0 0 0';
@@ -191,57 +191,57 @@ void(float ammount,string tagname) guardian_attack_spread =
 
 	while(ammount)
 	{
-		if(r < 11)
+		if (r < 11)
 		{
-			if(ammount == 1)
+			if (ammount == 1)
 				dir = normalize( (newplayerorigin + v_right *(righty * -16 * (3 + playerspeed/256)))- self.origin);
-			if(ammount == 2)
+			if (ammount == 2)
 				dir = normalize( (newplayerorigin + v_right * (righty * 16 * (3 + playerspeed/256)))- self.origin);
 
-			if(ammount == 3)
+			if (ammount == 3)
 				dir = normalize( (newplayerorigin + v_right *(righty * 32 * (3 + playerspeed/256)))- self.origin);
-			if(ammount == 4)
+			if (ammount == 4)
 				dir = normalize( (newplayerorigin + v_right *(righty * 48 * (3 + playerspeed/256)))- self.origin);
 
-			if(ammount == 5)
+			if (ammount == 5)
 				dir = normalize( (newplayerorigin + v_right *(righty * 64 * (3 + playerspeed/256)))- self.origin);
-			if(ammount == 6)
+			if (ammount == 6)
 				dir = normalize( (newplayerorigin + v_right *(righty * 80 * (3 + playerspeed/256)))- self.origin);
 
-			if(ammount == 7)
+			if (ammount == 7)
 				dir = normalize( (newplayerorigin + v_right *(righty * 96 * (3 + playerspeed/256)))- self.origin);
-			if(ammount == 8)
+			if (ammount == 8)
 				dir = normalize( (newplayerorigin + v_right *(righty * 112 * (3 + playerspeed/256)))- self.origin);	
 		}
 
 		else
 		{
-			if(ammount == 1)
+			if (ammount == 1)
 				dir = normalize( (newplayerorigin + v_right *(righty * -16 * (3 + playerspeed/256)))- self.origin);
-			if(ammount == 2)
+			if (ammount == 2)
 				dir = normalize( (newplayerorigin + v_right * (righty * 16 * (3 + playerspeed/256)))- self.origin);
 
-			if(ammount == 3)
+			if (ammount == 3)
 				dir = normalize( (newplayerorigin + v_up *( -16 * (3 + playerspeed/256)))- self.origin);
-			if(ammount == 4)
+			if (ammount == 4)
 				dir = normalize( (newplayerorigin + v_up *(16 * (3 + playerspeed/256)))- self.origin);
 
-			if(ammount == 5)
+			if (ammount == 5)
 				dir = normalize( (newplayerorigin + v_right *(righty * 32 * (3 + playerspeed/256)))- self.origin);
-			if(ammount == 6)
+			if (ammount == 6)
 				dir = normalize( (newplayerorigin + v_right *(righty * 48 * (3 + playerspeed/256)))- self.origin);
 
-			if(ammount == 7)
+			if (ammount == 7)
 				dir = normalize( (newplayerorigin + v_up *(48 * (3 + playerspeed/256)))- self.origin);
-			if(ammount == 8)
+			if (ammount == 8)
 				dir = normalize( (newplayerorigin + v_up *( -48 * (3 + playerspeed/256)))- self.origin);	
 		}
 
 		float delayy;
 		delayy = ammount;
-		if(ammount <= 0)
+		if (ammount <= 0)
 		delayy = 1;
-		if(ammount == 1)
+		if (ammount == 1)
 		delayy = 0;
 
 		vector tagorg = tag_origin(tagname, self);
@@ -261,15 +261,15 @@ void()guardian1_scatter_left =
 	self.frame = $boss1_scattleft;	
 	self.guardian_facing_time = time + random (2,3);
 
-	if(self.guardian_attack_time < time)
+	if (self.guardian_attack_time < time)
 		self.think = guardian1_float;
 	else
 		self.think = guardian1_scatter_left;
 
 
-	if(self.guardian_shoot_cnt < 170)
+	if (self.guardian_shoot_cnt < 170)
 		self.guardian_shoot_cnt ++;
-	if(self.guardian_shoot_cnt == 170)
+	if (self.guardian_shoot_cnt == 170)
 	{	
 		guardian_attack_spread(self.ammo_shells,"tag_left_hand");
 		self.guardian_shoot_cnt ++;
@@ -283,14 +283,14 @@ void()guardian1_scatter_right =
 	self.frame = $boss1_scattright;
 	self.guardian_facing_time = time + random (2,3);
 
-	if(self.guardian_attack_time < time)
+	if (self.guardian_attack_time < time)
 		self.think = guardian1_float;
 	else
 		self.think = guardian1_scatter_right;
 		
-	if(self.guardian_shoot_cnt < 170)
+	if (self.guardian_shoot_cnt < 170)
 		self.guardian_shoot_cnt ++;
-	if(self.guardian_shoot_cnt == 170)
+	if (self.guardian_shoot_cnt == 170)
 	{	
 		guardian_attack_spread(self.ammo_shells,"tag_right_hand");
 		self.guardian_shoot_cnt ++;
@@ -306,14 +306,14 @@ void()guardian1_hurl_left =
 	self.frame = $boss1_hurlleft;
 	self.guardian_facing_time = time + random (2,3);
 
-	if(self.guardian_attack_time < time)
+	if (self.guardian_attack_time < time)
 		self.think = guardian1_float;
 	else
 		self.think = guardian1_hurl_left;
 		
-	if(self.guardian_shoot_cnt < 170)
+	if (self.guardian_shoot_cnt < 170)
 		self.guardian_shoot_cnt ++;
-	if(self.guardian_shoot_cnt == 170)
+	if (self.guardian_shoot_cnt == 170)
 	{	
 		guardian_attack_spread(self.ammo_shells,"tag_left_hand");
 		self.guardian_shoot_cnt ++;
@@ -327,14 +327,14 @@ void()guardian1_hurl_right =
 	self.frame = $boss1_hurlright;
 
 	self.guardian_facing_time = time + random (2,3);
-	if(self.guardian_attack_time < time)
+	if (self.guardian_attack_time < time)
 		self.think = guardian1_float;
 	else
 		self.think = guardian1_hurl_right;
 		
-	if(self.guardian_shoot_cnt < 170)
+	if (self.guardian_shoot_cnt < 170)
 		self.guardian_shoot_cnt ++;
-	if(self.guardian_shoot_cnt == 170)
+	if (self.guardian_shoot_cnt == 170)
 	{	
 		guardian_attack_spread(self.ammo_shells,"tag_right_hand");
 		self.guardian_shoot_cnt ++;
@@ -348,14 +348,14 @@ void()guardian1_shot =
 	self.frame = $boss1_shot;
 	self.guardian_facing_time = time + random (2,3);
 
-	if(self.guardian_attack_time < time)
+	if (self.guardian_attack_time < time)
 		self.think = guardian1_float;
 	else
 		self.think = guardian1_shot;
 		
-	if(self.guardian_shoot_cnt < 170)
+	if (self.guardian_shoot_cnt < 170)
 		self.guardian_shoot_cnt ++;
-	if(self.guardian_shoot_cnt == 170)
+	if (self.guardian_shoot_cnt == 170)
 	{	
 		guardian_attack_spread(self.ammo_shells,"tag_chest");
 		self.guardian_shoot_cnt ++;
@@ -376,19 +376,19 @@ void()guardian1_attack =
 	float r = random();
 	if (self.bosscnt != 1)
 	{
-		if(r < 1)
+		if (r < 1)
 		{
 			self.think = guardian1_scatter_right;
 			self.guardian_attack_time = time + 3;
 			self.guardian_attack_finished = self.guardian_attack_time + random(1,3);
 		}
-		else if(r < 0.8)
+		else if (r < 0.8)
 		{
 			self.think = guardian1_scatter_left;
 			self.guardian_attack_time = time + 3;
 			self.guardian_attack_finished = self.guardian_attack_time + random(1,3);
 		}
-		else if(r < 0.2)
+		else if (r < 0.2)
 		{
 			self.think = guardian1_shot;
 			self.guardian_attack_time = time + 2;
@@ -397,11 +397,11 @@ void()guardian1_attack =
 	}
 	else
 	{
-		if(r < 1)
+		if (r < 1)
 			self.think = guardian1_hurl_right;
-		else if(r < 0.8)
+		else if (r < 0.8)
 			self.think = guardian1_hurl_left;
-		else if(r < 0.2)
+		else if (r < 0.2)
 			self.think = guardian1_shot;
 		self.guardian_attack_time = time + 2;
 		self.guardian_attack_finished = self.guardian_attack_time + random(1,3);
@@ -417,16 +417,16 @@ void()guardian1_attack =
 void() guardian1_rise =
 {
 	self.frame = $boss1_rise;
-	if(self.target)
+	if (self.target)
 	{
 		SUB_UseTargets();
 		self.target = "";
 	}
 
 
-	if(self.bosscnt == 2) 
+	if (self.bosscnt == 2) 
 		self.health = 19999;	
-	if(self.bosscnt == 1) 
+	if (self.bosscnt == 1) 
 		self.health = 9999;	
 
 	self.solid = SOLID_TRIGGER;
@@ -438,27 +438,27 @@ void() guardian1_rise =
 
 void() guardian1_weep_loop =
 {
-	if(self.bosscnt == 3) 
+	if (self.bosscnt == 3) 
 		self.frame =  $boss1_idle;//$boss1_weepa_loop;
-	if(self.bosscnt == 2) 
+	if (self.bosscnt == 2) 
 		self.frame = $boss1_idle;//$boss1_weepb_loop;
-	if(self.bosscnt == 1) 
+	if (self.bosscnt == 1) 
 		self.frame = $boss1_idle;//$boss1_weepc_loop;
 
 
 	if (self.bosspain_finished < time)
 	{
-		if(self.bosscnt == 3) 
+		if (self.bosscnt == 3) 
 			self.health = 25000;	
-		if(self.bosscnt == 2) 
+		if (self.bosscnt == 2) 
 			self.health = 15000;	
-		if(self.bosscnt == 1) 
+		if (self.bosscnt == 1) 
 			self.health = 5000;	
 		self.think = guardian1_float;
 	}
 	else
 	{
-		if(self.timefly == 1)
+		if (self.timefly == 1)
 		{	
 			self.think = guardian1_rise;
 			self.bosscnt --;
@@ -477,11 +477,11 @@ void() guardian1_weep=
 {
 	self.bosspain_finished = time + 10;
 	self.takedamage = 0;
-	if(self.bosscnt == 3) 
+	if (self.bosscnt == 3) 
 	self.frame = $boss1_idle;//$boss1_weepa;
-	if(self.bosscnt == 2) 
+	if (self.bosscnt == 2) 
 		self.frame =$boss1_idle;// $boss1_weepb;
-	if(self.bosscnt == 1) 
+	if (self.bosscnt == 1) 
 		self.frame = $boss1_idle;//$boss1_weepc;
 
 	self.solid = SOLID_BBOX;
@@ -497,10 +497,10 @@ void() guardian1_rotate_left =
 	self.frame = $boss1_rotleft;
 
 
-	if((self.yaw_speed >= 1.5) && (custom_infront(self.enemy,self.angles, self.origin, 25)))
+	if ((self.yaw_speed >= 1.5) && (custom_infront(self.enemy,self.angles, self.origin, 25)))
 	self.yaw_speed -= 0.01;
 
-	if((custom_infront(self.enemy,self.angles, self.origin, 8)) && (self.guardian_rotate_time < time))
+	if ((custom_infront(self.enemy,self.angles, self.origin, 8)) && (self.guardian_rotate_time < time))
 	{
 		self.think = guardian1_attack;
 		self.nextthink = time + 0.01;
@@ -520,10 +520,10 @@ void() guardian1_rotate_right =
 	ai_face_boss();
 	self.frame = $boss1_rotright;
 
-	if((self.yaw_speed >= 1.5) && (custom_infront(self.enemy,self.angles, self.origin, 25)))
+	if ((self.yaw_speed >= 1.5) && (custom_infront(self.enemy,self.angles, self.origin, 25)))
 	self.yaw_speed -= 0.01;
 
-	if((custom_infront(self.enemy,self.angles, self.origin, 8)) && (self.guardian_rotate_time < time))
+	if ((custom_infront(self.enemy,self.angles, self.origin, 8)) && (self.guardian_rotate_time < time))
 	{
 		self.think = guardian1_attack;
 		self.nextthink = time + 0.01;
@@ -550,12 +550,12 @@ void() guardian1_rotate =
 
 	distl = vlen((self.origin + v_right * -30) - self.enemy.origin);
 
-	if(distl > distr)
+	if (distl > distr)
 		rotate_left = 1;	
 	else	
 		rotate_left = 0;	
 
-	if(rotate_left == 1)
+	if (rotate_left == 1)
 		self.think = guardian1_rotate_left;
 	else
 		self.think = guardian1_rotate_right;
@@ -572,26 +572,26 @@ void() guardian1_float =
 
 	self.colormod = '1 1 1';
 
-	if(self.guardian_facing_time < time)
+	if (self.guardian_facing_time < time)
 	{
 		ai_face_boss();
 		self.guardian_facing_time = time + 0.01; 
 	}
-	if((self.bosscnt == 3) && (self.health <= 20000))
+	if ((self.bosscnt == 3) && (self.health <= 20000))
 	{
 		self.nextthink = time + 0.05;
 		self.think = guardian1_weep;
 		return;
 	}
 	
-	if((self.bosscnt == 2) && (self.health <= 10000))
+	if ((self.bosscnt == 2) && (self.health <= 10000))
 	{
 		self.nextthink = time + 0.05;
 		self.think = guardian1_weep;
 		return;
 	}
 
-	if((self.bosscnt == 1) && (self.health <= 5000))
+	if ((self.bosscnt == 1) && (self.health <= 5000))
 	{
 		self.nextthink = time + 0.05;
 		self.think = guardian1_weep;
@@ -601,9 +601,9 @@ void() guardian1_float =
 	self.takedamage = DAMAGE_AIM;
 	self.solid = SOLID_BBOX;
 
-	if(custom_infront(self.enemy,self.angles, self.origin, 90))
+	if (custom_infront(self.enemy,self.angles, self.origin, 90))
 	{
-		if(self.guardian_attack_finished < time)
+		if (self.guardian_attack_finished < time)
 			self.think = guardian1_attack;
 		else
 			self.think = guardian1_float;
@@ -619,10 +619,10 @@ void() guardian1_idle =
 	self.frame = $boss1_idle;
 	self.bosscnt = 3;
 
-	if((visible(single_player)) && (self.using == 1))
+	if ((visible(single_player)) && (self.using == 1))
 		player_enemy();
 
-	if(!self.enemy)
+	if (!self.enemy)
 		self.think = guardian1_idle;
 	else
 	{
@@ -634,7 +634,7 @@ void() guardian1_idle =
 
 void()boss_path_touch =
 {
-	if(other.classname != "boss_guardian1")
+	if (other.classname != "boss_guardian1")
 		return;
 	else
 	{
@@ -666,7 +666,7 @@ void()boss1_head_die =
 {
 
 	pointparticles(particleeffectnum("boss1_head"), self.origin,'0 0 0', 1);
-	if(self.owner.bosscnt >= 2) 
+	if (self.owner.bosscnt >= 2) 
 	{
 		//void(vector org, float radius, float lifetime, vector color) te_customflash = #417;
 		te_customflash(self.origin, 512, 1,'3 2 0.15');
@@ -688,9 +688,9 @@ void()boss1_head_die =
 void() guardian_bbox_think =
 {
 
-	if(self.owner.bosspain_finished > time)
+	if (self.owner.bosspain_finished > time)
 	{
-		if(self.pflags != 129)
+		if (self.pflags != 129)
 		{
 			self.pflags =129;
 			self.light_lev = 128;
@@ -704,7 +704,7 @@ void() guardian_bbox_think =
 	}
 	else
 	{
-		if(self.pflags == 129)
+		if (self.pflags == 129)
 		{
 			self.pflags = 0;
 			self.solid = SOLID_TRIGGER;
@@ -740,7 +740,7 @@ void() boss_guardian1 =
 	self.solid = SOLID_BBOX;
 	self.yaw_speed = 2.5;
 
-	local entity bbox = spawn();
+	entity bbox = spawn();
 	bbox.owner = self;
 	bbox.movetype = MOVETYPE_FLY;
 	bbox.takedamage = 0;

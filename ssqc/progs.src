@@ -1,11 +1,11 @@
-../../progs.dat                                        // Output File
+../progs.dat                                        // Output File
 
 #define SSQC
 #define DEBUG 0
 #pragma includedir "../"
 #pragma warning disable Q208
-
-progsdefs.qc                                             // Definitions
+#pragma warning disable F314            // Implicit cast from float(entity to, float sendflags) to float()
+progsdefs.qc                            // Definitions
 dpextensions.qc
 nodegraph/definitions.qc
 ../shared.qc
@@ -30,7 +30,7 @@ editor/editor.qc
 func_readable.qc
 player/artifact.qc
 player/player.qc
-player/model.qc                                         
+player/model.qc
 player/client.qc                                           // Client subroutines
 player/use.qc
 

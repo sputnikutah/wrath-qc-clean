@@ -24,21 +24,21 @@ void() UpdateChannelsVolume =
 
 	if (time > self.smoothsound_finished)
 	{
-		if(self.soundfade ==  1)
+		if (self.soundfade ==  1)
 		{
-			if(self.pl_chan32_vol  <= 1)
+			if (self.pl_chan32_vol  <= 1)
 				self.pl_chan32_vol += 0.0833;	
-			if(self.pl_chan32_vol  >= 1)
+			if (self.pl_chan32_vol  >= 1)
 				self.soundfade = 0;
 
 			stuffcmd(self,strcat( "set snd_channel32volume ", ftos(self.pl_chan32_vol), "\n"));
 			self.smoothsound_finished =  time + 0.025;
 		}
-		if(self.soundfade ==  2)
+		if (self.soundfade ==  2)
 		{
-			if(self.pl_chan32_vol  > 0.05)
+			if (self.pl_chan32_vol  > 0.05)
 				self.pl_chan32_vol -= 0.125;	
-			if(self.pl_chan32_vol <= 0.125)
+			if (self.pl_chan32_vol <= 0.125)
 			{
 				self.pl_chan32_vol = 0;	
 				self.soundfade = 0;
@@ -49,11 +49,11 @@ void() UpdateChannelsVolume =
 		}
 
 
-		if(self.soundfade ==  3)
+		if (self.soundfade ==  3)
 		{
-			if(self.pl_chan32_vol  > 0.05)
+			if (self.pl_chan32_vol  > 0.05)
 				self.pl_chan32_vol -= 0.125;	
-			if(self.pl_chan32_vol <= 0.125)
+			if (self.pl_chan32_vol <= 0.125)
 			{
 				self.pl_chan32_vol = 0;	
 				self.soundfade = 2;
@@ -84,20 +84,20 @@ void() UpdateChannelsVolume =
 
 	if (time > self.smoothsound_finished)
 	{
-		if(self.chan8_vol  != self.chan8_smooth_vol)
+		if (self.chan8_vol  != self.chan8_smooth_vol)
 		{
-			if(self.chan8_vol  > self.chan8_smooth_vol)
+			if (self.chan8_vol  > self.chan8_smooth_vol)
 				self.chan8_smooth_vol += 0.05;	
-			if(self.chan8_vol  < self.chan8_smooth_vol)
+			if (self.chan8_vol  < self.chan8_smooth_vol)
 				self.chan8_smooth_vol -= 0.05;	
 			stuffcmd(self,strcat( "set snd_channel8volume ", ftos(self.chan8_smooth_vol), "\n"));
 			self.smoothsound_finished =  time + 0.05;
 		}
-		if(self.chan9_vol  != self.chan9_smooth_vol)
+		if (self.chan9_vol  != self.chan9_smooth_vol)
 		{
-			if(self.chan9_vol  > self.chan9_smooth_vol)
+			if (self.chan9_vol  > self.chan9_smooth_vol)
 				self.chan9_smooth_vol += 0.05;	
-			if(self.chan9_vol  < self.chan9_smooth_vol)
+			if (self.chan9_vol  < self.chan9_smooth_vol)
 				self.chan9_smooth_vol -= 0.05;	
 			stuffcmd(self,strcat( "set snd_channel9volume ", ftos(self.chan9_smooth_vol), "\n"));
 			self.smoothsound_finished =  time + 0.05;
@@ -120,7 +120,7 @@ void() play_ambient_sound =
 
 void() trigger_interior_touch =
 {
-	if(other.classname == "player")
+	if (other.classname == "player")
 		other.interior_time = time + 0.1;	
 };
 
@@ -153,7 +153,7 @@ void() soundbox_stop =
 void() soundbox_think = { 
 
 	self.using = 1;
-	local float spitch;
+	float spitch;
 	self.cnt = soundlength(self.noise);
 	if ((self.pitch) || (self.minpitch && self.maxpitch))
 	{
@@ -202,10 +202,10 @@ string testsoundnoise;
 
 void() testsound_frik =
 {
-	local float readparms;
-	local float readfrik;
+	float readparms;
+	float readfrik;
 
-	local string readtext;
+	string readtext;
 	readparms = fopen("map/test_sound.txt", FALSE);
 	readtext = fgets(readfrik);
 	testsoundrad = stof(readtext);
@@ -220,7 +220,7 @@ void() testsound_frik =
 
 void() Test_Sound =
 {
-	if(self.testsoundflag == 1)
+	if (self.testsoundflag == 1)
 		return;
 
 
@@ -236,7 +236,7 @@ void() Test_Sound =
 .float showsphere;
 void() soundbox_visible_toggle = 
 {
-		if(self.ammo_shotgun == 1)
+		if (self.ammo_shotgun == 1)
 		{
 			self.ammo_shotgun = 0;
 			self.pipes.effects = EF_NODRAW;
@@ -264,40 +264,40 @@ void() randomsoundbox_think =
 
 	float r = ceil(random(0,self.count));
 	string snoise;
-	if(r == self.jmpsound)
+	if (r == self.jmpsound)
 		r ++;
-	if(r >self.count)
+	if (r >self.count)
 		r = 1;
 
-	if( r == 1)
+	if ( r == 1)
 		snoise = self.noise1;
-	if( r == 2)
+	if ( r == 2)
 		snoise = self.noise2;
-	if( r == 3)
+	if ( r == 3)
 		snoise = self.noise3;
-	if( r == 4)
+	if ( r == 4)
 		snoise = self.noise4;
-	if( r == 5)
+	if ( r == 5)
 		snoise = self.noise5;
-	if( r == 6)
+	if ( r == 6)
 		snoise = self.noise6;
-	if( r == 7)
+	if ( r == 7)
 		snoise = self.noise7;
-	if( r == 8)
+	if ( r == 8)
 		snoise = self.noise8;
-	if( r == 9)
+	if ( r == 9)
 		snoise = self.noise9;
-	if( r == 10)
+	if ( r == 10)
 		snoise = self.noise10;
-	if( r == 11)
+	if ( r == 11)
 		snoise = self.noise11;
-	if( r == 12)
+	if ( r == 12)
 		snoise = self.noise12;
-	if( r == 13)
+	if ( r == 13)
 		snoise = self.noise13;
-	if( r == 14)
+	if ( r == 14)
 		snoise = self.noise14;
-	if( r == 15)
+	if ( r == 15)
 		snoise = self.noise15;
 
 	self.jmpsound = r;
@@ -322,40 +322,40 @@ void() randomsoundbox =
 	if (self.noise1)
 		{precache_sound(self.noise1); self.count = 1;}
 	if (self.noise2)
-		{precache_sound(self.noise2); if(self.count == 1) self.count = 2;}
+		{precache_sound(self.noise2); if (self.count == 1) self.count = 2;}
 	if (self.noise3)
-		{precache_sound(self.noise3); if(self.count == 2) self.count = 3;}
+		{precache_sound(self.noise3); if (self.count == 2) self.count = 3;}
 	if (self.noise4)
-		{precache_sound(self.noise4); if(self.count == 3) self.count = 4;}
+		{precache_sound(self.noise4); if (self.count == 3) self.count = 4;}
 	if (self.noise5)
-		{precache_sound(self.noise5); if(self.count == 4) self.count = 5;}
+		{precache_sound(self.noise5); if (self.count == 4) self.count = 5;}
 	if (self.noise6)
-		{precache_sound(self.noise6); if(self.count == 5) self.count = 6;}
+		{precache_sound(self.noise6); if (self.count == 5) self.count = 6;}
 	if (self.noise7)
-		{precache_sound(self.noise7); if(self.count == 6) self.count = 7;}
+		{precache_sound(self.noise7); if (self.count == 6) self.count = 7;}
 	if (self.noise8)
-		{precache_sound(self.noise8); if(self.count == 7) self.count = 8;}
+		{precache_sound(self.noise8); if (self.count == 7) self.count = 8;}
 	if (self.noise9)
-		{precache_sound(self.noise9); if(self.count == 8) self.count = 9;}
+		{precache_sound(self.noise9); if (self.count == 8) self.count = 9;}
 	if (self.noise10)
-		{precache_sound(self.noise10); if(self.count == 9) self.count = 10;}
+		{precache_sound(self.noise10); if (self.count == 9) self.count = 10;}
 	if (self.noise11)
-		{precache_sound(self.noise11); if(self.count == 10) self.count = 11;}
+		{precache_sound(self.noise11); if (self.count == 10) self.count = 11;}
 	if (self.noise12)
-		{precache_sound(self.noise12); if(self.count == 11) self.count = 12;}
+		{precache_sound(self.noise12); if (self.count == 11) self.count = 12;}
 	if (self.noise13)
-		{precache_sound(self.noise13); if(self.count == 12) self.count = 13;}
+		{precache_sound(self.noise13); if (self.count == 12) self.count = 13;}
 	if (self.noise14)
-		{precache_sound(self.noise14); if(self.count == 13) self.count = 14;}
+		{precache_sound(self.noise14); if (self.count == 13) self.count = 14;}
 	if (self.noise15)
-		{precache_sound(self.noise15); if(self.count == 14) self.count = 15;}
-	local float attn;
+		{precache_sound(self.noise15); if (self.count == 14) self.count = 15;}
+	float attn;
 	if (!self.volume)
 		self.volume = 1;
 	if (!self.rad_sound)
 		self.rad_sound = 512;
 
-   if(!(self.rad_sound_inner))
+   if (!(self.rad_sound_inner))
     {
         self.rad_sound_inner = 0;
         self.trapezoid_sound = 0;
@@ -383,7 +383,7 @@ void() randomsoundbox =
 		visible_sound.alpha = 0.25;
 		visible_sound.effects = EF_NODRAW;
 	
-		if(self.rad_sound >= 1024)
+		if (self.rad_sound >= 1024)
 		{
 			setmodel(visible_sound,"models/dev/spherebig.md3");
 			visible_sound.scale = self.rad_sound  / 192;
@@ -414,13 +414,13 @@ void() randomsoundbox =
 		setmodel(sself, "models/dev/collisionbox.md3");
 		setsize (sself,'-8 -8 -8','8 8 8');
 
-		if(self.rad_sound_inner > 0)
+		if (self.rad_sound_inner > 0)
 		{
 			entity visible_innersound = spawn();
 			visible_innersound.origin = self.origin;
 			visible_innersound.alpha = 0.25;
 			visible_innersound.effects = EF_NODRAW;
-			if(self.rad_sound_inner >= 1024)
+			if (self.rad_sound_inner >= 1024)
 			{
 				setmodel(visible_innersound,"models/dev/spherebig.md3");
 				visible_innersound.scale = self.rad_sound_inner  / 192;
@@ -443,7 +443,7 @@ void() randomsoundbox =
 			visible_sound2.origin = self.origin;
 			visible_sound2.alpha = 0.075;
 			visible_sound2.effects = EF_NODRAW; //
-			if(self.rad_sound >= 1024)
+			if (self.rad_sound >= 1024)
 				setmodel(visible_sound2,"models/dev/spherebig.md3");
 			else
 				setmodel(visible_sound2,"models/dev/sphere.md3");
@@ -459,7 +459,7 @@ void() randomsoundbox =
 void() soundbox = 
 {
 
-	if(world.model == "maps/testsound.bsp")
+	if (world.model == "maps/testsound.bsp")
 		testsound_frik();
 	if (self.noise)
 		precache_sound(self.noise);
@@ -515,12 +515,12 @@ void() soundbox =
 	}
 
 
-	local float attn;
+	float attn;
 	if (!self.volume)
 		self.volume = 1;
 	if (!self.rad_sound)
 		self.rad_sound = 512;
-	if(world.model == "maps/testsound.bsp")
+	if (world.model == "maps/testsound.bsp")
 	{
 		self.rad_sound = testsoundrad;
 		self.volume = testsoundvolume;
@@ -530,7 +530,7 @@ void() soundbox =
 		self.delay = -0.1;
 	}
 	
- 	if(!(self.rad_sound_inner))
+ 	if (!(self.rad_sound_inner))
     {
         self.rad_sound_inner = 0;
         self.trapezoid_sound = 0;
@@ -568,7 +568,7 @@ void() soundbox =
 		else
 			visible_sound.effects = 512 + EF_ADDITIVE +  EF_DOUBLESIDED;
 	
-		if(self.rad_sound >= 1024)
+		if (self.rad_sound >= 1024)
 		{
 			setmodel(visible_sound,"models/dev/spherebig.md3");
 			visible_sound.scale = self.rad_sound  / 192;
@@ -593,13 +593,13 @@ void() soundbox =
 		setmodel(speaker_icon, "particles/impact/impact_oppressor6.md3");
 		speaker_icon.scale = 0.7;
 
-		if(self.rad_sound_inner > 0)
+		if (self.rad_sound_inner > 0)
 		{
 			entity visible_innersound = spawn();
 			visible_innersound.origin = self.origin;
 			visible_innersound.alpha = 0.25;
 			visible_innersound.effects = EF_NODRAW;
-			if(self.rad_sound_inner >= 1024)
+			if (self.rad_sound_inner >= 1024)
 			{
 				setmodel(visible_innersound,"models/dev/spherebig.md3");
 				visible_innersound.scale = self.rad_sound_inner  / 192;
@@ -633,7 +633,7 @@ void() soundbox =
 			visible_sound2.origin = self.origin;
 			visible_sound2.alpha = 0.075;
 			visible_sound2.effects = EF_NODRAW; //
-			if(self.rad_sound >= 1024)
+			if (self.rad_sound >= 1024)
 				setmodel(visible_sound2,"models/dev/spherebig.md3");
 			else
 				setmodel(visible_sound2,"models/dev/sphere.md3");
@@ -645,7 +645,7 @@ void() soundbox =
 
 	if ((self.targetname) && (!self.using))
 	{
-		if(self.wait)
+		if (self.wait)
 			self.use = soundbox_think_wait;
 		else
 			self.use = soundbox_think;
@@ -664,24 +664,24 @@ void() soundbox =
 		else
 			{
 	
-				if(world.model == "maps/testsound.bsp")
+				if (world.model == "maps/testsound.bsp")
 					return;
-				if(((self.interior == 1) || (self.interior == -1)) || (self.sound7flags > 0))
+				if (((self.interior == 1) || (self.interior == -1)) || (self.sound7flags > 0))
 				{
 					self.using = 2;
 
-					if((self.interior == 1) || (self.interior == -1))		
+					if ((self.interior == 1) || (self.interior == -1))		
 					{
-						if(self.interior == 1)
+						if (self.interior == 1)
 						self.channel = 8;
-						if(self.interior == -1)
+						if (self.interior == -1)
 						self.channel = 9;
 						//self.nextthink = time + 1;
 					}
 					else 
 					{
 						self.channel = CHAN_AUTO;
-						if((self.spawnflags & 34) == 34)
+						if ((self.spawnflags & 34) == 34)
 						{
 							//self.think = play_ambient_sound;
 							//self.nextthink = time + 3 + random();
@@ -733,7 +733,7 @@ void soundbox_initializeambients(void)
 .float msound_cnt6;
 void(entity e, float chan, string samp, float vol, float attenn) msound =
 {
-	if(attenn <= 0)
+	if (attenn <= 0)
 	{
 		sound(e, chan, samp, vol, attenn);
 		return;
@@ -746,7 +746,7 @@ void(entity e, float chan, string samp, float vol, float attenn) msound =
 };
 void(entity e, float chan, string samp, float vol, float attenn,float spitch,float sflags) msound7 =
 {
-	if(attenn <= 0)
+	if (attenn <= 0)
 	{
 		sound7(e, chan, samp, vol, attenn, spitch,0);
 		return;
@@ -761,9 +761,9 @@ void(entity e, float chan, string samp, float vol, float attenn,float spitch,flo
 
 void(string locsound) painsound =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * FL_SWIM)) + TRUE;
 	if ((r == self.painsnd))
@@ -771,7 +771,7 @@ void(string locsound) painsound =
 		r = r + 1;
 	}
 
-	if(self.classname == "monster_symbol")
+	if (self.classname == "monster_symbol")
 	{
 		if (r > 5)
 			r = 1;		
@@ -790,9 +790,9 @@ void(string locsound) painsound =
 
 void(string locsound) attacksound =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	if ((self.attacksoundtime > time))
 	{
@@ -815,9 +815,9 @@ void(string locsound) attacksound =
 
 void(string locsound) attacksound2 =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * FL_SWIM)) + TRUE;
 	if ((r == self.attacksnd2))
@@ -836,9 +836,9 @@ void(string locsound) attacksound2 =
 
 void(string locsound, float rnd) walksound =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.chattersnd))
@@ -864,9 +864,9 @@ void(string locsound, float rnd) walksound =
 
 void(string locsound, float rnd) bosswalksound =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.chattersnd))
@@ -887,9 +887,9 @@ void(string locsound, float rnd) bosswalksound =
 };
 void(string locsound, float rnd, float vol) chattersound2 =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	if ((self.chatter_time > time))
 	{
@@ -932,9 +932,9 @@ void(string locsound, float rnd, float vol) chattersound2 =
 
 void(string locsound, float rnd, float vol) chattersound =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.chattersnd))
@@ -960,9 +960,9 @@ void(string locsound, float rnd, float vol) chattersound =
 
 void(string locsound, float rnd, float vol) randomsound =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.msound_cnt1))
@@ -981,9 +981,9 @@ void(string locsound, float rnd, float vol) randomsound =
 
 void(string locsound, float rnd, float vol,float pitch) randomsound7 =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.msound_cnt1))
@@ -1004,9 +1004,9 @@ void(string locsound, float rnd, float vol,float pitch) randomsound7 =
 .float rdmsound_cnt1;
 void(vector org, string locsound, float rnd, float vol) randompointsound =
 {
-	local float r;
-	local string samplesound;
-	local string rsound;
+	float r;
+	string samplesound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.rdmsound_cnt1))
@@ -1024,9 +1024,9 @@ void(vector org, string locsound, float rnd, float vol) randompointsound =
 };
 void(vector org,string locsound, float rnd, float vol, float sspeed) randompointsound7 =
 {
-	local float r;
-	local string samplesound;
-	local string rsound;
+	float r;
+	string samplesound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.rdmsound_cnt1))
@@ -1051,10 +1051,10 @@ void(vector org,string locsound, float rnd, float vol, float sspeed) randompoint
 
 void(string locsound, float rnd, float vol, float nchannel, float iswav, float atten) randomsound2 =
 {
-	local float r;
-	local string soundend;
-	local string lsound;
-	local string rsound;
+	float r;
+	string soundend;
+	string lsound;
+	string rsound;
 
 	if (iswav)
 	{
@@ -1081,9 +1081,9 @@ void(string locsound, float rnd, float vol, float nchannel, float iswav, float a
 
 void(string locsound, float vol, float nchannel, float iswav, float atten) alreadyrandomsound2 =
 {
-	local string soundend;
-	local string lsound;
-	local string rsound;
+	string soundend;
+	string lsound;
+	string rsound;
 
 	if (iswav)
 	{
@@ -1101,9 +1101,9 @@ void(string locsound, float vol, float nchannel, float iswav, float atten) alrea
 
 void(string locsound, float rnd, float nchannel, float volume) monstersounda =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + 1;
 	if ((r == self.msound_cnt1))
@@ -1118,9 +1118,9 @@ void(string locsound, float rnd, float nchannel, float volume) monstersounda =
 
 void(string locsound, float rnd, float nchannel) monstersound1 =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.msound_cnt1))
@@ -1146,9 +1146,9 @@ void(string locsound, float rnd, float nchannel) monstersound1 =
 
 void(string locsound, float rnd, float nchannel) monstersound2 =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.msound_cnt2))
@@ -1167,9 +1167,9 @@ void(string locsound, float rnd, float nchannel) monstersound2 =
 
 void(string locsound, float rnd, float nchannel) monstersound3 =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.msound_cnt3))
@@ -1188,9 +1188,9 @@ void(string locsound, float rnd, float nchannel) monstersound3 =
 
 void(string locsound, float rnd, float nchannel) monstersound4 =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.msound_cnt4))
@@ -1209,9 +1209,9 @@ void(string locsound, float rnd, float nchannel) monstersound4 =
 
 void(string locsound, float rnd, float nchannel) monstersound5 =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.msound_cnt5))
@@ -1230,9 +1230,9 @@ void(string locsound, float rnd, float nchannel) monstersound5 =
 
 void(string locsound, float rnd, float nchannel) monstersound6 =
 {
-	local float r;
-	local string monstersound;
-	local string rsound;
+	float r;
+	string monstersound;
+	string rsound;
 
 	r = floor((random() * rnd)) + TRUE;
 	if ((r == self.msound_cnt6))
@@ -1263,7 +1263,7 @@ void(string locsound, float rnd) weapon_sound =
 	string weapon_sound = strcat(locsound, rsound, ".ogg");
 	float current_sound_time = time + soundlength(weapon_sound);
 	self.sound_time = current_sound_time;
-	if(self.sound_time > time)
+	if (self.sound_time > time)
 	{
 		msound(self, CHAN_AUTO, weapon_sound, TRUE, 0.25);
 	//	self.sound_time = 0;

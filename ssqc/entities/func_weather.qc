@@ -6,12 +6,12 @@
 void() lightning_think;
 float(entity targ) visibleworld = 
 {
-	local vector spot1, spot2;
-	if(!targ)
+	vector spot1, spot2;
+	if (!targ)
 		return FALSE;
 	spot1 = self.origin;
 
-	if(checkpvs(spot1, targ) != 1)
+	if (checkpvs(spot1, targ) != 1)
 		return FALSE;
 
 	spot2 = targ.origin + targ.view_ofs;
@@ -72,7 +72,7 @@ void() pspawner_think = {
 };
 
 
-void(entity powner) spawn_particle_emitter = { local entity pspawner;
+void(entity powner) spawn_particle_emitter = { entity pspawner;
 	pspawner = spawn();
 	pspawner.classname = "particlespawner"; 
 	pspawner.owner = powner;
@@ -99,7 +99,7 @@ void() func_particles_think =
 		spawn_particle_emitter(self);
 		self.count -= 1;
 	}
-	//if(!self.targetname)
+	//if (!self.targetname)
 	//	remove(self);
 };
 
@@ -114,16 +114,16 @@ void() func_particles = { if (!self.using)
 	setmodel(self, self.model);
 	if (!self.density)
 		self.density = 1;
-	if(!self.count)
+	if (!self.count)
 	self.count = ((self.absmax_x - self.absmin_x) *(self.absmax_y - self.absmin_y) / 4096) *self.density;
 	self.oldcount = self.count;
 
-	if(self.count < 1)
+	if (self.count < 1)
 		self.count = 1;
 
 	self.use = toggle_use;
 
-	if(!self.clipdist)
+	if (!self.clipdist)
 		self.clipdist = 1024;
 
 		self.model = "";		
@@ -149,10 +149,10 @@ void() pspawner_think2 = {
 			sound7(self, CHAN_VOICE, self.noise, self.volume, self.atten, spitch, 0);
 		}
 
-		if(self.cnt >= 1)
+		if (self.cnt >= 1)
 		{
 			self.cnt --;
-			if(self.cnt == 1)
+			if (self.cnt == 1)
 			{
 				self.nextthink = time;
 				self.think = SUB_Remove;
@@ -167,7 +167,7 @@ void() pspawner_think2 = {
 			}
 		}
 		
-		if(self.wait != -1)
+		if (self.wait != -1)
 		{
 			self.lifetime = time + (self.delay * random()) + self.wait;
 			self.think = pspawner_think2;
@@ -201,12 +201,12 @@ void() info_particles = { if (!self.using)
 	setmodel(self, "models/misc/null.md3");
 	
 
-	if(!self.clipdist)
+	if (!self.clipdist)
 		self.clipdist = 2048;
 
-	if(self.noise)
+	if (self.noise)
 	{
-		local float attn;
+		float attn;
 		if (!self.volume)
 			self.volume = 1;
 		if (!self.rad_sound)
@@ -218,14 +218,14 @@ void() info_particles = { if (!self.using)
 			attn = 0;
 		if (self.minpitch <= 0)
 			self.minpitch = 0.1;
-		if(self.maxpitch < self.minpitch) 
+		if (self.maxpitch < self.minpitch) 
 			self.maxpitch = self.minpitch * 2;
 			
 		self.atten = attn;
 	}
 	
 
-	if(self.cnt >= 1)
+	if (self.cnt >= 1)
 	{
 		if (self.targetname)
 			self.use = pspawner_use;
@@ -238,7 +238,7 @@ void() info_particles = { if (!self.using)
 		return;
 	}
 
-	if((self.wait == -1) )
+	if ((self.wait == -1) )
 	{
 		if (self.targetname)
 			self.use = pspawner_use;
@@ -268,11 +268,11 @@ void() point_particles = { if (!self.using)
 		self.particlename = "lavapoint";
 	setmodel(self, "models/misc/null.md3");
 	self.use = toggle_use;
-	if(!self.clipdist)
+	if (!self.clipdist)
 		self.clipdist = 2048;
-	if(self.noise)
+	if (self.noise)
 	{
-		local float attn;
+		float attn;
 		if (!self.volume)
 			self.volume = 1;
 		if (!self.rad_sound)
@@ -284,13 +284,13 @@ void() point_particles = { if (!self.using)
 			attn = 0;
 		if (self.minpitch <= 0)
 			self.minpitch = 0.1;
-		if(self.maxpitch < self.minpitch) 
+		if (self.maxpitch < self.minpitch) 
 			self.maxpitch = self.minpitch * 2;
 			
 		self.atten = attn;
 	}
 	
-	if((self.wait == -1) )
+	if ((self.wait == -1) )
 	{
 		if (self.targetname)
 		self.use = pspawner_think2;
@@ -313,8 +313,8 @@ void() lightninwait = { if (self.style == 12)
 	self.nextthink = time + self.delay + self.wait* random();
 };
 
-void() lightning_think = { local float rn, rls;
-	local string tnoise;
+void() lightning_think = { float rn, rls;
+	string tnoise;
 	rls = random();
 	if (rls < 0.33333)
 		tnoise = self.noise;
@@ -392,9 +392,9 @@ void() misc_lightning = { if (!self.style)
 void() lightningt_think =
 {
 
-	if(self.cnt)
+	if (self.cnt)
 	{
-		if(self.cnt == 1)
+		if (self.cnt == 1)
 		{
 			lightstyle(0, "prsmzoprsmnspwrsprqnsnqn");
 			self.nextthink = time + 1;
@@ -420,11 +420,11 @@ void() trigger_lightning_touch =
 {	
 	if (other.classname != "player")
 	return;
-	if(self.using == 0)
+	if (self.using == 0)
 	return;
 	if ((self.lightning_time < time) && (other.lightning_time < time))
 	{	
-		if(self.wait != -1)
+		if (self.wait != -1)
 		self.lightning_time = time + self.wait + (self.delay * random());
 		else
 		self.using = 0;
@@ -458,9 +458,9 @@ void() trigger_lightning =
 	precache_sound (self.noise2);
 	precache_sound (self.noise3);
 
-	if(!self.delay)
+	if (!self.delay)
 	self.delay = 10;
-	if(!self.wait)
+	if (!self.wait)
 	self.wait = 10;
 
 	self.solid = SOLID_TRIGGER;
@@ -468,7 +468,7 @@ void() trigger_lightning =
 	self.modelindex = 0;
 	self.model = string_null;
 	self.touch = trigger_lightning_touch;
-	if(!self.using)
+	if (!self.using)
 	self.using = 1;
 	self.use = toggle_use;
 };
@@ -482,17 +482,17 @@ void() fogmodel_think =
 	if (!self.cnt)
 	{
 	self.falpha += 0.005 / self.owner.fade_control;
-	if(self.falpha >= 1)
+	if (self.falpha >= 1)
 	self.cnt = 1;
 	}
 	else
 	{
 	self.falpha -= 0.005 / self.owner.fade_control;
-	if(self.falpha <= 0)
+	if (self.falpha <= 0)
 	remove(self);
 	}
 
-if(self.frame == 31)
+if (self.frame == 31)
 	self.frame =0;
 self.frame ++;
 
@@ -506,16 +506,16 @@ self.alpha = self.falpha * 0.25;
 self.think = fogmodel_think;
 self.nextthink = time + 0.025;
 /*
-if(self.origin_x > self.owner.absmax_x)
+if (self.origin_x > self.owner.absmax_x)
 {remove(self);}
 
-if(self.origin_x < self.owner.absmin_x)
+if (self.origin_x < self.owner.absmin_x)
 {remove(self);}
 
-if(self.origin_y > self.owner.absmax_y)
+if (self.origin_y > self.owner.absmax_y)
 {remove(self);}
 
-if(self.origin_y < self.owner.absmin_y)
+if (self.origin_y < self.owner.absmin_y)
 {remove(self);}
 */
 };
@@ -523,7 +523,7 @@ if(self.origin_y < self.owner.absmin_y)
 .float maxv_z;
 void(entity powner) spawnfogemitter =
 {
-	local entity fogmodel;
+	entity fogmodel;
 	fogmodel = spawn ();
 	fogmodel.owner = powner;
 	fogmodel.origin_x = self.absmin_x + (random() *powner.size_x);
@@ -586,14 +586,14 @@ void()func_fog =
 	setmodel(self, self.model);
 //	if (!self.density)
 //	self.density = 1;
-	if(!self.minv_z)
+	if (!self.minv_z)
 	self.minv_z = 15;
-	if(!self.maxv_z)
+	if (!self.maxv_z)
 	self.maxv_z = 30;
 
-	if(!self.fade_control)
+	if (!self.fade_control)
 	self.fade_control = 1;
-	if(!self.count)
+	if (!self.count)
 	self.count = 1; //((self.absmax_x - self.absmin_x)*(self.absmax_y - self.absmin_y)/8192) *self.density *0.5;
 	self.oldcount = self.density;
 	self.solid = SOLID_TRIGGER;
@@ -610,7 +610,7 @@ void()func_fog =
 
 float (float value) fix_alpha =
 {
-	if(value == 0)
+	if (value == 0)
 		return = -1;
 	else
 		return value;
@@ -620,12 +620,12 @@ void() spawned_model_alphafade =
 {
 	move_gibs();
 
-	if(self.startnonsolid == 1)
+	if (self.startnonsolid == 1)
 	{
 		self.movetype = MOVETYPE_BOUNCE;
 		self.startnonsolid = 0;
 	}
-	if(self.lifetime < time )
+	if (self.lifetime < time )
 	{
 		/*
 		if (self.falpha < self.owner.valpha_x)
@@ -680,7 +680,7 @@ void()spawned_model_alphafadein =
 
 void(entity powner) spawn_model_emitter =
 {
-	local entity spawned_model;
+	entity spawned_model;
 	spawned_model = spawn ();
 	spawned_model.classname = "spawned_model";
 	spawned_model.owner = powner;
@@ -690,7 +690,7 @@ void(entity powner) spawn_model_emitter =
 	
 	spawned_model.origin += spawned_model.owner.originoffset;
 	
-	if(spawned_model.owner.model_ammount > 1)
+	if (spawned_model.owner.model_ammount > 1)
 	{
 		float r = random() * spawned_model.owner.model_ammount;
 		if (r >= 7)
@@ -713,14 +713,14 @@ void(entity powner) spawn_model_emitter =
 	else
 		setmodel (spawned_model, spawned_model.owner.model1);
 	
-	if(spawned_model.owner.ammo_shotgun == 40)
+	if (spawned_model.owner.ammo_shotgun == 40)
 		setmodel (spawned_model,"");
 	spawned_model.movetype = powner.particle_movetype;
-	if(spawned_model.owner.startnonsolid == 1)
+	if (spawned_model.owner.startnonsolid == 1)
 		spawned_model.movetype = MOVETYPE_NOCLIP;
 
 	spawned_model.modelflags = spawned_model.owner.particle_modelflags;
-	if((spawned_model.owner.particlename) &&(spawned_model.owner.ammo_shotgun != 40))
+	if ((spawned_model.owner.particlename) &&(spawned_model.owner.ammo_shotgun != 40))
 		spawned_model.traileffectnum = particleeffectnum (spawned_model.owner.particlename);	
 	spawned_model.gravity = spawned_model.owner.gravity;
 	spawned_model.colormod = spawned_model.owner.colormod;
@@ -737,12 +737,12 @@ void(entity powner) spawn_model_emitter =
 	spawned_model.avelocity_z += spawned_model.owner.avelocityjitter_z * crandom();
 	spawned_model.originalvelocity = spawned_model.velocity;
 
-	if(spawned_model.owner.max_size)
+	if (spawned_model.owner.max_size)
 		spawned_model.scale = random(spawned_model.owner.min_size, spawned_model.owner.max_size);
 	else
 		spawned_model.scale = spawned_model.owner.min_size;
 
-	if(spawned_model.owner.max_time)
+	if (spawned_model.owner.max_time)
 		spawned_model.lifetime = random(spawned_model.owner.min_time, spawned_model.owner.max_time);
 	else
 		spawned_model.lifetime = spawned_model.owner.min_time;
@@ -752,7 +752,7 @@ void(entity powner) spawn_model_emitter =
 	//spawned_model.bouncestop = 1;
 	float localalpha = fix_alpha(spawned_model.falpha);
 	spawned_model.alpha = localalpha;
-	if(spawned_model.owner.valphain_x)
+	if (spawned_model.owner.valphain_x)
 	{
 		spawned_model.falpha = spawned_model.owner.valphain_x;
 		localalpha = fix_alpha(spawned_model.falpha);
@@ -764,7 +764,7 @@ void(entity powner) spawn_model_emitter =
 	{
 		spawned_model.lifetime += time;
 		spawned_model.think = spawned_model_alphafade;
-		if(spawned_model.owner.startnonsolid == 1)
+		if (spawned_model.owner.startnonsolid == 1)
 		{
 			float extratime = 0.3;
 			spawned_model.startnonsolid = spawned_model.owner.startnonsolid;
@@ -777,7 +777,7 @@ void(entity powner) spawn_model_emitter =
 	}
 
 
-	if((spawned_model.owner.particlename)&&(spawned_model.owner.ammo_shotgun == 40 ))
+	if ((spawned_model.owner.particlename)&&(spawned_model.owner.ammo_shotgun == 40 ))
 	{
 		spawned_model.effects = EF_NODRAW;
 		pointparticles(particleeffectnum(spawned_model.owner.particlename),spawned_model.origin, spawned_model.velocity, 1);
@@ -791,7 +791,7 @@ void()model_emitter_think =
 {
 	float localcount = self.count;
 
-	if((self.model1 == "particles/oppressor/oppressor_fire1_1.md3") && (self.speed >= 64))
+	if ((self.model1 == "particles/oppressor/oppressor_fire1_1.md3") && (self.speed >= 64))
 	{
 		self.count = 1;
 		self.ammo_shotgun = 40;
@@ -819,7 +819,7 @@ void()model_emitter_think =
 	}
 	self.nextthink = time + self.delay;
 
-	if(self.loop > 0)
+	if (self.loop > 0)
 		self.think = model_emitter_think;
 	else
 		self.think = SUB_Remove;
@@ -835,20 +835,20 @@ void() model_emitter_use =
 	}
 	else
 	{
-		if(self.rcount >= 1)
+		if (self.rcount >= 1)
 		{
 			float r = ceil(random(0,self.rcount));
 			string snoise;
-			if(r == self.jmpsound)
+			if (r == self.jmpsound)
 				r ++;
-			if(r >self.count)
+			if (r >self.count)
 				r = 1;
 
-			if( r == 1)
+			if ( r == 1)
 				snoise = self.noise1;
-			if( r == 2)
+			if ( r == 2)
 				snoise = self.noise2;
-			if( r == 3)
+			if ( r == 3)
 				snoise = self.noise3;
 
 			self.jmpsound = r;
@@ -868,63 +868,63 @@ void() model_emitter =
 	if (self.noise1)
 		{precache_sound(self.noise1); self.rcount = 1;}
 	if (self.noise2)
-		{precache_sound(self.noise2); if(self.rcount == 1) self.rcount = 2;}
+		{precache_sound(self.noise2); if (self.rcount == 1) self.rcount = 2;}
 	if (self.noise3)
-		{precache_sound(self.noise3); if(self.rcount == 2) self.rcount = 3;}
+		{precache_sound(self.noise3); if (self.rcount == 2) self.rcount = 3;}
 
 
 	setmodel(self,"models/misc/null.md3");
-	if(!self.valpha)
+	if (!self.valpha)
 		self.valpha = '0 1 1';
-	if(!self.gravity)
+	if (!self.gravity)
 		self.gravity = -0.1;
-	if(!self.count)
+	if (!self.count)
 		self.count = 1;	
-	if(!self.min_time)
+	if (!self.min_time)
 		self.min_time = 0.1;
-	if(!self.max_time)
+	if (!self.max_time)
 		self.max_time = self.min_time;
-	if(!self.min_size)
+	if (!self.min_size)
 		self.min_size = 1;
-	if(!self.loop)
+	if (!self.loop)
 		self.loop = 1;
-	if(!self.clipdist)
+	if (!self.clipdist)
 		self.clipdist =  512;
-	if(!self.max_size)
+	if (!self.max_size)
 		self.max_size = self.min_size ;
-	if(!self.delay)
+	if (!self.delay)
 		self.delay = 0.5;
-	if(!self.bouncefactor)
+	if (!self.bouncefactor)
 		self.bouncefactor = 0.3;
-	if(!self.model1)
+	if (!self.model1)
 		self.model1 = "models/misc/null.md3";
 	self.movetype = 0;	
-	if(!self.particle_movetype)
+	if (!self.particle_movetype)
 		self.particle_movetype =MOVETYPE_NOCLIP;
-	if(self.model1)
+	if (self.model1)
 		self.model_ammount = 1;
 	self.alpha = 0.25;	
 	//self.origin += ' 0 0 0';
 	precache_model(self.model1);	
-	if((self.model2) && (self.model_ammount == 1))
+	if ((self.model2) && (self.model_ammount == 1))
 		{self.model_ammount = 2; precache_model(self.model2);}	
-	if((self.model3) && (self.model_ammount == 2))
+	if ((self.model3) && (self.model_ammount == 2))
 		{self.model_ammount = 3; precache_model(self.model3);}
-	if((self.model4) && (self.model_ammount == 3))
+	if ((self.model4) && (self.model_ammount == 3))
 		{self.model_ammount = 4; precache_model(self.model4);}
-	if((self.model5) && (self.model_ammount == 4))
+	if ((self.model5) && (self.model_ammount == 4))
 		{self.model_ammount = 5; precache_model(self.model5);}
-	if((self.model6) && (self.model_ammount == 5))
+	if ((self.model6) && (self.model_ammount == 5))
 		{self.model_ammount = 6; precache_model(self.model6);}
-	if((self.model7) && (self.model_ammount == 6))
+	if ((self.model7) && (self.model_ammount == 6))
 		{self.model_ammount = 7; precache_model(self.model7);}
-	if((self.model8) && (self.model_ammount == 7))
+	if ((self.model8) && (self.model_ammount == 7))
 		{self.model_ammount = 8; precache_model(self.model8);}
-	if(!self.using)
+	if (!self.using)
 		self.using = 1;
-	if(!self.speed)
+	if (!self.speed)
 		self.speed = 16;
-	if(!self.targetname)
+	if (!self.targetname)
 	{	
 		self.use = toggle_use;
 		self.think = model_emitter_think;
@@ -934,7 +934,7 @@ void() model_emitter =
 	{	
 		self.use = model_emitter_use;
 	}
-	if((self.spawnflags & 1) || (self.using == 1))
+	if ((self.spawnflags & 1) || (self.using == 1))
 	{
 		self.think = model_emitter_think;
 		self.nextthink = time;	
@@ -961,7 +961,7 @@ float timing_fog;
 
 float(float a, float b) always_pos_substract =
 {
-local float result;
+float result;
 result = max(a, b) - min (a, b);
 return result;
 };
@@ -973,13 +973,13 @@ void() trigger_fog_think =
 {
 	self.count ++;
 	stuffcmd (single_player,"get_fog\n");
-	if(self.count >= self.cnt)
+	if (self.count >= self.cnt)
 	{
 		self.wait = self.oldwait;
 		self.nextthink = time + 0.025;
 		self.touch = self.oldtouch;
 		self.think = SUB_Null;	
-		if(self.classname == "fog_restorer")
+		if (self.classname == "fog_restorer")
 			remove(self);		
 		return;
 	} 
@@ -1005,7 +1005,7 @@ void() trigger_fog_think =
 		
 		self.think = trigger_fog_think;
 
-	//local string lmessage;
+	//string lmessage;
 	//lmessage =strcat ((strfog),("\n")) ;
 	//bprint (lmessage);
 	}
@@ -1033,13 +1033,13 @@ void() trigger_fog_prethink =
 	self.tmp_fog_f = stof(cvar_string ("_fog_f"));
 
 
-	local string lmessage;
+//	string lmessage;
 //	lmessage =strcat ((ftos(self.tmp_fog_g)),("\n")) ;
 //	bprint (lmessage);
 
 	self.cnt = self.wait / 0.025; 
 
-	if(self.ammo_shells == 1)
+	if (self.ammo_shells == 1)
 	{
 		self.cnt = 20; 
 		self.ammo_shells = 10; 
@@ -1076,9 +1076,9 @@ void() trigger_fog_touch =
 {
 	if (other.classname != "player")
 		return;
-	if(other.fogtrigger == self)
+	if (other.fogtrigger == self)
 		return;
-	if(timing_fog > time)
+	if (timing_fog > time)
 		return;
 	other.fogtrigger = self;	
 	self.enemy = other;
@@ -1086,7 +1086,7 @@ void() trigger_fog_touch =
 	//stuffcmd (self.enemy,"impulse 99\n");
 	self.touch = SUB_Null;
 
-	local string lmessage;
+//	string lmessage;
 //	lmessage =strcat (("first step"),("\n")) ;
 //	bprint (lmessage);
 
@@ -1125,7 +1125,7 @@ void() trigger_autofog_use =
 
 void() trigger_fog_use =
 {
-	if((single_player.fogtrigger != self))
+	if ((single_player.fogtrigger != self))
 	{	
 
 		if (self.classname != "fog_restorer")
@@ -1158,15 +1158,15 @@ void() trigger_fog =
 {	
 	setmodel(self, self.model);
 	self.solid = SOLID_TRIGGER;
-	if(!self.wait)
+	if (!self.wait)
 		self.wait = 1;
-	if(!self.nfoga)
+	if (!self.nfoga)
 		self.nfoga = 1;
-	if(!self.nfoge)
+	if (!self.nfoge)
 		self.nfoge = 16384;
-	if(!self.nfogh)
+	if (!self.nfogh)
 		self.nfogh = 1073741824;
-	if(!self.nfogf)
+	if (!self.nfogf)
 		self.nfogf = 128;
 
 
@@ -1200,7 +1200,7 @@ void() relocate_particle =
 	self.effects = EF_LOWPRECISION;
 
 
-	if(self.owner.model_ammount > 1)
+	if (self.owner.model_ammount > 1)
 	{
 		float r = random() * self.owner.model_ammount;
 		if (r >= 7)
@@ -1239,7 +1239,7 @@ void() relocate_particle =
 	self.velocity_y += self.owner.velocityjitter_y * crandom();
 	self.velocity_z += self.owner.velocityjitter_z * crandom();
 	
-	if(self.owner.max_size)
+	if (self.owner.max_size)
 		self.scale = random(self.owner.min_size, self.owner.max_size);
 	else
 		self.scale = self.owner.min_size;
@@ -1261,7 +1261,7 @@ void() restart_particle =
 
 void(entity powner) spawn_model_emitter2 =
 {
-	local entity spawned_model;
+	entity spawned_model;
 	spawned_model = spawn ();
 	spawned_model.owner = powner;
 	spawned_model.origin_x = spawned_model.owner.origin_x + (crandom() *spawned_model.owner.originjitter_x);
@@ -1270,7 +1270,7 @@ void(entity powner) spawn_model_emitter2 =
 	
 	spawned_model.origin += spawned_model.owner.originoffset;
 	//spawned_model.drawonlytoclient = single_player;
-	if(spawned_model.owner.model_ammount > 1)
+	if (spawned_model.owner.model_ammount > 1)
 	{
 		float r = random() * spawned_model.owner.model_ammount;
 		if (r >= 7)
@@ -1299,7 +1299,7 @@ void(entity powner) spawn_model_emitter2 =
 	spawned_model.movetype = powner.particle_movetype;
 	//spawned_model.effects = EF_LOWPRECISION;	
 	spawned_model.modelflags = spawned_model.owner.particle_modelflags;
-	if(spawned_model.owner.particlename)
+	if (spawned_model.owner.particlename)
 	spawned_model.traileffectnum = particleeffectnum (spawned_model.owner.particlename);	
 	spawned_model.gravity = spawned_model.owner.gravity;
 	
@@ -1308,7 +1308,7 @@ void(entity powner) spawn_model_emitter2 =
 	spawned_model.velocity_y += spawned_model.owner.velocityjitter_y * crandom();
 	spawned_model.velocity_z += spawned_model.owner.velocityjitter_z * crandom();
 	
-	if(spawned_model.owner.max_size)
+	if (spawned_model.owner.max_size)
 		spawned_model.scale = random(spawned_model.owner.min_size, spawned_model.owner.max_size);
 	else
 		spawned_model.scale = spawned_model.owner.min_size;
@@ -1333,7 +1333,7 @@ void()model_emitter_think2 =
 		}
 	}
 		
-	if((self.target) && (self.movetype != MOVETYPE_FOLLOW))
+	if ((self.target) && (self.movetype != MOVETYPE_FOLLOW))
 	{
 		self.owner = find(world,targetname, self.target);	
 		self.origin = self.owner.origin;
@@ -1343,7 +1343,7 @@ void()model_emitter_think2 =
 	}
 
 
-	if(self.cnt > 0)
+	if (self.cnt > 0)
 	{
 		if (self.using == 1)
 			self.cnt --;
@@ -1352,7 +1352,7 @@ void()model_emitter_think2 =
 	}	
 	else
 	{	
-		if(self.movetype == MOVETYPE_FOLLOW)
+		if (self.movetype == MOVETYPE_FOLLOW)
 		{
 			self.think = model_emitter_think2;
 		}
@@ -1366,41 +1366,41 @@ void()model_emitter_think2 =
 void() model_emitter2 =
 {
 	setmodel(self,"models/misc/null.md3");
-	if(!self.gravity)
+	if (!self.gravity)
 		self.gravity = -0.1;
-	if(!self.count)
+	if (!self.count)
 		self.count = 1;	
-	if(!self.lifetime)
+	if (!self.lifetime)
 		self.lifetime = 0.1;
-	if(!self.delay)
+	if (!self.delay)
 		self.delay = 0.5;
-	if(!self.model1)
+	if (!self.model1)
 		self.model1 = "models/misc/null.md3";
 	self.movetype = 0;	
-	if(!self.particle_movetype)
+	if (!self.particle_movetype)
 		self.particle_movetype =MOVETYPE_NOCLIP;
-	if(self.model1)
+	if (self.model1)
 		self.model_ammount = 1;
 	self.alpha = 0.25;	
 	precache_model(self.model1);	
-	if((self.model2) && (self.model_ammount == 1))
+	if ((self.model2) && (self.model_ammount == 1))
 		{self.model_ammount = 2; precache_model(self.model2);}	
-	if((self.model3) && (self.model_ammount == 2))
+	if ((self.model3) && (self.model_ammount == 2))
 		{self.model_ammount = 3; precache_model(self.model3);}
-	if((self.model4) && (self.model_ammount == 3))
+	if ((self.model4) && (self.model_ammount == 3))
 		{self.model_ammount = 4; precache_model(self.model4);}
-	if((self.model5) && (self.model_ammount == 4))
+	if ((self.model5) && (self.model_ammount == 4))
 		{self.model_ammount = 5; precache_model(self.model5);}
-	if((self.model6) && (self.model_ammount == 5))
+	if ((self.model6) && (self.model_ammount == 5))
 		{self.model_ammount = 6; precache_model(self.model6);}
-	if((self.model7) && (self.model_ammount == 6))
+	if ((self.model7) && (self.model_ammount == 6))
 		{self.model_ammount = 7; precache_model(self.model7);}
-	if((self.model8) && (self.model_ammount == 7))
+	if ((self.model8) && (self.model_ammount == 7))
 		{self.model_ammount = 8; precache_model(self.model8);}
-	if(!self.using)
+	if (!self.using)
 		self.using = 1;
 
-	if(self.min_delay > self.delay)
+	if (self.min_delay > self.delay)
 	self.min_delay = self.delay;
 
 	self.cnt = (self.lifetime / self.delay);
@@ -1413,17 +1413,17 @@ void() model_emitter2 =
 
 void()func_wave_think = 
 {
-    if(self.cnt == 1)
+    if (self.cnt == 1)
     {
         self.alpha += 0.0125;
-        if(self.alpha > 1.25)
+        if (self.alpha > 1.25)
             self.cnt = 0;        
     }
     else
     {
         self.alpha -= 0.025;
 
-        if(self.alpha <= 0.25)
+        if (self.alpha <= 0.25)
             self.cnt = 1;
     }
     self.think = func_wave_think;
@@ -1433,7 +1433,7 @@ void()func_wave_think =
 void() func_wave =
 {
     setmodel(self,self.model);
-    if(!self.alpha)
+    if (!self.alpha)
     self.alpha = 1;
     self.cnt = 1;
     self.think = func_wave_think;
@@ -1456,16 +1456,16 @@ void() bee_fly =
 	}
 	else
 	{
-		if(self.effects == EF_NODRAW)
+		if (self.effects == EF_NODRAW)
 		{
 			setmodel(self,"models/objects/decor/wrathbee.md3");
 			self.effects = 0;
 			self.movetype = MOVETYPE_WALK;
 		}
-		if((self.attack_finished < time ) || (self.touchtime < time))
+		if ((self.attack_finished < time ) || (self.touchtime < time))
 			float speed = random(32,92);
 
-		if((self.attack_finished < time ) && (self.icetime > time) )
+		if ((self.attack_finished < time ) && (self.icetime > time) )
 		{
 			self.yaw_speed = 10;
 			makevectors2 (self.angles);
@@ -1475,12 +1475,12 @@ void() bee_fly =
 			self.velocity_y = vel_y;
 			self.attack_finished =  time + random(1,3);
 		}
-		if(self.landsoundtime < time)
+		if (self.landsoundtime < time)
 		{
 			float vvalue = self.sradius;
-			if(self.sradius > 32)
+			if (self.sradius > 32)
 			vvalue = 32;
-			if(self.origin_z > self.lastplace_spoted_z)
+			if (self.origin_z > self.lastplace_spoted_z)
 				{self.velocity_z = random(vvalue) *-1; self.gravity = 0.0125;}
 			else
 				{self.velocity_z = random(vvalue); self.gravity = -0.0125;}
@@ -1488,7 +1488,7 @@ void() bee_fly =
 		}
 
 
-		if(self.icetime < time) 
+		if (self.icetime < time) 
 		{
 			self.yaw_speed = 40;
 			vector rorg;
@@ -1527,7 +1527,7 @@ void()misc_hive_check =
 void() misc_hive_touch =
 {
 	
-	if(other.owner == self)
+	if (other.owner == self)
 		other.icetime =  time + 0.1;
 	else
 		return;
@@ -1541,11 +1541,11 @@ void()info_hive =
 	
 	self.targetname = "t";
 
-	if(!self.sradius)
+	if (!self.sradius)
 		self.sradius = 64;
-	if(!self.count)
+	if (!self.count)
 		self.count = 16;
-	if(!self.clipdist)
+	if (!self.clipdist)
 		self.clipdist = 1024;
 
 	float bcounter = self.count;
@@ -1555,7 +1555,7 @@ void()info_hive =
 	radiussize_y = self.sradius;
 
 	float vsize = self.sradius;
-	if(self.sradius > 128)
+	if (self.sradius > 128)
 	vsize = 128;
 
 	radiussize_z = vsize;
@@ -1593,18 +1593,18 @@ void()info_hive =
 
 void() gib_spawner_use =
 {
-	if(self.type == 1)
+	if (self.type == 1)
 		ThrowGib2("models/gibs/gib_small.md3", 0, 0.75, 1, 1, self.origin, '0 0 0', 0, 1);
-	if(self.type == 2)
+	if (self.type == 2)
 		ThrowGib2("models/enemies/fallen/gibs/gib_torso_a.md3", 0, 0.75, 1, 1, self.origin, '0 0 0', 0, 1);
-	if(self.type == 3)
+	if (self.type == 3)
 		ThrowGib2("models/enemies/brute/howitzer/gib_howitser.md3", 0, 0.75, 1, 1, self.origin, '0 0 0', 0, 1);
 
 };
 
 void() gib_spawner =
 {
-	if(!self.type)
+	if (!self.type)
 		self.type = 1;
 	self.use = gib_spawner_use;
 };

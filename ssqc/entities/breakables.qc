@@ -4,21 +4,21 @@
 .float urn_artifacts;
 void(string locsound, float rndl, float vol) randomsound;
 entity(vector org, string class, float ammount, entity ownr) drop_item;
-void() urn_die = { local vector tagorg;
-	local float tagindex;
-	local string tagname;
+void() urn_die = { vector tagorg;
+	float tagindex;
+	string tagname;
 	tagname = ("tag_item");tagindex = gettagindex(self, tagname);tagorg = gettaginfo(self, tagindex);
-	if(self.episode == 2)
+	if (self.episode == 2)
 		tagorg_z += 24;
 	self.classentity = "deadurn";
 	float spitch;
 	if (self.classname == "breakable_urn_small")
 	{
-		if(self.episode == 1)
+		if (self.episode == 1)
 			pointparticles(particleeffectnum("ep1urn1"), tagorg, '0 0 0', 1);
-		if(self.episode == 2)
+		if (self.episode == 2)
 			pointparticles(particleeffectnum("ep2urn1"), tagorg - '0 0 16', '0 0 0', 1);
-		if(self.episode == 3)
+		if (self.episode == 3)
 			pointparticles(particleeffectnum("ep3urn1"), tagorg - '0 0 16', '0 0 0', 1);
 		spawngibs("tag_giba", self.gibmodel1, self, relvel('-15 15  0', self));
 		spawngibs("tag_gibb", self.gibmodel2, self, relvel('20 10  0', self));
@@ -28,11 +28,11 @@ void() urn_die = { local vector tagorg;
 	}
 	if (self.classname == "breakable_urn_medium")
 	{
-		if(self.episode == 1)
+		if (self.episode == 1)
 			pointparticles(particleeffectnum("ep1urn2"), tagorg, '0 0 0', 1);
-		if(self.episode == 2)
+		if (self.episode == 2)
 			pointparticles(particleeffectnum("ep2urn2"), tagorg - '0 0 16', '0 0 0', 1);
-		if(self.episode == 3)
+		if (self.episode == 3)
 			pointparticles(particleeffectnum("ep3urn2"), tagorg - '0 0 16', '0 0 0', 1);
 
 		spawngibs("tag_giba", self.gibmodel1, self, relvel('-20 20  0', self));
@@ -43,11 +43,11 @@ void() urn_die = { local vector tagorg;
 	}
 	if (self.classname == "breakable_urn_large")
 	{
-		if(self.episode == 1)
+		if (self.episode == 1)
 			pointparticles(particleeffectnum("ep1urn3"), tagorg, '0 0 0', 1);
-		if(self.episode == 2)
+		if (self.episode == 2)
 			pointparticles(particleeffectnum("ep2urn3"), tagorg - '0 0 16', '0 0 0', 1);
-		if(self.episode == 3)
+		if (self.episode == 3)
 			pointparticles(particleeffectnum("ep3urn3"), tagorg - '0 0 16', '0 0 0', 1);
 
 		spawngibs("tag_giba", self.gibmodel1, self, relvel('-30 30  0', self));
@@ -58,10 +58,10 @@ void() urn_die = { local vector tagorg;
 
 	}
 
-	if(spitch <= 85)
-	randomsound7("impact/destruct/urn_break", 5,1, spitch,1);
-
-	randomsound("impact/destruct/urn_break", 5,0.7);
+	if (spitch <= 85)
+		randomsound7("impact/destruct/urn_break", 5,1, spitch);
+	//else //R00k, should be ?
+		randomsound("impact/destruct/urn_break", 5,0.7);
 
 	if (self.urn_health == 1)
 		drop_item(tagorg, "vial", 1, self);
@@ -132,25 +132,25 @@ void() urn_die = { local vector tagorg;
 
 void() breakable_urn_small = 
 {
-	if(!self.episode)
+	if (!self.episode)
 		self.episode = world.episode;
 
-	if((self.episode == 2) && (!self.skin))
+	if ((self.episode == 2) && (!self.skin))
 	{
 		string cipherx = (ftos(floor((self.origin_x +self.origin_y) * 0.35 )));
 		float nLength = strlen(cipherx) -1;
 		string characterx = substring (cipherx,nLength,1); 
 
 		float characterf = stof(characterx);
-		if(characterf == 1)
+		if (characterf == 1)
 		self.skin = 1;
-		if(characterf == 2)
+		if (characterf == 2)
 		self.skin = 1;
-		if(characterf == 7)
+		if (characterf == 7)
 		self.skin = 1;
-		if(characterf == 8)
+		if (characterf == 8)
 		self.skin = 1;
-		if(characterf == 5)
+		if (characterf == 5)
 		self.skin = 1;
 		self.cnt = characterf;
 
@@ -158,7 +158,7 @@ void() breakable_urn_small =
 	}
 
 
-	if(self.episode ==  1)
+	if (self.episode ==  1)
 	{
 		self.gibmodel1 = ("models/destruct/urns/urn32_gibs/urn32_giba.md3");
 		self.gibmodel2 = ("models/destruct/urns/urn32_gibs/urn32_gibb.md3");
@@ -170,7 +170,7 @@ void() breakable_urn_small =
 		self.dmodel = "models/destruct/urns/urn32_destroyed.md3";
 	}
 
-	if(self.episode ==  2)
+	if (self.episode ==  2)
 	{
 		self.gibmodel1 = ("models/destruct/e2urns/urn32_gibs/urn32_giba.md3");
 		self.gibmodel2 = ("models/destruct/e2urns/urn32_gibs/urn32_gibb.md3");
@@ -182,7 +182,7 @@ void() breakable_urn_small =
 		self.dmodel = "models/destruct/e2urns/urn32_destroyed.md3";
 	}
 
-	if(self.episode ==  3)
+	if (self.episode ==  3)
 	{
 		self.gibmodel1 = ("models/destruct/e3urns/urn32_gibs/urn32_giba.md3");
 		self.gibmodel2 = ("models/destruct/e3urns/urn32_gibs/urn32_gibb.md3");
@@ -212,32 +212,32 @@ void() breakable_urn_small =
 
 void() breakable_urn_medium = 
 {
-	if(!self.episode)
+	if (!self.episode)
 		self.episode = world.episode;
 		
-	if((self.episode == 2) && (!self.skin))
+	if ((self.episode == 2) && (!self.skin))
 	{
 		string cipherx = (ftos(floor((self.origin_x +self.origin_y) * 0.35 )));
 		float nLength = strlen(cipherx) -1;
 		string characterx = substring (cipherx,nLength,1); 
 
 		float characterf = stof(characterx);
-		if(characterf == 1)
+		if (characterf == 1)
 		self.skin = 1;
-		if(characterf == 3)
+		if (characterf == 3)
 		self.skin = 1;
-		if(characterf == 7)
+		if (characterf == 7)
 		self.skin = 1;
-		if(characterf == 8)
+		if (characterf == 8)
 		self.skin = 1;
-		if(characterf == 6)
+		if (characterf == 6)
 		self.skin = 1;
 		self.cnt = characterf;
 
 
 	}
 
-	if(self.episode ==  1)
+	if (self.episode ==  1)
 	{
 		self.gibmodel1 = ("models/destruct/urns/urn48_gibs/urn48_giba.md3");
 		self.gibmodel2 = ("models/destruct/urns/urn48_gibs/urn48_gibb.md3");
@@ -249,7 +249,7 @@ void() breakable_urn_medium =
 		self.dmodel = "models/destruct/urns/urn48_destroyed.md3";
 	}
 
-	if(self.episode ==  2)
+	if (self.episode ==  2)
 	{
 		self.gibmodel1 = ("models/destruct/e2urns/urn48_gibs/urn48_giba.md3");
 		self.gibmodel2 = ("models/destruct/e2urns/urn48_gibs/urn48_gibb.md3");
@@ -261,7 +261,7 @@ void() breakable_urn_medium =
 		self.dmodel = "models/destruct/e2urns/urn48_destroyed.md3";
 	}
 
-	if(self.episode ==  3)
+	if (self.episode ==  3)
 	{
 		self.gibmodel1 = ("models/destruct/e3urns/urn48_gibs/urn48_giba.md3");
 		self.gibmodel2 = ("models/destruct/e3urns/urn48_gibs/urn48_gibb.md3");
@@ -292,29 +292,29 @@ void() breakable_urn_medium =
 
 void() breakable_urn_large = { 
 
-	if(!self.episode)
+	if (!self.episode)
 		self.episode = world.episode;
 
-	if((self.episode == 2) && (!self.skin))
+	if ((self.episode == 2) && (!self.skin))
 	{
 		string cipherx = (ftos(floor((self.origin_x +self.origin_y) * 0.35 )));
 		float nLength = strlen(cipherx) -1;
 		string characterx = substring (cipherx,nLength,1); 
 		float characterf = stof(characterx);
-		if(characterf == 1)
+		if (characterf == 1)
 		self.skin = 1;
-		if(characterf == 3)
+		if (characterf == 3)
 		self.skin = 1;
-		if(characterf == 6)
+		if (characterf == 6)
 		self.skin = 1;
-		if(characterf == 8)
+		if (characterf == 8)
 		self.skin = 1;
-		if(characterf == 5)
+		if (characterf == 5)
 		self.skin = 1;
 		self.cnt = characterf;
 	}
 
-	if(self.episode ==  1)
+	if (self.episode ==  1)
 	{
 		self.gibmodel1 = ("models/destruct/urns/urn64_gibs/urn64_giba.md3");
 		self.gibmodel2 = ("models/destruct/urns/urn64_gibs/urn64_gibb.md3");
@@ -326,7 +326,7 @@ void() breakable_urn_large = {
 		self.dmodel = "models/destruct/urns/urn64_destroyed.md3";
 	}
 
-	if(self.episode ==  2)
+	if (self.episode ==  2)
 	{
 		self.gibmodel1 = ("models/destruct/e2urns/urn64_gibs/urn64_giba.md3");
 		self.gibmodel2 = ("models/destruct/e2urns/urn64_gibs/urn64_gibb.md3");
@@ -338,7 +338,7 @@ void() breakable_urn_large = {
 		self.dmodel = "models/destruct/e2urns/urn64_destroyed.md3";
 	}
 
-	if(self.episode ==  3)
+	if (self.episode ==  3)
 	{
 		self.gibmodel1 = ("models/destruct/e3urns/urn64_gibs/urn64_giba.md3");
 		self.gibmodel2 = ("models/destruct/e3urns/urn64_gibs/urn64_gibb.md3");
@@ -371,9 +371,9 @@ void() breakable_urn_large = {
 
 void() skull_checking_ground =
 {
-	local float speed;
-	local vector hspeedangles;
-	local vector hspeed;
+	float speed;
+	vector hspeedangles;
+	vector hspeed;
 
 	if (((self.oldorigin == self.origin) && (self.movetype != MOVETYPE_TOSS)))
 	{
@@ -430,7 +430,7 @@ void() skull_checking_ground =
 	self.health = MOVETYPE_BOUNCE;
 	self.takedamage = TRUE;
 	self.oldorigin = self.origin;
-	if((self.flags & FL_ONGROUND))
+	if ((self.flags & FL_ONGROUND))
 	{
 		self.nextthink = (time + 0.05);
 		self.think = self.th_die;
@@ -442,22 +442,22 @@ void() skull_checking_ground =
 
 void() skull_die =
 {
-	local vector tagorg;
-	local float tagindex;
-	local string tagname;
-	local float mveldmg;
-	local float veldmg;
-	local entity fskull;
-	local vector dir;
-	local vector rvector;
+	vector tagorg;
+	float tagindex;
+	string tagname;
+	float mveldmg;
+	float veldmg;
+	entity fskull;
+	vector dir;
+	vector rvector;
 
 	fskull = findradius(self.origin, STAT_NORMAL_MESSAGES);
 	mveldmg = (self.health * 0.25);
 
-	if(self.vgear)
+	if (self.vgear)
 	remove(self.vgear);
 
-	if(mveldmg < -100)
+	if (mveldmg < -100)
 	mveldmg = -100;
 	while (fskull)
 	{
@@ -484,7 +484,7 @@ void() skull_die =
 	tagorg = gettaginfo(self, tagindex);
 	pointparticles(particleeffectnum("skull"), tagorg, VEC_ORIGIN, TRUE);
 
-	if(self.classname == "breakable_skull")
+	if (self.classname == "breakable_skull")
 	pointparticles(particleeffectnum("skullbig"), tagorg, VEC_ORIGIN, TRUE);
 
 	random();
@@ -511,7 +511,7 @@ void() skull_die =
 	spawngibs("tag_l_side", self.gibmodel4, self, relvel2('0 -12 23', self, veldmg));
 
 
-	if(!self.maxspeed)
+	if (!self.maxspeed)
 	self.maxspeed = 100;
 
 	sound7 (self, CHAN_BODY, self.noise,1, 0.25,random(80,120),0);
@@ -585,7 +585,7 @@ void() skull_die =
 	vector tagdest = tag_origin("tag_base", self);
 	setorigin (self,tagdest);
 	self.movetype = MOVETYPE_BOUNCE;
-	if(self.flags & FL_ONGROUND)
+	if (self.flags & FL_ONGROUND)
 		self.flags -= FL_ONGROUND;
 	self.bouncefactor = 0.35;
 	self.alpha = TRUE;
@@ -610,11 +610,11 @@ void() skull_clipdist_check =
 	//float dist = vlen(self.origin - single_player.origin);
 	//if ((dist < self.owner.clipdist) && (visibleworld(single_player)))
 
-	if(	self.owner.classentity == "wrathbreakable")
+	if (	self.owner.classentity == "wrathbreakable")
 	{
-		if(checkpvs(self.origin,single_player) )
+		if (checkpvs(self.origin,single_player) )
 		{
-			if(self.owner.cnt != 1)
+			if (self.owner.cnt != 1)
 			{
 				self.owner.cnt = 1;
 				setmodel(self.owner,self.owner.oldmodel);
@@ -622,7 +622,7 @@ void() skull_clipdist_check =
 		}
 		else
 		{
-			if((self.owner.cnt != 0))
+			if ((self.owner.cnt != 0))
 			{
 				self.owner.cnt = 0;
 				setmodel(self.owner,"models/misc/null.md3");
@@ -645,7 +645,7 @@ void() skull_calculate_movetype =
 	checkerclip.think = skull_clipdist_check;
 	checkerclip.nextthink = time;
 
-	if(self.count != 1)
+	if (self.count != 1)
 	{
 		self.angles_x = self.angles_x * -1;
 		self.count = 1;
@@ -808,7 +808,7 @@ void() breakable_skull_small_a =
 		self.model = "models/destruct/skulls/skull_a9.md3";
 	if ((self.type == 10))
 		self.model = "models/destruct/skulls/skull_a10.md3";
-	if(self.spawnflags & 4)
+	if (self.spawnflags & 4)
 		self.model = "models/destruct/skulls/skull_a1.md3";
 
 	precache_model(self.model);

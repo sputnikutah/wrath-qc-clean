@@ -54,7 +54,7 @@ void() afflicted_stand5 =[$idle5, afflicted_stand6]
 {
 	ai_stand();
 	float suicide_distance = afflicted_suicide_distance;
-	if(self.likecharge == 1)
+	if (self.likecharge == 1)
 		suicide_distance = afflicted_suicide_distance * 2;
 	float enreachable = ai_recheable(self.enemy.origin);
 
@@ -64,7 +64,7 @@ void() afflicted_stand5 =[$idle5, afflicted_stand6]
 			self.think = afflicted_runb1;
 		else
 		{
-			local float r;
+			float r;
 			r = random();
 			if (r > aff_dr_idle)
 				self.think = afflicted_run1;
@@ -90,7 +90,7 @@ void() afflicted_stand9 =[$idle9, afflicted_stand10]
 	ai_stand();
 };
 void() afflicted_stand10 = { ai_stand();
-	local float r;
+	float r;
 	self.frame = $idle10;
 
 	float enreachable = ai_recheable(self.enemy.origin);
@@ -118,19 +118,19 @@ void() afflicted_waiting1 =[$idle1, afflicted_waiting2]
 	float enemy_is_visible = visible(self.enemy);
 	if ((self.friendly_monster == 1) && ((self.turret) || (self.turret_time > time)))
 	{
-		if(!self.enemy)
+		if (!self.enemy)
 		{
 			next_enemy();
 		}
 		else
 		{
-			if(!enemy_is_visible)
+			if (!enemy_is_visible)
 			{	
 				next_enemy();
 			}
 			else
 			{
-			if((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
+			if ((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
 				next_enemy();
 			}	
 		}		
@@ -177,9 +177,9 @@ void() afflicted_waiting4 =[$idle4, afflicted_waiting5]
 };
 void() afflicted_waiting5 =[$idle5, afflicted_waiting6]
 {
-	if((!(self.enemy)) && (self.goalentity))
+	if ((!(self.enemy)) && (self.goalentity))
 		self.enemy = self.goalentity;
-if((!self.enemy.health) || (!self.enemy)) next_enemy();
+if ((!self.enemy.health) || (!self.enemy)) next_enemy();
 
 	if (visible(self.enemy))
 	{
@@ -231,7 +231,7 @@ void() afflicted_waiting9 =[$idle9, afflicted_waiting10]
 };
 void() afflicted_waiting10 =[$idle10, afflicted_waiting1]
 {
-	if((!(self.enemy)) && (self.goalentity))
+	if ((!(self.enemy)) && (self.goalentity))
 		self.enemy = self.goalentity;
 
 	if (visible(self.enemy))
@@ -243,7 +243,7 @@ void() afflicted_waiting10 =[$idle10, afflicted_waiting1]
 	ai_face();
 };
 
-float() afflicted_vertical_ai = { local float ao;
+float() afflicted_vertical_ai = { float ao;
 	if (rint(self.origin_z) == rint(self.enemy.origin_z - 32))
 		return FALSE;
 	else
@@ -391,7 +391,7 @@ void() afflicted_run13 =[$walk13, afflicted_run14]
 {
 	ai_runwalk(affwvel13);
 };
-void() afflicted_run14 = { local float r;
+void() afflicted_run14 = { float r;
 	ai_runwalk(affwvel10);
 	self.frame = $walk14;
 	float dist = vlen(self.enemy.origin - self.origin);
@@ -399,7 +399,7 @@ void() afflicted_run14 = { local float r;
 	makevectors (self.angles);
 	float nextstepreachable = ai_recheable(self.origin + v_forward * 48);
 
-	if(nextstepreachable == -1)
+	if (nextstepreachable == -1)
 		self.turret_time = time + random(2,5);
 
 	if (self.enemy.health > 0)
@@ -424,7 +424,7 @@ void() afflicted_run14 = { local float r;
 		}
 		else
 		{
-			if(visible(self.enemy) && (dist < 2048))
+			if (visible(self.enemy) && (dist < 2048))
 				self.think = afflicted_atk1;
 			else
 				self.think = afflicted_run1;
@@ -441,7 +441,7 @@ void() afflicted_run14 = { local float r;
 };
 //===========================================================================
 .float heretic_suicide;
-void() afflicted_explosion = { local vector tagorg;
+void() afflicted_explosion = { vector tagorg;
 
 	vector chestorg = rorigin(self) + '0 0 24';
 
@@ -477,23 +477,23 @@ void() afflicted_explosion = { local vector tagorg;
 
 	self.movetype = 0;
 	//drop_item(rorigin(self)+ '0 0 -10', "ammo_retcher", 1, self);
-	local string diesound, r;
+	string diesound, r;
 	r = ftos(floor(random() *3) + 1);
 	diesound = strcat("enemies/afflicted/die", r, ".ogg");
 	msound(self, CHAN_VOICE, diesound, 1, 0.25);
 	//	pointparticles(particleeffectnum("GREEN_BLOOD"), self.origin, '0 0 0', 32); 
-	local float rv, rv2, gv;
+	float rv, rv2, gv;
 	rv = (random() *6 + 17) *-1;
 	rv2 = (random() *10 + 30) *-1;
 	gv = 0.6 + (random() *0.1);
 	//T_RadiusDamage (self, self.enemy, afflicteddamage2, world);
 
 	//void(entity inflictor, entity attacker, float damage, entity ignore, float radius, float toplayer) T_SplashDamageMonster =
-	if(self.killer.wrath_inv > time)
+	if (self.killer.wrath_inv > time)
 	self.heretic_suicide = -1;
-	if(self.heretic_suicide != -1)
+	if (self.heretic_suicide != -1)
 	{
-		if(self.heretic_suicide == 1)
+		if (self.heretic_suicide == 1)
 			T_SplashDamageMonster(self, damagedexplosionafflicted, afflicteddamage2, world, radiusdexplosionafflicted, stricken_pushfactor);
 		else
 			T_SplashDamageMonster(self, 100, 30 , world, radiusdexplosionafflicted, stricken_pushfactor);
@@ -501,11 +501,11 @@ void() afflicted_explosion = { local vector tagorg;
 	self.solid = 0;
 	self.scale = 2;
 	self.health = -100;
-	if(self.heretic_suicide == 1)
+	if (self.heretic_suicide == 1)
 		aoe_spawn(self);
 	self.origin_z += 24;
 
-	if(self.heretic_suicide != 1)
+	if (self.heretic_suicide != 1)
 	{
 		pointparticles(particleeffectnum("afflictedaoe"), self.origin - '0 0 32', v_forward *(-550), 1);
 		pointparticles(particleeffectnum("afflicted_bloodshower"), chestorg, '0 0 0', 1);
@@ -544,9 +544,9 @@ void() afflicted_check_explode = { if (visibleinfront(self.enemy, 64))
 .float afflicted_run_sound_number;
 void() afflicted_run_sound = { if (self.afflicted_run_sound_lenght > time)
 		return;
-	local float rf;
+	float rf;
 	rf = (floor(random() *3) + 1);
-	local string r, snd;
+	string r, snd;
 
 	if (rf == self.afflicted_run_sound_number)
 		rf += 1;
@@ -611,18 +611,18 @@ void() afflicted_runb8 =[$run8, afflicted_runb9]
 	walksound("enemies/afflicted/step", 3);
 };
 
-void() afflicted_runb9 = { local float r;
+void() afflicted_runb9 = { float r;
 	self.frame = $run9;
 	afflicted_check_explode();
 	ai_runwalk(22);
 	float suicide_distance = afflicted_suicide_distance;
-	if(self.likecharge == 1)
+	if (self.likecharge == 1)
 		suicide_distance = afflicted_suicide_distance * 2;
 
 	float enreachable = ai_recheable(self.enemy.origin);
 
 
-	if(self.likecharge != 1)
+	if (self.likecharge != 1)
 	{
 		if (visibleinfront(self.enemy, 1024))
 		{
@@ -659,7 +659,7 @@ void() afflicted_runb9 = { local float r;
 };
 //===========================================================================
 
-void() aoe_think2 = { local float vcnt, rdamage, radiusretcher;
+void() aoe_think2 = { float vcnt, rdamage, radiusretcher;
 	vcnt = self.cnt / self.oldcnt;
 	rdamage = vcnt *10 + 10;
 	radiusretcher = vcnt *64 + 10;
@@ -688,19 +688,19 @@ void() CyExplosion2 = { self.movetype = MOVETYPE_NONE;
 	setmodel(self, "particles/explo/explo_cyst.md3");
 	self.solid = SOLID_NOT;
 	T_SplashDamage(self, self.owner, damageexplosionafflicted, world, damageexplosionafflicted);
-	local float skinn;
+	float skinn;
 	skinn = ceil(random() *4);
 	if (skinn == 4)
 		skinn = 0;
 	self.skin = skinn * 10;
-	local string snd;
+	string snd;
 	snd = strcat("impact/projectiles/cyst_explo", ftos(floor(random() *5) + 1), ".ogg");
 	sound(self, CHAN_AUTO, snd, 1, 0.25);
 	pointparticles(particleeffectnum("retcher"), self.origin, v_forward *(-550), 1);
 	cys_explode1();
 };
 
-void() aff_proj_touch = { local float damg;
+void() aff_proj_touch = { float damg;
 	if (other == self.owner)
 		return;	// don't explode on owner
 	self.movetype = MOVETYPE_TOSS;
@@ -712,7 +712,7 @@ void() aff_proj_touch = { local float damg;
 
 	//self.effects = EF_MUZZLEFLASH;
 	damg = afflicteddamage;
-	local vector org;
+	vector org;
 	org = self.origin;
 	if (other.takedamage)
 	{
@@ -723,7 +723,7 @@ void() aff_proj_touch = { local float damg;
 	}
 	else
 	{
-		local entity aoe, aoep;
+		entity aoe, aoep;
 		aoe = spawn();
 		aoep = spawn();
 		aoe.owner = self.owner;
@@ -741,7 +741,7 @@ void() aff_proj_touch = { local float damg;
 		aoep.cnt = aoe.cnt;
 		aoep.oldcnt = aoe.cnt;
 		aoep.owner = aoe;
-		local string snd;
+		string snd;
 		snd = strcat("impact/projectiles/cyst_aoe", ftos(floor(random() *5) + 1), ".ogg");
 		sound(aoep, CHAN_WEAPON, snd, 1, 0.5);
 		aoe.think = aoe_think2;
@@ -758,7 +758,7 @@ void() aff_proj_touch = { local float damg;
 	self.traileffectnum = particleeffectnum("null");
 };
 .float degreesattack;
-void() Attack_Angles = { local float co, ca, hip;
+void() Attack_Angles = { float co, ca, hip;
 	hip = rint(vlen(self.origin - self.enemy.origin));
 	if (rint(self.enemy.origin_z - 32) > rint(self.origin_z))
 		co = (self.enemy.origin_z - 32) - rint(self.origin_z);
@@ -783,20 +783,20 @@ void() Afflicted_Fire = { if (self.health <= 0)
 		Killed(self, world, 1);
 		return;
 	}
-	local vector org;
-	local float tagindex;
+	vector org;
+	float tagindex;
 	monstersound1("enemies/stricken/cyst", 3, CHAN_AUTO);
 
-	if(self.classname == "monster_fallen")
+	if (self.classname == "monster_fallen")
 		tagindex = gettagindex(self, "tag_head");
 	else	
 		tagindex = gettagindex(self, "tag_hand");
 	org = gettaginfo(self, tagindex);
 
 
-	local vector distancedelta;
-	local vector nozdistancedelta;
-	local entity missile;
+	vector distancedelta;
+	vector nozdistancedelta;
+	entity missile;
 	missile = spawn();
 	missile.classname = "afflicted_projectile";
 	missile.owner = self;
@@ -806,12 +806,12 @@ void() Afflicted_Fire = { if (self.health <= 0)
 	missile.wrathflags += FL_PROJECTILE;
 
 
-	local vector dist_player;
+	vector dist_player;
 
 
 	float enemydist = vlen (self.origin - self.enemy.origin);
 
-	if(enemydist >= 1000)
+	if (enemydist >= 1000)
 	float predictionfactor = (enemydist / 768) * random(0.4,0.8);  
 	else
 		predictionfactor = random(0, 0.2);
@@ -822,7 +822,7 @@ void() Afflicted_Fire = { if (self.health <= 0)
 	else
 		dist_player = (self.enemy.origin - '0 0 12') + (self.enemy.velocity * predictionfactor)+ (v_forward * random(12,32));
 
-	if(enemydist >= 1000)
+	if (enemydist >= 1000)
 	{
 		float errorgap = (1024 - enemydist) * 0.2;
 		float extravel = random(16,92);
@@ -830,7 +830,7 @@ void() Afflicted_Fire = { if (self.health <= 0)
 		dist_player_y += random(-errorgap,errorgap);
 		//dist_player_z += random(-errorgap,errorgap);
 		float r = random();
-		if( r > 0.75)
+		if ( r > 0.75)
 		float missilemagnetized = 1;
 		
 	}
@@ -845,7 +845,7 @@ void() Afflicted_Fire = { if (self.health <= 0)
 
 	missile.velocity = missile.velocity * (768 + extravel);
 
-	local float edistance;
+	float edistance;
 	edistance = vlen(org - self.enemy.origin);
 	missile.velocity_z = missile.velocity_z + (64 + edistance / 16) + vlen(nozdistancedelta) *0.15 *(1 + (0.15));
 	missile.avelocity = '300 300 300';
@@ -874,7 +874,7 @@ void() Afflicted_Fire = { if (self.health <= 0)
 void() afflicted_atk1 =[$attack1, afflicted_atk1b]
 {
 	self.nopain = 1;
-	if(self.ammo_retcher == 1)
+	if (self.ammo_retcher == 1)
 		self.think = afflicted_atk7;
 	self.nextthink = time;
 };
@@ -901,7 +901,7 @@ void() afflicted_atk4 =[$attack4, afflicted_atk5]
 {
 	ai_face();
 
-	local entity cysth;
+	entity cysth;
 	cysth = spawn();
 	cysth.scale = 1;
 	self.ammo_retcher = 1;
@@ -977,7 +977,7 @@ void() afflicted_atk19 =[$attack19, afflicted_atk20]
 {
 	ai_face();
 };
-void() afflicted_atk20 = { local float r;
+void() afflicted_atk20 = { float r;
 	self.frame = $attack20;
 	ai_face();
 
@@ -1096,12 +1096,12 @@ void() afflicted_paind8 =[$paind8, afflicted_run1]
 	}
 };
 
-void() afflicted_rpain = { local string r, snd;
+void() afflicted_rpain = { string r, snd;
 	r = ftos(floor(random() *3) + 1);
 	snd = strcat("enemies/afflicted/pain", r, ".ogg");
 	msound(self, CHAN_VOICE, snd, 1, 0.25);
 	self.pain_finished = time + 1;
-	local float rnd;
+	float rnd;
 	rnd = random();
 
 	if (rnd < 0.75)
@@ -1119,7 +1119,7 @@ void(entity attacker, float damage) afflicted_pain = { if (self.pain_finished > 
 	if (self.nopain == 1)
 		return;
 	self.sustained_damage = 0;
-	local float pp, rp;
+	float pp, rp;
 	if (damage >= affph)
 		pp = hpdmg;
 	if ((damage <= affpm) && (damage > affpl))
@@ -1182,12 +1182,19 @@ void() precache_monster_afflicted = { precache_sound("enemies/afflicted/attack1.
 	precache_model("particles/explo/explo_afflicted.md3");
 
 };
-void() monster_afflicted = { precache_monster_afflicted();
+void() monster_afflicted = 
+{ 
+	if (cvar("deathmatch"))
+	{
+		remove(self);
+		return;
+	}
+	precache_monster_afflicted();
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
 	self.flags = self.flags | FL_MONSTER;
 	setmodel(self, "models/enemies/afflicted/afflicted.md3");
-	local float r;
+	float r;
 	r = (random() *3);
 	if (r < 3)
 		self.noise = "enemies/afflicted/sight3.ogg";	

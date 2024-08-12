@@ -13,10 +13,10 @@ void() SUB_Remove = {remove(self);};
 float savingtether;
 void() check_tether2 = { read_currentprofileslot();
 
-	local string campaignloc;
+	string campaignloc;
 	campaignloc = strcat("profiles/", profilename, "/tetherclient.txt");
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen(campaignloc, FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);	//read the text
 	savingtether = stof(readtext);
@@ -28,10 +28,10 @@ void() check_tether2 = { read_currentprofileslot();
 };
 
 void() check_shrine = { read_currentprofileslot();
-	local string campaignloc;
+	string campaignloc;
 	campaignloc = strcat("profiles/", profilename, "/shrine.txt");
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen(campaignloc, FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);	//read the text
 	savingtether = stof(readtext);
@@ -305,7 +305,7 @@ void() MessageThink2 = { if (self.removing == 1)
 	}
 };
 
-void() Hud_Messages_Draw2 = { local string image;
+void() Hud_Messages_Draw2 = { string image;
 	if (self.msg == 17)
 		image = "gfx/hud/msg_shells.tga";
 	string str;
@@ -314,7 +314,7 @@ void() Hud_Messages_Draw2 = { local string image;
 	DString(self.imagepos + '130 8 0', str, self.msgalpha, 1, '1 1 1', '12 12 12');	//void(vector pos, string str, float alph, float escala, vector coloracion, vector siz) 
 };
 
-void() MessageThink = { local float alphaincreaser, alphafading, yfading;
+void() MessageThink = { float alphaincreaser, alphafading, yfading;
 
 	if (clframetime < 0.05)
 		alphaincreaser = api + 0.025;
@@ -709,17 +709,17 @@ void() Hud_Messages_Draw =
 	}
 	float hidehud;
 	hidehud = getstatf(STAT_THWOFG);
-	local vector msgsize;
+	vector msgsize;
 	msgsize = '512 32 0';
-	if(weapn_icon == 1)
+	if (weapn_icon == 1)
 		DImage2(self.imagepos + '54 0 0 ', image, self.msgalpha, 1, self.icolor, msgsize, 0);
 	else
 		DImage2(self.imagepos + '32 0 0 ', image, self.msgalpha, 1, self.icolor, msgsize, 0);
-	if(weapn_icon == 1)
+	if (weapn_icon == 1)
 		msgsize = '54 32 0';
 	else
 		msgsize = '32 32 0';
-	if(imageicon != "null")
+	if (imageicon != "null")
 		DImage2(self.imagepos, imageicon, self.msgalpha, 1, self.icolor, msgsize, 0);
 
 
@@ -729,7 +729,7 @@ void() Hud_Messages_Draw =
 void(float newent) Hud_Messages = { self.msg = ReadShort();
 	if (newent)
 	{
-		local vector ar;
+		vector ar;
 		ar_x = hmsgpos_x;
 		vid_height = cvar("vid_conheight");
 		ar_y = hmsgpos_y + (hud_messages *hms) + (540 - vid_height);
@@ -839,7 +839,7 @@ void(float newent) Hud_Messages2 = { self.msg = ReadShort();
 	self.item_cnt = ReadShort();
 	if (newent)
 	{
-		local vector ar;
+		vector ar;
 		ar_x = hmsgpos_x;
 		ar_y = hmsgpos_y + (hud_messages *hms) + (540 - vid_height);
 		self.imagepos = ar;
@@ -890,17 +890,17 @@ void(float newent) Health_Indicator = { self.origin_x = ReadCoord();
 .float alpha;
 void() Artifact_Think =
 {
-if(self.frame == 1)
+if (self.frame == 1)
 self.alpha = 0.1;
-if(self.frame == 2)
+if (self.frame == 2)
 self.alpha = 0.2;
-if(self.frame == 3)
+if (self.frame == 3)
 self.alpha = 0.4;
-if(self.frame == 4)
+if (self.frame == 4)
 self.alpha = 0.6;
-if(self.frame == 5)
+if (self.frame == 5)
 self.alpha = 0.8;
-if(self.frame == 6)
+if (self.frame == 6)
 self.alpha = 1;
 
 setorigin (self,VF_ORIGIN);
@@ -944,7 +944,7 @@ void() show_messages_ui =
 	float message_number = getstatf(STAT_NORMAL_MESSAGES);
 
 	#if 0
-	if(message_number == 1)
+	if (message_number == 1)
 	{
 	DString(posimage2, _("Message Text1line 1"), 1, 1, colorimg, ' 14 14 0');posimage2 += fixed_vector('0 20 0');
 	DString(posimage2, _("Message Text1line 2"), 1, 1, colorimg, ' 14 14 0');posimage2 += fixed_vector('0 20 0');
@@ -965,7 +965,7 @@ void() show_messages_ui =
 	DString(posimage2, _("Message Text1line 17"), 1, 1, colorimg, ' 14 14 0');posimage2 += fixed_vector('0 20 0');
 	DString(posimage2, _("Message Text1line 18"), 1, 1, colorimg, ' 14 14 0');posimage2 += fixed_vector('0 20 0');
 	}
-	if(message_number == 2)
+	if (message_number == 2)
 	{
 	DString(posimage2, _("Message Text2line 1"), 1, 1, colorimg, ' 14 14 0');posimage2 += fixed_vector('0 20 0');
 	DString(posimage2, _("Message Text2line 2"), 1, 1, colorimg, ' 14 14 0');posimage2 += fixed_vector('0 20 0');

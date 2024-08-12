@@ -47,8 +47,8 @@ void()brute_atkr;
 
 void(float exdmg, float range) brute_melee = 
 { 
-	local vector delta;
-	local float dist;
+	vector delta;
+	float dist;
 	if (self.enemy.crouch == 1)
 		range += 32;
 	float r = random();
@@ -61,7 +61,7 @@ void(float exdmg, float range) brute_melee =
 		snd = "enemies/brute/attack_punch3.ogg";
 	if (r < 0.25)
 		snd = "enemies/brute/attack_punch4.ogg";
-	if(exdmg < 50)
+	if (exdmg < 50)
 	sound7(self, CHAN_AUTO, snd, 1, 0.25,random(100,100) ,0);
 
 
@@ -78,7 +78,7 @@ void(float exdmg, float range) brute_melee =
 	if (dist < range)
 	{
 		makevectors(self.v_angle);
-		local vector source, org;
+		vector source, org;
 		source = rorigin(self);
 		traceline(source, self.enemy.origin, FALSE, self);
 		if (trace_fraction != 1.0)
@@ -86,9 +86,9 @@ void(float exdmg, float range) brute_melee =
 			org = trace_endpos - v_forward * 4;
 			if ((trace_ent.takedamage))
 			{
-				if(exdmg == 25)
+				if (exdmg == 25)
 					trace_ent.punchangle_x = 7;
-				if(exdmg == 50)
+				if (exdmg == 50)
 					trace_ent.punchangle_x = 15;
 				//snd2 = "enemies/brute/wound.ogg";
 
@@ -110,9 +110,9 @@ void() brutegrenadetouch =
 { 
 	if (other == self.owner)
 		return;
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
-	if(other.wrathflags & FL_PROJECTILE)
+	if (other.wrathflags & FL_PROJECTILE)
 		return;
 	
 
@@ -160,11 +160,11 @@ void() brutegrenadetouch =
 	sound7(self, CHAN_BODY, "misc/null.wav", 0, 0,100,0);
 	float r = random();
 
-	if(r < 1)
+	if (r < 1)
 		sound7(self, CHAN_AUTO, "enemies/brute/proj_impact1.ogg", 1, 0.25, random(95,105), 0);
-	if(r < 0.67)
+	if (r < 0.67)
 		sound7(self, CHAN_AUTO, "enemies/brute/proj_impact2.ogg", 1, 0.25, random(95,105), 0);
-	if(r < 0.34)
+	if (r < 0.34)
 		sound7(self, CHAN_AUTO, "enemies/brute/proj_impact3.ogg", 1, 0.25, random(95,105), 0);
 
 
@@ -215,7 +215,7 @@ void() brutegrenadethink =
 	//pointparticles(particleeffectnum("bruteproj"), self.origin, '0 0 0', 1);
 
 
-	if(self.frame < 2)
+	if (self.frame < 2)
 	self.frame ++;
 	vector delta = (self.enemy.origin) - rorigin(self);
 	float dist = vlen(delta);
@@ -232,7 +232,7 @@ void() brutegrenadethink =
 	}
 
 
-	if((self.lifetime < time ) || (self.origin == self.oldorigin))
+	if ((self.lifetime < time ) || (self.origin == self.oldorigin))
 	{	
 		self.movetype = 0; 
 		setmodel(self, "models/projectiles/proj_slag1_explo.md3");
@@ -258,8 +258,8 @@ void() brutegrenadethink =
 
 void(vector destination) brutefiregrenade =
 {
-    local entity missile;
-    local vector ang;
+    entity missile;
+    vector ang;
 
     self.effects = self.effects;
 	monstersound2("enemies/brute/shoot", 3, CHAN_AUTO);
@@ -268,7 +268,7 @@ void(vector destination) brutefiregrenade =
     missile.owner = self;
     missile.movetype = MOVETYPE_BOUNCE;
     missile.solid = SOLID_TRIGGER;
-	if(missile.owner.friendly_monster >= 0)
+	if (missile.owner.friendly_monster >= 0)
 		missile.solid = SOLID_BBOX;
 	missile.wrathflags += FL_PROJECTILE;
 	float brute_projvel = 800;
@@ -279,10 +279,10 @@ void(vector destination) brutefiregrenade =
 	//string viewxanglesfactor = strcat ((ftos (dist)), ("distance\n"));
 	//bprint (viewxanglesfactor);
 
-	if(dist > 1200)
+	if (dist > 1200)
 	brute_projvel = 800 + ((dist - 800) * 0.2);
 
-	if(brute_projvel > 1300)
+	if (brute_projvel > 1300)
 		brute_projvel = 1300;
 
 	vector wish_enemyorigin = destination;
@@ -304,7 +304,7 @@ void(vector destination) brutefiregrenade =
 
 	
 
-	if(b*b < 4*a*c)
+	if (b*b < 4*a*c)
 	{
 		float gravity_modifier =  (4*a*c)/(b*b); 
 		float degree_proj =  42.5;
@@ -338,9 +338,9 @@ void(vector destination) brutefiregrenade =
 	setmodel(missile, "models/projectiles/proj_brute.md3");
     setsize (missile, '-5 -5 -5', '5 5 5');
 
-	local vector tagorg;
-	local float tagindex;
-	if(self.classname == "boss_guardian3")
+	vector tagorg;
+	float tagindex;
+	if (self.classname == "boss_guardian3")
 		tagindex = gettagindex(self, "tag_mouth");
 	else
 		tagindex = gettagindex(self, "tag_howitzer");
@@ -350,7 +350,7 @@ void(vector destination) brutefiregrenade =
 
 	entity slag_explo = spawn();
 
-	if(self.classname == "boss_guardian3")
+	if (self.classname == "boss_guardian3")
 		setattachment(slag_explo, self, "tag_mouth");
 	else
 		setattachment(slag_explo, self, "tag_howitzer");
@@ -374,39 +374,39 @@ void() brute_shoot1 =[$brt_shoot1, brute_shoot2]{ai_face();
 	self.movetype = MOVETYPE_STEP;
 	//self.colormod = '1 1 1';
 	self.yaw_speed = 32;
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 
 };
 void() brute_shoot2 =[$brt_shoot2, brute_shoot3]{ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 };
 void() brute_shoot3 =[$brt_shoot3, brute_shoot4]{ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 };
 void() brute_shoot4 =[$brt_shoot4, brute_shoot5]{
 	ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 };
 void() brute_shoot5 =[$brt_shoot5, brute_shoot6]{ai_face();
 
 	ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 
 };
 void() brute_shoot6 =[$brt_shoot6, brute_shoot7]{ai_face();
 
 	ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 };
 void() brute_shoot7 =[$brt_shoot7, brute_shoot8]{ai_face();
 	ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 	self.effects += EF_MUZZLEFLASH;
 	brutefiregrenade(self.vlasttimespotted);
@@ -416,24 +416,24 @@ void() brute_shoot7 =[$brt_shoot7, brute_shoot8]{ai_face();
 void() brute_shoot8 =[$brt_shoot8, brute_shoot9]{ai_face();
 
 	ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 };
 void() brute_shoot9 =[$brt_shoot9, brute_shoot10]{ai_face();
 
 	ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 };
 void() brute_shoot10 =[$brt_shoot10, brute_shoot11]{
 	
 
 	ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		self.vlasttimespotted = self.enemy.origin;
 
 	float r = random();
-	if(r > 0.5)
+	if (r > 0.5)
 		self.think = brute_shoot11;	
 	else
 		self.think = self.th_missile;	
@@ -452,7 +452,7 @@ void() brute_shoot17 =[$brt_shoot17, brute_run1]
 	makevectors (self.angles);
 	tracebox(self.origin, '-8 -8 -8', '8 8 8', self.origin + v_forward * 64 - v_up *(32 + 16 + self.stepheight_delta), 3, self);
 
-	if(trace_fraction == 1)
+	if (trace_fraction == 1)
 	{
 		setorigin (self, self.origin + v_forward * -16);
 		self.movetype = MOVETYPE_STEP;
@@ -463,7 +463,7 @@ void() brute_shoot17 =[$brt_shoot17, brute_run1]
 	if (visible(self.enemy))
 	{
 		float dist = vlen(self.enemy.origin - self.origin);
-		if((dist <= 128))
+		if ((dist <= 128))
 			self.think = brute_atkr;
 		else
 		{
@@ -504,7 +504,7 @@ void() brute_meleea7 =[$brt_meleea7, brute_meleea7]
 	float dist = vlen(self.enemy.origin - self.origin);
 	if (visible(self.enemy))
 	{
-		if((dist <= 128) && (self.ammo_shotgun  == 1))
+		if ((dist <= 128) && (self.ammo_shotgun  == 1))
 		{	
 			float r = random();
 			if (r < 0.5)
@@ -518,7 +518,7 @@ void() brute_meleea7 =[$brt_meleea7, brute_meleea7]
 	else
 		self.think = self.th_run; //self.think = brute_meleea11;
 
-	//if((self.skin == 1) && visible(self.enemy) && (dist < 256) && (self.shotgun_time1 < time))
+	//if ((self.skin == 1) && visible(self.enemy) && (dist < 256) && (self.shotgun_time1 < time))
 	//	self.think = brute_meleec1;
 	
 };
@@ -543,7 +543,7 @@ void() brute_meleeb7 =[$brt_meleeb7, brute_meleeb7]
 	float dist = vlen(self.enemy.origin - self.origin);
 	if (visible(self.enemy))
 	{
-		if((dist <= 128) && (self.ammo_shotgun  == 1))
+		if ((dist <= 128) && (self.ammo_shotgun  == 1))
 		{	
 			float r = random();
 			if (r < 0.5)
@@ -557,7 +557,7 @@ void() brute_meleeb7 =[$brt_meleeb7, brute_meleeb7]
 	else
 		self.think = self.th_run; //self.think = brute_meleeb11;
 
-	//if((self.skin == 1) && visible(self.enemy) && (dist < 256) && (self.shotgun_time1 < time))
+	//if ((self.skin == 1) && visible(self.enemy) && (dist < 256) && (self.shotgun_time1 < time))
 	//	self.think = brute_meleec1;
 	
 };
@@ -597,7 +597,7 @@ void() brute_slama20 =[$brt_slama20, brute_meleea1]
 	if (visible(self.enemy))
 	{
 		float dist = vlen(self.enemy.origin - self.origin);
-		if((dist <= 128) && (self.ammo_shotgun  == 1))
+		if ((dist <= 128) && (self.ammo_shotgun  == 1))
 		{	
 			float r = random();
 			if (r < 0.5)
@@ -651,7 +651,7 @@ void() brute_slamb20 =[$brt_slamb20, brute_meleea1]
 	if (visible(self.enemy))
 	{
 		float dist = vlen(self.enemy.origin - self.origin);
-		if((dist <= 128) && (self.ammo_shotgun  == 1))
+		if ((dist <= 128) && (self.ammo_shotgun  == 1))
 		{	
 			float r = random();
 			if (r < 0.5)
@@ -740,7 +740,7 @@ void() brute_meleec20 =
 	if (visible(self.enemy))
 	{
 		float dist = vlen(self.enemy.origin - self.origin);
-		if((dist <= 128))
+		if ((dist <= 128))
 			self.think = brute_atkr;
 		else
 			self.think = self.th_run;
@@ -748,7 +748,7 @@ void() brute_meleec20 =
 	else
 	{	
 		float r;
-		if(r > 0.5)
+		if (r > 0.5)
 			self.think = self.th_run;
 		else
 			self.think = self.th_missile;
@@ -831,14 +831,14 @@ monstersounda("enemies/brute/step_walk_claw", 3, CHAN_AUTO,0.53);
 	if (visible(self.enemy))
 	{
 		float dist = vlen(self.enemy.origin - self.origin);
-		if((dist > 302) && (self.shotgun_time1 < time))
+		if ((dist > 302) && (self.shotgun_time1 < time))
 			self.think = self.th_missile;
-		if((dist > 128) && (dist <= 302))
+		if ((dist > 128) && (dist <= 302))
 			self.think = brute_run1;
-		if((dist <= 128))
+		if ((dist <= 128))
 			self.think = brute_atkr;
 
-		//if((self.skin == 1) && visible(self.enemy) && (dist < 178)&& (self.shotgun_time1 < time))
+		//if ((self.skin == 1) && visible(self.enemy) && (dist < 178)&& (self.shotgun_time1 < time))
 		//	self.think = brute_meleec1;
 	}
 
@@ -854,13 +854,13 @@ void() brute_rumble8 =[$brt_rumble8, brute_rumble1]{ai_runwalk(22);
 		self.movetype = MOVETYPE_STEP;
 		float dist = vlen(self.enemy.origin - self.origin);
 
-		if((dist > 302) && (self.shotgun_time1 < time))
+		if ((dist > 302) && (self.shotgun_time1 < time))
 			self.think = self.th_missile;
-		if((dist > 128) && (dist <= 302))
+		if ((dist > 128) && (dist <= 302))
 			self.think = brute_run1;
-		if((dist <= 128))
+		if ((dist <= 128))
 			self.think = brute_atkr;
-		//if((self.skin == 1) && visible(self.enemy) && (dist < 178)&& (self.shotgun_time1 < time))
+		//if ((self.skin == 1) && visible(self.enemy) && (dist < 178)&& (self.shotgun_time1 < time))
 		///	self.think = brute_meleec1;
 	}
 };
@@ -881,18 +881,18 @@ void() brute_run8 =
 	ai_runwalk(21);
 	self.frame= $brt_run4;
 	float r = random();
-	if(r < 0.3)
+	if (r < 0.3)
 		chattersound("enemies/brute/chatter", 3, 1);
 	if (visible(self.enemy))
 	{
 		float dist = vlen(self.enemy.origin - self.origin);
 		self.think= brute_run9;
-		float v_dist =  vlen(self.origin_z - self.enemy.origin_z);
-		if((dist > 128) && (v_dist > 128))
+		float v_dist = (self.origin_z - self.enemy.origin_z);
+		if ((dist > 128) && (v_dist > 128))
 			self.think = self.th_missile;
-		if((dist > 302) && (self.shotgun_time1 < time) &&(self.skin != 1))
+		if ((dist > 302) && (self.shotgun_time1 < time) &&(self.skin != 1))
 			self.think = self.th_missile;
-		if((dist <= 128))
+		if ((dist <= 128))
 			self.think = brute_atkr;
 	}
 	else
@@ -918,12 +918,12 @@ void() brute_run16 =[$brt_run8, brute_run1]
 	{
 		self.think = brute_run1;
 		float dist = vlen(self.enemy.origin - self.origin);
-		float v_dist =  vlen(self.origin_z - self.enemy.origin_z);
-		if((dist > 128) && (v_dist > 128))
+		float v_dist =  self.origin_z - self.enemy.origin_z;//R00k
+		if ((dist > 128) && (v_dist > 128))
 			self.think = self.th_missile;
-		if((dist > 302) && (self.shotgun_time1 < time)&&(self.skin != 1))
+		if ((dist > 302) && (self.shotgun_time1 < time)&&(self.skin != 1))
 			self.think = self.th_missile;
-		if((dist <= 128))
+		if ((dist <= 128))
 			self.think = brute_atkr;
 
 
@@ -933,15 +933,15 @@ void() brute_run16 =[$brt_run8, brute_run1]
 void() brute_start =
 {
 
-	if(((self.enemy == single_player) || (self.enemy.flags & FL_MONSTER)) && (self.enemy.health > 0)) 
+	if (((self.enemy == single_player) || (self.enemy.flags & FL_MONSTER)) && (self.enemy.health > 0)) 
 	{
 		float dist = vlen(self.enemy.origin - self.origin);
 
-		if(dist > 302)
+		if (dist > 302)
 			self.think = self.th_missile;
-		if((dist > 128) && (dist <= 302))
+		if ((dist > 128) && (dist <= 302))
 			self.think = brute_rumble1;
-		if((dist <= 128))
+		if ((dist <= 128))
 			self.think = brute_atkr;
 	}
 	else 
@@ -951,7 +951,11 @@ void() brute_start =
 	self.nextthink = time;	
 };
 
-void() brute_paina1 =[$brt_paina1, brute_paina2]{self.shotgun_time1 = 0;    self.movetype = MOVETYPE_STEP;	self.velocity = '0 0 0';
+void() brute_paina1 =[$brt_paina1, brute_paina2]
+{
+	self.shotgun_time1 = 0;
+	self.movetype = MOVETYPE_STEP;
+	self.velocity = '0 0 0';
 };
 void() brute_paina2 =[$brt_paina2, brute_paina3]{};
 void() brute_paina3 =[$brt_paina3, brute_paina4]{};
@@ -1021,7 +1025,7 @@ void() brute_painb20 =
 void() brutearmtouch =
 {
 	
-	if(other.solid == SOLID_BSP)
+	if (other.solid == SOLID_BSP)
 	{	
 		string snd2 = "enemies/brute/cannonground.ogg";
 		sound7(self, CHAN_AUTO, snd2, 1, 0.25,random(90,110) ,0);
@@ -1043,7 +1047,7 @@ void() brute_painc1 =[$brt_painc1, brute_painc2]
 
 	self.pain_finished =  time + 1.5 + random(5,7);
 	self.shotgun_time1 = 0;
-	local entity arm;
+	entity arm;
 	arm = spawn();
 	arm.model = "models/enemies/brute/howitzer/gib_howitser.md3";
 	setmodel(arm, arm.model);
@@ -1101,24 +1105,24 @@ void() brute_deatha13 =[$brt_deatha13, brute_deatha14]{};
 void() brute_deatha14 =[$brt_deatha14, brute_deatha15]{};
 void() brute_deatha15 =[$brt_deatha15, brute_deatha16]{};
 void() brute_deatha16 =[$brt_deatha16, brute_deatha17]{};
-void() brute_deatha17 =[$brt_deatha17, brute_deatha18]{
 
-monstersounda("enemies/brute/step_run_claw", 3, CHAN_AUTO,0.75);
+void() brute_deatha17 =[$brt_deatha17, brute_deatha18]
+{
+	monstersounda("enemies/brute/step_run_claw", 3, CHAN_AUTO,0.75);
 };
-void() brute_deatha18 =[$brt_deatha18, brute_deatha19]{
-monstersounda("enemies/brute/step_run_claw", 3, CHAN_AUTO,0.75);
+void() brute_deatha18 =[$brt_deatha18, brute_deatha19]
+{
+	monstersounda("enemies/brute/step_run_claw", 3, CHAN_AUTO,0.75);
 };
 void() brute_deatha19 =[$brt_deatha19, brute_deatha20]{};
 void() brute_deatha20 =[$brt_deatha20, brute_deatha21]{};
 void() brute_deatha21 =[$brt_deatha21, brute_deatha22]{};
-void() brute_deatha22 =[$brt_deatha22, brute_deatha23]{
-	string snd2 = "enemies/brute/wound.ogg";
-soundwrath(self, CHAN_AUTO, snd2, 1, 0.25,random(75,75) ,32,0.5);
-
-	string snd2 = "enemies/brute/brute_rumble.ogg";
-soundwrath(self, CHAN_AUTO, snd2, 1, 0.25,random(75,75) ,0,0.5);
-
+void() brute_deatha22 =[$brt_deatha22, brute_deatha23]
+{	//R00k removed snd2 and replaced the soundwrath call with literal values
+	soundwrath(self, CHAN_AUTO, "enemies/brute/wound.ogg", 1, 0.25,random(75,75) ,32,0.5);
+	soundwrath(self, CHAN_AUTO, "enemies/brute/brute_rumble.ogg", 1, 0.25,random(75,75) ,0,0.5);
 };
+
 void() brute_deatha23 =[$brt_deatha23, brute_deatha24]{
 };
 void() brute_deatha24 =[$brt_deatha24, brute_deatha25]{};
@@ -1126,18 +1130,14 @@ void() brute_deatha25 =[$brt_deatha25, brute_deatha25]{checkburnable(self);};
 
 void() brute_deathb1 =[$brt_deathb1, brute_deathb2]{};
 void() brute_deathb2 =[$brt_deathb2, brute_deathb3]{};
-void() brute_deathb3 =[$brt_deathb3, brute_deathb4]{
-
-
-
-monstersounda("enemies/brute/step_run_claw", 3, CHAN_AUTO,0.75);
-monstersounda("enemies/brute/step_run_claw", 3, CHAN_AUTO,0.75);
-string snd2 = "weapons/mace/mace_impact1.ogg";
-soundwrath(self, CHAN_AUTO, snd2, 1, 0.25,random(75,75) ,32,0.5);
-
+void() brute_deathb3 =[$brt_deathb3, brute_deathb4]
+{
+	monstersounda("enemies/brute/step_run_claw", 3, CHAN_AUTO,0.75);
+	monstersounda("enemies/brute/step_run_claw", 3, CHAN_AUTO,0.75);	
+	soundwrath(self, CHAN_AUTO, "weapons/mace/mace_impact1.ogg", 1, 0.25,random(75,75) ,32,0.5);
 };
-void() brute_deathb4 =[$brt_deathb4, brute_deathb5]{
-
+void() brute_deathb4 =[$brt_deathb4, brute_deathb5]
+{
 	makevectors (self.angles);
 	vector org = self.origin - '0 0 16' + v_forward * 24;
 	explo_blood(3, org);
@@ -1149,7 +1149,6 @@ void() brute_deathb4 =[$brt_deathb4, brute_deathb5]{
 	SpawnGib(org + randomvector('-5 -5 8','5 5 16'),randomvector('-48 -48 32','48 48 192'));
 	SpawnGib(org + randomvector('-5 -5 8','5 5 16'),randomvector('-48 -48 32','48 48 192'));
 	SpawnGib(org + randomvector('-5 -5 8','5 5 16'),randomvector('-48 -48 32','48 48 192'));
-
 };
 void() brute_deathb5 =[$brt_deathb5, brute_deathb6]{};
 void() brute_deathb6 =[$brt_deathb6, brute_deathb7]{};
@@ -1160,32 +1159,21 @@ void() brute_deathb10 =[$brt_deathb10, brute_deathb11]{};
 void() brute_deathb11 =[$brt_deathb11, brute_deathb12]{};
 void() brute_deathb12 =[$brt_deathb12, brute_deathb13]{};
 void() brute_deathb13 =[$brt_deathb13, brute_deathb14]{};
-void() brute_deathb14 =[$brt_deathb14, brute_deathb15]{
+void() brute_deathb14 =[$brt_deathb14, brute_deathb15]{};
 
-
-};
 void() brute_deathb15 =[$brt_deathb15, brute_deathb16]{};
 void() brute_deathb16 =[$brt_deathb16, brute_deathb17]{};
-void() brute_deathb17 =[$brt_deathb17, brute_deathb18]{
+void() brute_deathb17 =[$brt_deathb17, brute_deathb18]{};
 
+void() brute_deathb18 =[$brt_deathb18, brute_deathb19]
+{
+	soundwrath(self, CHAN_AUTO, "weapons/mace/mace_impact1.ogg", 1, 0.25,random(75,75) ,0,0.5);
+	soundwrath(self, CHAN_AUTO, "enemies/brute/wound.ogg", 1, 0.25,random(75,75) ,32,0.5);
+	soundwrath(self, CHAN_AUTO, "enemies/brute/brute_rumble.ogg", 1, 0.25,random(75,75) ,0,0.5);
 };
-void() brute_deathb18 =[$brt_deathb18, brute_deathb19]{
 
-
-
-
-	string snd2 = "weapons/mace/mace_impact1.ogg";
-soundwrath(self, CHAN_AUTO, snd2, 1, 0.25,random(75,75) ,0,0.5);
-
-	string snd2 = "enemies/brute/wound.ogg";
-soundwrath(self, CHAN_AUTO, snd2, 1, 0.25,random(75,75) ,32,0.5);
-
-	string snd2 = "enemies/brute/brute_rumble.ogg";
-soundwrath(self, CHAN_AUTO, snd2, 1, 0.25,random(75,75) ,0,0.5);
-
-
-};
-void() brute_deathb19 =[$brt_deathb19, brute_deathb20]{
+void() brute_deathb19 =[$brt_deathb19, brute_deathb20]
+{
 	makevectors (self.angles);
 	vector org = self.origin - '0 0 16' + v_forward * 24;
 	explo_blood(3, org);
@@ -1243,7 +1231,7 @@ void(entity enemy, float dmg) brute_pain =
 	self.movetype = MOVETYPE_STEP;
 	self.sustained_damage = 0;
 	float r = random();
-	if(r < 0.5)
+	if (r < 0.5)
 		self.think = brute_paina1;
 	else
 		self.think = brute_paind1;	
@@ -1357,7 +1345,7 @@ void() monster_brute =
 	self.yaw_speed = 32;
 	self.damagetopain = 850;
 	self.stepheight_delta = 12;
-	local float r;
+	float r;
 	r = (random() *3);
 	if (r < 3)
 		self.noise = "enemies/brute/sight3.ogg";	

@@ -39,9 +39,10 @@ void() train_use =
 
 void() train_stop =
 {
-	local entity targ;
+	entity targ;
 
-	soundwrath(self, FL_SWIM, self.noise2, TRUE, 0.15,100,0.5);
+	soundwrath(self, CHAN_AUTO, self.noise2, 1, 0.15,100,0,0);
+	
 	targ = find(world, targetname, self.target);
 	self.target = targ.target;
 	self.velocity = VEC_ORIGIN;
@@ -53,7 +54,7 @@ void() train_wait =
 	if (self.wait)
 	{
 		self.nextthink = (self.ltime + self.wait);
-		soundwrath(self, FL_SWIM, self.noise2, TRUE, 0.15,100,0.5);
+		soundwrath(self, CHAN_AUTO, self.noise2, TRUE, 0.15,100,0.5,0);
 	}
 	else
 	{
@@ -65,8 +66,8 @@ void() train_wait =
 
 void() train_next =
 {
-	local vector fang;
-	local entity targ;
+	vector fang;
+	entity targ;
 
 	targ = find(world, targetname, self.target);
 	if (!(self.spawnflags & TRUE))
@@ -88,7 +89,7 @@ void() train_next =
 	self.state = 0;
 	//void(entity e, float chan, string samp, float vol, float atten, float speed, float flags, float trapezoid) soundwrath = #8;
 	
-	soundwrath(self, FL_SWIM, self.noise, TRUE, 0.15,100,0.5);
+	soundwrath(self, CHAN_AUTO, self.noise, TRUE, 0.15,100,0.5,0);
 	if ((self.spawnflags & TRUE))
 	{
 		SUB_CalcMove(targ.origin, self.speed, train_stop);
@@ -107,7 +108,7 @@ void() train_next =
 
 void() func_train_find =
 {
-	local entity targ;
+	entity targ;
 
 	targ = find(world, targetname, self.target);
 	self.target = targ.target;
@@ -134,9 +135,9 @@ void() func_train =
 		self.dmg = FL_SWIM;
 	}
 
-	if(!(self.noise))
+	if (!(self.noise))
 		self.noise = "misc/null.wav";
-	if(!(self.noise2)) 
+	if (!(self.noise2)) 
 		self.noise2 = "misc/null.wav";
 
 	precache_sound(self.noise);
@@ -157,20 +158,20 @@ void() func_train =
 		self.nextthink = (self.ltime + 0.2);
 		self.think = func_train_find;
 	}
-    if(self.fake_lighted == -1)
+    if (self.fake_lighted == -1)
     	self.effects = 0;
-	if(self.fake_lighted == 1)
+	if (self.fake_lighted == 1)
 	{
-		if(!(self.effects & EF_DYNAMICMODELLIGHT))
+		if (!(self.effects & EF_DYNAMICMODELLIGHT))
 		self.effects += EF_DYNAMICMODELLIGHT;
 	}
-	if(self.fake_lighted == 2)
+	if (self.fake_lighted == 2)
 	{
 		self.fake_origin = 0.5 *(self.absmax + self.absmin);
 		self.fake_origin_z = self.absmax_z + 8;
 
 
-		local entity attachedmodel;
+		entity attachedmodel;
 		attachedmodel = spawn();
 		setmodel (attachedmodel, "models/misc/null.md3");
 		attachedmodel.solid = SOLID_NOT;
@@ -222,9 +223,9 @@ void() null =
 
 void() mercenaryanim =
 {
-	local float ntag;
-	local float nparticles;
-	local vector shootorg;
+	float ntag;
+	float nparticles;
+	vector shootorg;
 
 	self.frame = (self.frame + 1);
 	if ((self.frame >= 98))
@@ -245,7 +246,7 @@ void() mercenaryanim =
 
 void() attach_it =
 {
-	local entity twin;
+	entity twin;
 
 	twin = spawn();
 	setmodel(twin, self.model);
@@ -266,8 +267,8 @@ void() attach_it =
 string testmodel;
 void() attach_place_model =
 {
-	local entity t;
-	local vector org;
+	entity t;
+	vector org;
 
 	t = find(world, targetname, self.target);
 	org = tag_origin(self.tag_name, t);
@@ -279,11 +280,11 @@ void() attach_place_model =
 
 void() spawn_attached_models =
 {
-	local entity s_model;
-	local entity s_model2;
-	local entity s_model3;
-	local entity s_model4;
-	local entity s_model5;
+	entity s_model;
+	entity s_model2;
+	entity s_model3;
+	entity s_model4;
+	entity s_model5;
 
 	s_model = spawn();
 	setmodel(s_model, self.attached_model);
@@ -318,7 +319,7 @@ void() spawn_attached_models =
 
 void() boat_frames =
 {
-	if(self.frame == 1)
+	if (self.frame == 1)
 	{
 		self.frame = 2;
 		self.nextthink = time;
@@ -334,7 +335,7 @@ void() boat_frames =
 
 void() boat_check =
 {
-	if(self.owner.state == 1)
+	if (self.owner.state == 1)
 	{
 		self.movetype = 0;
 		self.velocity = '0 0 0';
@@ -351,7 +352,7 @@ void() place_model_checkowner =
 {
 
 	entity realt;
-	local entity e;
+	entity e;
 	e = nextent(world);
 	while (e)
 	{
@@ -365,7 +366,7 @@ void() place_model_checkowner =
 		e = nextent(e);
 	}
 
-	if(realt)
+	if (realt)
 	{
 		self.movetype = MOVETYPE_FOLLOW; // make the hole follow
 		self.solid = SOLID_NOT; // MOVETYPE_FOLLOW is always non-solid
@@ -379,8 +380,8 @@ void() place_model_checkowner =
 			self.frame = 0;
 			self.owner = realt;
 			self.think = boat_check;
-			vector xyorigin = (realt.absmin*realt.absmax) * 0.5;
-			xyorigin_z = self.origin_z;
+			vector xyorigin = (realt.absmin + realt.absmax) * 0.5;//R00k was absmin*absmax, changed to +
+			xyorigin.z = self.origin_z;
 			setorigin (self,xyorigin);
 			self.nextthink = time + 0.05;
 			return;
@@ -441,7 +442,7 @@ void() place_model =
 
 void() mercenary_test_think2 =
 {
-	local float acframe;
+	float acframe;
 
 	self.colormod = '0 0 3';
 	acframe = self.frame + TRUE;
@@ -460,7 +461,7 @@ void() mercenary_test_think2 =
 
 void() mercenary_test_think =
 {
-	local float acframe;
+	float acframe;
 
 	self.colormod = '0 3 0';
 	acframe = self.frame + TRUE;
@@ -488,7 +489,7 @@ void() mercenary_test =
 
 void() test_model_frik =
 {
-	local float readparms;
+	float readparms;
 
 	readparms = fopen("map/test_model.txt", FALSE);
 	testmodel = strzone(fgets(readparms));
@@ -547,28 +548,28 @@ void() TorchAmbient =
 
 void() object_torch1 =
 {
-	if(!self.episode)
+	if (!self.episode)
 		self.episode = world.episode;
 	self.classname = "object_torch1";
-	if(self.episode == 1)
+	if (self.episode == 1)
 	{
 		
 		precache_model("models/objects/fixtures/torch1.md3");
 		setmodel(self, "models/objects/fixtures/torch1.md3");
 	}
-	if(self.episode == 2)
+	if (self.episode == 2)
 	{
 		precache_model("models/objects/fixtures/e2_torch.md3");
 		setmodel(self, "models/objects/fixtures/e2_torch.md3");
 		makevectors2 (self.angles);
 		
 	}
-	if(self.episode == 3)
+	if (self.episode == 3)
 	{
 		precache_model("models/objects/fixtures/e3_torch.md3");
 		setmodel(self, "models/objects/fixtures/e3_torch.md3");
 	}
-	if(self.episode == 4)
+	if (self.episode == 4)
 	{
 		precache_model("models/objects/fixtures/e2_torch_2.md3");
 		setmodel(self, "models/objects/fixtures/e2_torch_2.md3");
@@ -581,7 +582,7 @@ void() object_torch1 =
 	precache_sound("fx/fire2.ogg");
 	setsize(self, '-4 -4 -8', '4 4 8');
 
-	if(self.episode == 2)
+	if (self.episode == 2)
 	{
 		self.solid = SOLID_BBOX;
 		self.wrathflags += FL_NOONTOP;
@@ -596,7 +597,7 @@ void() object_torch1 =
 	}	
 
 
-	if(self.episode == 1)
+	if (self.episode == 1)
 	self.skin = floor(random(0,3.99));
 
 
@@ -645,7 +646,7 @@ void() converttriggerhurt =
 	self.velocity = ' 0 0 0';
 	setsize(self,'-18 -18 -16','18 18 16');
 	setorigin (self,self.owner.origin + '0 0 12');
-	if(!self.wait)
+	if (!self.wait)
 		self.wait = 1;
 	self.touch = hurt_touch;
 	if (!self.dmg)
@@ -691,7 +692,7 @@ void() object_fire1 =
 		self.noise = "fx/fire2.ogg";
 	}
 	TorchAmbient();
-	if(self.spawnflags & 1)
+	if (self.spawnflags & 1)
 	{
 		setmodel(self, "models/objects/fixtures/fire1.md3");
 	}
@@ -702,11 +703,11 @@ void() object_fire1 =
 	}
 };
 
-void() CyExplosionBody = { local entity newcyst;
+void() CyExplosionBody = { entity newcyst;
 
 
 	vector tagorg;
-	if(self.owner.flags & FL_MONSTER)
+	if (self.owner.flags & FL_MONSTER)
 		tagorg = gettaginfo(self.tag_entity, self.tag_index);
 	else
 		tagorg = self.origin;
@@ -716,17 +717,17 @@ void() CyExplosionBody = { local entity newcyst;
 	setorigin(newcyst, tagorg);
 	newcyst.scale = 0.25;
 	setmodel(newcyst, "particles/explo/explo_cyst.md3");
-	local float skinn;
+	float skinn;
 	skinn = ceil(random() *4);
 	if (skinn == 4)
 		skinn = 0;
 	newcyst.skin = skinn * 10;
-	local string snd;
+	string snd;
 	snd = strcat("impact/projectiles/cyst_explo", ftos(floor(random() *5) + 1), ".ogg");
 	sound(newcyst, CHAN_AUTO, snd, 1, 0.25);
 
 
-	if(self.owner.flags & FL_MONSTER)
+	if (self.owner.flags & FL_MONSTER)
 	{
 		makevectors(self.owner.angles);
 		if (self.owner.health > 0)
@@ -747,7 +748,7 @@ void() cyst_think =
 	}
 	if (self.cyst_flag)
 	{
-		if(self.owner.classname != "monster_fallen")
+		if (self.owner.classname != "monster_fallen")
 			self.scale = (self.scale - (self.cyst_rate_glowmod / FL_SWIM));
 		self.glowmod_x = (self.glowmod_x - self.cyst_rate_glowmod);
 		self.glowmod_y = (self.glowmod_y - self.cyst_rate_glowmod);
@@ -759,7 +760,7 @@ void() cyst_think =
 	}
 	else
 	{
-		if(self.owner.classname != "monster_fallen")
+		if (self.owner.classname != "monster_fallen")
 			self.scale = (self.scale + (self.cyst_rate_glowmod / FL_SWIM));
 		self.glowmod_x = (self.glowmod_x + self.cyst_rate_glowmod);
 		self.glowmod_y = (self.glowmod_y + self.cyst_rate_glowmod);
@@ -818,11 +819,11 @@ void() cyst_think =
 
 void(entity e) spawn_cysts =
 {
-	local entity cst1;
-	local entity cst2;
-	local entity cst3;
-	local entity cst4;
-	local float pos;
+	entity cst1;
+	entity cst2;
+	entity cst3;
+	entity cst4;
+	float pos;
 
 	cst1 = spawn();
 	cst2 = spawn();
@@ -902,7 +903,7 @@ void(entity e) spawn_cysts =
 	cst4.glowmod = '0.5 0.5 0.5';
 
 
-	if(e.classname == "monster_fallen")
+	if (e.classname == "monster_fallen")
 	{
 		cst1.scale = 0.15;
 		cst2.scale = 0.15;
@@ -936,8 +937,8 @@ void(entity e) spawn_cysts =
 
 void(string tagname, entity e) setoriginbytag =
 {
-	local vector tagorg;
-	local float tagindex;
+	vector tagorg;
+	float tagindex;
 
 	tagindex = gettagindex(e, tagname);
 	tagorg = gettaginfo(e, tagindex);
@@ -945,7 +946,7 @@ void(string tagname, entity e) setoriginbytag =
 };
 void() smallbonetocuh = 
 {
-	if((other.solid == SOLID_BSP) && (self.cnt < 7))
+	if ((other.solid == SOLID_BSP) && (self.cnt < 7))
 	{
 	//self.effects = 1024;
 	self.cnt ++;
@@ -957,7 +958,7 @@ void() smallbonetocuh =
 }
 void(string gibtagname, string gibmodel, entity ownr, vector gvel) spawngibs =
 {
-	local entity gib;
+	entity gib;
 
 	gib = spawn();
 	gib.owner = ownr;
@@ -975,12 +976,12 @@ void(string gibtagname, string gibmodel, entity ownr, vector gvel) spawngibs =
 	gib.alpha = TRUE;
 	gib.think = gibalphafade4;
 	float r = random();
-	if((gib.owner.classentity == "wrathbreakableskull") && (r < 0.75))
+	if ((gib.owner.classentity == "wrathbreakableskull") && (r < 0.75))
 	{
 		gib.touch = smallbonetocuh;
 		gib.noise = "impact/destruct/skullbreak.ogg";
 	}
-	gib.nextthink = time + 3 + random() * 5;;
+	gib.nextthink = time + 3 + random() * 5;
 };
 .entity lastchain;
 .float degrees_chain_constant;
@@ -990,7 +991,7 @@ void(string gibtagname, string gibmodel, entity ownr, vector gvel) spawngibs =
 .float fixed_angles;
 void() create_chain =
 {
-	local entity chain;
+	entity chain;
 
 	self.count = (self.count + TRUE);
 	self.degrees_chain = (self.degrees_chain + self.degrees_chain_constant);
@@ -1020,14 +1021,14 @@ void() info_chain_spot =
 
 void() info_chain_think2 =
 {
-	local entity t;
-	local float rel;
-	local float a;
-	local float b;
-	local float radio;
-	local float circunferencia;
-	local float angulos;
-	local float arco;
+	entity t;
+	float rel;
+	float a;
+	float b;
+	float radio;
+	float circunferencia;
+	float angulos;
+	float arco;
 
 	t = find(world, targetname, self.target);
 	//self.height = 34;
@@ -1085,7 +1086,7 @@ void() generate_map_chain =
 
 
 	{
-		local entity chain_model;
+		entity chain_model;
 		chain_model = nextent(world);
 		while (chain_model)
 		{
@@ -1125,11 +1126,11 @@ void() info_chain_think =
 	
 
 
-	if(self.height > r_dist)
+	if (self.height > r_dist)
 	self.height = r_dist -1;
 
 
-	if(self.height)
+	if (self.height)
 	{
 		//float c_radius; // diametro
 		self.c_radius = (((r_dist/2) * (r_dist/2)) / self.height) + self.height;
@@ -1166,7 +1167,7 @@ void() info_chain_think =
 		chain.scale = self.scale;
 		chain.fspawnflags = self.fspawnflags;
 
-		if(firstchain == 0)
+		if (firstchain == 0)
 		{
 			firstchain = 1;	
 			chain.angles_x += self.chain_angle * (self.count * 0.5) + self.origin_offset_angle;
@@ -1187,7 +1188,7 @@ void() info_chain_think =
 
 void() info_chain =
 {	
-	if(self.model)
+	if (self.model)
 	{
 		precache_model(self.model);
 		setmodel(self, self.model);
@@ -1200,19 +1201,19 @@ void() info_chain =
     self.classname = "chained_model";
 
 
-	if(self.auto_angle == 0)	
+	if (self.auto_angle == 0)	
 	self.auto_angle = 0;
-	else if(!self.auto_angle)
+	else if (!self.auto_angle)
 	self.auto_angle = 90;
 
 	self.solid = TRUE;
-	if(!self.scale)
+	if (!self.scale)
 		self.scale = 1;
 
-	if(!(self.tag_name))
+	if (!(self.tag_name))
 		self.tag_name = "tag_chain";
 
-	if(!self.fspawnflags)
+	if (!self.fspawnflags)
 	self.fspawnflags = 7;
 	self.think = info_chain_think;
 	self.nextthink = (time + 0.05);

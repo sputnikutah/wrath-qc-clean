@@ -20,7 +20,7 @@ void() v_vmodel_idle = { self.vweaponstate = 0;
 
 };
 
-void() w_vmodel_slash2 = { local float lastvweaponframe;
+void() w_vmodel_slash2 = { float lastvweaponframe;
 	self.vweaponframe += 1;
 
 	if (self.randomattack == 1)
@@ -56,7 +56,7 @@ void() w_vmodel_slash1 = { self.oldrandomattack = self.randomattack;
 
 };
 
-void() w_vmodel_slash = { local float r;
+void() w_vmodel_slash = { float r;
 
 	r = random();
 

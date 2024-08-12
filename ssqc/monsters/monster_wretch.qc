@@ -72,11 +72,11 @@ void() wretch_stand20 =[$wre_idle20, wretch_stand1]{ai_stand();
 };
 
 void()wretch_attacka1;
-void() wretch_waiting1 =[$wre_idle1, wretch_waiting1]{ai_face();if (visible(self.enemy)){self.think = wretch_attacka1;self.nextthink = time + 0.1;}if((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;
+void() wretch_waiting1 =[$wre_idle1, wretch_waiting1]{ai_face();if (visible(self.enemy)){self.think = wretch_attacka1;self.nextthink = time + 0.1;}if ((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;
 
 	if ((self.friendly_monster == 1) && (self.enemy.classname == "player")) 
 		next_enemy();
-	if(!self.enemy)
+	if (!self.enemy)
 		next_enemy();
 
 };
@@ -88,12 +88,12 @@ void() wretch_waiting6 =[$wre_idle6, wretch_waiting6]{ai_face();if (visible(self
 void() wretch_waiting7 =[$wre_idle7, wretch_waiting7]{ai_face();if (visible(self.enemy)){self.think = wretch_attacka1;self.nextthink = time + 0.1;}};
 void() wretch_waiting8 =[$wre_idle8, wretch_waiting8]{ai_face();if (visible(self.enemy)){self.think = wretch_attacka1;self.nextthink = time + 0.1;}};
 void() wretch_waiting9 =[$wre_idle9, wretch_waiting9]{ai_face();if (visible(self.enemy)){self.think = wretch_attacka1;self.nextthink = time + 0.1;}};
-void() wretch_waiting10 =[$wre_idle10, wretch_waiting10]{ai_face();if (visible(self.enemy)){self.think = wretch_attacka1;self.nextthink = time + 0.1;}if((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;
+void() wretch_waiting10 =[$wre_idle10, wretch_waiting10]{ai_face();if (visible(self.enemy)){self.think = wretch_attacka1;self.nextthink = time + 0.1;}if ((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;
 
-if((!self.enemy.health) || (!self.enemy)) next_enemy();
+if ((!self.enemy.health) || (!self.enemy)) next_enemy();
 	if ((self.friendly_monster == 1) && (self.enemy.classname == "player")) 
 		next_enemy();
-	if(!self.enemy)
+	if (!self.enemy)
 		next_enemy();
 };
 void() wretch_waiting11 =[$wre_idle11, wretch_waiting11]{ai_face();if (visible(self.enemy)){self.think = wretch_attacka1;self.nextthink = time + 0.1;}};
@@ -132,7 +132,7 @@ void()  wretch_melee1;
 float(vector end) ai_recheable =
 {
 
-	local vector source = self.origin;
+	vector source = self.origin;
 
 	float step_height = self.stepheight_delta + cvar("sv_stepheight");	
 	source_z = self.absmin_z + step_height;
@@ -142,10 +142,10 @@ float(vector end) ai_recheable =
 	float steps = vlen(source - end) /(self.maxs_y *2);
 
 
-	if((visibleb(end,source,self)) != 1)
+	if ((visibleb(end,source,self)) != 1)
 	return -1;
 
-	if((visibleb(end,source,self) && (steps <= 1)))
+	if ((visibleb(end,source,self) && (steps <= 1)))
 	return 1;
 
 	vector dir = normalize(end - source);
@@ -156,7 +156,7 @@ float(vector end) ai_recheable =
 	vbox_z = self.maxs_x * 0.75;
 	float isteps = steps;
 
-	vector traceorigin;
+//	vector traceorigin;
 	float isrecheable = 1;
 
 	/*entity crysta1 = spawn();
@@ -174,7 +174,7 @@ float(vector end) ai_recheable =
 
 		tracebox(source,-vbox,vbox,traceend + v_up * -(step_height*2 + 6), 3, self);
 
-		if(trace_fraction == 1)
+		if (trace_fraction == 1)
 			isrecheable = -1;
 		isteps --; 
 	}
@@ -183,7 +183,7 @@ float(vector end) ai_recheable =
 	//crysta1.origin = source;
 	//crysta2.origin = traceend;
 
-//	if(isrecheable ==  1)
+//	if (isrecheable ==  1)
 //	crysta2.colormod = '1 0 1';
 	
 	return isrecheable;
@@ -197,22 +197,22 @@ void() checkmovetypeowner =
 {
 	if (self.owner.health < 0)
 		self.owner.movetype = MOVETYPE_TOSS;
-	if((self.owner.classname != self.oldclassname) || (self.owner.health < 0)|| (wasfreed(self.owner)))
+	if ((self.owner.classname != self.oldclassname) || (self.owner.health < 0)|| (wasfreed(self.owner)))
 	{
 		remove(self);
 		return;
 	}
-	if(self.owner.movetypetime > time)
+	if (self.owner.movetypetime > time)
 	{ 
-		if(self.owner.movetype != MOVETYPE_WALK)
+		if (self.owner.movetype != MOVETYPE_WALK)
 			self.owner.movetype = MOVETYPE_WALK;
 
-		if((self.owner.flags & FL_ONGROUND) && (self.owner.think))
+		if ((self.owner.flags & FL_ONGROUND) && (self.owner.think))
 			self.owner.nextthink = time;
 	}
 	else
 	{
-		if(self.owner.movetype != MOVETYPE_STEP)
+		if (self.owner.movetype != MOVETYPE_STEP)
 			self.owner.movetype = MOVETYPE_STEP;
 	}
 	self.think = checkmovetypeowner;
@@ -230,73 +230,73 @@ void() ai_check_dest =
 
 	
 	tempvec = self.origin + v_forward * 128+ v_right * 128; 
-	if(ai_recheable(tempvec))
+	if (ai_recheable(tempvec))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
 	tempvec = self.origin + v_forward * 128; 
-	if(ai_recheable(tempvec) && (ddest1 != '0 0 0'))
+	if (ai_recheable(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 		
 	}
 
 	tempvec = self.origin + v_forward * 128+ v_right * -128; 
-	if(ai_recheable(tempvec) && (ddest1 != '0 0 0'))
+	if (ai_recheable(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
 	tempvec = self.origin + v_right * 128;
-	if(ai_recheable(tempvec) && (ddest1 != '0 0 0'))
+	if (ai_recheable(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 
 	tempvec = self.origin + v_right * -128;
-	if(ai_recheable(tempvec) && (ddest1 != '0 0 0'))
+	if (ai_recheable(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 
 	tempvec = self.origin + v_forward * -128 + v_right * 128; 
-	if(ai_recheable(tempvec) && (ddest1 != '0 0 0'))
+	if (ai_recheable(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
 	tempvec = self.origin + v_forward * -128; 
-	if(ai_recheable(tempvec) && (ddest1 != '0 0 0'))
+	if (ai_recheable(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
 	tempvec = self.origin + v_forward * -128 + v_right * -128; 
-	if(ai_recheable(tempvec) && (ddest1 != '0 0 0'))
+	if (ai_recheable(tempvec) && (ddest1 != '0 0 0'))
 	{
 		ddest1 = tempvec;
-		if(visibleb(ddest1,self.origin,self))
+		if (visibleb(ddest1,self.origin,self))
 			vspecial = ddest1;
 	}
 	
-	if(ddest1 != '0 0 0')
+	if (ddest1 != '0 0 0')
 	{
-		if(vspecial != '0 0 0')
+		if (vspecial != '0 0 0')
 			ddest1 = vspecial;
 
 		self.ideal_yaw = vectoyaw((ddest1) - self.origin);	
@@ -320,7 +320,7 @@ void() wretch_run1b =[$wre_run1, wretch_run2]
 		enemy_range = range(self.enemy);
 		if ((enemy_range == RANGE_NEAR) || (enemy_range == RANGE_MID) && (!self.skip_attackb))
 			self.think = wretch_attackb1;
-		if(enemy_range == RANGE_MELEE)
+		if (enemy_range == RANGE_MELEE)
 			self.think = wretch_melee1;
 		self.skip_attackb = 1;
 		self.nextthink = time + 0.1;
@@ -330,11 +330,12 @@ void() wretch_run1b =[$wre_run1, wretch_run2]
 		ai_runwalk(wretch_rs);
 };
 		
-void() wretch_run1 =[$wre_run1, wretch_run2]{
+void() wretch_run1 =[$wre_run1, wretch_run2]
+{
+	float r = 0;
 	self.glowmod = '0.5 0.5 0.5';
 	if (self.zigzaging == 0)
-	{
-		local float r;
+	{		
 		r = random() *100;
 		if (wretch_zzc  >= r)
 		{
@@ -348,12 +349,11 @@ void() wretch_run1 =[$wre_run1, wretch_run2]{
 
 	float vcheckstep = check_step();
 
-
-	float r = random();
-	if(vcheckstep == 1)	
+	r = random();
+	if (vcheckstep == 1)	
 		ai_runwalk(wretch_rs);
 
-	else if((vcheckstep == 2) && (self.flags & FL_ONGROUND)&&(r < 0.25) && (self.jumptime < time))
+	else if ((vcheckstep == 2) && (self.flags & FL_ONGROUND)&&(r < 0.25) && (self.jumptime < time))
 	{
 		self.flags = self.flags - FL_ONGROUND;self.jumptime = time + 0.5;
 		self.movetype = MOVETYPE_WALK;
@@ -363,11 +363,11 @@ void() wretch_run1 =[$wre_run1, wretch_run2]{
 		self.nextthink = time + 0.7;
 
 	}
-	else if((vcheckstep == 3) && (self.flags & FL_ONGROUND))
+	else if ((vcheckstep == 3) && (self.flags & FL_ONGROUND))
 	{
 		ai_check_dest();
 	}	
-	//if(visible(self.enemy)) 	
+	//if (visible(self.enemy)) 	
 	//	self.zigzaging = 0;
 		
 };
@@ -377,12 +377,12 @@ void() wretch_run2 =[$wre_run2, wretch_run3]{ai_runwalk(wretch_rs);
 		enemy_range = range(self.enemy);
 		if ((enemy_range == RANGE_NEAR) || (enemy_range == RANGE_MID) && (!self.skip_attacka))
 		{
-			local float rp;
+			float rp;
 			rp = random() *100;
-			if(wretch_rth >= rp)
+			if (wretch_rth >= rp)
 			self.think = wretch_attacka1;
 		}	
-		if(enemy_range == RANGE_MELEE)
+		if (enemy_range == RANGE_MELEE)
 			self.think = wretch_melee1;
 		self.skip_attacka = 1;
 		self.nextthink = time + 0.1;
@@ -397,10 +397,10 @@ void() wretch_run5 =[$wre_run5, wretch_run6]{self.glowmod = '0.5 0.5 0.5';
 
 	float r = random();
 
-	if(vcheckstep == 1)	
+	if (vcheckstep == 1)	
 		ai_runwalk(wretch_rs);
 
-	else if((vcheckstep == 2) && (self.flags & FL_ONGROUND) &&(r < 0.25 )&&(self.jumptime < time) )
+	else if ((vcheckstep == 2) && (self.flags & FL_ONGROUND) &&(r < 0.25 )&&(self.jumptime < time) )
 	{
 		
 		self.movetype = MOVETYPE_WALK;
@@ -411,7 +411,7 @@ void() wretch_run5 =[$wre_run5, wretch_run6]{self.glowmod = '0.5 0.5 0.5';
 		self.nextthink = time + 0.7;
 
 	}
-	else if((vcheckstep == 3) && (self.flags & FL_ONGROUND))
+	else if ((vcheckstep == 3) && (self.flags & FL_ONGROUND))
 	{
 		ai_check_dest();
 	}
@@ -426,7 +426,7 @@ void() wretch_run5b =[$wre_run5, wretch_run6]
 		enemy_range = range(self.enemy);
 		if ((enemy_range == RANGE_NEAR) || (enemy_range == RANGE_MID) && (!self.skip_attackb))
 			self.think = wretch_attackb1;
-		if(enemy_range == RANGE_MELEE)
+		if (enemy_range == RANGE_MELEE)
 			self.think = wretch_melee1;
 		self.skip_attackb = 1;
 		self.nextthink = time + 0.1;
@@ -442,12 +442,12 @@ void() wretch_run6 =[$wre_run6, wretch_run7]{ai_runwalk(wretch_rs);
 		enemy_range = range(self.enemy);
 		if ((enemy_range == RANGE_NEAR) || (enemy_range == RANGE_MID) && (!self.skip_attackb))
 		{
-			local float rp;
+			float rp;
 			rp = random() *100;
-			if(wretch_rth >= rp)
+			if (wretch_rth >= rp)
 			self.think = wretch_attackb1;
 		}	
-		if(enemy_range == RANGE_MELEE)
+		if (enemy_range == RANGE_MELEE)
 			self.think = wretch_melee1;
 		self.skip_attackb = 1;
 		self.nextthink = time + 0.1;
@@ -464,7 +464,7 @@ self.skip_attackb = 0;
 /////////////////////////////////////////////////////////////////////////////////////////////projectile attack
 void() proj_wretch_explo = { 
 
-	if(self.movetype != 0)
+	if (self.movetype != 0)
 	{
 		sound(self, CHAN_WEAPON, "misc/null.wav", 1, 1);
 		randomsound2("enemies/wretch/proj_impact", 3, 1, CHAN_WEAPON, 0, 0.25);
@@ -493,11 +493,11 @@ void() proj_wretch_explo = {
 .float magnetized;
 void() projectile_touch_wre = 
 {
-	local float damg;
+	float damg;
 
 	if (other == self.owner)
 		return;
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
 	self.solid = SOLID_NOT;
 	if (pointcontents(self.origin) == CONTENT_SKY)
@@ -506,7 +506,7 @@ void() projectile_touch_wre =
 		return;
 	}
 
-	if(self.owner.friendly_monster == 1)
+	if (self.owner.friendly_monster == 1)
 		damg = 100;
 	else
 		damg = wretch_ad;
@@ -516,31 +516,32 @@ void() projectile_touch_wre =
 	if (self.owner.classname == "viciousidol")
 		damg = viciousdamage;
 
-	if((self.owner.classname == "viciousidol") && (other.classname == "player"))
+	if ((self.owner.classname == "viciousidol") && (other.classname == "player"))
 		damg = 0;
 		
 
 
 	if (self.owner.classname == "boss_guardian1") 
 	{
+		float factordmg = 0;
 		damg = boss1_proj1_dd;
-		if(self.scale == 4)
+
+		if (self.scale == 4)
 			damg = boss1_proj2_dd;
 
+		if (self.bosscnt == 3)
+			factordmg = 1;
+		if (self.bosscnt == 2)
+			factordmg = 0.8;
+		if (self.bosscnt == 1)
+			factordmg = 0.6;
 
-		if(self.bosscnt == 3)
-			float factordmg = 1;
-		if(self.bosscnt == 2)
-			float factordmg = 0.8;
-		if(self.bosscnt == 1)
-			float factordmg = 0.6;
 
-
-		if(other.health)
+		if (other.health)
 			T_Damage(other, self, self.owner, damg);
 		else
 		{
-			if(self.scale == 4)
+			if (self.scale == 4)
 			{
 				damg = boss1_proj2_dd;
 				T_SplashDamage(self, self.owner, boss1_proj2_sd * factordmg, world, boss1_proj2_rv);
@@ -552,7 +553,7 @@ void() projectile_touch_wre =
 
 	else
 	{
-		if(other.health)
+		if (other.health)
 			T_Damage(other, self, self.owner, damg);
 	}
 	sound(self, CHAN_WEAPON, "misc/null.wav", 1, 1);
@@ -568,11 +569,11 @@ void() projectile_touch_wre =
 void()proj_wretch_explo_think =
 {
 
-	if(self.frame < 3)
+	if (self.frame < 3)
 		self.frame ++;
-	if((self.enemy.health < 0) &&(self.owner.classname != "viciousidol"))
+	if ((self.enemy.health < 0) &&(self.owner.classname != "viciousidol"))
 		self.lifetime = 0;
-	if(/*(skill >= 3) ||*/ ( (self.owner.classname == "boss_guardian1") &&(self.owner.magnetized == 1)) && (self.attack_finished < time) ) 
+	if (/*(skill >= 3) ||*/ ( (self.owner.classname == "boss_guardian1") &&(self.owner.magnetized == 1)) && (self.attack_finished < time) ) 
 	{
 		float disttoenemy = vlen (self.origin - self.enemy.origin);
 		float playerspeed = (vlen (self.enemy.velocity)) * random (0.25,1);
@@ -580,19 +581,19 @@ void()proj_wretch_explo_think =
 		vector newplayerorg =(self.enemy.origin + nextpos);
 		disttoenemy = vlen (self.origin - self.enemy.origin);
 		float mindisttoenemy;
-		if(self.owner.cnt == 2)
+		if (self.owner.cnt == 2)
 			mindisttoenemy = 256;
-		if(self.owner.cnt == 1)
+		if (self.owner.cnt == 1)
 			mindisttoenemy = 128;
-		if(self.owner.cnt <= 0)
+		if (self.owner.cnt <= 0)
 			mindisttoenemy = 96;
-		if(( disttoenemy > mindisttoenemy) && (self.magnetized != -1))
+		if (( disttoenemy > mindisttoenemy) && (self.magnetized != -1))
 		{
-			if(self.owner.cnt == 2)
+			if (self.owner.cnt == 2)
 				self.velocity = self.velocity * 0.3 + (self.enemy.origin - (self.origin + '0 0 -12')) * 0.7;
-			if(self.owner.cnt == 1)
+			if (self.owner.cnt == 1)
 				self.velocity = self.velocity * 0.2 + (self.enemy.origin - (self.origin + '0 0 -12')) * 0.8;
-			if(self.owner.cnt <= 0)
+			if (self.owner.cnt <= 0)
 				self.velocity = self.velocity * 0.1 + (self.enemy.origin - (self.origin + '0 0 -12')) * 0.9;
 			self.velocity = normalize(self.velocity);
 			self.velocity = (self.velocity *512);
@@ -607,13 +608,13 @@ void()proj_wretch_explo_think =
 		}
 		self.attack_finished = time + 0.1;
 	}
-	if(self.origin ==  self.oldorigin)
+	if (self.origin ==  self.oldorigin)
 	{
 		self.think = proj_wretch_explo;
 	}
 	else
 	{
-		if(self.lifetime < time)
+		if (self.lifetime < time)
 			self.think = proj_wretch_explo;
 		else
 			self.think = proj_wretch_explo_think;
@@ -623,11 +624,11 @@ void()proj_wretch_explo_think =
 };	
 
 
-void(vector org, vector dir, entity ownerproj) launch_projectile_wre = { local entity shotgun_proj;
+void(vector org, vector dir, entity ownerproj) launch_projectile_wre = { entity shotgun_proj;
 	monstersound3("enemies/wretch/fire", 5, CHAN_AUTO);	
 	shotgun_proj = spawn();
 	
-	if((ownerproj.classname == "boss_guardian1") && (ownerproj.magnetized == 1))
+	if ((ownerproj.classname == "boss_guardian1") && (ownerproj.magnetized == 1))
 	shotgun_proj.magnetized = 1;
 
 	shotgun_proj.owner = ownerproj;
@@ -635,9 +636,9 @@ void(vector org, vector dir, entity ownerproj) launch_projectile_wre = { local e
 	shotgun_proj.wrathflags += FL_PROJECTILE;
 	shotgun_proj.solid = SOLID_TRIGGER;
 	shotgun_proj.scale = 1;
-	if(ownerproj.classname == "boss_guardian1")
+	if (ownerproj.classname == "boss_guardian1")
 		shotgun_proj.scale = 2;
-	if(ownerproj.classname == "viciousidol")
+	if (ownerproj.classname == "viciousidol")
 		shotgun_proj.colormod = '8 8 7.5';
 	shotgun_proj.angles = vectoangles(dir);
 	shotgun_proj.touch = projectile_touch_wre;
@@ -653,7 +654,7 @@ void(vector org, vector dir, entity ownerproj) launch_projectile_wre = { local e
 	makevectors(self.angles);
 	//org -=v_forward*order ;
 	setorigin(shotgun_proj, org);
-	if((ownerproj.classname == "boss_guardian1") && (ownerproj.magnetized != 1))
+	if ((ownerproj.classname == "boss_guardian1") && (ownerproj.magnetized != 1))
 	shotgun_proj.velocity = dir *(wretch_projvel) * random (1,1.25);
 
 	else
@@ -666,18 +667,18 @@ void(vector org, vector dir, entity ownerproj) launch_projectile_wre = { local e
 
 void() wretch_attack = 
 {
-	local vector dir, tagorg;
-	local float tagindex;
+	vector dir, tagorg;
+	float tagindex;
 	ai_face();
 	tagindex = gettagindex(self, "tag_proj");
 	tagorg = gettaginfo(self, tagindex);
 	dir = aim(self, 1000);
-	local vector sre;
+	vector sre;
 	sre = self.angles;
 	makevectors2(sre);
 	dir = normalize(self.enemy.origin - tagorg);
 
-	if(self.friendly_monster == 2)
+	if (self.friendly_monster == 2)
 	{
 		float projnumber = 1;
 		while(projnumber)
@@ -714,7 +715,7 @@ void() wretch_attacka5 =[$wre_attack5, wretch_attacka6]
 void() wretch_attacka6 =[$wre_attack6, wretch_attacka7]
 {
 	ai_face();
-	if(test_ia == 1)
+	if (test_ia == 1)
 		self.enemy_prediction = self.oldposition.origin;
 	wretch_attack();
 	self.glowmod = '0.9 0.9 0.9';
@@ -727,24 +728,24 @@ void() wretch_attacka8 =[$wre_attack8, wretch_attacka11]
 	float enemy_is_visible = visible(self.enemy);
 	if ((self.friendly_monster == 1) && (self.turret))
 	{
-		if(!self.enemy)
+		if (!self.enemy)
 			next_enemy();
 		else
 		{
-			if(!enemy_is_visible)
+			if (!enemy_is_visible)
 				next_enemy();
 			else
 			{
-			if((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
+			if ((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
 				next_enemy();
 			}	
 		}		
 	}	
 	self.nextthink = time + 0.1;
 	self.glowmod = '0.7 0.7 0.7';
-	if(!self.turret)
+	if (!self.turret)
 	{
-		local float rp;
+		float rp;
 		rp = random() *100;
 		if ((enemy_is_visible && (wretch_ath >= rp) ) || (self.turret_time > time))
 			self.think = wretch_attacka9;
@@ -763,7 +764,7 @@ void() wretch_attacka10 =[$wre_attack10, wretch_attacka6]{ai_face();self.glowmod
 
 	float r = random();
 
-	if((vcheckstep == 2) && (self.flags & FL_ONGROUND)&&(r < 0.25)&&(self.jumptime < time))
+	if ((vcheckstep == 2) && (self.flags & FL_ONGROUND)&&(r < 0.25)&&(self.jumptime < time))
 	{
 		self.flags = self.flags - FL_ONGROUND;self.jumptime = time + 0.5;
 		self.velocity = v_forward * 5 * (wretch_rs * 2) + '0 0 64';
@@ -772,7 +773,7 @@ void() wretch_attacka10 =[$wre_attack10, wretch_attacka6]{ai_face();self.glowmod
 };
 void() wretch_attacka11 =[$wre_attack11, wretch_run5]{ai_face();ai_runwalk(wretch_rs /2);self.glowmod = '0.6 0.6 0.6';
 	float vcheckstep = check_step();
-	if((vcheckstep == 3)&&(visible(self.enemy)))
+	if ((vcheckstep == 3)&&(visible(self.enemy)))
 	{
 		self.think = wretch_attackb1;
 	}	
@@ -791,7 +792,7 @@ void() wretch_attackb5 =[$wre_attackb5, wretch_attackb6]
 void() wretch_attackb6 =[$wre_attackb6, wretch_attackb7]
 {
 	ai_face();
-	if(test_ia == 1)
+	if (test_ia == 1)
 		self.enemy_prediction = self.oldposition.origin;
 	wretch_attack();self.glowmod = '0.9 0.9 0.9';
 };
@@ -803,28 +804,28 @@ void() wretch_attackb8 =[$wre_attackb8, wretch_attackb11]{ai_face();
 	float enemy_is_visible = visible(self.enemy);
 	if ((self.friendly_monster == 1)&& (self.turret))
 	{
-		if(!self.enemy)
+		if (!self.enemy)
 		{
 			next_enemy();
 		}
 		else
 		{
-			if(!enemy_is_visible)
+			if (!enemy_is_visible)
 			{	
 				next_enemy();
 			}
 			else
 			{
-			if((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
+			if ((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
 				next_enemy();
 			}	
 		}		
 	}	
 		
 
-	if(!self.turret)
+	if (!self.turret)
 	{
-		local float rp;
+		float rp;
 		rp = random() *100;
 		if ((enemy_is_visible && (wretch_ath >= rp) ) || (self.turret_time > time))
 			self.think = wretch_attackb9;
@@ -842,7 +843,7 @@ void() wretch_attackb9 =[$wre_attackb9, wretch_attackb10]{ai_face();	self.glowmo
 void() wretch_attackb10 =[$wre_attackb10, wretch_attackb6]{ai_face();self.glowmod = '0.9 0.9 0.9';
 	float vcheckstep = check_step();
 	float r = random();
-	if((vcheckstep == 2) && (self.flags & FL_ONGROUND)&&(r < 0.25 )&&(self.jumptime < time))
+	if ((vcheckstep == 2) && (self.flags & FL_ONGROUND)&&(r < 0.25 )&&(self.jumptime < time))
 	{
 		self.flags = self.flags - FL_ONGROUND;self.jumptime = time + 0.5;
 		self.velocity = v_forward * 5 * (wretch_rs * 2) + '0 0 270';
@@ -852,7 +853,7 @@ void() wretch_attackb10 =[$wre_attackb10, wretch_attackb6]{ai_face();self.glowmo
 void() wretch_attackb11 =[$wre_attackb11, wretch_run1]{ai_face();ai_runwalk(wretch_rs /2);	self.glowmod = '0.6 0.6 0.6';
 
 	float vcheckstep = check_step();
-	if((vcheckstep == 3)&&(visible(self.enemy))) 
+	if ((vcheckstep == 3)&&(visible(self.enemy))) 
 	{
 		self.think = wretch_attacka1;
 	}	
@@ -860,8 +861,8 @@ void() wretch_attackb11 =[$wre_attackb11, wretch_run1]{ai_face();ai_runwalk(wret
 
 };
 
-void() wretch_melee_attack = { local vector delta;
-	local float dist;
+void() wretch_melee_attack = { vector delta;
+	float dist;
 	if (!self.enemy)
 		return;	// removed before stroke
 	delta = self.enemy.origin - self.origin;
@@ -891,7 +892,7 @@ void() wretch_melee8=[$wre_meleea8, wretch_run1]{ai_face();
 	if (visible(self.enemy)&& (self.enemy.health > 0)  && (self.enemy != world))
 	{
 		enemy_range = range(self.enemy);
-		if(enemy_range == RANGE_MELEE)
+		if (enemy_range == RANGE_MELEE)
 			self.think = wretch_meleeb1;
 		self.nextthink = time + 0.1;
 		return;
@@ -909,7 +910,7 @@ void() wretch_meleeb8=[$wre_meleeb8, wretch_run1]{ai_face();
 	if (visible(self.enemy) && (self.enemy.health > 0) && (self.enemy != world))
 	{
 		enemy_range = range(self.enemy);
-		if(enemy_range == RANGE_MELEE)
+		if (enemy_range == RANGE_MELEE)
 			self.think = wretch_melee1;
 		self.nextthink = time + 0.1;
 		return;
@@ -919,8 +920,8 @@ void() wretch_meleeb8=[$wre_meleeb8, wretch_run1]{ai_face();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////melee attack
 /*
-void(float wdmg) wretch_melee_attack = { local vector delta;
-	local float dist;
+void(float wdmg) wretch_melee_attack = { vector delta;
+	float dist;
 	if (!self.enemy)
 		return;	// removed before stroke
 	delta = self.enemy.origin - self.origin;
@@ -969,7 +970,7 @@ void() wretch_postpain =
 			}
 			if ((enemy_range == RANGE_NEAR) || (enemy_range == RANGE_MID))
 			{
-				local float rp;
+				float rp;
 				rp = random() *100;	
 				if (wretch_rth >= rp)
 					self.think = wretch_attackb1;
@@ -994,9 +995,9 @@ void() wretch_postpain =
 /////////////////////////////////////////////////////////////////////////////////////////////
 void(entity enemy, float dmg) wretch_paina1 = 
 { 
-	if(enemy.weapon != IT_CRYSTAL)
+	if (enemy.weapon != IT_CRYSTAL)
 	{
-	local float rp;
+	float rp;
 	rp = random() *100;	
 	if (wretch_rtp <= rp)
 		return;
@@ -1004,11 +1005,11 @@ void(entity enemy, float dmg) wretch_paina1 =
 	self.glowmod = '0.5 0.5 0.5';
 	self.painframe = 1;
 	float r = random();
-	if(r < 1)
+	if (r < 1)
 	self.frame = $wre_paina1;
-	if(r < 0.65)
+	if (r < 0.65)
 	self.frame = $wre_painb1;
-	if(r < 0.33)
+	if (r < 0.33)
 	self.frame = $wre_painc1;
 	ai_pain(4);
 	monstersound4("enemies/wretch/pain", 5, CHAN_VOICE);
@@ -1021,12 +1022,12 @@ void(entity enemy, float dmg) wretch_paina1 =
 
 void() spining_head_attack = 
 {
-	local vector tagorg, tagdest,dir;
+	vector tagorg, tagdest,dir;
 	tagorg = tag_origin("tag_proj", self);
 	tagdest = tag_origin("tag_dest", self);
 
 	dir = aim(self, 1000);
-	local vector sre;
+	vector sre;
 	sre = self.angles;
 	makevectors2(sre);
 	dir = normalize(tagdest - tagorg);
@@ -1038,7 +1039,7 @@ void() wrethc_explode_head =
 {
 	self.alpha = -1;
 	decal_monster_gib(self.origin + '0 0 12');
-	local vector tagorg;
+	vector tagorg;
 	tagorg = tag_origin("tag_explo", self);
 	msound(self, CHAN_BODY, "enemies/wretch/explode.ogg", 1, 0.1);
 	pointparticles(particleeffectnum("wretch_bloodshower"), tagorg , '0 0 0', 1);
@@ -1061,7 +1062,7 @@ void() wrethc_explode_head =
 void()wretch_postspining_head =
 {
 
-	if((self.flags & FL_ONGROUND) && (self.movetype == MOVETYPE_BOUNCE))
+	if ((self.flags & FL_ONGROUND) && (self.movetype == MOVETYPE_BOUNCE))
 	{
 		self.flags -= FL_ONGROUND;
 		self.movetype = MOVETYPE_FLY;
@@ -1069,18 +1070,18 @@ void()wretch_postspining_head =
 		self.velocity = '0 0 0';
 	}
 
-	//if(time > self.timefly) && (self.movetype == MOVETYPE_FLY)
+	//if (time > self.timefly) && (self.movetype == MOVETYPE_FLY)
 	self.frame = 1;
 	self.avelocity_y = wretch_shv;
 	spining_head_attack();
 	
-	if((self.count != 1) && ((self.lifetime - time) <= 1))
+	if ((self.count != 1) && ((self.lifetime - time) <= 1))
 	{
 	msound(self, CHAN_BODY, "enemies/wretch/overload.ogg", 1, 0.25);
 	self.count = 1;
 	}
 	
-	if(time > self.lifetime)
+	if (time > self.lifetime)
 		self.think = wrethc_explode_head;
 	else
 		self.think = wretch_postspining_head;
@@ -1090,7 +1091,7 @@ void()wretch_postspining_head =
 void()wretch_spining_head =
 {
 
-	if((self.flags & FL_ONGROUND) && (self.movetype == MOVETYPE_BOUNCE))
+	if ((self.flags & FL_ONGROUND) && (self.movetype == MOVETYPE_BOUNCE))
 	{
 		self.flags -= FL_ONGROUND;
 		self.movetype = MOVETYPE_FLY;
@@ -1100,7 +1101,7 @@ void()wretch_spining_head =
 
 	self.avelocity_y = wretch_shvb;
 	spining_head_attack();
-	if(self.time2 <= time)
+	if (self.time2 <= time)
 	{
 		self.health = 10;
 		self.th_die = wrethc_explode_head;
@@ -1120,7 +1121,7 @@ void() wretch_gibdead =
 {
 	self.alpha = -1;
 	decal_monster_gib(self.origin + '0 0 12');
-	local vector tagorg;
+	vector tagorg;
 	tagorg = tag_origin("tag_arm1_r", self);explo_blood(20, tagorg);
 	ThrowGib3(self, "models/enemies/wretch/gibs/gib_arm1_r.md3", self.health *0.25, 0.75, 1, 1, tagorg, relvel(wre_gib1, self), 0, 3);	// relvel: forward, right, up
 	tagorg = tag_origin("tag_arm1_l", self);explo_blood(20, tagorg);
@@ -1130,13 +1131,13 @@ void() wretch_gibdead =
 	tagorg = tag_origin("tag_arm2_l", self);
 	ThrowGib3(self, "models/enemies/wretch/gibs/gib_arm2_l.md3", self.health *0.25, 0.75, 1, 1, tagorg, relvel(wre_gib4, self), 0, 3);	// relvel: forward, right, up
 	tagorg = tag_origin("tag_head", self);
-	if(self.wretch_gibbing != 1)
+	if (self.wretch_gibbing != 1)
 	{
 	
 	float rp;
 	rp = random() *100;
 	
-	if((self.health > -500) || (self.shockwaved == 1))
+	if ((self.health > -500) || (self.shockwaved == 1))
 		ThrowGib3(self, "models/enemies/wretch/gibs/gib_head.md3", self.health *0.25, 0.75, 1, 1, tagorg, relvel(wre_gib5, self), 1, 3);	// relvel: forward, right, up
 	else
 		ThrowGib3(self, "models/enemies/wretch/gibs/gib_head_spin.md3", self.health *0.25, 0.75, 1, 1, tagorg, relvel(wre_gib22, self), 1, 4);	// relvel: forward, right, up
@@ -1166,7 +1167,7 @@ void() wretch_postdie =
 { 
 	self.frame ++; 
 	self.painframe ++; 
-	if(self.wretch_gibbing == 1)
+	if (self.wretch_gibbing == 1)
 	{
 		spining_head_attack();
 		self.glowmod_x += 0.1;
@@ -1178,22 +1179,22 @@ void() wretch_postdie =
 		self.glowmod_x -= 0.1;
 		self.glowmod_y -= 0.1;
 		self.glowmod_z -= 0.1;
-		if(self.glowmod_z == 0)
+		if (self.glowmod_z == 0)
 		self.glowmod = '-1 -1 -1';
 	}
 	
-	if((self.frame == $wre_deatha4) || (self.frame == $wre_deathb5) || (self.frame == $wre_deathc5) || (self.frame == $wre_deathd10))
+	if ((self.frame == $wre_deatha4) || (self.frame == $wre_deathb5) || (self.frame == $wre_deathc5) || (self.frame == $wre_deathd10))
 	{
 		checkburnable(self);
 		decal_monster(self.origin + '0 0 12');
 	}	
 	
-	if(self.painframe == 10)
+	if (self.painframe == 10)
 	{
-		if(self.wretch_gibbing == 1)
+		if (self.wretch_gibbing == 1)
 		{
 			T_SplashDamageMonster(self, wretch_explo_damage, wretch_explo_damage_player, world, wretch_explo_radius, wretch_pushfactor);
-			local vector tagorg;
+			vector tagorg;
 			tagorg = tag_origin("tag_explo", self);
 			explo_blood(10, tagorg);
 			msound(self, CHAN_BODY, "enemies/wretch/explode.ogg", 1, 0.1);
@@ -1228,9 +1229,9 @@ void() wretch_diea1 = {
 	self.painframe = 1;
 	self.glowmod = '0.5 0.5 0.5';
 
-	if(self.health < wretch_dtg )
+	if (self.health < wretch_dtg )
 	{
-	//	local vector tagorg;
+	//	vector tagorg;
 	//	tagorg = tag_origin("tag_explo", self);
 	//	explo_blood(10, tagorg);	
 		self.think = wretch_gibdead;
@@ -1239,34 +1240,34 @@ void() wretch_diea1 = {
 	}
 	float r = random();
 
-	if((self.health > -75) && (self.killedbyblade != 1))
+	if ((self.health > -75) && (self.killedbyblade != 1))
 	{
 
-		/*if(r < 1)
+		/*if (r < 1)
 			self.frame = $wre_deatha1;
-		if(r < 0.7)
+		if (r < 0.7)
 			self.frame = $wre_deathb1;
-		if(r < 0.4)
+		if (r < 0.4)
 			self.frame = $wre_deathc1;
-		if(r < 0.10)*/
+		if (r < 0.10)*/
 		{
 			msound(self, CHAN_BODY, "enemies/wretch/overload.ogg", 1, 0.25);
-			if(!(self.wretch_gibbing))
+			if (!(self.wretch_gibbing))
 			self.wretch_gibbing = 1;
 			self.frame = $wre_deathd1;
 		}
 	}
 	else
 	{
-		if(r < 1)
+		if (r < 1)
 			self.frame = $wre_deatha1;
-		if(r < 0.67)
+		if (r < 0.67)
 			self.frame = $wre_deathb1;
-		if(r < 0.34)
+		if (r < 0.34)
 			self.frame = $wre_deathc1;
 	}
 	
-	if(r >= 0.25)
+	if (r >= 0.25)
 	monstersound4("enemies/wretch/die", 5, CHAN_VOICE);
 
 	self.think = wretch_postdie;
@@ -1340,7 +1341,7 @@ void() monster_wretch = { precache_model("models/enemies/wretch/wretch.md3");
 	if (self.waypointed != 1)
 		self.waypointed = 0;
 	self.solid = SOLID_SLIDEBOX;
-	local float r;
+	float r;
 	r = (random() *3);
 	if (r <= 3)
 		self.noise = "enemies/wretch/sight3.ogg";

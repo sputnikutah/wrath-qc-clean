@@ -148,27 +148,27 @@ void()stricken_choose_attack =
 	self.nextthink = time;
 };
 
-void()	stricken_waiting1	=[	$str_idle1,	stricken_waiting2	] {if((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face();monstersound1("enemies/stricken/idle",3,CHAN_BODY); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting2	=[	$str_idle2,	stricken_waiting3	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting3	=[	$str_idle3,	stricken_waiting4	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting4	=[	$str_idle4,	stricken_waiting5	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting5	=[	$str_idle5,	stricken_waiting6	] {if (visible (self.enemy))  {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting6	=[	$str_idle6,	stricken_waiting7	] {if((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting7	=[	$str_idle7,	stricken_waiting8	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting8	=[	$str_idle8,	stricken_waiting9	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting9	=[	$str_idle9,	stricken_waiting10	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting10	=[	$str_idle10,	stricken_waiting11	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();		if(!self.enemy.health) 
+void()	stricken_waiting1	=[	$str_idle1,	stricken_waiting2	] {if ((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face();monstersound1("enemies/stricken/idle",3,CHAN_BODY); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting2	=[	$str_idle2,	stricken_waiting3	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting3	=[	$str_idle3,	stricken_waiting4	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting4	=[	$str_idle4,	stricken_waiting5	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting5	=[	$str_idle5,	stricken_waiting6	] {if (visible (self.enemy))  {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting6	=[	$str_idle6,	stricken_waiting7	] {if ((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting7	=[	$str_idle7,	stricken_waiting8	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting8	=[	$str_idle8,	stricken_waiting9	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting9	=[	$str_idle9,	stricken_waiting10	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting10	=[	$str_idle10,	stricken_waiting11	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();		if (!self.enemy.health) 
 		next_enemy();}; 
-void()	stricken_waiting11	=[	$str_idle11,	stricken_waiting12	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting12	=[	$str_idle12,	stricken_waiting13	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting13	=[	$str_idle13,	stricken_waiting14	] {if((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting14	=[	$str_idle14,	stricken_waiting15	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting15	=[	$str_idle15,	stricken_waiting16	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting16	=[	$str_idle16,	stricken_waiting17	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting17	=[	$str_idle17,	stricken_waiting18	] {if((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting18	=[	$str_idle18,	stricken_waiting19	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting19	=[	$str_idle19,	stricken_waiting20	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();}; 
-void()	stricken_waiting20	=[	$str_idle20,	stricken_waiting1	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if(self.friendly_monster == 1) ai_stand();		if(self.enemy.health <= 0) 
+void()	stricken_waiting11	=[	$str_idle11,	stricken_waiting12	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting12	=[	$str_idle12,	stricken_waiting13	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting13	=[	$str_idle13,	stricken_waiting14	] {if ((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting14	=[	$str_idle14,	stricken_waiting15	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting15	=[	$str_idle15,	stricken_waiting16	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting16	=[	$str_idle16,	stricken_waiting17	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting17	=[	$str_idle17,	stricken_waiting18	] {if ((!(self.enemy)) && (self.goalentity))self.enemy = self.goalentity;if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting18	=[	$str_idle18,	stricken_waiting19	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting19	=[	$str_idle19,	stricken_waiting20	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();}; 
+void()	stricken_waiting20	=[	$str_idle20,	stricken_waiting1	] {if (visible (self.enemy)) {self.think = stricken_choose_attack; self.nextthink =time + 0.1; return; }ai_face(); if (self.friendly_monster == 1) ai_stand();		if (self.enemy.health <= 0) 
 		next_enemy();
 }; 
 
@@ -221,7 +221,7 @@ void() stricken_walk10 =[$str_run10, stricken_walk1]
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void(vector org) stricken_dust = { local vector org2;
+void(vector org) stricken_dust = { vector org2;
 	traceline(org, org + '0 0 320', TRUE, self);
 	if (trace_fraction != 1)
 	{
@@ -230,7 +230,7 @@ void(vector org) stricken_dust = { local vector org2;
 	}
 };
 
-void() stricken_subattack = { local entity head;
+void() stricken_subattack = { entity head;
 
 	head = findradius(self.origin + '0 0 10', stricken_walkradius);	//send lightning line to anything in 250 radius
 	while (head)	// while looking for head
@@ -239,7 +239,7 @@ void() stricken_subattack = { local entity head;
 		{
 			if (visibleb(rorigin(head), rorigin(self), self))
 			{
-				//if(head != self)
+				//if (head != self)
 				T_Damage(head, self, self, 220);	// its damage
 			}
 		}
@@ -251,7 +251,7 @@ void() stricken_subattack = { local entity head;
 
 void() stricken_unstuck = 
 {
-	if((self.oldorigin2 == self.origin) && (self.groundentity == world))
+	if ((self.oldorigin2 == self.origin) && (self.groundentity == world))
 	{
 		makevectors (self.angles);
 			if (!self.oldmovetype)
@@ -324,10 +324,10 @@ void() stricken_run9 =[$str_run9, stricken_run10]
 };
 void() stricken_run10 =[$str_run10, stricken_run1]
 {
-	local float r;
+	float r;
 	ai_runwalk(20);
 	self.oldorigin2 = self.origin;
-	if( (self.enemy) &&(self.enemy.health <= 0))
+	if ( (self.enemy) &&(self.enemy.health <= 0))
 	next_enemy();
 
 	
@@ -366,10 +366,10 @@ void() stricken_run10 =[$str_run10, stricken_run1]
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////projectile attack
-void() projectile_touch_str = { local float damg;
+void() projectile_touch_str = { float damg;
 	if (other == self.owner)
 		return;
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
 	//	self.solid = SOLID_NOT;
 	if (pointcontents(self.origin) == CONTENT_SKY)
@@ -389,7 +389,7 @@ void() projectile_touch_str = { local float damg;
 		return;
 	}
 
-	local string snd;
+	string snd;
 	snd = strcat("impact/projectiles/cyst_bounce", ftos(floor(random() *5) + 1), ".ogg");
 	sound(self, CHAN_AUTO, snd, 1, 0.25);
 };
@@ -399,7 +399,7 @@ void(float cdmg, float aoe, entity ignore) Cyxplodeath =
 { 
 	self.classname = "explosion_retcher";
 	T_SplashDamage(self, self.owner, stricken_splashdmg, ignore, stricken_splashradius);
-	local vector org;
+	vector org;
 	org = self.origin;
 	CyExplosion();
 	self.traileffectnum = particleeffectnum("null");
@@ -409,7 +409,7 @@ void(float cdmg, float aoe, entity ignore) Cyxplodeath =
 
 void() projectile_touch_str2 = 
 {
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
 	//	self.solid = SOLID_NOT;
 	if (pointcontents(self.origin) == CONTENT_SKY)
@@ -438,7 +438,7 @@ void() CheckCysStricken = {
 	}
 	else
 		self.traileffectnum = particleeffectnum("retchertrail");
-	local float distancedelta;
+	float distancedelta;
 	distancedelta = vlen(self.enemy.origin - self.origin);
 	if (distancedelta < 24)
 		self.lifetime = 0;
@@ -449,14 +449,14 @@ void() CheckCysStricken = {
 	self.nextthink = time + 0.05;
 };
 
-void(entity ownr) strickenprojectile = { local vector org;
-	local float tagindex;
+void(entity ownr) strickenprojectile = { vector org;
+	float tagindex;
 	monstersound1("enemies/stricken/cyst", 3, CHAN_AUTO);
 	tagindex = gettagindex(ownr, "tag_mouth");
 	org = gettaginfo(ownr, tagindex);
-	local vector distancedelta;
-	local vector nozdistancedelta;
-	local entity missile;
+	vector distancedelta;
+	vector nozdistancedelta;
+	entity missile;
 	ownr.effects = ownr.effects;	//| EF_MUZZLEFLASH;
 	missile = spawn();
 	missile.classentity = "projectiles";
@@ -464,7 +464,7 @@ void(entity ownr) strickenprojectile = { local vector org;
 	missile.wrathflags += FL_PROJECTILE;
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_TRIGGER;
-	if(ownr.friendly_monster >= 0)
+	if (ownr.friendly_monster >= 0)
 		missile.solid = SOLID_BBOX;
 	makevectors(ownr.angles);
 	distancedelta = ownr.enemy.origin - ownr.origin;
@@ -490,14 +490,14 @@ void(entity ownr) strickenprojectile = { local vector org;
 	setorigin(missile, org);
 };
 
-void(entity ownr, float spread) strickenprojectile2 = { local vector org;
-	local float tagindex;
+void(entity ownr, float spread) strickenprojectile2 = { vector org;
+	float tagindex;
 	monstersound1("enemies/stricken/cyst", 3, CHAN_AUTO);
 	tagindex = gettagindex(ownr, "tag_mouth");
 	org = gettaginfo(ownr, tagindex);
-	local float distance;
-	local vector nozdistancedelta, distancedelta;
-	local entity missile;
+	float distance;
+	vector nozdistancedelta, distancedelta;
+	entity missile;
 	ownr.effects = ownr.effects;	//| EF_MUZZLEFLASH;
 	missile = spawn();
 	missile.classentity = "projectiles";
@@ -506,7 +506,7 @@ void(entity ownr, float spread) strickenprojectile2 = { local vector org;
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_BBOX;
 	makevectors(ownr.angles);
-	local vector morg;
+	vector morg;
 	morg = v_right *stricken_spreadintensity * spread;
 
 	distancedelta = (ownr.enemy.origin) - (ownr.origin + morg);	//work out distance vector  
@@ -531,7 +531,7 @@ void(entity ownr, float spread) strickenprojectile2 = { local vector org;
 	missile.colormod  = '2 2 2';
 	missile.scale = 2;
 	missile.think = CheckCys;
-	if(ownr.classname == "boss_guardian3")
+	if (ownr.classname == "boss_guardian3")
 	{
 		missile.solid = SOLID_NOT;
 		missile.nextthink = time + 0.3;
@@ -555,7 +555,7 @@ void() stricken_attack1 =[$str_atk1, stricken_attack1a]
 		self.velocity += v_forward * 1;	
 		self.velocity += ' 0 0 1';
 	}
-	if((self.oldturret == 2) && (self.turret == 1))
+	if ((self.oldturret == 2) && (self.turret == 1))
 	{self.turret = 0; self.oldturret = 0;}
 
 	monstersound3("enemies/stricken/attack", 3, CHAN_WEAPON);
@@ -609,7 +609,7 @@ void() stricken_attack10 =[$str_atk10, stricken_attack1]
 {
 	ai_face();
 	self.velocity = '0 0 0';
-	if( (self.enemy) &&(self.enemy.health <= 0))
+	if ( (self.enemy) &&(self.enemy.health <= 0))
 	{
 		self.nextenemy_time = 0;
 		next_enemy();
@@ -626,7 +626,7 @@ void() stricken_attack10 =[$str_atk10, stricken_attack1]
 				self.think = stricken_run1;
 			if ((enemy_range == RANGE_NEAR) || (enemy_range == RANGE_MID))
 			{
-				local float r;
+				float r;
 				r = random() *100;
 				if (stricken_ath <= r)
 					self.think = stricken_run1;
@@ -676,8 +676,8 @@ void() stricken_preattack5 =[$str_patk5, stricken_attack1]
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////melee attack
 
-void(float wdmg) stricken_melee_attack = { local vector delta;
-	local float dist;
+void(float wdmg) stricken_melee_attack = { vector delta;
+	float dist;
 	if (!self.enemy)
 		return;	// removed before stroke
 	delta = self.enemy.origin - self.origin;
@@ -695,7 +695,7 @@ void(float wdmg) stricken_melee_attack = { local vector delta;
 void() stricken_sattack1 =[$str_satk1, stricken_sattack2]
 {
 	ai_face();
-	if((self.oldturret == 2) && (self.turret == 1))
+	if ((self.oldturret == 2) && (self.turret == 1))
 	{self.turret = 0; self.oldturret = 0;}
 	monstersound3("enemies/stricken/bite", 3, CHAN_WEAPON);
 };
@@ -761,7 +761,7 @@ void() stricken_postpain = { self.painframe += 1;
 	if (self.painframe >= 10)
 	{
 		self.painframe = 0;
-		local float r;
+		float r;
 		r = random() *100;
 		if (stricken_pth >= r)
 		{
@@ -787,24 +787,24 @@ void() stricken_postpain = { self.painframe += 1;
 .float painanim;
 void(entity enemy, float dmg) stricken_pain = { if (self.pain_finished > time)
 		return;
-	if(enemy.weapon != IT_CRYSTAL)
+	if (enemy.weapon != IT_CRYSTAL)
 	{
-	local float rp;
+	float rp;
 	rp = random() *100;
 	if (stricken_rtp <= rp)
 		return;
 	}
-	if(enemy.flags & FL_MONSTER)
+	if (enemy.flags & FL_MONSTER)
 		{
 		self.pain_finished = time + 1.75;
-		if(self.turret >= 1)
+		if (self.turret >= 1)
 		return;// prevent get stuck
 		}
 	else
 		self.pain_finished = time + 0.25;	// 1.75
 	
 	self.sustained_damage = 0;
-	local float rpf;
+	float rpf;
 	rpf = floor(random() *3) + 1;
 	if (rpf == self.painanim)
 		rpf += 1;
@@ -853,7 +853,7 @@ void() stricken_diea1 = { drop_item(self.origin + '0 0 40', "ammo_retcher", 3, s
 	self.th_die = null;
 	setsize(self, '0 0 0', '0 0 0');
 
-	local vector tagorg;
+	vector tagorg;
 	tagorg = tag_origin("tag_arm_l_a", self);
 	ThrowGib3(self, "models/enemies/stricken/gibs/gib_arm_l_a.md3", self.health *0.25, 0.75, 1, 1, tagorg, relvel(str_gib1, self), 0, 3);	// relvel: forward, right, up
 	tagorg = tag_origin("tag_arm_l_b", self);

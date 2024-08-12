@@ -40,7 +40,7 @@ static float BoxTouchesBrush(vector mi, vector ma, entity e, entity ig)
 {
     float f, s;
 
-    if(!e.modelindex)
+    if (!e.modelindex)
         return 1;
 
     s = e.solid;

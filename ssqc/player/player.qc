@@ -39,16 +39,16 @@ void(vector org) spawnfootstep = { local entity fs;
 
 float() GetTraceMaterial = 
 { 
-	if(trace_dphitq3surfaceflags & 16)
+	if (trace_dphitq3surfaceflags & 16)
 		return -1;
 	
-	if(trace_dphitq3surfaceflags & 4096)
+	if (trace_dphitq3surfaceflags & 4096)
 		return MAT_GRATE;
 	
-	//if(trace_dphitq3surfaceflags == 64)
+	//if (trace_dphitq3surfaceflags == 64)
 	//	return MAT_BFLESH;
 
-	if((trace_dphittexturename == "textures/e3m2/e3m2_bld1"))
+	if ((trace_dphittexturename == "textures/e3m2/e3m2_bld1"))
 		return MAT_BFLESH;
 
 	float matflags = trace_dphitq3surfaceflags & MAT_MASK;
@@ -72,43 +72,43 @@ float(entity e) GetFootMaterial =
 	surfaceparm nomarks = 32
 
 
-	if(trace_dphittexturename == "textures/common/caulk")
+	if (trace_dphittexturename == "textures/common/caulk")
 	{
 		return lastvalidsurface;
 	}*/
 
 
-	if((trace_dphittexturename == "textures/common/clip_stone") || (trace_dphittexturename == "textures/common/clipall_stone"))
+	if ((trace_dphittexturename == "textures/common/clip_stone") || (trace_dphittexturename == "textures/common/clipall_stone"))
 		return MAT_STONE;
-	if((trace_dphittexturename == "textures/common/clip_grate") || (trace_dphittexturename == "textures/common/clipall_grate"))
+	if ((trace_dphittexturename == "textures/common/clip_grate") || (trace_dphittexturename == "textures/common/clipall_grate"))
 		return MAT_GRATE;
-	if((trace_dphittexturename == "textures/common/clip_metal") || (trace_dphittexturename == "textures/common/clipall_metal"))
+	if ((trace_dphittexturename == "textures/common/clip_metal") || (trace_dphittexturename == "textures/common/clipall_metal"))
 		return MAT_METAL;
-	if((trace_dphittexturename == "textures/common/clip_wood") || (trace_dphittexturename == "textures/common/clipall_wood"))
+	if ((trace_dphittexturename == "textures/common/clip_wood") || (trace_dphittexturename == "textures/common/clipall_wood"))
 		return MAT_WOOD;
-	if((trace_dphittexturename == "textures/common/clip_flesh") || (trace_dphittexturename == "textures/common/clipall_flesh"))
+	if ((trace_dphittexturename == "textures/common/clip_flesh") || (trace_dphittexturename == "textures/common/clipall_flesh"))
 		return MAT_BFLESH;
-	if((trace_dphittexturename == "textures/e3m2/e3m2_bld1"))
+	if ((trace_dphittexturename == "textures/e3m2/e3m2_bld1"))
 	{
 		//self.fakewatertype = CONTENT_BLOOD;
 		return MAT_PUDDLE;
 	}
-	if(trace_dphitq3surfaceflags & 2)
+	if (trace_dphitq3surfaceflags & 2)
 		e.icetime =  time + 0.5;
 
-	if(trace_dphittexturename == "e1m2/e1m2_grt1_2")
+	if (trace_dphittexturename == "e1m2/e1m2_grt1_2")
 		return MAT_GRATE;
 
-	if(trace_dphittexturename == "textures/e1m2/e1m2_grt1_2")
+	if (trace_dphittexturename == "textures/e1m2/e1m2_grt1_2")
 		return MAT_GRATE;
 	
-	//if(trace_dphitq3surfaceflags == 64)
+	//if (trace_dphitq3surfaceflags == 64)
 	//	return MAT_BFLESH;
 
-	if(trace_dphitq3surfaceflags & 8192)
+	if (trace_dphitq3surfaceflags & 8192)
 		return -1;
 
-	if(trace_dphitq3surfaceflags & 4096)
+	if (trace_dphitq3surfaceflags & 4096)
 		return MAT_GRATE;
 
 	float matflags = trace_dphitq3surfaceflags & MAT_MASK;
@@ -152,7 +152,7 @@ void(float isheavy) playerlandsound = { if (self.landsoundtime > time)
 
 		material = GetFootMaterial(self);
 
-		if(material == -1)
+		if (material == -1)
 			return;	
 		self.landsoundtime = time + 1;
 		if (material == MAT_GENERIC)
@@ -232,7 +232,7 @@ void() playerfootstepsound =
 	local float mat, material, pvol;
 
 
-	if(self.message_time > time)
+	if (self.message_time > time)
 		self.message_time = 0;
 	mat = floor(random() *4 + 1);
 	if (mat == self.fscnt)
@@ -262,7 +262,7 @@ void() playerfootstepsound =
 	r = ftos(floor(mat));
 
 
-	if(material == -1)
+	if (material == -1)
 		return;		
 	material = GetFootMaterial(self);
 
@@ -402,7 +402,7 @@ void() PlayerFootstep =
 		return;
 	if (!(self.flags &FL_ONGROUND))
 	{
-		if((self.surfacing_sound_time < time) && (self.waterlevel == 2) &&  (self.velocity_x || self.velocity_y))
+		if ((self.surfacing_sound_time < time) && (self.waterlevel == 2) &&  (self.velocity_x || self.velocity_y))
 		{
 			randompointsound(self.origin,"player/water_surfacing", 3, random(0.75,1));	
 			self.surfacing_sound_time = time + random(0.5,1);
@@ -468,7 +468,7 @@ void() PlayerFootstep =
 		}	
 
 
-		if(self.walking == 1)
+		if (self.walking == 1)
 			vf += 0.15;
 
 		self.timefootstep = time + vf;
@@ -509,16 +509,16 @@ void() v_cshift_changes =
 
 	
 
-	if(self.flaskrage_active >= 1)
+	if (self.flaskrage_active >= 1)
 	{
 
-		if(self.flaskrage_time > time + 2.5)
+		if (self.flaskrage_time > time + 2.5)
 		pointparticles(particleeffectnum("flaskembers"), self.origin - '0 0 32' , '0 0 0',1);
 
 
-		if(self.flaskrage_time > time)
+		if (self.flaskrage_time > time)
 		{
-			if(self.i_cshift < 16)
+			if (self.i_cshift < 16)
 			{
 				self.r_cshift += 1 * 3;
 				self.g_cshift += 0.7 * 3;
@@ -530,7 +530,7 @@ void() v_cshift_changes =
 		else
 		{
 
-			if(self.r_cshift > 0)
+			if (self.r_cshift > 0)
 			{
 				self.r_cshift -= 1 * 3;
 				self.g_cshift -= 0.7 * 3;
@@ -546,70 +546,70 @@ void() v_cshift_changes =
 
 	}
 
-	if(self.wrath_active >= 2)
+	if (self.wrath_active >= 2)
 	{
 		self.r_cshift = 255;
 		self.g_cshift = 0;
 		self.b_cshift = 0;
 		self.i_cshift = self.wrath_kills * 1.25 + 8;
-		if(self.i_cshift > 255)
+		if (self.i_cshift > 255)
 		self.i_cshift = 255;		
 	}
-	if(self.displacement_active == 1)
+	if (self.displacement_active == 1)
 	{
 
-		if(self.displacement_time > time + 2.5)
+		if (self.displacement_time > time + 2.5)
 			pointparticles(particleeffectnum("displacement"), self.origin - '0 0 32' , '0 0 0',1);
 
-		if(self.r_cshift_fade == 1)  
+		if (self.r_cshift_fade == 1)  
 		{
-			if(self.r_cshift <= 1)
+			if (self.r_cshift <= 1)
 				self.r_cshift_fade = 0;
 			self.r_cshift -= 3;
 		}
 		else
 		{
-			if(self.r_cshift >= 256)
+			if (self.r_cshift >= 256)
 				self.r_cshift_fade = 1;
 			self.r_cshift += 3;
 		}
 
 
-		if(self.g_cshift_fade == 1)  
+		if (self.g_cshift_fade == 1)  
 		{
-			if(self.g_cshift <= 1)
+			if (self.g_cshift <= 1)
 				self.g_cshift_fade = 0;
 			self.g_cshift -= 5;
 		}
 		else
 		{
-			if(self.g_cshift >= 256)
+			if (self.g_cshift >= 256)
 				self.g_cshift_fade = 1;
 			self.g_cshift += 5;
 		}
 
-		if(self.b_cshift_fade == 1)  
+		if (self.b_cshift_fade == 1)  
 		{
-			if(self.b_cshift <= 1)
+			if (self.b_cshift <= 1)
 				self.b_cshift_fade = 0;
 			self.b_cshift -= 8;
 		}
 		else
 		{
-			if(self.b_cshift >= 128) // 256
+			if (self.b_cshift >= 128) // 256
 				self.b_cshift_fade = 1;
 			self.b_cshift += 8;
 		}
 		
-		if(self.i_cshift_fade == 1)  
+		if (self.i_cshift_fade == 1)  
 		{
-			if(self.i_cshift <= 0)
+			if (self.i_cshift <= 0)
 				self.i_cshift_fade = 0;
 			self.i_cshift -= 0.5;
 		}
 		else
 		{
-			if(self.i_cshift >= 32)
+			if (self.i_cshift >= 32)
 				self.i_cshift_fade = 1;
 			self.i_cshift += 0.5;
 		}
@@ -676,7 +676,7 @@ void() assign_camera =
 		self.enemy.nextthink = time;
 	}
 
-	if(single_player.classname != "player")
+	if (single_player.classname != "player")
 	{
 		self.think = assign_camera;
 		self.nextthink = time;
@@ -686,9 +686,9 @@ void() assign_camera =
 	single_player.vhud = 3;
 	single_player.active_camera = self;
 	SetViewPoint(self);
-	if(self.wait == -1)
+	if (self.wait == -1)
 		self.wait = 99999999;
-	if(self.target)
+	if (self.target)
 	{
 		entity next_camera = find (world, targetname, self.target);
 		if (next_camera.classname == "camera")
@@ -713,7 +713,7 @@ void()camera_controller_think =
 
 	self.count ++;
 	float dev = cvar("developer");
-	if(self.count == 1)
+	if (self.count == 1)
 	{
 		camera_velocity = self.owner.velocity1;
 		camera_avelocity = self.owner.avelocity1;
@@ -721,7 +721,7 @@ void()camera_controller_think =
 		if (dev == 1)
 			localcmd("set camera_stage 1\n");
 	}
-	else if(self.count == 2)
+	else if (self.count == 2)
 	{
 		camera_velocity = self.owner.velocity2;
 		camera_avelocity = self.owner.avelocity2;
@@ -729,7 +729,7 @@ void()camera_controller_think =
 		if (dev == 1)
 			localcmd("set camera_stage 2\n");
 	}
-	else if(self.count == 3)
+	else if (self.count == 3)
 	{
 		camera_velocity = self.owner.velocity3;
 		camera_avelocity = self.owner.avelocity3;
@@ -737,7 +737,7 @@ void()camera_controller_think =
 		if (dev == 1)
 			localcmd("set camera_stage 3\n");
 	}
-	else if(self.count == 4)
+	else if (self.count == 4)
 	{
 		camera_velocity = self.owner.velocity4;
 		camera_avelocity = self.owner.avelocity4;
@@ -745,7 +745,7 @@ void()camera_controller_think =
 		if (dev == 1)
 			localcmd("set camera_stage 4\n");
 	}
-	else if(self.count == 5)
+	else if (self.count == 5)
 	{
 		camera_velocity = self.owner.velocity5;
 		camera_avelocity = self.owner.avelocity5;
@@ -753,7 +753,7 @@ void()camera_controller_think =
 		if (dev == 1)
 			localcmd("set camera_stage 5\n");
 	}
-	else if(self.count == 6)
+	else if (self.count == 6)
 	{
 		camera_velocity = self.owner.velocity6;
 		camera_avelocity = self.owner.avelocity6;
@@ -780,7 +780,7 @@ void() camera =
 	setmodel (self,"");	
 	self.solid = SOLID_TRIGGER;
 	self.movetype = MOVETYPE_FLY_WORLDONLY;
-	if(!self.wait)
+	if (!self.wait)
 		self.wait2 = 10;
 	if (!self.targetname)
 	{	

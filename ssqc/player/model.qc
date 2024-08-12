@@ -1,22 +1,22 @@
 .entity player_model;
 void() weapon_think =
 {
-	if(self.owner.weapon != self.weapon)
+	if (self.owner.weapon != self.weapon)
 	{
 		self.colormod = self.owner.vweapon.colormod;
-		if(self.owner.weapon == IT_MELEE)
+		if (self.owner.weapon == IT_MELEE)
 			setmodel(self, "models/weapons/melee/v_blade.md3");
-		if(self.owner.weapon == IT_REVOLVER)
+		if (self.owner.weapon == IT_REVOLVER)
 			setmodel(self, "models/weapons/revolver/w_revolver.md3");
-		if(self.owner.weapon == IT_SHOTGUN)
+		if (self.owner.weapon == IT_SHOTGUN)
 			setmodel(self, "models/weapons/shotgun/w_shotgun.md3");
-		if(self.owner.weapon == IT_SPITTER)
+		if (self.owner.weapon == IT_SPITTER)
 			setmodel(self, "models/weapons/spitter/w_spitter.md3");
-		if(self.owner.weapon == IT_RETCHER)
+		if (self.owner.weapon == IT_RETCHER)
 			setmodel(self, "models/weapons/retcher/w_retcher.md3");
-		if(self.owner.weapon == IT_CANNON)
+		if (self.owner.weapon == IT_CANNON)
 			setmodel(self, "models/weapons/cannon/w_cannon.md3");
-		if(self.owner.weapon == IT_LANCE)
+		if (self.owner.weapon == IT_LANCE)
 			setmodel(self, "models/weapons/lance/w_shotgun.md3");
 
 		self.weapon = self.owner.weapon;
@@ -30,29 +30,29 @@ void() lower_think =
 {
 
 
-	if((self.owner.vhud != 3) &&(self.exteriormodeltoclient != self.owner))
+	if ((self.owner.vhud != 3) &&(self.exteriormodeltoclient != self.owner))
 		{self.exteriormodeltoclient = self.owner;self.effects = 0;}
-	if((self.owner.vhud == 3)&&(self.exteriormodeltoclient == self.owner))
+	if ((self.owner.vhud == 3)&&(self.exteriormodeltoclient == self.owner))
 		{self.exteriormodeltoclient = world; self.effects = EF_NODRAW;}
 
 	//local string lmessage;
 	//lmessage =strcat ((vtos(self.owner.angles)),("\n")) ;
 	//bprint (lmessage);
 	//setorigin (self, self.owner.origin);
-//	if((self.owner.wrathflags & FL_WONGROUND))
-	if(self.owner.onground_time > time)
+//	if ((self.owner.wrathflags & FL_WONGROUND))
+	if (self.owner.onground_time > time)
 	{
 		float speed = vlen (self.owner.velocity);
 		if (speed > 30)
 		{
-		if(self.owner.crouch)
+		if (self.owner.crouch)
 			self.frame = 6;
 		else	
 			self.frame = 8;
 		}
 		else
 		{
-		if(self.owner.crouch)
+		if (self.owner.crouch)
 			self.frame = 14;
 		else	
 			self.frame = 13;
@@ -78,21 +78,21 @@ void() lower_think =
 void() torso_think =
 {
 
-	if((self.owner.button0)||(self.owner.button3))
+	if ((self.owner.button0)||(self.owner.button3))
 	{
-		if(self.owner.weapon == IT_MELEE)
+		if (self.owner.weapon == IT_MELEE)
 			self.frame = 11;
 		else
 			self.frame = 16;
 	}
 	else
 	{
-		if(self.frame != 25)
+		if (self.frame != 25)
 			self.frame = 25;
 	}
 	/*else
 	{
-		if((self.owner.weapon == IT_MELEE)&& (self.frame != 11))
+		if ((self.owner.weapon == IT_MELEE)&& (self.frame != 11))
 			self.frame =11;
 		else	
 		{
@@ -108,7 +108,7 @@ void() torso_think =
 };
 void(entity e) spawn_player_model =
 {
-	entity playermodel, torso;
+	entity playermodel;//, torso;
 	playermodel = spawn();
 	e.player_model = playermodel; 
 	/*playermodel.origin = e.origin;
@@ -118,16 +118,16 @@ void(entity e) spawn_player_model =
 	
 	playermodel.wrathflags = FL_GARBAGE;
 	setattachment(playermodel, e,"");
-	playermodel.frame = 13;
+	playermodel.frame = 1;
 	playermodel.exteriormodeltoclient = e;
-	setmodel(playermodel, "models/player/outlander/lower.md3");
+	setmodel(playermodel, "models/enemies/dummy/dummy.md3");
 	playermodel.think = lower_think;
 	playermodel.nextthink = time + 0.05;
-	torso = spawn();
+/*	torso = spawn();
 	torso.owner = e;
 	e.torso_model = torso;
-	setmodel(torso, "models/player/outlander/upper.md3");
-	//void(entity e, entity tagentity, string tagname) setattachment
+	setmodel(playermodel, "models/enemies/dummy/dummy.md3");
+	void(entity e, entity tagentity, string tagname) setattachment
 	setattachment(torso,playermodel, "tag_torso");
 	torso.frame = 25;
 	torso.wrathflags = FL_GARBAGE;
@@ -135,7 +135,7 @@ void(entity e) spawn_player_model =
 	torso.nextthink = time + 0.05;
 	entity head = spawn();
 	head.owner = e;
-	setmodel(head, "models/player/outlander/head.md3");
+	setmodel(playermodel, "models/enemies/dummy/dummy.md3");
 	setattachment(head,torso, "tag_head");
 	head.wrathflags = FL_GARBAGE;
 	head.think = torso_think;
@@ -145,10 +145,11 @@ void(entity e) spawn_player_model =
 	weapon.owner = e;
 	setmodel(weapon, "models/weapons/shotgun/w_shotgun.md3");
 	setattachment(weapon,torso, "tag_weapon");
+
 	weapon.scale = 0.5;
 	weapon.think = weapon_think;
 	weapon.nextthink = time + 0.05;
-
+*/
 };
 void(entity e) spawn_player_models =
 {

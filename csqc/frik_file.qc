@@ -13,8 +13,8 @@ vector ammo_pos2;
 
 void() check_health =
 {
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen ("hud/health.txt", FILE_READ);    //open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);                //read the text
 	health_pos_x = stof(readtext);        //turn the text into the float u want (by using stof: string to float) 
@@ -48,8 +48,8 @@ vector dmsgpos;
 
 void() check_hudmessages =
 {
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen ("hud/hudmessages.txt", FILE_READ);    //open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);                //read the text
 	hmsgpos_x = stof(readtext);        //turn the text into the float u want (by using stof: string to float) 
@@ -88,8 +88,8 @@ void() check_artifactring =
 -2				//	y position for number soul tether ammount relative to soul tether icon
 1				//	scale of number soul tether ammount
 */
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen ("hud/tether_artifact.txt", FILE_READ);    //open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);                //read the text
 	artns = stof(readtext);
@@ -129,8 +129,8 @@ float armr_scale;
 
 void() check_armor =
 {
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen ("hud/armor.txt", FILE_READ);    //open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);                //read the text
 	armr_pos_x = stof(readtext);        //turn the text into the float u want (by using stof: string to float) 
@@ -149,8 +149,8 @@ void() check_armor =
 
 void() check_ammo =
 {
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen ("hud/ammo.txt", FILE_READ);    //open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);                //read the text
 	ammo_pos_x = stof(readtext);        //turn the text into the float u want (by using stof: string to float) 
@@ -171,8 +171,8 @@ vector artifactdescpos;
 vector bigiconpos;
 void() check_radial =
 {
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen ("hud/radial.txt", FILE_READ);    //open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);                //read the text
 	radialpos_x = stof(readtext);        //turn the text into the float u want (by using stof: string to float) 
@@ -220,8 +220,8 @@ vector r_ic10;
 
 void() check_radialicon =
 {
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen ("hud/artifact_icon.txt", FILE_READ);    //open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);                //read the text
 	r_ic = stof(readtext);        
@@ -270,8 +270,8 @@ void() check_radialicon =
 
 void() check_radialnum =
 {
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen ("hud/artifact_num.txt", FILE_READ);    //open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);                //read the text
 	r_si = stof(readtext);        
@@ -325,8 +325,8 @@ float keyflag;
 
 void() check_keys =
 {
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen ("hud/keys.txt", FILE_READ);    //open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);                //read the text
 	keypos_x = stof(readtext);        //turn the text into the float u want (by using stof: string to float) 

@@ -26,7 +26,7 @@ float rmenu;
 // CSQC_Init : Called every time the CSQC code is initialized (essentially at map load)
 void CSQC_Init(void)
 {
-	local string strCmd;
+	string strCmd;
 	strCmd = "";
 	//	strCmd = strcat (strCmd, "vid_conwidth 960 \n");
 	//	strCmd = strcat (strCmd, "vid_conheight 540 \n");
@@ -40,7 +40,7 @@ void CSQC_Init(void)
 	check_frikfile();
 	msgtime = gettime(GETTIME_UPTIME);
 	float noqcprecaches = cvar("cl_noqcprecache");	
-	if(noqcprecaches != 1)
+	if (noqcprecaches != 1)
 		csqc_precaches();
 	registercommand(CLIENTCOMMAND_GET_FOG);
 	registercommand(CLIENTCOMMAND_DELETE_QNG);
@@ -75,7 +75,7 @@ void CSQC_Init(void)
 	registercvar ("_fog_f",ftos(getproperty(VF_FOG_FADEDEPTH)));
 
 	float scale_crosshair = cvar ("saved8");
-	if(scale_crosshair < 1)
+	if (scale_crosshair < 1)
 	strCmd = ("saved8 1\n");
 	localcmd(strCmd);
 
@@ -240,7 +240,7 @@ void() delete_qng =
 void() jason =
 {
 	float jason = cvar ("jason_mode");
-	if(jason == 1)
+	if (jason == 1)
 	{	
 		string strCmd = ("set jason_mode 0\n");
 		localcmd(strCmd);
@@ -294,14 +294,14 @@ void TempEnt_OutlanderUnlock(void)
 // Return value should be 1 if CSQC handled the command, otherwise return 0 to have the engine handle it.
 float CSQC_ConsoleCommand(string strMessage)
 {
-	local float nReturn;
+	float nReturn;
 	nReturn = true;
 
 	// Tokenize String
 	tokenize(strMessage);
 	// Acquire Command
 
-	local string strCmd;
+	string strCmd;
 	strCmd = argv(0);
 	switch (strCmd)
 	{
@@ -619,7 +619,7 @@ float CSQC_InputEvent(float EventType, float charx, float scany)
 		}
 	}
 
-	local float bSkipKey;
+	float bSkipKey;
 	bSkipKey = false;
 	return bSkipKey;
 }
@@ -711,10 +711,10 @@ void CSQC_Parse_CenterPrint(string strMessage)
 // Return value should be 1 if CSQC handled the temporary entity, otherwise return 0 to have the engine process the event.
 float CSQC_Parse_TempEntity()
 {
-	local float bHandled;
+	float bHandled;
 	bHandled = true;
 	// Acquire TE ID
-	local float nTEID;
+	float nTEID;
 	nTEID = ReadByte();
 	switch (nTEID)
 	{

@@ -12,12 +12,12 @@ void() monster_executioner;
 void() check_relics = 
 { 
     self.local_classmonster = self.classmonster1;
-	local entity pl;
+	entity pl;
 	pl = find(world, classname, "player");
 
 	float plrelics = pl.oldrelics;
 
-	if(skill >= 3)
+	if (skill >= 3)
 		plrelics = 4;
 
 	if (!plrelics)
@@ -33,7 +33,7 @@ void() check_relics =
 
     /*float dev = cvar ("developer");
     float encounter = cvar ("encounter");
-    if(dev == 1)
+    if (dev == 1)
     {
         self.local_classmonster = encounter;
         if (encounter <= 1)
@@ -45,9 +45,9 @@ void() check_relics =
 
 void() check_spawner_counter = {
 
-/* local entity pl;
+/* entity pl;
 	pl = find(world, classname, "player");
-	local float m_counter = self.count;
+	float m_counter = self.count;
 
 	if (pl.oldrelics == 4)
 	{
@@ -87,8 +87,8 @@ check_relics();
 
 float() monster_counter = 
 { 
-	local entity monster;
-	local float monster_counter;
+	entity monster;
+	float monster_counter;
 	monster = nextent(world);
 	while (monster)
 	{
@@ -105,11 +105,11 @@ void() recount_monsters =
 	total_monsters = killed_monsters +  monster_counter ();
 	entity pl = find(world, classname, "player");
 
-	local entity spawner;
+	entity spawner;
 	spawner = nextent(world);
 	float plrelics = pl.oldrelics;
 
-	if(skill >= 3)
+	if (skill >= 3)
 		plrelics = 4;
 
 	while (spawner)
@@ -117,7 +117,7 @@ void() recount_monsters =
 		entity holder = nextent(spawner);
 		if (spawner.wrathflags &FL_SPAWNER)
 		{
-		local float m_counter = spawner.count;
+		float m_counter = spawner.count;
 			if (plrelics >= 4)
 			{
 				if (spawner.classmonster5 > 0)
@@ -179,7 +179,7 @@ void() enemy_spawner_use = {
 
 		if (allowed_to_spawn)
 		{
-			local entity enemy;
+			entity enemy;
 			enemy = spawn();
 			enemy.flags = FL_MONSTER;
 			setorigin(enemy, self.origin);
@@ -355,7 +355,7 @@ void() enemy_spawner_use = {
 	}
 	else
 	{
-		//if(self.respawnable)
+		//if (self.respawnable)
 		//self.wrathflags = FL_RESPAWN;
 		self.think = SUB_Remove;
 		self.use = null;
@@ -369,7 +369,12 @@ void() enemy_spawner_use_wait = { self.think = enemy_spawner_use;
 
 void() enemy_spawner = 
 {
-
+	if (deathmatch)
+	{
+		self.think = SUB_Remove;
+		self.nextthink = time + 0.1;
+		return;
+	}
 
 	if (!self.classmonster2)
 		self.classmonster2 = self.classmonster1;
@@ -409,7 +414,7 @@ void() enemy_spawner =
 		self.think = wrath_objerror;
 		self.nextthink = time + random();
 	}
-	//if(self.respawnable)
+	//if (self.respawnable)
 	//copy_old_data (self);
 };
 
@@ -503,15 +508,15 @@ void() enemy_spawner_warp =
 
 void() trigger_aggro_touch = 
 { 
-	if(self.disarmed == 1)
+	if (self.disarmed == 1)
 		return;
 	if (other.classname != "player")
 		return;
-	if(single_player.flags &FL_NOTARGET)
+	if (single_player.flags &FL_NOTARGET)
 		return;
 
 
-	local entity e;
+	entity e;
 	if (self.target)
 	{
 		e = world;

@@ -27,13 +27,9 @@ void() lurker_attack1;
 .float time_float;
 void(float vel, float facing) ai_swim_charge =
 {
-
-
-	local vector vec;
-	local vector yaw;
-	if((time < self.time_float) && (self.velocity_z == 0))
+	if ((time < self.time_float) && (self.velocity_z == 0))
 	{
-		if(self.upfloat == 1)
+		if (self.upfloat == 1)
 		{
 			self.upfloat = 0;
 			self.velocity -= '0 0 4';	
@@ -46,18 +42,21 @@ void(float vel, float facing) ai_swim_charge =
 		self.time_float = time + 3;
 	}
 
-	if(facing == 1)
+	if (facing == 1)
 	{
-	    vec = self.enemy.origin - self.origin;
+		vector 	vec;
+		float 	yaw; //R00k changed to float
+
+	    vec = (self.enemy.origin - self.origin);
 	    yaw = vectoyaw(vec);
-	    self.angles_y = yaw_y; 
+	    self.angles_y = yaw; 
 	}
 
 	self.avelocity = '0 0 0';
 	self.lastplace_spoted = self.enemy.origin - rorigin(self);
 	self.velocity = normalize (self.lastplace_spoted) * vel * 12;
 
-	if(self.funcwaterlevel < 3)
+	if (self.funcwaterlevel < 3)
     	self.velocity_z = 0;
 
 
@@ -79,10 +78,10 @@ void(vector dest) rotate_lurker =
 {
 	makevectors2 (self.angles);
 
-	if(self.angles_y < 0)
+	if (self.angles_y < 0)
 	self.angles_y = 0;
 
-	if(self.angles_y < 360)
+	if (self.angles_y < 360)
 	float normalized_angles = floor (self.angles_y);
 	else
 	normalized_angles  = floor (self.angles_y % 360);
@@ -91,20 +90,20 @@ void(vector dest) rotate_lurker =
 	float view_angles_atenemy = vectoyaw (dest - rorigin(self));
 		
 	float rotate_y = max(normalized_angles,view_angles_atenemy) - min(normalized_angles,view_angles_atenemy);
-	//if(facing == 1)
+	//if (facing == 1)
 	rotate_y = 180;
 	self.avelocity = '0 0 0';
 
-	if(view_angles_atenemy > normalized_angles)
+	if (view_angles_atenemy > normalized_angles)
 	{
-		if((view_angles_atenemy >= 270) && (normalized_angles < 90))
+		if ((view_angles_atenemy >= 270) && (normalized_angles < 90))
 			self.avelocity_y = rotate_y * -1;
 		else		
 			self.avelocity_y = rotate_y * 1;
 	}
 	else
 	{
-		if((view_angles_atenemy <= 90) && (normalized_angles > 270))
+		if ((view_angles_atenemy <= 90) && (normalized_angles > 270))
 			self.avelocity_y = rotate_y * 1;
 		else		
 			self.avelocity_y = rotate_y * -1;
@@ -127,7 +126,7 @@ void() lurker_hide = [$lurker_swim1, lurker_hide]
 	self.velocity = dir * 512;
 	self.velocity_z -= 92;
 
-	if(self.lurker_roam_time < time)
+	if (self.lurker_roam_time < time)
 		self.think = lurker_roaming1;
 
 	self.nextthink = time + 0.05;
@@ -137,7 +136,7 @@ void() lurker_hide = [$lurker_swim1, lurker_hide]
 void() lurker_wait1 =[$lurker_swim1, lurker_wait1] 
 {
 	float enemy_is_visible = visible(self.enemy);
-	if((enemy_is_visible == 1))
+	if ((enemy_is_visible == 1))
 	self.think = lurker_preattack;
 	self.waiting_time = time + 3;
 
@@ -148,12 +147,14 @@ void() lurker_wait1 =[$lurker_swim1, lurker_wait1]
 
 void() lurker_roaming1  =[$lurker_swim1, lurker_roaming1] 
 {
+	vector dir = '0 0 0';
+	float r = 0;
 
 	float speed = vlen(self.velocity);
 
 	self.yaw_speed = 25;
 
-	if((speed <10) || (self.oldorigin == self.origin))
+	if ((speed <10) || (self.oldorigin == self.origin))
 		self.lurker_roam_time = 0;
 
 	self.movetype = MOVETYPE_FLY;
@@ -161,7 +162,7 @@ void() lurker_roaming1  =[$lurker_swim1, lurker_roaming1]
 	float enemy_is_visible = visible(self.enemy);
 	float disttoplayer = vlen(self.enemy.origin - self.origin);
 
-	if((enemy_is_visible == 1)&& (disttoplayer < 128)) 
+	if ((enemy_is_visible == 1)&& (disttoplayer < 128)) 
 	{
 		self.think = lurker_preattack;
 
@@ -169,16 +170,16 @@ void() lurker_roaming1  =[$lurker_swim1, lurker_roaming1]
 		return;
 	}
 
-	if((enemy_is_visible == 1) && (self.no_hunting_time < time))
+	if ((enemy_is_visible == 1) && (self.no_hunting_time < time))
 	{
-		float r = random();
-		if((self.enemy.origin_z > self.pool.absmax_z + 32) && ((self.lurker_jump_time > time)&& (disttoplayer < 468) || (r < 0.1))) 
+		r = random();
+		if ((self.enemy.origin_z > self.pool.absmax_z + 32) && ((self.lurker_jump_time > time)&& (disttoplayer < 468) || (r < 0.1))) 
 		{
-			vector dir = normalize(self.origin - self.enemy.origin);
+			dir = normalize(self.origin - self.enemy.origin);
 			self.velocity = dir * 512;
 			self.velocity_z -= 92;
 			self.lurker_dest = dir * 2048;
-			self.lurker_roam_time = time + (1.5,3);
+			self.lurker_roam_time = time + random(1.5,3);
 			self.avelocity = '0 0 0';
 			self.think = lurker_hide;
 			self.nextthink = time + 0.05;
@@ -192,7 +193,7 @@ void() lurker_roaming1  =[$lurker_swim1, lurker_roaming1]
 	}
 	else
 	{	
-		if(self.alert_time < time)
+		if (self.alert_time < time)
 		{
 			self.think = lurker_wait1;
 			self.avelocity = '0 0 0';
@@ -202,7 +203,7 @@ void() lurker_roaming1  =[$lurker_swim1, lurker_roaming1]
 		}
 
 
-		if(self.lurker_roam_time < time)
+		if (self.lurker_roam_time < time)
 		{
 			makevectors(self.angles);
 			tracebox(self.origin, '-7 -7 -7', '7 7 7', self.origin - '0 0 128', FALSE, self);
@@ -217,9 +218,9 @@ void() lurker_roaming1  =[$lurker_swim1, lurker_roaming1]
 			else
 				self.velocity -= v_forward * 128;	
 
+			r = random();
 
-			float r = random();
-			if(r < 0.5)
+			if (r < 0.5)
 			{
 				tracebox(self.origin, '-7 -7 -7', '7 7 7', self.origin + v_right * 128, FALSE, self);
 				if (trace_fraction == 1.0)
@@ -240,37 +241,37 @@ void() lurker_roaming1  =[$lurker_swim1, lurker_roaming1]
 
 			self.lurker_roam_time = time + random (3,7);
 
-			vector dir = normalize ((self.origin + self.velocity) - self.origin);
+			dir = normalize ((self.origin + self.velocity) - self.origin);
 			self.lurker_dest =dir * 2048;
 
 		}
 		//rotate_lurker(self.lurker_dest);
 	}
 
-	if((self.origin_z >= (self.pool.absmax_z - 64)))
+	if ((self.origin_z >= (self.pool.absmax_z - 64)))
 	self.velocity_z = -32;
 
 
-	if((self.funcwaterlevel < 3)&& (self.funcwaterlevel > 1)&& (self.liquidtouch_timing > time))
+	if ((self.funcwaterlevel < 3)&& (self.funcwaterlevel > 1)&& (self.liquidtouch_timing > time))
 	{
-		if((self.funcwaterlevel == 2))
+		if ((self.funcwaterlevel == 2))
 			self.velocity_z = -64;
 		else
 			self.velocity_z = -380;
 
-		if(self.surfacing_sound_time < time)
+		if (self.surfacing_sound_time < time)
 		{
-		vector wsorg = self.origin;
-		wsorg_z =self.pool.absmax_z;
+			vector wsorg = self.origin;
+			wsorg_z =self.pool.absmax_z;
 
-		pointparticles(particleeffectnum("water_splash"), wsorg, 0, 1);
+			pointparticles(particleeffectnum("water_splash"), wsorg, 0, 1);
 
-		monstersound3("player/water_surfacing", 3, CHAN_AUTO);	
-		self.surfacing_sound_time = time + random(0.5,3);
+			monstersound3("player/water_surfacing", 3, CHAN_AUTO);	
+			self.surfacing_sound_time = time + random(0.5,3);
 		}
 	}
 
-	if((self.liquidtouch_timing < time) && (self.velocity != '0 0 0'))
+	if ((self.liquidtouch_timing < time) && (self.velocity != '0 0 0'))
 	{
 		self.velocity = '0 0 -92';
 		self.movetype = MOVETYPE_TOSS;
@@ -300,16 +301,16 @@ void() lurker_falling =
 	vector wsorg = self.origin;
 	wsorg_z =self.pool.absmax_z;
 	
-	if(self.oldorigin != self.origin)
+	if (self.oldorigin != self.origin)
 		self.angles = vectoangles(self.velocity);
 
-	if((self.liquidtouch_timing > time) &&(self.funcwaterlevel >= 1) && ( self.velocity_z < 0))
+	if ((self.liquidtouch_timing > time) &&(self.funcwaterlevel >= 1) && ( self.velocity_z < 0))
 	{
 		self.gravity = 0.5;
 		pointparticles(particleeffectnum("water_splash"), wsorg, '0 0 0', 2);
 		pointparticles(particleeffectnum("water_splash2"), wsorg, '0 0 0', 2);
 	}
-	if(self.funcwaterlevel >= 1)
+	if (self.funcwaterlevel >= 1)
 	{
 		pointparticles(particleeffectnum("water_splash"), wsorg, 0, 4);
 		pointparticles(particleeffectnum("water_splash2"), wsorg, '0 0 0', 2);
@@ -319,7 +320,7 @@ void() lurker_falling =
 		self.nextthink = time + 3;
 		return;
 	}
-	if(self.oldorigin == self.origin)
+	if (self.oldorigin == self.origin)
 	{
 		self.movetype = MOVETYPE_FLY;
 		self.think = lurker_preattack;
@@ -334,7 +335,7 @@ void() lurker_falling =
 void()lurker_vcharge =
 {
 
-	if(!(visible(self.enemy)))
+	if (!(visible(self.enemy)))
 		return;
 	vector delta = self.enemy.origin - self.origin;
 	vector dir;
@@ -356,7 +357,7 @@ self.nextthink = time + 0.1;
 };
 void() lurker_charge2        =[      $lurker_attack2,       lurker_charge3 ] {self.nextthink = time + 0.1;};
 void() lurker_charge3        =[      $lurker_attack3,       lurker_charge4 ] {self.nextthink = time + 0.1;};
-void() lurker_charge4        =[      $lurker_attack4,       lurker_charge5 ] {;self.nextthink = time + 0.05;lurker_melee();ai_swim_charge(10,1);};
+void() lurker_charge4        =[      $lurker_attack4,       lurker_charge5 ] {self.nextthink = time + 0.05;lurker_melee();ai_swim_charge(10,1);};
 void() lurker_charge5        =[      $lurker_attack5,       lurker_charge6 ] {self.nextthink = time + 0.05;lurker_melee();ai_swim_charge(10,1);};
 void() lurker_charge6        =[      $lurker_attack6,       lurker_charge7 ] {self.nextthink = time + 0.05;lurker_melee();ai_swim_charge(10,1);};
 void() lurker_charge7        =[      $lurker_attack7,       lurker_charge8 ] {self.nextthink = time + 0.05;};
@@ -370,7 +371,7 @@ self.velocity = '0 0 -260';
 void()lurker_postcharge =
 {
 
-	if((self.funcwaterlevel == 2))
+	if ((self.funcwaterlevel == 2))
 		self.velocity_z = 0;
 	else
 		self.velocity_z = -120;
@@ -380,10 +381,10 @@ void()lurker_postcharge =
 void()lurker_precharge1 = 
 {
 	self.movetype = MOVETYPE_BOUNCE;
-	if(self.velocity_z <= 1)
+	if (self.velocity_z <= 1)
 	{
 			self.effects = 0;
-		vector lurkervel, dir;
+//		vector lurkervel, dir;
 		vector dir = normalize (self.enemy.origin - self.origin);
 		self.movetype = MOVETYPE_WALK;
 		self.velocity = dir * 1200;
@@ -400,17 +401,18 @@ void()lurker_precharge1 =
 
 void(float vel, float facing, float walking) ai_swim = 
 {
+	float disttoplayer = 0;
 
-	if(self.oldorigin == self.origin)
+	if (self.oldorigin == self.origin)
 	{
 		check_angles_heretic(64);
 		float sor = 1;
 	}
 	self.gravity = 1;
 
-	if((time < self.time_float) && (self.velocity_z == 0))
+	if ((time < self.time_float) && (self.velocity_z == 0))
 	{
-		if(self.upfloat == 1)
+		if (self.upfloat == 1)
 		{
 			self.upfloat = 0;
 			self.velocity -= '0 0 4';	
@@ -423,7 +425,6 @@ void(float vel, float facing, float walking) ai_swim =
 		self.time_float = time + 3;
 	}
 
-
 	float enemy_is_visible = visible(self.enemy);
 	if ((!enemy_is_visible) && (self.search_time < time))
 	{
@@ -433,53 +434,52 @@ void(float vel, float facing, float walking) ai_swim =
 		return;
 	}
 
-
-	if(sor != 1)
+	if (sor != 1)
 	{
-
-		float disttoplayer  =  vlen (self.enemy.origin - self.origin);
-		if((enemy_is_visible ) )
+		disttoplayer = vlen (self.enemy.origin - self.origin);
+		if ((enemy_is_visible ) )
 		{
 			self.lastplace_spoted = self.enemy.origin - rorigin(self);
 			self.search_time =  time + random (3,7);
 		}
 
-		if(walking ==  1)
+		if (walking ==  1)
 			self.lastplace_spoted = self.goalentity.origin- rorigin(self);
 	}
 
 	makevectors2 (self.angles);
 
-	if(self.angles_y < 0)
+	if (self.angles_y < 0)
 	self.angles_y = 0;
 
-	if(self.angles_y < 360)
-	float normalized_angles = floor (self.angles_y);
-	else
-	normalized_angles  = floor (self.angles_y % 360);
+	float normalized_angles = 0;
 
+	if (self.angles_y < 360)
+		normalized_angles = floor (self.angles_y);
+	else
+		normalized_angles  = floor (self.angles_y % 360);
 
 	float view_angles_atenemy = (vectoyaw (self.enemy.origin - rorigin(self)));
-	if(walking ==  1)
+	if (walking ==  1)
 	view_angles_atenemy = (vectoyaw (self.goalentity.origin - rorigin(self)));
 		
 	float rotate_y = max(normalized_angles,view_angles_atenemy) - min(normalized_angles,view_angles_atenemy);
-	if(facing == 1)
+	if (facing == 1)
 	rotate_y = 180;
 	self.avelocity = '0 0 0';
 
 
 
-	if(view_angles_atenemy > normalized_angles)
+	if (view_angles_atenemy > normalized_angles)
 	{
-		if((view_angles_atenemy >= 270) && (normalized_angles < 90))
+		if ((view_angles_atenemy >= 270) && (normalized_angles < 90))
 			self.avelocity_y = rotate_y * -1;
 		else		
 			self.avelocity_y = rotate_y * 1;
 	}
 	else
 	{
-		if((view_angles_atenemy <= 90) && (normalized_angles > 270))
+		if ((view_angles_atenemy <= 90) && (normalized_angles > 270))
 			self.avelocity_y = rotate_y * 1;
 		else		
 			self.avelocity_y = rotate_y * -1;
@@ -495,20 +495,20 @@ void(float vel, float facing, float walking) ai_swim =
 
 	float r = random ();
 
-	if((self.origin_z >= (self.pool.absmax_z - 32)))
+	if ((self.origin_z >= (self.pool.absmax_z - 32)))
 	self.velocity_z = -32;
 
 
-	float disttoplayer = vlen(self.enemy.origin - self.origin);
+	disttoplayer = vlen(self.enemy.origin - self.origin);
 
-	if((self.funcwaterlevel < 3)&& (self.funcwaterlevel > 1)&& (self.liquidtouch_timing > time))
+	if ((self.funcwaterlevel < 3)&& (self.funcwaterlevel > 1)&& (self.liquidtouch_timing > time))
 	{
-		if((self.funcwaterlevel == 2))
+		if ((self.funcwaterlevel == 2))
 			self.velocity_z = -64;
 		else
 			self.velocity_z = -380;
 
-		if(self.surfacing_sound_time < time)
+		if (self.surfacing_sound_time < time)
 		{
 		vector wsorg = self.origin;
 		wsorg_z =self.pool.absmax_z;
@@ -530,7 +530,7 @@ void(float vel, float facing, float walking) ai_swim =
 			self.lurker_jump_moment = time + 1;
 			vector lurkervel;
 			lurkervel = dir * 512;
-			lurkervel += 192;
+			lurkervel_z += 192;//R00k added _z
 			self.velocity_z += lurkervel_z;
 			self.velocity = dir * -128;
 			self.effects = 512;
@@ -545,7 +545,7 @@ void(float vel, float facing, float walking) ai_swim =
 	}
 	self.angles_x = 0;	
 	self.oldorigin = self.origin;
-	if((self.liquidtouch_timing < time) && (self.velocity != '0 0 0'))
+	if ((self.liquidtouch_timing < time) && (self.velocity != '0 0 0'))
 	{
 		self.velocity = '0 0 -92';
 		self.movetype = MOVETYPE_TOSS;
@@ -556,7 +556,7 @@ void(float vel, float facing, float walking) ai_swim =
 void(float dist) ai_swim_walk = 
 {
 	
-	if((self.liquidtouch_timing < time) && (self.velocity != '0 0 0'))
+	if ((self.liquidtouch_timing < time) && (self.velocity != '0 0 0'))
 	{
 		self.velocity = '0 0 -92';
 		self.movetype = MOVETYPE_TOSS;
@@ -581,7 +581,7 @@ void(float dist) ai_swim_walk =
 		self.pausetime = time + 1.5;
 		self.th_stand();
 	}
-	if(self.enemy != world)
+	if (self.enemy != world)
 	self.th_run();
 	ai_swim(dist,0,1);
 };
@@ -595,9 +595,9 @@ void()lurker_attack1;
 
 void() lurker_stand1  =[$lurker_swim1, lurker_stand1] 
 {
-	if(time < self.time_float)
+	if (time < self.time_float)
 	{
-		if(self.upfloat == 1)
+		if (self.upfloat == 1)
 		{
 			self.upfloat = 0;
 			self.velocity -= '0 0 4';	
@@ -623,7 +623,7 @@ void() lurker_stand1  =[$lurker_swim1, lurker_stand1]
 		self.ideal_yaw = vectoyaw(rorigin(nextenemy) - rorigin(self));
 	ChangeYaw();
 
-	if(r < 0.03)
+	if (r < 0.03)
 	{	
 		if ((self.idle_time < time) && !(self.spawnflags &1))
 		{
@@ -645,7 +645,7 @@ void() lurker_charge = [$lurker_charge1, lurker_charge]
 		ai_swim (25,1,0);
 	else
 		ai_swim (25,0,0);
-	if(self.oldorigin == self.origin)
+	if (self.oldorigin == self.origin)
 	{
 		self.think = lurker_roaming1;
 		self.nextthink = time + 0.1;
@@ -653,9 +653,9 @@ void() lurker_charge = [$lurker_charge1, lurker_charge]
 		return;
 	}	
 
-	if(self.framecount == 0)
+	if (self.framecount == 0)
 	{
-		if(self.zigzaging == 1)
+		if (self.zigzaging == 1)
 			self.zigzaging  = 0;
 		else
 			self.zigzaging  = 1;
@@ -663,11 +663,11 @@ void() lurker_charge = [$lurker_charge1, lurker_charge]
 
 	self.framecount ++;
 
-	if(self.framecount >= 8)
+	if (self.framecount >= 8)
 	{
 		float disttoplayer  =  vlen (self.enemy.origin - self.origin);
 		self.framecount = 0;	
-		if((disttoplayer < 92) &&  visible(self.enemy))
+		if ((disttoplayer < 92) &&  visible(self.enemy))
 			self.think = lurker_attack1;
 		else
 			self.think = lurker_charge;
@@ -692,10 +692,10 @@ void() lurker_preattack1  =[       $lurker_preattack1, lurker_preattack1]
 	float disttoplayer  =  vlen (self.enemy.origin - self.origin);
 	ai_swim (12,1,0);
 	self.framecount ++;
-	if(self.framecount >= 10)
+	if (self.framecount >= 10)
 	{
 	self.framecount = 0;	
-	if((disttoplayer < 92) &&  visible(self.enemy))
+	if ((disttoplayer < 92) &&  visible(self.enemy))
 		self.think = lurker_attack1;
 	else
 		self.think = lurker_charge;
@@ -705,12 +705,12 @@ void() lurker_preattack1  =[       $lurker_preattack1, lurker_preattack1]
 
 void() lurker_melee =
 {
-	local vector	delta;
-	local float 	ldmg;
+	vector	delta;
+	float 	ldmg;
 	if (!self.enemy)
 		return;		// removed before stroke
 
-	if(!(visible(self.enemy)))
+	if (!(visible(self.enemy)))
 		return;
 	delta = self.enemy.origin - self.origin;
 	if (vlen(delta) > 92)
@@ -764,7 +764,7 @@ void() lurker_death_gib  =
 {
 	self.alpha = -1;
 	decal_monster_gib(self.origin + '0 0 12');
-	local vector tagorg;
+	vector tagorg;
 	tagorg = tag_origin("tag_arm_a_r", self);explo_blood(20, tagorg);
 	ThrowGib3(self, "models/enemies/lurker/gibs/gib_arm_a_r.md3", self.health *0.25, 0.0125, 1, 1, tagorg, relvel('120 120 100', self), 0, 3);	// relvel: forward, right, up
 	tagorg = tag_origin("tag_arm_b_r", self);
@@ -798,9 +798,9 @@ void() lurker_death2 =[      $lurker_death1,        lurker_death2        ]
 {
 	self.solid = SOLID_TRIGGER;
 	//self.movetype = MOVETYPE_TOSS;
-	if((self.funcwaterlevel < 3) && (self.liquidtouch_timing > time))
+	if ((self.funcwaterlevel < 3) && (self.liquidtouch_timing > time))
 	{
-		if((self.funcwaterlevel == 2))
+		if ((self.funcwaterlevel == 2))
 			self.velocity_z = 0;
 		else
 			self.velocity_z = -120;
@@ -821,15 +821,15 @@ void()lurker_death =
 
 void() lurker_pain1  =[$lurker_pain1, lurker_pain2 ] 
 { 
-	if(self.liquidtouch_timing > time)
+	if (self.liquidtouch_timing > time)
 	{
 		ai_pain(7);
 		self.velocity = ' 0 0 0'; 
 	}
 
-	if(time < self.time_float)
+	if (time < self.time_float)
 	{
-		if(self.upfloat == 1)
+		if (self.upfloat == 1)
 		{
 			self.upfloat = 0;
 			self.velocity -= '0 0 4';	
@@ -847,7 +847,7 @@ void() lurker_pain1  =[$lurker_pain1, lurker_pain2 ]
 };
 void() lurker_pain2  =[      $lurker_pain1, lurker_pain3 ] {
 
-if(self.liquidtouch_timing > time)
+if (self.liquidtouch_timing > time)
 	ai_pain(7);
 
 };
@@ -858,7 +858,7 @@ void() lurker_pain6  =[      $lurker_pain1, lurker_pain7 ] {};
 void() lurker_pain7  =[      $lurker_pain1, lurker_pain8 ] {};
 void() lurker_pain8  =[      $lurker_pain1, lurker_pain9 ] {};
 void() lurker_pain9  =[      $lurker_pain1, lurker_pain10 ] {
-if(self.movetype == MOVETYPE_FLY)
+if (self.movetype == MOVETYPE_FLY)
 	setsize(self, heretic_bbox *-0.35, heretic_bbox *0.35);
 };
 void() lurker_pain10  =[      $lurker_pain1, lurker_preattack ] {};
@@ -867,7 +867,7 @@ void() lurker_pain10  =[      $lurker_pain1, lurker_preattack ] {};
 void() pain_angles =
 {
 
-	if(self.ammo_lance == 2) 
+	if (self.ammo_lance == 2) 
 	self.angles_z = 90;
 	else
 	self.angles_z = -90;
@@ -882,14 +882,14 @@ void() lurker_painb1  =[$lurker_painb1, lurker_painb2 ]
 { 
 
 
-	if(self.liquidtouch_timing > time)
+	if (self.liquidtouch_timing > time)
 	{
 		ai_pain(7);
 		self.velocity = ' 0 0 0'; 
 	}
-	if(time < self.time_float)
+	if (time < self.time_float)
 	{
-		if(self.upfloat == 1)
+		if (self.upfloat == 1)
 		{
 			self.upfloat = 0;
 			self.velocity -= '0 0 4';	
@@ -908,7 +908,7 @@ void() lurker_painb1  =[$lurker_painb1, lurker_painb2 ]
 void() lurker_painb2  =[      $lurker_painb2, lurker_painb3 ] {
 	pain_angles();
 
-if(self.liquidtouch_timing > time)
+if (self.liquidtouch_timing > time)
 	ai_pain(7);
 
 };
@@ -919,13 +919,13 @@ void() lurker_painb6  =[      $lurker_painb6, lurker_painb7 ] {pain_angles();};
 void() lurker_painb7  =[      $lurker_painb7, lurker_painb8 ] {pain_angles();};
 void() lurker_painb8  =[      $lurker_painb8, lurker_painb9 ] {pain_angles();};
 void() lurker_painb9  =[      $lurker_painb9, lurker_painb10 ] {
-if(self.movetype == MOVETYPE_FLY)
+if (self.movetype == MOVETYPE_FLY)
 	setsize(self, heretic_bbox *-0.35, heretic_bbox *0.35);
 pain_angles();
 };
 void() lurker_painb10  =[      $lurker_painb8, lurker_roaming1 ] {
 
-	if(self.liquidtouch_timing > time)
+	if (self.liquidtouch_timing > time)
 	{
 		self.think = lurker_roaming1;
 		self.pain_finished = 0;
@@ -934,10 +934,10 @@ void() lurker_painb10  =[      $lurker_painb8, lurker_roaming1 ] {
 	{
 		self.movetype = MOVETYPE_BOUNCE;
 
-		if(self.flags & FL_ONGROUND)
+		if (self.flags & FL_ONGROUND)
 			self.flags -= FL_ONGROUND;
 		vector  pool_rorigin = (self.pool.absmin + self.pool.absmax) *0.5; 
-		if(self.pos1)
+		if (self.pos1)
 			pool_rorigin = self.pos1;
 		vector dir = normalize (pool_rorigin - self.origin );
 		self.velocity = dir * random(96,128) * 3; 
@@ -956,16 +956,16 @@ void(entity lurker_attacker, float damage)	lurker_pain =
 {
 	// lurker allways do pain frames
 
-	if(self.pain_finished > time)
+	if (self.pain_finished > time)
 	return;
-	if(self.liquidtouch_timing < time)
+	if (self.liquidtouch_timing < time)
 	{
 		self.movetype = MOVETYPE_BOUNCE;
 
-		if(self.flags & FL_ONGROUND)
+		if (self.flags & FL_ONGROUND)
 			self.flags -= FL_ONGROUND;
 		vector  pool_rorigin = (self.pool.absmin + self.pool.absmax) *0.5; 
-		if(self.pos1)
+		if (self.pos1)
 			pool_rorigin = self.pos1;
 		vector dir = normalize (pool_rorigin - self.origin );
 		self.velocity = dir * random(96,128) * 3; 
@@ -1014,7 +1014,7 @@ void()precache_monster_lurker =
 void() water_checker_touch = 
 {
 
-	if(other.classname == "func_water")
+	if (other.classname == "func_water")
 		self.liquidtouch_timing = time + 0.5;
 	else
 		return;
@@ -1023,23 +1023,24 @@ void() water_checker_touch =
 .vector lurkeroldorg;
 void() water_checker_think =
 {
+	vector dir = '0 0 0';
+	vector pool_rorigin = '0 0 0';
 
-
-	if((self.liquidtouch_timing > time) && ((self.owner.pain_finished < time)))
+	if ((self.liquidtouch_timing > time) && ((self.owner.pain_finished < time)))
 	{
 
 		self.owner.angles_z = self.owner.angles_z * 0.7;
 
 
-		if((self.owner.angles_z <= 2) &&(self.owner.angles_z > 0))
+		if ((self.owner.angles_z <= 2) &&(self.owner.angles_z > 0))
 			self.owner.angles_z = 0;
-		if((self.owner.angles_z >= -2) &&(self.owner.angles_z < 0))
+		if ((self.owner.angles_z >= -2) &&(self.owner.angles_z < 0))
 			self.owner.angles_z = 0;
 
 	}
 	float envisible = visible (self.owner.enemy);
 
-	if(self.owner.lurker_jump_moment > time)
+	if (self.owner.lurker_jump_moment > time)
 	{
 		self.think = water_checker_think;
 		self.nextthink = time + 0.05;
@@ -1047,75 +1048,75 @@ void() water_checker_think =
 	}
 
 
-	if(envisible >= 1)
+	if (envisible >= 1)
 		self.owner.alert_time =  time + 12;
-	vector  pool_rorigin = (self.owner.pool.absmin + self.owner.pool.absmax) *0.5; 
-	if(!self.owner.lurkeroldorg)
+	pool_rorigin = (self.owner.pool.absmin + self.owner.pool.absmax) *0.5; 
+	if (!self.owner.lurkeroldorg)
 		self.owner.lurkeroldorg = pool_rorigin+ randomvector ('-64 -64 -16','64 64 16');
-	if((self.liquidtouch_timing > time) && (self.owner.movetype == MOVETYPE_FLY) &&(self.owner.waiting_time < time) )
+	if ((self.liquidtouch_timing > time) && (self.owner.movetype == MOVETYPE_FLY) &&(self.owner.waiting_time < time) )
 	{
-		if((self.oldvelocity == self.owner.origin)&& (self.owner.frame == $lurker_swim1))
+		if ((self.oldvelocity == self.owner.origin)&& (self.owner.frame == $lurker_swim1))
 		{
 			self.owner.sigil_time = time + random(0.5,0.75);
 			self.owner.movetype = MOVETYPE_WALK;
 			makevectors2 (self.owner.angles);
 			
 			traceline(self.origin,self.origin + v_right * 64, FALSE, self);
-			if(trace_fraction != 1)
-				vector dir = v_right * -12;
+			if (trace_fraction != 1)
+				dir = v_right * -12;
 			traceline(self.origin,self.origin + v_right * -64, FALSE, self);
-			if(trace_fraction != 1)
+			if (trace_fraction != 1)
 				dir += v_right * 12;
 
 			traceline(self.origin,self.origin + v_forward * 64, FALSE, self);
-			if(trace_fraction != 1)
+			if (trace_fraction != 1)
 				dir += v_forward * -12;
 			traceline(self.origin,self.origin + v_forward * -64, FALSE, self);
-			if(trace_fraction != 1)
+			if (trace_fraction != 1)
 				dir += v_forward * 12;
 
 			traceline(self.origin,self.origin + v_up * 64, FALSE, self);
-			if(trace_fraction != 1)
+			if (trace_fraction != 1)
 				dir += v_forward * -12;
 			traceline(self.origin,self.origin + v_up * -64, FALSE, self);
-			if(trace_fraction != 1)
+			if (trace_fraction != 1)
 				dir += v_forward * 12;
 			
 			self.colormod = '1 0 0';	
 			dir = normalize (dir);
 			self.owner.velocity = dir * 128;
-			if((!visible(single_player)) && (self.owner.alert_time < time))
+			if ((!visible(single_player)) && (self.owner.alert_time < time))
 			{
 				setorigin(self.owner,self.owner.lurkeroldorg);
 			}
 		}
 	}
 	self.velocity = '0 0 12';
-	if((self.owner.movetype == MOVETYPE_WALK) && (self.owner.sigil_time < time))
+	if ((self.owner.movetype == MOVETYPE_WALK) && (self.owner.sigil_time < time))
 		self.owner.movetype = MOVETYPE_FLY;
-	if((self.owner.movetype == MOVETYPE_BOUNCE) && (self.owner.velocity_z > 0) && (self.owner.think != lurker_falling))
+	if ((self.owner.movetype == MOVETYPE_BOUNCE) && (self.owner.velocity_z > 0) && (self.owner.think != lurker_falling))
 		self.liquidtouch_timing = time + 0.75;
 	if ((((self.origin_x > self.owner.pool.absmin_x) && (self.origin_x < self.owner.pool.absmax_x))&&
 	((self.origin_y > self.owner.pool.absmin_y) && (self.origin_y < self.owner.pool.absmax_y))&&
 	((self.origin_z > self.owner.pool.absmin_z) && (self.origin_z < self.owner.pool.absmax_z))) && (self.owner.pool.classname == "func_water"))
 	self.liquidtouch_timing = time + 0.5;
 
-	if((self.owner.liquidtouch_timing < time) && (self.liquidtouch_timing > time))
+	if ((self.owner.liquidtouch_timing < time) && (self.liquidtouch_timing > time))
 		self.owner.liquidtouch_timing = self.liquidtouch_timing;
 
-	if((self.liquidtouch_timing < time) && (self.owner.movetype != MOVETYPE_TOSS))
+	if ((self.liquidtouch_timing < time) && (self.owner.movetype != MOVETYPE_TOSS))
 	{
 
 		self.owner.movetype = MOVETYPE_TOSS;
 
-		vector  pool_rorigin = (self.owner.pool.absmin + self.owner.pool.absmax) *0.5; 
-		if(self.owner.pos1)
+		pool_rorigin = (self.owner.pool.absmin + self.owner.pool.absmax) *0.5; 
+		if (self.owner.pos1)
 			pool_rorigin = self.owner.pos1;
-		vector dir = normalize (pool_rorigin - self.owner.origin );
+		dir = normalize (pool_rorigin - self.owner.origin );
 		self.owner.velocity = dir * random(96,128) * 3; 
 		self.owner.velocity_z = random (64,96); 
 		self.owner.pain_finished = time + 1 + random();
-		if(self.owner.flags & FL_ONGROUND)
+		if (self.owner.flags & FL_ONGROUND)
 			self.owner.flags -= FL_ONGROUND;
 
 		self.owner.lurkerpainb = 1;	
@@ -1124,9 +1125,9 @@ void() water_checker_think =
 		T_Damage (self.owner, world, world, 1);	
 		setsize(self.owner, heretic_bbox *-0.25, heretic_bbox *0.25);
 	}
-	if((self.liquidtouch_timing > time) && (self.owner.movetype == MOVETYPE_TOSS))
+	if ((self.liquidtouch_timing > time) && (self.owner.movetype == MOVETYPE_TOSS))
 	{
-		if(self.owner.lurkerpainb == 1)
+		if (self.owner.lurkerpainb == 1)
 		{
 			self.owner.velocity = '0 0 0';
 			self.owner.movetype = MOVETYPE_FLY;
@@ -1136,10 +1137,10 @@ void() water_checker_think =
 
 		}
 	}
-	//if(self.owner.movetype == MOVETYPE_TOSS)
+	//if (self.owner.movetype == MOVETYPE_TOSS)
 	//	T_Damage (self.owner, world, world, 1);	
 	setorigin (self, self.owner.origin);
-	if(self.owner.health <= 0)
+	if (self.owner.health <= 0)
 		self.think = SUB_Remove;
 	else
 		self.think = water_checker_think;
@@ -1165,7 +1166,7 @@ void() monster_lurker =
 	self.noise = "lurker/idle.wav";
 	self.zigzagdeviance = 128;
 	self.health = 250;
-	local float r;
+	float r;
 	r = (random() *3);
 	if (r <= 3)
 		self.noise = "enemies/lurker/sight3.ogg";
@@ -1174,7 +1175,7 @@ void() monster_lurker =
 	if (r < 1)
 		self.noise = "enemies/lurker/sight1.ogg";
 
-	if(r > 1.5)
+	if (r > 1.5)
 	self.ammo_lance = 2;
 
 	self.th_stand = lurker_stand1;

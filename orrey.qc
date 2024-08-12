@@ -133,7 +133,7 @@ void Orrey_Use()
 	self.orrey_spindown = self.orrey_animtime + 14;
 	self.SendFlags |= 0x04 | 0x08 | 0x10;
 }
-
+/*UNUSED
 void spawnfunc_object_orrery()
 {
 	precache_sound("objects/orrery.ogg");
@@ -149,6 +149,7 @@ void spawnfunc_object_orrery()
 	self.think = Orrey_Think;
 	self.nextthink = time + 0.1;
 }
+*/
 #endif
 
 #ifdef CSQC

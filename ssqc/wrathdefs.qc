@@ -742,16 +742,16 @@ void() objerror_messages =
 {
 	entity pl = find(world, classname, "player");
 	
-	if(obj_entity1 != world)	string obj_message1 = strcat ((obj_entity1.classname), " ", vtos (obj_entity1.origin)," no targetname \n", "\n");
-	if(obj_entity2 != world)	string obj_message2 = strcat ((obj_entity2.classname), " ", vtos (obj_entity2.origin)," no targetname \n", "\n");
-	if(obj_entity3 != world)	string obj_message3 = strcat ((obj_entity3.classname), " ", vtos (obj_entity3.origin)," no targetname \n", "\n");
-	if(obj_entity4 != world)	string obj_message4 = strcat ((obj_entity4.classname), " ", vtos (obj_entity4.origin)," no targetname \n", "\n");
-	if(obj_entity5 != world)	string obj_message5 = strcat ((obj_entity5.classname), " ", vtos (obj_entity5.origin)," no targetname \n", "\n");
-	if(obj_entity6 != world)	string obj_message6 = strcat ((obj_entity6.classname), " ", vtos (obj_entity6.origin)," no targetname \n", "\n");
-	if(obj_entity7 != world)	string obj_message7 = strcat ((obj_entity7.classname), " ", vtos (obj_entity7.origin)," no targetname \n", "\n");
-	if(obj_entity8 != world)	string obj_message8 = strcat ((obj_entity8.classname), " ", vtos (obj_entity8.origin)," no targetname \n", "\n");
-	if(obj_entity9 != world)	string obj_message9 = strcat ((obj_entity9.classname), " ", vtos (obj_entity9.origin)," no targetname \n", "\n");
-	if(obj_entity10 != world)	string obj_message10 = strcat ((obj_entity10.classname), " ", vtos (obj_entity10.origin)," no targetname \n");
+	if (obj_entity1 != world)	string obj_message1 = strcat ((obj_entity1.classname), " ", vtos (obj_entity1.origin)," no targetname \n", "\n");
+	if (obj_entity2 != world)	string obj_message2 = strcat ((obj_entity2.classname), " ", vtos (obj_entity2.origin)," no targetname \n", "\n");
+	if (obj_entity3 != world)	string obj_message3 = strcat ((obj_entity3.classname), " ", vtos (obj_entity3.origin)," no targetname \n", "\n");
+	if (obj_entity4 != world)	string obj_message4 = strcat ((obj_entity4.classname), " ", vtos (obj_entity4.origin)," no targetname \n", "\n");
+	if (obj_entity5 != world)	string obj_message5 = strcat ((obj_entity5.classname), " ", vtos (obj_entity5.origin)," no targetname \n", "\n");
+	if (obj_entity6 != world)	string obj_message6 = strcat ((obj_entity6.classname), " ", vtos (obj_entity6.origin)," no targetname \n", "\n");
+	if (obj_entity7 != world)	string obj_message7 = strcat ((obj_entity7.classname), " ", vtos (obj_entity7.origin)," no targetname \n", "\n");
+	if (obj_entity8 != world)	string obj_message8 = strcat ((obj_entity8.classname), " ", vtos (obj_entity8.origin)," no targetname \n", "\n");
+	if (obj_entity9 != world)	string obj_message9 = strcat ((obj_entity9.classname), " ", vtos (obj_entity9.origin)," no targetname \n", "\n");
+	if (obj_entity10 != world)	string obj_message10 = strcat ((obj_entity10.classname), " ", vtos (obj_entity10.origin)," no targetname \n");
 	
 	string obj_messagea = strcat (obj_message1,obj_message2,obj_message3,obj_message4,obj_message5);
 	string obj_messageb = strcat (obj_message6,obj_message7,obj_message8,obj_message9,obj_message10);
@@ -773,54 +773,54 @@ void() objerror_messages =
 
 void() wrath_objerror =
 {
-	if(obj_entity1 == world)
+	if (obj_entity1 == world)
 	{
 		obj_entity1 = self;
 		self.think = objerror_messages;
 		self.nextthink = time + 3;
 		return;
 	}
-	if(obj_entity2 == world)
+	if (obj_entity2 == world)
 	{
 		obj_entity2 = self;
 		return;	
 	}
-	if(obj_entity3 == world)
+	if (obj_entity3 == world)
 	{
 		obj_entity3 = self;
 		return;	
 	}
-	if(obj_entity4 == world)
+	if (obj_entity4 == world)
 	{
 		obj_entity4 = self;
 		return;	
 	}
-	if(obj_entity5 == world)
+	if (obj_entity5 == world)
 	{
 		obj_entity5 = self;
 		return;	
 	}
-	if(obj_entity6 == world)
+	if (obj_entity6 == world)
 	{
 		obj_entity6 = self;
 		return;	
 	}
-	if(obj_entity7 == world)
+	if (obj_entity7 == world)
 	{
 		obj_entity7 = self;
 		return;	
 	}
-	if(obj_entity8 == world)
+	if (obj_entity8 == world)
 	{
 		obj_entity8 = self;
 		return;	
 	}
-	if(obj_entity9 == world)
+	if (obj_entity9 == world)
 	{
 		obj_entity9 = self;
 		return;	
 	}
-	if(obj_entity10 == world)
+	if (obj_entity10 == world)
 	{
 		obj_entity10 = self;
 		return;	
@@ -833,7 +833,7 @@ vector (entity player) cursor_trace_endpos_fixed =
 	t_endpos = player.cursor_trace_endpos;
 	org = player.origin;
 	float distance = vlen (org - t_endpos);
-	if(distance > 128)
+	if (distance > 128)
 		return t_endpos;
 	else
 	{

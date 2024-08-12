@@ -36,7 +36,7 @@ void() SetMovedir =
 .float disarmed;
 void() toggle_disarmed = 
 {
-	if(self.disarmed == 1)
+	if (self.disarmed == 1)
 		self.disarmed = 0;
 	else
 		self.disarmed = 1;
@@ -65,7 +65,7 @@ void() InitTrigger =
 		self.using = -1;
 };
 
-void(entity ent, vector tdest, float tspeed, void() func) SUB_CalcMoveEnt = { local entity stemp;
+void(entity ent, vector tdest, float tspeed, void() func) SUB_CalcMoveEnt = { entity stemp;
 	stemp = self;
 	self = ent;
 	SUB_CalcMove(tdest, tspeed, func);
@@ -86,8 +86,8 @@ vector (entity bmodel) b_org =
 vector origin = 0.5 *(bmodel.absmax + bmodel.absmin);
 return origin;
 }
-void(vector tdest, float tspeed, void() func) SUB_CalcMove = { local vector vdestdelta;
-	local float len, traveltime;
+void(vector tdest, float tspeed, void() func) SUB_CalcMove = { vector vdestdelta;
+	float len, traveltime;
 	if (!tspeed)
 		objerror("No speed is defined!");
 	self.think1 = func;
@@ -125,15 +125,15 @@ void() SUB_CalcMoveDone = { setorigin(self, self.finaldest);
 		self.think1();
 };
 
-void(entity ent, vector destangle, float tspeed, void() func) SUB_CalcAngleMoveEnt = { local entity stemp;
+void(entity ent, vector destangle, float tspeed, void() func) SUB_CalcAngleMoveEnt = { entity stemp;
 	stemp = self;
 	self = ent;
 	SUB_CalcAngleMove(destangle, tspeed, func);
 	self = stemp;
 };
 
-void(vector destangle, float tspeed, void() func) SUB_CalcAngleMove = { local vector destdelta;
-	local float len, traveltime;
+void(vector destangle, float tspeed, void() func) SUB_CalcAngleMove = { vector destdelta;
+	float len, traveltime;
 	if (!tspeed)
 		objerror("No speed is defined!");
 	// set destdelta to the vector needed to move
@@ -163,7 +163,7 @@ void() DelayThink = { activator = self.enemy;
 	remove(self);
 };
 
-void() SUB_UseTargets3 = { local entity t, stemp, otemp, act;
+void() SUB_UseTargets3 = { entity t, stemp, otemp, act;
 
 	//
 	// check for a delay
@@ -279,24 +279,24 @@ void(float ldelay,string ltarget,string lkilltarget, entity lactivator)spawn_del
 		t.target = ltarget;
 };
 
-void() SUB_UseTargets = { local entity t, act, stemp, otemp;
+void() SUB_UseTargets = { entity t, act, stemp, otemp;
 
 	//
 	// check for a delay
 	//
-	if(self.target2)
+	if (self.target2)
         spawn_delay_entity(self.delay2,self.target2,self.killtarget2,activator);
-	if(self.target3)
+	if (self.target3)
         spawn_delay_entity(self.delay3,self.target3,self.killtarget3,activator);
-	if(self.target4)
+	if (self.target4)
         spawn_delay_entity(self.delay4,self.target4,self.killtarget4,activator);
-	if(self.target5)
+	if (self.target5)
         spawn_delay_entity(self.delay5,self.target5,self.killtarget5,activator);
-	if(self.target6)
+	if (self.target6)
         spawn_delay_entity(self.delay6,self.target6,self.killtarget6,activator);
-	if(self.target7)
+	if (self.target7)
         spawn_delay_entity(self.delay7,self.target7,self.killtarget7,activator);
-	if(self.target8)
+	if (self.target8)
         spawn_delay_entity(self.delay8,self.target8,self.killtarget8,activator);
 	if (self.delay)
 	{
@@ -421,7 +421,7 @@ void(void() thinkst) SUB_CheckRefire = { if (skill != 3)
 	self.cnt = 1;
 	self.think = thinkst;
 };
-void(vector start, vector end, float noents, entity attacker, vector boxsize) wtracebox = { local float s;
+void(vector start, vector end, float noents, entity attacker, vector boxsize) wtracebox = { float s;
 	s = attacker.solid;
 	if (attacker.solid == SOLID_SLIDEBOX)
 	{
@@ -442,7 +442,7 @@ void(vector start, vector end, float noents, entity attacker, vector boxsize) we
 	self.dphitcontentsmask = o_dphitcontents;
 };
 
-void(vector start, vector end, float noents, entity attacker) wtraceline = { local float s;
+void(vector start, vector end, float noents, entity attacker) wtraceline = { float s;
 	s = attacker.solid;
 	if (attacker.solid == SOLID_SLIDEBOX)
 	{
@@ -464,46 +464,46 @@ void(vector start, vector end, float noents, entity attacker) weapontraceline = 
 };
 
 vector railbbox;
-void(vector start, vector end, float noents, entity attacker) railtraceline = { local vector maxbbox, minbbox;
+void(vector start, vector end, float noents, entity attacker) railtraceline = { vector maxbbox, minbbox;
 	maxbbox = railbbox;
 	minbbox_x = maxbbox_x *-1;
 	minbbox_y = maxbbox_y *-1;
 	minbbox_z = maxbbox_z *-1;
-	local float s;
+	float s;
 	s = attacker.solid;
 	if (attacker.solid == SOLID_SLIDEBOX)
 		attacker.solid = SOLID_BBOX;
 
 	tracebox(start, minbbox, maxbbox, end, noents, attacker);
 	//	traceline(start,end, noents, attacker);
-	if(attacker != world)
+	if (attacker != world)
 		attacker.solid = s;
 };
 
 vector coachbbox;
-void(vector start, vector end, float noents, entity attacker) wbtraceline = { local vector maxbbox, minbbox;
+void(vector start, vector end, float noents, entity attacker) wbtraceline = { vector maxbbox, minbbox;
 	maxbbox = coachbbox;
 	minbbox_x = maxbbox_x *-1;
 	minbbox_y = maxbbox_y *-1;
 	minbbox_z = maxbbox_z *-1;
-	local float s;
+	float s;
 	s = attacker.solid;
 	if ((attacker.solid == SOLID_SLIDEBOX) && (attacker != world))
 		attacker.solid = SOLID_BBOX;
 
 	tracebox(start, minbbox, maxbbox, end, noents, attacker);
 	//	traceline(start,end, noents, attacker);
-	if(attacker != world)
+	if (attacker != world)
 	attacker.solid = s;
 };
 vector shotbbox;
 
-void(vector start, vector end, float noents, entity attacker) wbtraceline2 = { local vector maxbbox, minbbox;
+void(vector start, vector end, float noents, entity attacker) wbtraceline2 = { vector maxbbox, minbbox;
 	maxbbox = shotbbox;
 	minbbox_x = maxbbox_x *-1;
 	minbbox_y = maxbbox_y *-1;
 	minbbox_z = maxbbox_z *-1;
-	/*	local float s;
+	/*	float s;
 		s = attacker.solid;
 		if (attacker.solid == SOLID_SLIDEBOX)
 		attacker.solid = SOLID_BBOX;
@@ -527,7 +527,7 @@ void() move_entities =
 
 	if (trace_fraction == 1)
 	{
-		if(corpse.flags &FL_ONGROUND)
+		if (corpse.flags &FL_ONGROUND)
 			corpse.flags -= FL_ONGROUND;
 		corpse.velocity_x = random() *5 + 2;
 		corpse.velocity_y = random() *5 + 2;
@@ -544,7 +544,7 @@ void() move_gibs = { if ((self.oldgroundentity != world) && (self.flags &FL_ONGR
 			self.flags -= FL_ONGROUND;
 			self.velocity_x = random() *5 + 2;
 			self.velocity_y = random() *5 + 2;
-			//if(self.count !=1)
+			//if (self.count !=1)
 			if (self.movetype == MOVETYPE_NOCLIP)
 				self.velocity_z = -200;
 			else
@@ -583,7 +583,7 @@ void() alphafade2 = { if (self.wrathflags &FL_TOSS)
 	{
 		self.alpha = -1;
 		self.think = SUB_Remove;
-		if(self.burnable == 2)
+		if (self.burnable == 2)
 		{
 			vector org = self.origin + randomvector (self.mins,self.maxs);
 			float gibaccount = floor(self.maxs_x - self.mins_x) / 4; 
@@ -602,7 +602,7 @@ void() alphafade2 = { if (self.wrathflags &FL_TOSS)
 
 void() alphafade = { if (self.wrathflags &FL_TOSS)
 		move_gibs();
-	if(!self.alphatime)
+	if (!self.alphatime)
 	self.alphatime = 1;
 	if (!self.alpha)
 		self.alpha = 1;
@@ -616,14 +616,14 @@ void(entity l, vector col, float rad, float sty) lighted = { l.pflags = PFLAGS_F
 	l.style = sty;
 };
 
-void(entity e, vector sz) setsizemonster = { local vector s2;
+void(entity e, vector sz) setsizemonster = { vector s2;
 	s2_x = sz_x *-1;
 	s2_y = sz_y *-1;
 	s2_z = -32;
 	setsize(e, s2, sz);
 };
 
-void(entity e, vector sz) setsizeitem = { local vector s2;
+void(entity e, vector sz) setsizeitem = { vector s2;
 	s2_x = sz_x *-1;
 	s2_y = sz_y *-1;
 	s2_z = sz_z *-1;
@@ -632,7 +632,7 @@ void(entity e, vector sz) setsizeitem = { local vector s2;
 
 .vector size_bbox;
 .vector nsize_bbox;
-void(entity e, vector sz) setsizeitem2 = { local vector s2;
+void(entity e, vector sz) setsizeitem2 = { vector s2;
 	s2_x = sz_x *-1;
 	s2_y = sz_y *-1;
 	s2_z = sz_z *-1;
@@ -673,7 +673,7 @@ void() start_key;
 void(float type) StartItem; .float episode;
 void() paste_old_data = { if (self.classname == "enemy_spawner")
 	{
-		local entity pl;
+		entity pl;
 		pl = find(world, classname, "player");
 		if (!pl.oldrelics)
 			return;
@@ -708,11 +708,11 @@ void() paste_old_data = { if (self.classname == "enemy_spawner")
 	{
 		self.modelflags = MF_ROTATE;
 		self.items = IT_COFFERKEY1;
-		if(self.episode == 1)
+		if (self.episode == 1)
 			setmodel(self, "models/keys/key_1_coffer.md3");
-		if(self.episode == 2)
+		if (self.episode == 2)
 			setmodel(self, "models/keys/key_2_coffer.md3");
-		if(self.episode == 3)
+		if (self.episode == 3)
 			setmodel(self, "models/keys/key_3_coffer.md3");
 		setsize(self, coffer_key_nsize, coffer_key_size);
 		self.scale = 1;
@@ -730,11 +730,11 @@ void() paste_old_data = { if (self.classname == "enemy_spawner")
 	{
 		self.items = IT_KEY1;
 		self.modelflags = MF_ROTATE;
-		if(self.episode == 1)
+		if (self.episode == 1)
 			setmodel(self, "models/keys/key_1_red.md3");
-		if(self.episode == 2)
+		if (self.episode == 2)
 			setmodel(self, "models/keys/key_2_red.md3");
-		if(self.episode == 3)
+		if (self.episode == 3)
 			setmodel(self, "models/keys/key_3_red.md3");
 
 		setsize(self, coffer_key_nsize, coffer_key_size);
@@ -753,11 +753,11 @@ void() paste_old_data = { if (self.classname == "enemy_spawner")
 	{
 		self.items = IT_KEY3;
 		self.modelflags = MF_ROTATE;
-		if(self.episode == 1)
+		if (self.episode == 1)
 			setmodel(self, "models/keys/key_1_yellow.md3");
-		if(self.episode == 2)
+		if (self.episode == 2)
 			setmodel(self, "models/keys/key_2_yellow.md3");
-		if(self.episode == 3)
+		if (self.episode == 3)
 			setmodel(self, "models/keys/key_3_yellow.md3");
 		setsize(self, coffer_key_nsize, coffer_key_size);
 		self.scale = 1;
@@ -775,11 +775,11 @@ void() paste_old_data = { if (self.classname == "enemy_spawner")
 	{
 		self.items = IT_KEY2;
 		self.modelflags = MF_ROTATE;
-		if(self.episode == 1)
+		if (self.episode == 1)
 			setmodel(self, "models/keys/key_1_blue.md3");
-		if(self.episode == 2)
+		if (self.episode == 2)
 			setmodel(self, "models/keys/key_2_blue.md3");
-		if(self.episode == 3)
+		if (self.episode == 3)
 			setmodel(self, "models/keys/key_3_blue.md3");
 		setsize(self, coffer_key_nsize, coffer_key_size);
 		self.scale = 1;
@@ -802,11 +802,11 @@ self.solid = self.oldsolid;
 void()SUB_RemoveScalethink =
 {
 	self.scale -= 0.05;
-	if(self.scale < 0.1)    
+	if (self.scale < 0.1)    
 		self.think = SUB_Remove;
 	else
 		self.think = SUB_RemoveScalethink;
-	if(self.light_lev > 0)
+	if (self.light_lev > 0)
 	{
 		self.light_lev = self.light_lev * 0.92;
 	}
@@ -817,7 +817,7 @@ void()SUB_RemoveScalethink =
 void() SUB_RemoveScale =
 {
 	self.solid = SOLID_NOT;
-	if(!self.scale)    
+	if (!self.scale)    
 		self.scale = 1;
 	self.think = SUB_RemoveScalethink;
 	self.nextthink = time;
@@ -847,7 +847,7 @@ void(float type, float delay) save_screenshot =
 	if (type == 3)
 	line3 = timestamp_image;	
 
- 	local float writeparms;
+ 	float writeparms;
 	writeparms = fopen_wrath(strcat("profiles/", profilename,"/timestamp.txt"),  FILE_WRITE);
 
 	fputs(writeparms, line1);

@@ -55,8 +55,8 @@ void() srelease_spitter = {
 
 .float frags;
 .float spteeth;
-void() spiral_teeth = { local vector ang;
-	local float avfloat;
+void() spiral_teeth = { vector ang;
+	float avfloat;
 	avfloat = random() *1.5 + 1.33;
 
 	if (self.spteeth)
@@ -140,7 +140,7 @@ void() spiral_teeth = { local vector ang;
 	self.velocity = ((self.velocity + ((v_right *121.000) *crandom())) + ((v_up *121.000) *crandom()));
 }
 
-vector() wall_velocity = { local vector vel;
+vector() wall_velocity = { vector vel;
 	vel = normalize(self.velocity);
 	vel = normalize(vel + v_up *(random() - 0.5) + v_right *(random() - 0.5));
 	vel = vel + 2 * trace_plane_normal;
@@ -148,13 +148,13 @@ vector() wall_velocity = { local vector vel;
 	return vel;
 };
 
-void(float damage, float type) spawn_touchblood2 = { local vector vel;
+void(float damage, float type) spawn_touchblood2 = { vector vel;
 	vel = wall_velocity() *0.2;
 	SpawnBlood(self.origin + vel *0.01, vel, damage, type, 0);
 };
-void() spit_touch = { local vector org;
+void() spit_touch = { vector org;
 	org = self.origin;
-	local float tdmg;
+	float tdmg;
 	if (other == self.owner)
 		return;
 	if (GetSkyMaterial())
@@ -174,7 +174,7 @@ void() spit_touch = { local vector org;
 	if (other.takedamage)
 	{
 		
-		if(other.classname == "player")
+		if (other.classname == "player")
 		{
 			if (self.classname == "spleet")
 				tdmg = spitterdamg_mp;
@@ -198,7 +198,7 @@ void() spit_touch = { local vector org;
 			else if (other.classname != "monster_oppressor")
 				spawn_touchblood2(9, 1);
 
-			local float r;
+			float r;
 			r = random();
 			if (r < 1)
 			{
@@ -222,15 +222,15 @@ void() spit_touch = { local vector org;
 		traceline(self.origin, self.origin + v_forward * 1024, MOVE_HITMODEL, self);
 		if (trace_ent != other)
 			trace_endpos = old_impact;
-        if(other.bloody == 2)
+        if (other.bloody == 2)
         {
 			makevectors2 (self.angles);
 			if ((bossvulnerable == 1))
 			{
-				if(other == trace_ent)
+				if (other == trace_ent)
 				{
 
-					if(other.classname == "boss_guardian2")
+					if (other.classname == "boss_guardian2")
 						explo_blood_sprite(2, trace_endpos + v_forward * -12);
 					else
 						explo_blood_sprite(5, trace_endpos + v_forward * -12);
@@ -260,7 +260,7 @@ void() spit_touch = { local vector org;
 		float material = GetTraceMaterial();
 
 
-		if(material != MAT_GENERIC)
+		if (material != MAT_GENERIC)
 			material_impacts(material,org,partvel,1,0);
 	}
 
@@ -275,8 +275,8 @@ void() proj_rangles =
 	self.nextthink = time + 5;
 };
 
-void(float type, float forg) W_FireSpitter = { local vector tagorg;
-	local float sv, tagindex;
+void(float type, float forg) W_FireSpitter = { vector tagorg;
+	float sv, tagindex;
 	newmis = spawn();
 
 	if (type == 1)
@@ -294,7 +294,7 @@ void(float type, float forg) W_FireSpitter = { local vector tagorg;
     newmis.wrathflags += FL_PROJECTILE;
 	if ((type == 1)|| (type == 3))
 	{
-		local string tagname;
+		string tagname;
 		if (forg == 1)
 			tagname = "tag_barrel_right";
 		else
@@ -329,7 +329,7 @@ void(float type, float forg) W_FireSpitter = { local vector tagorg;
 	if (self.ammo_spitter <= 0)
 		self.ammo_spitter = 0;
 	newmis.cnt = type;
-	if(type == 3)
+	if (type == 3)
 	{
 		makevectors (newmis.angles);
 		newmis.velocity +=  (v_right *random(-256,256)) +  (v_up *random(-256,256));
@@ -339,7 +339,7 @@ void(float type, float forg) W_FireSpitter = { local vector tagorg;
 	newmis.modelflags = 0;
 	newmis.effects = EF_NOSHADOW;
 	float active_punchangle = cvar ("cl_punch");
-	if(active_punchangle == 1)
+	if (active_punchangle == 1)
 	self.punchangle_x = -2;
 	setsize(newmis, '0 0 0', '0 0 0');
 };
@@ -352,7 +352,7 @@ void() wfire_spitter_loop = { if (self.ammo_spitter <= 0)
 		return;
 	}
 
-	local string snd;
+	string snd;
 	if (self.button0)
 	{
 		if (self.vweaponframe >= 20)
@@ -390,7 +390,7 @@ void() wfire_spitter_loop = { if (self.ammo_spitter <= 0)
 	self.attack_finished = time + 0.05;
 };
 
-void() wfire_spitter = { local string snd;
+void() wfire_spitter = { string snd;
 
 	if (self.ammo_spitter <= 0)
 	{
@@ -423,7 +423,7 @@ void() wsfire_spitter_loop = { if (self.ammo_spitter <= 0)
 		return;
 	}
 
-	local string snd;
+	string snd;
 	if (self.button3)
 	{
 
@@ -463,7 +463,7 @@ void() wsfire_spitter_loop = { if (self.ammo_spitter <= 0)
 	self.attack_finished = time + 0.025;
 };
 
-void() wsfire_spitter = { local string snd;
+void() wsfire_spitter = { string snd;
 
 	if (self.ammo_spitter <= 0)
 	{
@@ -495,7 +495,7 @@ void() vgear_think = { self.frame = self.owner.vgearframe;
 	else
 		self.skin = self.owner.ammo_spitter;
 	
-	if(self.owner.weapon != IT_SPITTER)
+	if (self.owner.weapon != IT_SPITTER)
 	self.think = SUB_Remove;
 	else
 	self.think = vgear_think;
@@ -508,7 +508,7 @@ void() vgear_think = { self.frame = self.owner.vgearframe;
 void(entity e, entity vweapn) spawn_vgear = 
 {  
 
-	if((!(wasfreed(e.vgear))) && (e.vgear.wrathflags & FL_SUBWEAPONMODEL))
+	if ((!(wasfreed(e.vgear))) && (e.vgear.wrathflags & FL_SUBWEAPONMODEL))
 		remove(e.vgear);
     e.vgear = spawn();
 	e.vgear.owner = e;
@@ -569,7 +569,7 @@ void() raise_spitter = { self.weapon = IT_SPITTER;
 	self.vgearinspect = 0;
 	self.vweaponglowmod = '1 1 1';
 
-	if(!(self.playerflags & FL_RESTARWEAPON))
+	if (!(self.playerflags & FL_RESTARWEAPON))
 		spawn_vgear(self, self.vweapon);
 
 	sound(self, CHAN_AUTO, "weapons/spitter/raise.ogg", 1, ATTN_NORM);
@@ -584,7 +584,7 @@ void() raise_spitter = { self.weapon = IT_SPITTER;
 void() lower_spitter2 = { self.vweaponframe += 1;
 	if (self.vweaponframe == 49)
 	{
-		if((!(wasfreed(self.vgear))) && (self.vgear.wrathflags & FL_SUBWEAPONMODEL))
+		if ((!(wasfreed(self.vgear))) && (self.vgear.wrathflags & FL_SUBWEAPONMODEL))
 			remove(self.vgear);
 	}
 	//**	remove (self.vbullet);

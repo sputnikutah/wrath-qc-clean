@@ -5,7 +5,7 @@
 .float node_account;
 void() editor_node_touch =
 {
-//if(other.classname == "player")
+//if (other.classname == "player")
 
 }
 
@@ -13,9 +13,9 @@ void() editor_node_touch =
 
 void() FindNearestNode = 
 { 
-	local float dist, lower_dist;
+	float dist, lower_dist;
 	lower_dist = 99999999;	
-	local entity info_node, local_nearest_info_node;
+	entity info_node, local_nearest_info_node;
 
 	info_node = findradius(self.origin, 512);
 	while (info_node)	//Loops through everything put in the missile entity
@@ -33,14 +33,14 @@ void() FindNearestNode =
 		info_node = info_node.chain;	//links every info_nodegram found so they all go BOOM!
 	}
 
-	if(local_nearest_info_node)
+	if (local_nearest_info_node)
 	self.nearest_node = local_nearest_info_node;
 };
 
 void() place_node =
 {
 	vector org;
-	if(self.flags & FL_ONGROUND)
+	if (self.flags & FL_ONGROUND)
 	{
 		traceline(self.origin, self.origin - '0 0 128',FALSE,self);
 		if (trace_fraction != 1)
@@ -54,7 +54,7 @@ void() place_node =
 	org_x = ceil(org_x);
 	org_y = ceil(org_y);
 	
-	if(self.node_account)
+	if (self.node_account)
 	{
 		//if ((max (self.nearest_node.origin_y , org_y) - min(self.nearest_node.origin_y , org_y) ) < 127)
 		//org_y = self.nearest_node.origin_y;
@@ -67,7 +67,7 @@ void() place_node =
 
 	}
 
-	if(vlen (org - oldorg) > 92)
+	if (vlen (org - oldorg) > 92)
 	return;
 
 	entity node =  spawn();
@@ -92,7 +92,7 @@ void() delete_nearest_node =
 
 void() placing_nodes =
 {
-	if(time > self.node_editor_timing)
+	if (time > self.node_editor_timing)
 	{
 		FindNearestNode();
 		float dist = vlen(self.origin - self.nearest_node.origin);
@@ -104,23 +104,23 @@ float writed_map;
 void () write_node_in_map =
 {
       
-	local float    writeparms;
-	local string    s1, s2, s3, s4, s5, s6; 
+	float    writeparms;
+	string    s1, s2, s3, s4, s5, s6; 
 
 
-	local float nLength;
-	local string namewbsp, namecomplete, currentmaplocal;
+	float nLength;
+	string namewbsp, namecomplete, currentmaplocal;
 	currentmaplocal = world.model;
 	namecomplete = substring(currentmaplocal, 5, 100);
 	nLength = strlen(namecomplete);
 	namewbsp = substring(namecomplete, 0, nLength - 4);
-	currentmap = strcat(namewbsp, ".map");
+	currentmaplocal = strcat(namewbsp, ".map");
 
 
 
 	if (writed_map != 1)
 	{
-		writeparms = fopen (currentmap, FILE_WRITE);    //open what file to use in write mode
+		writeparms = fopen (currentmaplocal, FILE_WRITE);    //open what file to use in write mode
 
 		fputs (writeparms, "{");
 		fputs (writeparms, "\n");
@@ -137,7 +137,7 @@ void () write_node_in_map =
 
 	else
 	{
-		writeparms = fopen (currentmap, FILE_APPEND);    //open what file to use in write mode
+		writeparms = fopen (currentmaplocal, FILE_APPEND);    //open what file to use in write mode
 
 
 		s3 = "\"";
@@ -177,7 +177,7 @@ void () write_node_in_map =
 
 void() write_node_map =
 {
-local entity info_node;
+entity info_node;
 
 	info_node = findradius(self.origin, 1000000);
 	while (info_node)	//Loops through everything put in the missile entity

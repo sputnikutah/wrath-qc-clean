@@ -28,7 +28,7 @@ void(vector org, vector dir, float order, entity ownerproj) launch_projectile_re
 void() wsfire_revolver1 =
 {
 	self.vweaponframe += 1;
-	if(self.vweaponframe == 18)
+	if (self.vweaponframe == 18)
 	{
 		self.vweaponglowmod = '1 1 1';	
 		vector dir;
@@ -38,7 +38,7 @@ void() wsfire_revolver1 =
 		snd = strcat ("weapons/revolver/fire2_", ftos (floor(random() * 2) + 1),".ogg");
 		sound (self, CHAN_WEAPON, snd, wvol, ATTN_NORM);
 		float active_punchangle = cvar ("cl_punch");
-		if(active_punchangle == 1)
+		if (active_punchangle == 1)
 			self.punchangle_x = -2;
 
 		// Reki (December 3 2023): Added controller rumble
@@ -78,8 +78,8 @@ void() wsfire_revolver1 =
 
 
 		self.effects += EF_MUZZLEFLASH;
-		local entity muzzle;
-		local string muzzlemodel;
+		entity muzzle;
+		string muzzlemodel;
 		muzzlemodel = "models/weapons/revolver/flash_big.md3";
 		muzzle = spawn();
 		muzzle.owner = self;
@@ -90,13 +90,13 @@ void() wsfire_revolver1 =
 		muzzle.think = SUB_Remove;
 		muzzle.nextthink = time + 0.05;
 	}	
-	if((self.vweaponframe > 18) && (self.vweaponglowmod_x > 0))
+	if ((self.vweaponframe > 18) && (self.vweaponglowmod_x > 0))
 	{
 		self.vweaponglowmod_x -= 0.05; 
 		self.vweaponglowmod_y -= 0.05; 
 		self.vweaponglowmod_z -= 0.05;
 	}
-	if(self.vweaponframe >= 41)
+	if (self.vweaponframe >= 41)
 		self.think = idle_revolver;
 	else
 	self.think = wsfire_revolver1;		
@@ -116,22 +116,22 @@ void() wfire_revolver1 = { self.vweaponframe += 1;
 	{
 		self.vweaponglowmod = '1 1 1';
 		#if 0
-		local vector dir;
-		local string snd;
+		vector dir;
+		string snd;
 		makevectors(self.v_angle);
 		snd = strcat("weapons/revolver/fire1_", ftos(floor(random() *3) + 1), ".ogg");
 		float wvol = cvar ("weapons_fire_volume");
 		sound(self, CHAN_WEAPON, snd, wvol, ATTN_NORM);
 		float active_punchangle = cvar ("cl_punch");
-		if(active_punchangle == 1)
+		if (active_punchangle == 1)
 			self.punchangle_x = -2;
 		dir = aim(self, 100000);
 		FireBullets(1, dir, '0.01 0.02 0', self.revolver_damage1, self.revolver_spread1);
 		self.effects += EF_MUZZLEFLASH;
 		self.ammo_revolver -= 1;
 		//muzzle_revolver(self.vweapon, 1);
-		local entity muzzle;
-		local string muzzlemodel;
+		entity muzzle;
+		string muzzlemodel;
 		muzzlemodel = "models/weapons/revolver/flash_small.md3";
 		muzzle = spawn();
 		muzzle.owner = self;
@@ -165,14 +165,14 @@ void() wfire_revolver = { self.vweaponglowmod = '0.5 0.5 0.5';
 	self.nextthink = time + 0.05;
 
 	#if 1
-	local vector dir;
-	local string snd;
+	vector dir;
+	string snd;
 	makevectors(self.v_angle);
 	snd = strcat("weapons/revolver/fire1_", ftos(floor(random() *3) + 1), ".ogg");
 	float wvol = cvar ("weapons_fire_volume");
 	sound(self, CHAN_WEAPON, snd, wvol, ATTN_NORM);
 	float active_punchangle = cvar ("cl_punch");
-	if(active_punchangle == 1)
+	if (active_punchangle == 1)
 		self.punchangle_x = -2;
 
 	// Reki (December 3 2023): Added controller rumble
@@ -184,8 +184,8 @@ void() wfire_revolver = { self.vweaponglowmod = '0.5 0.5 0.5';
 	self.effects += EF_MUZZLEFLASH;
 	self.ammo_revolver -= 1;
 	//muzzle_revolver(self.vweapon, 1);
-	local entity muzzle;
-	local string muzzlemodel;
+	entity muzzle;
+	string muzzlemodel;
 	muzzlemodel = "models/weapons/revolver/flash_small.md3";
 	muzzle = spawn();
 	muzzle.owner = self;

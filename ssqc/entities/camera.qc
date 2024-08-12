@@ -11,7 +11,7 @@ void () deactivate_cameras =
 
 void() camara_movetarget =
 {
-	local entity	temp;
+	entity	temp;
 	if (other.movetarget != self)
 		return;
 	if (other.next_camera)
@@ -58,9 +58,9 @@ void() path_corner_camera =
 
 void () asignate_camangles =
 {
-	local vector vec, vec2, yawx;
-	local float yaw, velz;
-	local entity campobj;
+	vector vec, vec2, yawx;
+	float yaw, velz;
+	entity campobj;
 	campobj = find (world, cameratargetname, self.cameratarget);
 	vec = campobj.origin - self.origin;
 	yawx= vectoangles(vec);
@@ -90,7 +90,7 @@ void () asignate_camangles =
 void () camera_go;
 void () change_camera_origin =
 {
-	local entity nextcamera
+	entity nextcamera
 	nextcamera = find(world, targetname, self.target);
 	setorigin (self, nextcamera.origin);
 	asignate_camangles();

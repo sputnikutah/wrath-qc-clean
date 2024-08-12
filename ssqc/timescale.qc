@@ -13,7 +13,7 @@ void Timescale_RunFrame(void)
 {
 	if (time < timescale_nextstep)
 		return;
-	
+
 	float players = 0;
 	timescale_wanted = 1;
 
@@ -23,7 +23,7 @@ void Timescale_RunFrame(void)
 		if !(edict.flags & FL_CLIENT)
 			continue;
 		players++;
-		
+
 		if (edict.rmenu)
 		{
 			if (timescale_players > 1) // in coop, lets not quite slow down so much
@@ -47,7 +47,7 @@ void Timescale_RunFrame(void)
 		spd = 3;
 	else if (fabs(timescale_current - timescale_wanted) > 0.2)
 		spd = 2;
-	
+
 	if (timescale_current < timescale_wanted)
 	{
 		//timescale_current = timescale_wanted;
@@ -58,7 +58,7 @@ void Timescale_RunFrame(void)
 		timescale_current = max(timescale_wanted, timescale_current - (TIMESCALE_SPEED * TIMESCALE_STEPSIZE * spd));
 	}
 	timescale(timescale_current);
-	timescale_nextstep = time + (TIMESCALE_STEPSIZE * timescale_current); 
+	timescale_nextstep = time + (TIMESCALE_STEPSIZE * timescale_current);
 }
 
 

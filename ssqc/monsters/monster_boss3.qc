@@ -265,7 +265,8 @@ void() bossnav_c::destructor {
 bosspath_c(bossnav_c node) bossnav_reconstruct_path
 {
 	bosspath_c path, hold;
-	for(node; node; node = node.cameFrom)
+	//for(node; node; node = node.cameFrom)
+	while (node) //R00k:
 	{
 		if (path)
 			hold = path;
@@ -290,6 +291,7 @@ bosspath_c(bossnav_c node) bossnav_reconstruct_path
 			}
 		}
 		#endif
+		node = node.cameFrom;
 	}
 
 	return path;
@@ -446,7 +448,7 @@ float martyr_cycle_isinverted;
 string martyr_gib_list[] = {"arm_a_l", "arm_a_r", "arm_b_l", "arm_b_r", "foot_l", "foot_r", "hand_a_l", "hand_a_r", "hand_b_l", "hand_b_r", "horn_l", "horn_r", "leg_l", "leg_r", "pelvis", "torso_l", "torso_r"};
 void() gib_fly_touch
 {
-	if(other.solid != SOLID_BSP)
+	if (other.solid != SOLID_BSP)
 		return;
 	else
 	{
@@ -459,8 +461,9 @@ void() gib_fly_touch
 	}
 }
 
-void() bossmartyr_c::explode {
-
+void() bossmartyr_c::explode =
+{
+	vector tagorg;
 	//
 	pointparticles(particleeffectnum("warp"), this.origin, '0 0 0', 1);
 
@@ -479,7 +482,7 @@ void() bossmartyr_c::explode {
 		gib_fly.velocity = [random(-512,512), random(-512,512), random (512,768)];
 	}	
 
-	vector tagorg = tag_origin("tag_pelvis", this);// relvel: forward, right, up
+	tagorg = tag_origin("tag_pelvis", this);// relvel: forward, right, up
 	pointparticles(particleeffectnum("wretch_bloodshower"), tagorg , '0 0 0', 1);
 	explo_blood(2, tagorg);	
 	explo_blood(9, tagorg);
@@ -488,7 +491,7 @@ void() bossmartyr_c::explode {
 
 	for(float i = 0; i < martyr_gib_list.length; i++)
 	{
-		vector tagorg = tag_origin(sprintf("tag_%s", martyr_gib_list[i]), this);
+		tagorg = tag_origin(sprintf("tag_%s", martyr_gib_list[i]), this);
 		ThrowGib3(this, sprintf("models/enemies/martyr/gibs/%s.md3", martyr_gib_list[i]), 0, 0.75, 1, 1, tagorg, (centervel(tagorg , this.origin) * random(128,192)) + [random(-120, 120), random(-120, 120), random(-120, 120)], 0, 3);	
 	}
 }
@@ -770,10 +773,10 @@ returns the blocked flags (1 = floor, 2 = step / wall)
 #define STOP_EPSILON 0.1
 void ClipVelocity (vector in, vector normal, __out vector out, float overbounce)
 {
-	float i;
+//	float i;
 	float backoff;
 	
-	local vector oldout = in;
+	vector oldout = in;
 	
 	backoff = -(in * normal) * overbounce;
 	VectorMA(in, backoff, normal, out);
@@ -1195,9 +1198,11 @@ float() boss3_c::anim_monologue {
 	return TRUE;
 }
 
-float() boss3_c::anim_transform {
-	
-	if((this.frame >= boss3_spawn72) && (this.frame <= boss3_spawn90)) // expand boss
+float() boss3_c::anim_transform =
+{	
+	float tag;
+
+	if ((this.frame >= boss3_spawn72) && (this.frame <= boss3_spawn90)) // expand boss
 	{
 		// Reki (June 21 2023)
 		// FIXME: wobble from origin setting, this should be more matched to specific frames
@@ -1226,7 +1231,7 @@ float() boss3_c::anim_transform {
 	{
 		this.skin = 1;
 
-		float tag = gettagindex(this, "tag_blood");
+		tag = gettagindex(this, "tag_blood");
 		explo_blood_sprite(6, gettaginfo(this, tag));
 		Controller_Rumble(world, 0.7, 0.5, 150);
 	}
@@ -1234,7 +1239,7 @@ float() boss3_c::anim_transform {
 	{
 		this.skin = 2;
 
-		float tag = gettagindex(this, "tag_blood");
+		tag = gettagindex(this, "tag_blood");
 		explo_blood_sprite(6, gettaginfo(this, tag));
 		Controller_Rumble(world, 0.7, 0.5, 150);
 	}
@@ -1264,7 +1269,7 @@ void() boss_summoner_wait =
 	if (!self.classmonster5)
 		self.classmonster5 = self.classmonster1;
 
-	if(!self.wait) // Reki (July 1 2023): allow each summon point adjustable wait times
+	if (!self.wait) // Reki (July 1 2023): allow each summon point adjustable wait times
 		self.wait = 1.5;
 	
 	self.count = 5;
@@ -1352,7 +1357,7 @@ void() boss_summoner =
 	self.effects += EF_NODRAW;
 	self.warped = 1;
     self.fastwarp = 1;
-	if(self.spawnflags & 1)
+	if (self.spawnflags & 1)
 	{
 		if (!self.classmonster1)
 			self.classmonster1 = 6;
@@ -1374,7 +1379,7 @@ void() boss_summoner =
 };
 
 float() bossmartyr_c::anim_summon {
-	if(this.frame == 16)
+	if (this.frame == 16)
 	{
 		pointparticles(particleeffectnum("martyr_impact"), this.origin, '0 0 0', 3);
 		pointparticles(particleeffectnum("martyr_impact2"), this.origin, '0 0 0', 3);
@@ -1490,14 +1495,16 @@ void() bossmartyr_c::glowmod_transfer {
 	}
 }
 
-void() bossmartyr_c::mainloop {
+void() bossmartyr_c::mainloop 
+{
+	float delta;
 	frametime = 0.1;
 
 	// Reki (July 3 2023): Glowmod
 	#if 1
 	if (this.orb)
 	{
-		float delta = frametime * 0.3;
+		delta = frametime * 0.3;
 		if (this.orb.recharge_time <= 0)
 		{
 			if (boss3_entity.animlock_think == boss3_entity.anim_summon && boss3_entity.s1_summontarget == this)
@@ -1511,7 +1518,7 @@ void() bossmartyr_c::mainloop {
 			}
 			else
 			{
-				float delta = frametime * 0.3;
+				delta = frametime * 0.3;
 				this.glowmod[2] = min(this.glowmod[2] + delta, 0.8);
 				this.glowmod[1] = this.glowmod[2];
 				this.glowmod[0] = (this.glowmod[2] + 0.2) + (sin(time * 2) * 0.2);
@@ -1544,7 +1551,7 @@ void() bossmartyr_c::mainloop {
 	}
 	else
 	{
-		float delta = frametime * 0.4;
+		delta = frametime * 0.4;
 		this.glowmod[0] = max(this.glowmod[0] - delta * 0.45, 0.001);
 		this.glowmod[1] = max(this.glowmod[1] - delta, 0.001);
 		this.glowmod[2] = max(this.glowmod[2] - delta, 0.001);
@@ -1643,7 +1650,7 @@ float() boss3_c::anim_flail {
 		return FALSE;
 	
 	entity lst = findradius(this.origin, 350);
-	for(lst; lst; lst = lst.chain)
+	while (lst)
 	{
 		if (lst.movetype != MOVETYPE_STEP && lst.movetype != MOVETYPE_WALK)
 			continue;
@@ -1653,7 +1660,7 @@ float() boss3_c::anim_flail {
 		vector dir = normalize(lst.origin - [this.origin[0], this.origin[1], this.absmin[2]]);
 		if (lst.classname == "player")
 		{
-			if(lst.stoptime < time)
+			if (lst.stoptime < time)
 			{    
 				lst.flags &= ~FL_ONGROUND;
 				lst.flags |= FL_IGNOREINPUT;
@@ -1684,6 +1691,7 @@ float() boss3_c::anim_flail {
 			T_Damage(lst, this, this, boss3_pushdamage);
 			pointparticles(particleeffectnum("forcefieldboss3"), lst.origin + dir * 32 + '0 0 24', '0 0 0',1);
 		}
+		lst = lst.chain;//R00k
 	}
 
 	return FALSE;
@@ -1878,7 +1886,11 @@ void(entity attacker, float dmg) boss3_c::pain_stage1 {
 	this.glowmod[2] = this.glowmod[1] = this.glowmod[0];
 }
 
-void() boss3_c::stage1 {
+void() boss3_c::stage1 
+{
+	float delta;
+	float adiff;
+
 	this.th_pain = this.pain_stage1;
 	this.bloodimpact = 0;
 
@@ -2003,10 +2015,10 @@ void() boss3_c::stage1 {
 			ang_threshold = 0.1;
 		}
 
-		float adiff = angle_difference(this.angles[1], this.yaw_goal);
+		adiff = angle_difference(this.angles[1], this.yaw_goal);
 		if (fabs(adiff) > ang_threshold)
 		{
-			float delta = this.yaw_speed * frametime;
+			delta = this.yaw_speed * frametime;
 			delta = min(delta, fabs(adiff));
 			if (adiff > 0)
 				this.angles[1] -= delta;
@@ -2035,7 +2047,7 @@ void() boss3_c::stage1 {
 	}
 	else if (this.frame >= boss3b_walk1 && this.frame <= boss3b_walk20)
 	{
-		float adiff = angle_difference(this.angles[1], this.yaw_goal);
+		adiff = angle_difference(this.angles[1], this.yaw_goal);
 		if (this.frame < boss3b_walk1 || this.frame >= boss3b_walk20)
 		{
 			this.frame = boss3b_walk1;
@@ -2104,7 +2116,7 @@ void() boss3_c::stage1 {
 		// turn while moving
 		if (fabs(adiff) > 1)
 		{
-			float delta = this.yaw_speed * 0.8 * frametime;
+			delta = this.yaw_speed * 0.8 * frametime;
 			delta = min(delta, fabs(adiff));
 			if (adiff > 0)
 				this.angles[1] -= delta;
@@ -2400,7 +2412,7 @@ void() boss3_summonball_explode {
 	}
 
 	//
-	local entity fallenspawned = spawn();
+	entity fallenspawned = spawn();
 	setmodel(fallenspawned, "models/warp/warp.md3");
 	fallenspawned.solid = SOLID_TRIGGER;
 	fallenspawned.origin = self.origin + '0 0 16';
@@ -2439,8 +2451,8 @@ void() boss3_summonball_explode {
 
 entity(boss3_c boss, float offs_a) boss3_firesummon {
 
-	local vector tagorg;
-	local float tagindex;
+	vector tagorg;
+	float tagindex;
 	tagindex = gettagindex(boss, "tag_mouth");
 	tagorg = gettaginfo(boss, tagindex);
 
@@ -2467,7 +2479,7 @@ entity(boss3_c boss, float offs_a) boss3_firesummon {
 	float brute_projvel = 500;
 	float dist = min(768, vlen(boss.enemy.origin - tagorg));
 
-	if(fabs(boss.enemy.origin[2] - tagorg[2]) > 512)
+	if (fabs(boss.enemy.origin[2] - tagorg[2]) > 512)
 		brute_projvel = brute_projvel + ((dist - brute_projvel) * 0.23);
 
 
@@ -2489,7 +2501,7 @@ entity(boss3_c boss, float offs_a) boss3_firesummon {
 	float b = -y;
 	float c = a + z;
 
-	if(b*b < 4*a*c)
+	if (b*b < 4*a*c)
 	{
 		float gravity_modifier =  (4*a*c)/(b*b); 
 		float degree_proj =  42.5;
@@ -2543,8 +2555,8 @@ void() boss3_projectileangle {
 
 entity(boss3_c boss, float offs_a) boss3_fireproj {
 
-	local vector tagorg;
-	local float tagindex;
+	vector tagorg;
+	float tagindex;
 	tagindex = gettagindex(boss, "tag_mouth");
 	tagorg = gettaginfo(boss, tagindex);
 
@@ -2575,10 +2587,10 @@ entity(boss3_c boss, float offs_a) boss3_fireproj {
 	float dist = vlen (boss.enemy.origin - tagorg);
 
 
-	if(dist > 1200 || fabs(boss.enemy.origin[2] - tagorg[2]) > 512)
+	if (dist > 1200 || fabs(boss.enemy.origin[2] - tagorg[2]) > 512)
 		brute_projvel = brute_projvel + ((dist - brute_projvel) * 0.23);
 
-	if(brute_projvel > 1900)
+	if (brute_projvel > 1900)
 		brute_projvel = 1900;
 
 
@@ -2600,7 +2612,7 @@ entity(boss3_c boss, float offs_a) boss3_fireproj {
 	float b = -y;
 	float c = a + z;
 
-	if(b*b < 4*a*c)
+	if (b*b < 4*a*c)
 	{
 		float gravity_modifier =  (4*a*c)/(b*b); 
 		float degree_proj =  42.5;
@@ -3264,7 +3276,7 @@ static const float boss3_orbmovements_scale[] = {
 	6,
 	2,
 	0.001,
-}
+};
 
 const float boss3_orbmovements_period = 0.7;
 
@@ -3411,10 +3423,14 @@ float() boss3_c::anim_death {
 	return TRUE;
 }
 
-void() boss3_c::attack_spam {
+void() boss3_c::attack_spam 
+{
+	vector dir;
+	vector org;
+
 	if (!this.s3_enemytarget)
 		this.s3_enemytarget = spawn();
-	vector org;
+
 	this.enemy = this.s3_enemytarget;
 	if (custom_infront(single_player, this.angles, this.origin, 60))
 	{
@@ -3436,31 +3452,31 @@ void() boss3_c::attack_spam {
 		this.s3_projectiletype = 0;
 
 	vector mouthorigin =  tag_origin("tag_mouth", this);
-	if(this.s3_projectiletype == 0)
+	if (this.s3_projectiletype == 0)
 	{
 		wraith_StartFast();
 	}
-	else if(this.s3_projectiletype == 1)
+	else if (this.s3_projectiletype == 1)
 	{
-		vector dir = normalize(this.enemy.origin - mouthorigin);
+		dir = normalize(this.enemy.origin - mouthorigin);
 		launch_projectile_wre(mouthorigin, dir, this);
 	}
-	else if(this.s3_projectiletype == 2)
+	else if (this.s3_projectiletype == 2)
 	{
 		strickenprojectile2(this, -1);
 		strickenprojectile2(this, 0);
 		strickenprojectile2(this, 1);
 	} 
-	else if(this.s3_projectiletype == 3)
+	else if (this.s3_projectiletype == 3)
 	{
 		oppressor_missileattack(this, "tag_mouth", "tag_muzzleb");
 	}
-	else if(this.s3_projectiletype == 4)
+	else if (this.s3_projectiletype == 4)
 	{
-		vector dir = normalize(this.enemy.origin - mouthorigin);
+		dir = normalize(this.enemy.origin - mouthorigin);
 		launch_projectile_her(mouthorigin, dir, this);
 	}
-	else if(this.s3_projectiletype == 5)
+	else if (this.s3_projectiletype == 5)
 		symbol_missileattack(this,"tag_mouth",0,1);
 }
 
@@ -3659,7 +3675,7 @@ float boss3_stage;
 void() check_boss_counter = 
 { 
     self.local_classmonster = self.classmonster1;
-	local entity boss3;
+	entity boss3;
 	boss3 = find(world, classname, "boss_guardian3");
 
 	float bosssummoncount = floor (boss3.type);
@@ -3748,7 +3764,7 @@ void() boss_summoner =
 	self.effects += EF_NODRAW;
 	self.warped = 1;
     self.fastwarp = 1;
-	if(self.spawnflags & 1)
+	if (self.spawnflags & 1)
 	{
 		if (!self.classmonster1)
 			self.classmonster1 = 6;
@@ -3776,7 +3792,7 @@ float(entity e, vector va, vector vb) checkinfront =
 	makevectors2(e.angles);
 	vec = normalize(va - vb);
 	dot = vec * v_forward;
-	if(dot <0 )
+	if (dot <0 )
 	dot = dot * -1; 
 
 	return dot;
@@ -3788,7 +3804,7 @@ void(float dist) ai_boss_walk =
 	speed = vlen (self.velocity);
 	self.vspeed = speed;
 	vector checkinfrontvb;
-	if(self.timeangles > time)
+	if (self.timeangles > time)
 	{
 		self.ideal_yaw = vectoyaw(self.dest1 - self.origin);
 		ChangeYaw();
@@ -3798,14 +3814,14 @@ void(float dist) ai_boss_walk =
 	else
 	{
 		float disttoenemy = vlen(rorigin(self.pipes) - rorigin(self));
-		if(disttoenemy < 384)
+		if (disttoenemy < 384)
 		{    
 			self.ideal_yaw = vectoyaw(rorigin(self.pipes) - rorigin(self));
 			ChangeYaw();
 		}
 		else
 		{    
-		    if(self.zigzag_time < time)
+		    if (self.zigzag_time < time)
 			{
 				makevectors (self.angles);
 				self.ideal_yaw = vectoyaw((rorigin(self.pipes) + v_right * random(-16,16)) - rorigin(self));
@@ -3824,11 +3840,11 @@ void(float dist) ai_boss_walk =
 	float infrontdelta = checkinfront(self,self.origin,checkinfrontvb);
 	makevectors (self.angles);
 	float randomboolean = random (-1,1);
-	if(randomboolean <0)
+	if (randomboolean <0)
 		randomboolean = -1;
 	else
 		randomboolean = 1;
-	if((speed < 33) && (self.timeangles < time) && (self.touchtime < time))
+	if ((speed < 33) && (self.timeangles < time) && (self.touchtime < time))
 	{
 		vector source = self.origin - '0 0 24';
 		tracebox(source, '-32 -32 -32', '32 32 32', source + v_forward * 96 +  v_right * 256 * randomboolean, FALSE, self);
@@ -3856,11 +3872,11 @@ void(float dist) ai_boss_walk =
 		spawned.think = SUB_Remove;
 		spawned.nextthink = time + 3;
 	}
-	if(infrontdelta > 0.5)
+	if (infrontdelta > 0.5)
 		float deltaspeed = 1;
 	else
 		deltaspeed = 0.2;
-	if(self.pipes.classname == "boss_finalpath")
+	if (self.pipes.classname == "boss_finalpath")
 		deltaspeed = 1;
 	self.velocity =  v_forward * 24 * dist * deltaspeed;
 	//string viewxanglesfactor = strcat ((ftos (infrontdelta)), (" boss3 delta"),"\n");
@@ -3874,17 +3890,17 @@ void()boss3_gettarget =
     entity t = find(world, targetname, self.target);
     while (t)
     {
-		if((t.classname == "boss_path")||(t.classname == "boss_finalpath"))
+		if ((t.classname == "boss_path")||(t.classname == "boss_finalpath"))
 			goalt = t;
 		t = find(t, targetname, self.target);
     }
-	if(goalt)
+	if (goalt)
 		self.pipes = goalt;
 	else
 	{
-		if((boss3_stage >= 1) && (boss3_stage < 5))
+		if ((boss3_stage >= 1) && (boss3_stage < 5))
 		{
-			local entity lcntr;
+			entity lcntr;
 			lcntr = spawn();	
 			entity head = findradius(other.origin, 100000);
 			lcntr.next_path_entity = world;
@@ -3896,7 +3912,7 @@ void()boss3_gettarget =
 				if ((head.classname == "boss_path") && (head.spawnflags & 1))
 				{
 					currentlifetime = floor(head.lifetime);
-					if(currentlifetime < lcntr.nlifetime)
+					if (currentlifetime < lcntr.nlifetime)
 					{				
 						lcntr.nlifetime = currentlifetime;
 						lcntr.next_path_entity = head;
@@ -3926,14 +3942,14 @@ void() boss3_postflailb
 	self.frame ++;
 	self.yaw_speed = 6;
 	ai_face();
-	if(self.walkframe == 5)
+	if (self.walkframe == 5)
 	{
 		vector z_vel;
 		vector forigin;
 		forigin_x = self.origin_x;
 		forigin_y = self.origin_y;
 		forigin_z = single_player.origin_z;
-		if(single_player.stoptime < time)
+		if (single_player.stoptime < time)
 		{    
 			vector dir = single_player.origin - forigin;
 			dir = normalize(dir);
@@ -3941,7 +3957,7 @@ void() boss3_postflailb
 				single_player.oldmovetype = single_player.movetype;
 			if (single_player.flags &FL_ONGROUND)
 				single_player.flags -= FL_ONGROUND;
-			if(!(single_player.flags & FL_IGNOREINPUT))
+			if (!(single_player.flags & FL_IGNOREINPUT))
 				single_player.flags += FL_IGNOREINPUT;
 			single_player.stoptime = time +1.5;
 			single_player.hardstoptime = single_player.stoptime - 0.85;
@@ -3958,7 +3974,7 @@ void() boss3_postflailb
 		}
 	}
 
-	if(self.walkframe >= 15)
+	if (self.walkframe >= 15)
 	{
 		self.yaw_speed = 2;
 		self.melee_runes = 0;
@@ -3975,11 +3991,11 @@ void() boss3_flailb =
 	self.yaw_speed = 25;
 	ai_face();
 	self.velocity = '0 0 0';
-	if(self.boss3_model == 3)
+	if (self.boss3_model == 3)
 		self.frame = boss3c_flail1;
-	if(self.boss3_model == 4)
+	if (self.boss3_model == 4)
 		self.frame = boss3d_flail1;
-	if(self.boss3_model == 5)
+	if (self.boss3_model == 5)
 		self.frame = boss3e_flail1;
 	self.walkframe = 1;
 	self.think = boss3_postflailb;
@@ -3989,21 +4005,21 @@ void() boss3_flailb =
 void() boss3_postflaila
 {
 	self.frame ++;
-	if(self.frame <= boss3b_flail5)
+	if (self.frame <= boss3b_flail5)
 		ai_face();
 	else
 	{
 		self.ideal_yaw = vectoyaw(rorigin(self.pipes) - rorigin(self));
 		ChangeYaw();
 	}
-	if(self.frame == boss3b_flail5)
+	if (self.frame == boss3b_flail5)
 	{
 		vector z_vel;
 		vector forigin;
 		forigin_x = self.origin_x;
 		forigin_y = self.origin_y;
 		forigin_z = single_player.origin_z;
-		if(single_player.stoptime < time)
+		if (single_player.stoptime < time)
 		{    
 			vector dir = single_player.origin - forigin;
 			dir = normalize(dir);
@@ -4011,7 +4027,7 @@ void() boss3_postflaila
 				single_player.oldmovetype = single_player.movetype;
 			if (single_player.flags &FL_ONGROUND)
 				single_player.flags -= FL_ONGROUND;
-			if(!(single_player.flags & FL_IGNOREINPUT))
+			if (!(single_player.flags & FL_IGNOREINPUT))
 				single_player.flags += FL_IGNOREINPUT;
 			single_player.stoptime = time +1.5;
 			single_player.hardstoptime = single_player.stoptime - 0.85;
@@ -4030,7 +4046,7 @@ void() boss3_postflaila
 		self.touchtime = time + random(1,2);
 	}
 
-	if(self.frame >= boss3b_flail15)
+	if (self.frame >= boss3b_flail15)
 	{
 		self.yaw_speed = 2;
 		self.melee_runes = 0;
@@ -4067,47 +4083,47 @@ void()check_target_3 =
 void() boss3_walk = 
 {
 
-	if(!(self.boss3_yawspeed))
+	if (!(self.boss3_yawspeed))
 	{	  
 		float lyawspeed = cvar("boss3_yawspeed");
 		self.boss3_yawspeed = lyawspeed;
 	}
 	self.yaw_speed = self.boss3_yawspeed;
 
-	if(self.timefootstep <= time)
+	if (self.timefootstep <= time)
 		self.frame ++;
-	if(self.frame > boss3b_walk20)
+	if (self.frame > boss3b_walk20)
 		self.frame = boss3b_walk1;
 
-	if((boss3_stage <= 0)&&(self.target != "path0"))
+	if ((boss3_stage <= 0)&&(self.target != "path0"))
 	{
 		check_target_3();
 	}
 
-	if(self.target3 != "")
+	if (self.target3 != "")
 	{
 		self.target = self.target3;
 		self.target3 = "";
 		self.pipes = self;
 	}
 
-	if(!((self.pipes.classname == "boss_path")||(self.pipes.classname == "boss_finalpath")))
+	if (!((self.pipes.classname == "boss_path")||(self.pipes.classname == "boss_finalpath")))
 	{
 		boss3_gettarget();
 	}
-	if(((self.frame == boss3b_walk1) || (self.frame == boss3b_walk5)|| (self.frame == boss3b_walk18)) && (self.timefootstep <= time))
+	if (((self.frame == boss3b_walk1) || (self.frame == boss3b_walk5)|| (self.frame == boss3b_walk18)) && (self.timefootstep <= time))
 	{
 		bosswalksound("enemies/executioner/step", 3);
 		bosswalksound("enemies/oppressor/step", 5);
 		spawn_shaker (self,7,1,512);
 	}
-	if(((self.frame == boss3b_walk9) || (self.frame == boss3b_walk14)) && (self.timefootstep <= time))
+	if (((self.frame == boss3b_walk9) || (self.frame == boss3b_walk14)) && (self.timefootstep <= time))
 	{
 		bosswalksound("enemies/executioner/step", 3);
 		spawn_shaker (self,7,1,256);
 	}
 
-	if(self.timefootstep <= time)
+	if (self.timefootstep <= time)
 		self.timefootstep = time + 0.1;
 
 	self.ammo_revolver = 0;
@@ -4127,7 +4143,7 @@ void() boss3_prewalk =
 	self.pflags = 0;
 	self.ammo_revolver ++;
 	boss3_gettarget();
-	if(self.ammo_revolver < 20)
+	if (self.ammo_revolver < 20)
 	{
 		self.ideal_yaw = vectoyaw((rorigin(self.pipes)) - rorigin(self));
 		ChangeYaw();
@@ -4157,11 +4173,11 @@ void() boss3_postsummon =
 	self.ideal_yaw = self.boss3_nextangles_y;
 	ChangeYaw();
 	self.frame += 0.25;
-	if(self.frame >= boss3b_summon30)
+	if (self.frame >= boss3b_summon30)
 	{
 		self.boss3_summoning_time = time;
 
-		if(self.pipes.classname != "boss_path")
+		if (self.pipes.classname != "boss_path")
 		{
 			boss3_gettarget();
 		}
@@ -4170,7 +4186,7 @@ void() boss3_postsummon =
 	else
 		self.boss3_summoning_time = time + 0.1;
 
-	if(self.frame >= boss3b_summon50)
+	if (self.frame >= boss3b_summon50)
 		self.think = boss3_prewalk;
 	else
 		self.think = boss3_postsummon;
@@ -4188,7 +4204,7 @@ void() boss3_summon =
 	self.nextthink = time + 0.025;
 	if ((self.ammo_revolver >= 40) || (self.ideal_yaw == self.boss3_nextangles_y))
 	{
-		if(time > self.boss3summonwait)
+		if (time > self.boss3summonwait)
 			self.think = boss3_postsummon;
 		else
 			self.think = boss3_summon;
@@ -4202,11 +4218,11 @@ void() boss3_poststart =
 	self.frame += 0.5;
 	self.color_x += 0.05;
 
-	if(self.frame <= boss3_spawn75)
+	if (self.frame <= boss3_spawn75)
 		self.light_lev += 2.5;
 	else
 		self.light_lev -= 8.65;
-	if(self.frame >= boss3_spawn100)
+	if (self.frame >= boss3_spawn100)
 	{
 		self.movetype = MOVETYPE_WALK;	
 		self.think = boss3_prewalka;
@@ -4215,28 +4231,28 @@ void() boss3_poststart =
 	}
 	else
 	{
-		if(self.frame == boss3_spawn25)
+		if (self.frame == boss3_spawn25)
 			self.skin = 1;
-		if(self.frame == boss3_spawn32)
+		if (self.frame == boss3_spawn32)
 		{	spawn_shaker (self,18,1,1024);
 			soundwrath(self, CHAN_AUTO, "enemies/executioner/step1.ogg", 1, 0.25, 80, 0,0.25);
 			bosswalksound("enemies/oppressor/step", 5);
 		}
-		if(self.frame == boss3_spawn41)
+		if (self.frame == boss3_spawn41)
 		{	spawn_shaker (self,18,1,1024);
 			soundwrath(self, CHAN_AUTO, "enemies/executioner/step2.ogg", 1, 0.25, 80, 0,0.25);
 			bosswalksound("enemies/oppressor/step", 5);
 		}
-		if(self.frame == boss3_spawn50)
+		if (self.frame == boss3_spawn50)
 			self.skin = 2;
-		if(self.frame == boss3_spawn54)
+		if (self.frame == boss3_spawn54)
 		{	spawn_shaker (self,15,0.75,1024);
 			soundwrath(self, CHAN_AUTO, "enemies/executioner/step3.ogg", 1, 0.25, 80, 0,0.25);
 			bosswalksound("enemies/oppressor/step", 5);
 		}
-		if(self.frame == boss3_spawn71)
+		if (self.frame == boss3_spawn71)
 			self.skin = 3;
-		if(self.frame == boss3_spawn71)
+		if (self.frame == boss3_spawn71)
 		{	
 			entity shepherd_staff = spawn();
 			vector shepherd_staff_origin =  tag_origin("tag_staff", self);
@@ -4244,7 +4260,7 @@ void() boss3_poststart =
 			setmodel(shepherd_staff,"models/enemies/boss3/staff.md3");
 			shepherd_staff.angles = self.angles;
 		}
-		if((self.frame >= boss3_spawn72) && (self.frame <= boss3_spawn92))
+		if ((self.frame >= boss3_spawn72) && (self.frame <= boss3_spawn92))
 		{
 			setorigin (self,self.origin + '0 0 4');
 			self.mins -= '2.3 2.3 4';
@@ -4259,12 +4275,12 @@ void() boss3_poststart =
 
 			setsize (self,fmin, fmax);
 		}	
-		if(self.frame == boss3_spawn75)
+		if (self.frame == boss3_spawn75)
 		{	
 			spawn_shaker (self,12,2.5,2048);
 			soundwrath(self, CHAN_AUTO, "enemies/boss1/voicing_red7.ogg", 0.85, 0.25, 45, 0,0.25);
 		}
-		if(self.frame >= boss3_spawn76)
+		if (self.frame >= boss3_spawn76)
 			self.skin = 4;
 
 
@@ -4277,7 +4293,7 @@ void() boss3_start =
 {
 	//self.colormod = '1 0 0';
 	self.alpha = 1;	
-	if(self.pipes.classname != "boss_path")
+	if (self.pipes.classname != "boss_path")
 	{
 		boss3_gettarget();
 	}
@@ -4294,10 +4310,10 @@ void() boss3_idle =
 	//self.effects = EF_NODRAW;
 	self.alpha = 1;	
 	self.frame = boss3_spawn1;
-	if(self.bboxcollision.enemy)
+	if (self.bboxcollision.enemy)
 		self.enemy = self.bboxcollision.enemy;
 
-	if(self.pipes.classname != "boss_path")
+	if (self.pipes.classname != "boss_path")
 	{
 		boss3_gettarget();
 	}
@@ -4307,7 +4323,7 @@ void() boss3_idle =
 
 
 	self.enemy = single_player;
-	if(self.enemy.stoptime > time)
+	if (self.enemy.stoptime > time)
 	{
 		soundwrath(self, CHAN_AUTO, "env/amb/wind4.ogg", 0.35, 0.2, 33, 0,0.25);
 
@@ -4319,7 +4335,7 @@ void() boss3_idle =
 	}
 	else
 	{
-		if(random() < 0.25)
+		if (random() < 0.25)
 		{
 			float bparticle = particleeffectnum("tetherparticle");
 			pointparticles(bparticle, self.origin + '0 0 24', '0 0 0', 1);
@@ -4337,7 +4353,7 @@ void(vector destination, float deltarightv,float mcnt) boss3projectile;
 void() boss3_postdie = 
 {
 	self.frame ++;
-	if(self.frame == boss3f_dspin2)
+	if (self.frame == boss3f_dspin2)
 	{
 		vector tagorg = tag_origin("tag_crown_l",self);
 		explo_blood(2, tagorg);	
@@ -4346,7 +4362,7 @@ void() boss3_postdie =
 		explo_blood(2, tagorg);	
 		ThrowGib3(self, "models/enemies/boss3/gibs/crown_r.md3", 0, 0.75, 1, 1, tagorg, centervel(tagorg , self.origin)* random(128,192), 0, 3);
 	}
-	if(self.frame >= boss3f_dspin30)
+	if (self.frame >= boss3f_dspin30)
 		self.think = SUB_Remove;
 	else
 		self.think = boss3_postdie;
@@ -4368,7 +4384,7 @@ void(vector org) boss3projectileb =
 {
 
 	vector mouthorigin =  tag_origin("tag_mouth", self);
-	if((custom_infront(single_player,self.angles, self.origin, 60)))
+	if ((custom_infront(single_player,self.angles, self.origin, 60)))
 	org = single_player.origin;
 
 	org_z += random (-63,32);	
@@ -4377,30 +4393,30 @@ void(vector org) boss3projectileb =
 	setorigin (self.boss3enemyorg, org);
 	self.enemy = self.boss3enemyorg;
 
-	if(self.ammo_spitter == 1)
+	if (self.ammo_spitter == 1)
 		wraith_StartFast();
-	if(self.ammo_spitter == 2)
+	if (self.ammo_spitter == 2)
 	{
 		vector dir = normalize(self.enemy.origin - mouthorigin);
 		launch_projectile_wre(mouthorigin, dir, self);
 	}
-	if(self.ammo_spitter == 3)
+	if (self.ammo_spitter == 3)
 	{
 		strickenprojectile2(self,-1);
 		strickenprojectile2(self,0);
 		strickenprojectile2(self,1);
 	} 
-	if(self.ammo_spitter == 4)
+	if (self.ammo_spitter == 4)
 		oppressor_missileattack(self,"tag_mouth","tag_muzzleb");
-	if(self.ammo_spitter == 5)
+	if (self.ammo_spitter == 5)
 	{
 		vector dir = normalize(self.enemy.origin - mouthorigin);
 		launch_projectile_her(mouthorigin, dir, self);
 	}
-	if(self.ammo_spitter == 6)
+	if (self.ammo_spitter == 6)
 		symbol_missileattack(self,"tag_mouth",0,1);
 	self.ammo_spitter ++;
-	if(self.ammo_spitter > 6)
+	if (self.ammo_spitter > 6)
 		self.ammo_spitter = 1;
 	self.enemy = single_player;
 };
@@ -4408,7 +4424,7 @@ void(vector org) boss3projectileb =
 
 void() boss3_stage3_spinright =
 {
-	if(self.timefootstep <= time)
+	if (self.timefootstep <= time)
 	{
 		self.frame ++;
 		self.dframe ++;
@@ -4422,7 +4438,7 @@ void() boss3_stage3_spinright =
 	rorg_z = self.enemy.origin_z - 64;
 
 	self.velocity = '0 0 0';
-	if((self.frame >= boss3f_dspin1) && (self.frame <= boss3f_dspin17))
+	if ((self.frame >= boss3f_dspin1) && (self.frame <= boss3f_dspin17))
 	{	
 		float projspread = self.boss3_spread;  
 		boss3projectileb(rorg);
@@ -4435,7 +4451,7 @@ void() boss3_stage3_spinright =
 	self.ideal_yaw = vectoyaw(nextvec - self.origin);
 	ChangeYaw();
 
-	if(self.frame > boss3f_dspin20)
+	if (self.frame > boss3f_dspin20)
 	{
 		self.frame = boss3f_dspin1;
 		self.think = boss3_stage3_spinleft;
@@ -4451,7 +4467,7 @@ void() boss3_stage3_spinright =
 
 void() boss3_stage3_spinleft =
 {
-	if(self.timefootstep <= time)
+	if (self.timefootstep <= time)
 	{
 		self.frame ++;
 		self.dframe ++;
@@ -4463,7 +4479,7 @@ void() boss3_stage3_spinleft =
 	rorg_z = self.enemy.origin_z - 64;
 
 	self.velocity = '0 0 0';
-	if((self.frame >= boss3f_dspin1) && (self.frame <= boss3f_dspin17))
+	if ((self.frame >= boss3f_dspin1) && (self.frame <= boss3f_dspin17))
 	{	
 		float projspread = self.boss3_spread;  
 		boss3projectileb(rorg);
@@ -4476,7 +4492,7 @@ void() boss3_stage3_spinleft =
 	self.ideal_yaw = vectoyaw(nextvec - self.origin);
 	ChangeYaw();
 
-	if(self.frame > boss3f_dspin20)
+	if (self.frame > boss3f_dspin20)
 	{
 		self.frame = boss3f_dspin1;
 		self.think = boss3_stage3_spinright;
@@ -4493,7 +4509,7 @@ void() boss3_stage3_postsit =
 {
 	ai_face();
 	self.velocity_z -= 16; 
-	if(self.velocity_z > 32)
+	if (self.velocity_z > 32)
 		self.think = boss3_stage3_postsit;
 	else
 	{
@@ -4513,7 +4529,7 @@ void() boss3_stage3_presitb =
 
 
 	self.velocity_z += 32; 
-	if(self.velocity_z < 256)
+	if (self.velocity_z < 256)
 		self.think = boss3_stage3_presitb;
 	else
 		self.think = boss3_stage3_postsit;
@@ -4538,10 +4554,10 @@ void()boss3_idlesit;
 
 void() boss3_stage2attacks =
 {
-	if(self.timefootstep <= time)
+	if (self.timefootstep <= time)
 		self.frame ++;
 
-	if(self.timefootstep <= time)
+	if (self.timefootstep <= time)
 		self.timefootstep = time + 0.1;
 
 	self.ammo_revolver = 0;
@@ -4570,12 +4586,12 @@ void() boss3grenadethink =
 	//pointparticles(particleeffectnum("bruteproj"), self.origin, '0 0 0', 1);
 
 
-	if(self.frame < 2)
+	if (self.frame < 2)
 	self.frame ++;
 	vector delta = (self.enemy.origin) - rorigin(self);
 	float dist = vlen(delta);
 
-	if((self.movetype == MOVETYPE_FLY) && (self.origin_z >= self.originoffset_z))
+	if ((self.movetype == MOVETYPE_FLY) && (self.origin_z >= self.originoffset_z))
 	{
 		self.movetype = MOVETYPE_BOUNCE;
 		self.velocity_z = self.velocity_z * 0.75;
@@ -4591,7 +4607,7 @@ void() boss3grenadethink =
 	}
 
 
-	if((self.lifetime < time ) || (self.origin == self.oldorigin))
+	if ((self.lifetime < time ) || (self.origin == self.oldorigin))
 	{	
 		self.movetype = 0; 
 		setmodel(self, "models/projectiles/proj_slag1_explo.md3");
@@ -4616,9 +4632,9 @@ void() boss3grenadetouch =
 { 
 	if (other == self.owner)
 		return;
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
-	if(other.wrathflags & FL_PROJECTILE)
+	if (other.wrathflags & FL_PROJECTILE)
 		return;
 	
 
@@ -4634,7 +4650,7 @@ void() boss3grenadetouch =
 	if (other.health)
 	{
 		ignoreentity = other;
-		if(self.cnt == 1)
+		if (self.cnt == 1)
 			T_Damage(other, self, self.owner, boss3_homingprojdamage);	
 		else
 			T_Damage(other, self, self.owner, boss3_regularprojdamage);	
@@ -4642,7 +4658,7 @@ void() boss3grenadetouch =
 	else
 		ignoreentity = world;
 
-	if(self.cnt == 1)
+	if (self.cnt == 1)
 		T_SplashDamageMonster(self,0, boss3_homingprojsplashdamage, ignoreentity,boss3_homingprojsplashradius,stricken_pushfactor);
 	else
 		T_SplashDamageMonster(self,0, boss3_regularprojsplashdamage, ignoreentity,boss3_regularprojsplashradius,stricken_pushfactor);
@@ -4664,11 +4680,11 @@ void() boss3grenadetouch =
 	sound(self, CHAN_BODY, "misc/null.wav", 0, 0);
 	float r = random();
 
-	if(r < 1)
+	if (r < 1)
 		sound7(self, CHAN_AUTO, "enemies/brute/proj_impact1.ogg", 1, 0.25, random(95,105), 0);
-	if(r < 0.67)
+	if (r < 0.67)
 		sound7(self, CHAN_AUTO, "enemies/brute/proj_impact2.ogg", 1, 0.25, random(95,105), 0);
-	if(r < 0.34)
+	if (r < 0.34)
 		sound7(self, CHAN_AUTO, "enemies/brute/proj_impact3.ogg", 1, 0.25, random(95,105), 0);
 	self.touch = SUB_Null;
 	self.movetype = 0; 
@@ -4688,10 +4704,10 @@ void() boss3grenadetouch =
 	self.nextthink  =  time + 0.05;
 
 
-	if((self.cnt != 1) && (other == world) &&(self.owner.ammo_crystal > 0))
+	if ((self.cnt != 1) && (other == world) &&(self.owner.ammo_crystal > 0))
 	{
 		self.owner.ammo_crystal --;
-		local entity fallenspawned = spawn();
+		entity fallenspawned = spawn();
 		setmodel(fallenspawned, "models/warp/warp.md3");
 		fallenspawned.solid = SOLID_TRIGGER;
 		fallenspawned.origin = self.origin + '0 0 16';
@@ -4709,8 +4725,8 @@ void() boss3grenadetouch =
 
 void(vector destination, float deltarightv,float mcnt) boss3projectile =
 {
-    local entity missile;
-    local vector ang;
+    entity missile;
+    vector ang;
 
 	vector mouthorigin =  tag_origin("tag_mouth", self);
 	
@@ -4727,10 +4743,10 @@ void(vector destination, float deltarightv,float mcnt) boss3projectile =
 	float dist = vlen (self.enemy.origin - mouthorigin);
 
 
-	if(dist > 1200)
+	if (dist > 1200)
 	brute_projvel = 800 + ((dist - 800) * 0.2);
 
-	if(brute_projvel > 1300)
+	if (brute_projvel > 1300)
 		brute_projvel = 1300;
 
 
@@ -4752,7 +4768,7 @@ void(vector destination, float deltarightv,float mcnt) boss3projectile =
 	float b = -y;
 	float c = a + z;
 
-	if(b*b < 4*a*c)
+	if (b*b < 4*a*c)
 	{
 		float gravity_modifier =  (4*a*c)/(b*b); 
 		float degree_proj =  42.5;
@@ -4774,7 +4790,7 @@ void(vector destination, float deltarightv,float mcnt) boss3projectile =
 	//missile.velocity_z = missile.velocity_z * (1 - gravity_modifier);
 
 	float heightdist = self.enemy.origin_z - self.origin_z;
-	if(heightdist > 440)
+	if (heightdist > 440)
 	{
 	    missile.movetype = MOVETYPE_FLY;
 		missile.originoffset_z = self.enemy.origin_z - 128;
@@ -4802,8 +4818,8 @@ void(vector destination, float deltarightv,float mcnt) boss3projectile =
 	setmodel(missile, "models/projectiles/proj_boss3.md3");
     setsize (missile, '-5 -5 -5', '5 5 5');
 
-	local vector tagorg;
-	local float tagindex;
+	vector tagorg;
+	float tagindex;
 	tagindex = gettagindex(self, "tag_mouth");
 	tagorg = gettaginfo(self, tagindex);
 	pointparticles(particleeffectnum("brutemuzzle"), tagorg, '0 0 0', 3);
@@ -4832,7 +4848,7 @@ void() boss3_mid_attackl =
 	self.frame  ++;
 	self.dframe ++;
 
-	if((self.dframe >= 6) && (self.dframe <= 17))
+	if ((self.dframe >= 6) && (self.dframe <= 17))
 	{	
 
 		float projspread = self.boss3_spread;  
@@ -4840,19 +4856,19 @@ void() boss3_mid_attackl =
 	}
 	self.boss3_spread -= 32;
 
-	if(self.dframe > 19)
+	if (self.dframe > 19)
 	{
 		float r = random();
-		if(r < 0.15)
+		if (r < 0.15)
 			self.think = boss3_stage2preattacks;
 		else	
 		{
 			self.think = boss3_idlesit;
-			if(self.boss3_model == 3)
+			if (self.boss3_model == 3)
 				self.frame = boss3c_sit1;
-			if(self.boss3_model == 4)
+			if (self.boss3_model == 4)
 				self.frame = boss3d_sit1;
-			if(self.boss3_model == 5)
+			if (self.boss3_model == 5)
 				self.frame = boss3e_sit1;		
 		}
 	}
@@ -4867,7 +4883,7 @@ void() boss3_mid_attackr =
 	self.frame  ++;
 	self.dframe ++;
 
-	if((self.dframe >= 6) && (self.dframe <= 17))
+	if ((self.dframe >= 6) && (self.dframe <= 17))
 	{	
 
 		float projspread = self.boss3_spread;  
@@ -4876,19 +4892,19 @@ void() boss3_mid_attackr =
 	self.boss3_spread -= 32;
 
 
-	if(self.dframe > 19)
+	if (self.dframe > 19)
 	{
 		float r = random();
-		if(r < 0.15)
+		if (r < 0.15)
 			self.think = boss3_stage2preattacks;
 		else	
 		{
 			self.think = boss3_idlesit;
-			if(self.boss3_model == 3)
+			if (self.boss3_model == 3)
 				self.frame = boss3c_sit1;
-			if(self.boss3_model == 4)
+			if (self.boss3_model == 4)
 				self.frame = boss3d_sit1;
-			if(self.boss3_model == 5)
+			if (self.boss3_model == 5)
 				self.frame = boss3e_sit1;		
 		}
 	}
@@ -4902,21 +4918,21 @@ void() boss3_homing_attack =
 	ai_face();
 	self.frame  ++;
 	self.dframe ++;
-	if(self.dframe == 10)
+	if (self.dframe == 10)
 	boss3projectile(self.enemy.origin,0,1);
-	if(self.dframe > 19)
+	if (self.dframe > 19)
 	{
 		float r = random();
-		if(r < 0.15)
+		if (r < 0.15)
 			self.think = boss3_stage2preattacks;
 		else	
 		{
 			self.think = boss3_idlesit;
-			if(self.boss3_model == 3)
+			if (self.boss3_model == 3)
 				self.frame = boss3c_sit1;
-			if(self.boss3_model == 4)
+			if (self.boss3_model == 4)
 				self.frame = boss3d_sit1;
-			if(self.boss3_model == 5)
+			if (self.boss3_model == 5)
 				self.frame = boss3e_sit1;
 		}
 	}
@@ -4927,8 +4943,8 @@ void() boss3_homing_attack =
 
 float() boss3_monster_counter = 
 { 
-	local entity monster;
-	local float monster_counter;
+	entity monster;
+	float monster_counter;
 	monster = findradius(self.origin, 1000000);
 	while (monster)
 	{
@@ -4945,7 +4961,7 @@ float() boss3_monster_counter =
 void() boss3_stage2preattacks =
 {
 	self.yaw_speed = 10;
-	if(self.lefty == 1)
+	if (self.lefty == 1)
 		self.lefty = 0;
 	else
 		self.lefty = 1;
@@ -4955,36 +4971,36 @@ void() boss3_stage2preattacks =
 	ai_face();
 	float attacktype ;
 
-	if(dist < 1256)
+	if (dist < 1256)
 		attacktype = 1;
 	else
 		attacktype = 0;
 	self.dframe = 0;
 
-	if(attacktype == 1)
+	if (attacktype == 1)
 	{
 		self.boss3_spread = 200;
 		float fallen_counter = boss3_monster_counter();
 
-		if(self.boss3_model == 3)
+		if (self.boss3_model == 3)
 		{
-			if(self.lefty)
+			if (self.lefty)
 				self.frame = boss3c_attackl1;
 			else
 				self.frame = boss3c_attackr1;
 			self.ammo_crystal = boss3_fallennumbera - fallen_counter;
 		}
-		if(self.boss3_model == 4)
+		if (self.boss3_model == 4)
 		{
-			if(self.lefty)
+			if (self.lefty)
 				self.frame = boss3d_attackl1;
 			else
 				self.frame = boss3d_attackr1;
 			self.ammo_crystal = boss3_fallennumberb - fallen_counter;
 		}		
-		if(self.boss3_model == 5)
+		if (self.boss3_model == 5)
 		{
-			if(self.lefty)
+			if (self.lefty)
 				self.frame = boss3e_attackl1;
 			else
 				self.frame = boss3e_attackr1;
@@ -4993,7 +5009,7 @@ void() boss3_stage2preattacks =
 
 
 
-		if(self.lefty)
+		if (self.lefty)
 			self.think = boss3_mid_attackl;
 		else
 			self.think = boss3_mid_attackr;
@@ -5001,11 +5017,11 @@ void() boss3_stage2preattacks =
 	}
 	else
 	{
-		if(self.boss3_model == 3)
+		if (self.boss3_model == 3)
 			self.frame = boss3c_attackrng1;
-		if(self.boss3_model == 4)
+		if (self.boss3_model == 4)
 			self.frame = boss3d_attackrng1;		
-		if(self.boss3_model == 5)
+		if (self.boss3_model == 5)
 			self.frame = boss3e_attackrng1;
 		self.think = boss3_homing_attack;
 	}
@@ -5020,15 +5036,15 @@ void() boss3_turn =
 	ai_face();
 	self.frame += 0.25;
 	self.walkframe += 0.25;
-	if(self.walkframe >= 10)
+	if (self.walkframe >= 10)
 	{
 		self.think = boss3_idlesit;
 
-		if(self.boss3_model == 3)
+		if (self.boss3_model == 3)
 			self.frame = boss3c_sit1;
-		if(self.boss3_model == 4)
+		if (self.boss3_model == 4)
 			self.frame = boss3d_sit1;
-		if(self.boss3_model == 5)
+		if (self.boss3_model == 5)
 			self.frame = boss3e_sit1;
 
 		self.nextthink = time + 0.1;
@@ -5047,11 +5063,11 @@ void() boss3_preturn =
 	self.yaw_speed = 3.5;
 	ai_face();
 	self.think = boss3_turn;
-	if(self.boss3_model == 3)
+	if (self.boss3_model == 3)
 		self.frame = boss3c_turn1;
-	if(self.boss3_model == 4)
+	if (self.boss3_model == 4)
 		self.frame = boss3d_turn1;
-	if(self.boss3_model == 5)
+	if (self.boss3_model == 5)
 		self.frame = boss3e_turn1;
 	self.walkframe = 1;
 	self.nextthink = time + 0.025;
@@ -5064,27 +5080,27 @@ void() boss3_idlesit =
 	ai_face();
 	self.frame += 0.25;
 
-	if(self.boss3_model == 3)
+	if (self.boss3_model == 3)
 	{
-		if(self.frame > boss3c_sit20)	 
+		if (self.frame > boss3c_sit20)	 
 			self.frame = boss3c_sit1;
 	}
-	if(self.boss3_model == 4)
+	if (self.boss3_model == 4)
 	{
-		if(self.frame > boss3d_sit20)	 
+		if (self.frame > boss3d_sit20)	 
 			self.frame = boss3d_sit1;
 	}
-	if(self.boss3_model == 5)
+	if (self.boss3_model == 5)
 	{
-		if(self.frame > boss3e_sit20)	 
+		if (self.frame > boss3e_sit20)	 
 			self.frame = boss3e_sit1;
 	}
 
-	if(!(custom_infront(self.enemy,self.angles, self.origin, 90)))
+	if (!(custom_infront(self.enemy,self.angles, self.origin, 90)))
 		self.think = boss3_preturn;
 	else
 	{
-		if(self.attack_finished < time)		
+		if (self.attack_finished < time)		
 			self.think = boss3_stage2preattacks;	
 		else
 			self.think = boss3_idlesit;	
@@ -5116,7 +5132,7 @@ void() boss3_postmutilation =
 	self.frame  ++;
 	self.dframe ++;
 
-	if((self.frame == boss3d_mutil2) && (self.boss3_model == 4))
+	if ((self.frame == boss3d_mutil2) && (self.boss3_model == 4))
 	{
 		vector tagorg = tag_origin("tag_claw_r",self);
 		explo_blood(2, tagorg);	
@@ -5128,7 +5144,7 @@ void() boss3_postmutilation =
 		explo_blood(9, tagorg);	
 	}
 
-	if((self.frame == boss3e_mutil1) && (self.boss3_model == 5))
+	if ((self.frame == boss3e_mutil1) && (self.boss3_model == 5))
 	{
 		tagorg = tag_origin("tag_claw_l",self);
 		explo_blood(2, tagorg);	
@@ -5142,7 +5158,7 @@ void() boss3_postmutilation =
 		explo_blood(9, tagorg);	
 	}
 
-	if((self.frame == boss3f_mutil1) && (self.boss3_model == 6))
+	if ((self.frame == boss3f_mutil1) && (self.boss3_model == 6))
 	{
 		tagorg = tag_origin("tag_crown_l",self);
 		explo_blood(2, tagorg);	
@@ -5151,9 +5167,9 @@ void() boss3_postmutilation =
 		explo_blood(2, tagorg);	
 		ThrowGib3(self, "models/enemies/boss3/gibs/crown_r.md3", 0, 0.75, 1, 1, tagorg, centervel(tagorg , self.origin)* random(128,192), 0, 3);
 	}
-	if(self.dframe > 19)
+	if (self.dframe > 19)
 	{
-		if(self.boss3_model == 6)
+		if (self.boss3_model == 6)
 		{	
 			entity sorete = spawn();
 			sorete.origin = '0 0 0';
@@ -5246,19 +5262,19 @@ void() jbox_touch =
 {
 	vector z_vel;
 	float playeralreadytouched;
-	if(other == self.owner)
+	if (other == self.owner)
 		return;
-    if((other.classname ==  "crystallised"))
+    if ((other.classname ==  "crystallised"))
 		T_Damage (other, self, self, 1200);
-    if((other.classname ==  "func_destruct"))
+    if ((other.classname ==  "func_destruct"))
 		T_Damage (other, self, self, 1200);
 	if (other.classname ==  "player")
 		self.enemy = other;
-	if((other.classname ==  "player") && (boss3_stage < 6))
+	if ((other.classname ==  "player") && (boss3_stage < 6))
 	{
 		entity oself= self;
 		self = self.owner;
-		if(self.melee_runes != 1)
+		if (self.melee_runes != 1)
 		{
 			self.oldframe = self.frame;
 			self.th_oldthink = self.think;
@@ -5279,7 +5295,7 @@ void() jbox_touch =
 			return;
 		}			
 	}
-	if(((other.movetype == MOVETYPE_STEP) || (other.classname ==  "player")) && (other.timepushing < time))
+	if (((other.movetype == MOVETYPE_STEP) || (other.classname ==  "player")) && (other.timepushing < time))
 	{
 		vector forigin;
 		forigin_x = self.origin_x;
@@ -5293,7 +5309,7 @@ void() jbox_touch =
 			other.flags -= FL_ONGROUND;
 		if (other.classname ==  "player")
 		{
-			if(!(other.flags & FL_IGNOREINPUT))
+			if (!(other.flags & FL_IGNOREINPUT))
 			other.flags += FL_IGNOREINPUT;
 			other.stoptime = time +1.5;
 			other.timepushing = time +1;
@@ -5351,13 +5367,13 @@ void() jbox_think =
 
 void() glowmodcontroller_think =
 {
-	if(self.owner.shieldspawned_time == 1)
+	if (self.owner.shieldspawned_time == 1)
 	{
 		self.owner.glowmod = '2.5 2.5 0';
 		self.owner.shieldspawned_time = 0;		
 	}
 
-	if(self.owner.glowmod_x > 0.1)
+	if (self.owner.glowmod_x > 0.1)
 	{
 		self.owner.glowmod_x -= 0.05;
 		self.owner.glowmod_y -= 0.05;
@@ -5427,7 +5443,7 @@ void() martyr_idle;
 void() martyr_summon =
 {
 	self.frame ++;
-	if(self.frame == 16)
+	if (self.frame == 16)
 	{
 		pointparticles(particleeffectnum("martyr_impact"), self.origin, '0 0 0', 3);
 		pointparticles(particleeffectnum("martyr_impact2"), self.origin, '0 0 0', 3);
@@ -5437,7 +5453,7 @@ void() martyr_summon =
 		entity t = find(world, classname, "boss_summoner");
 		while (t)
 		{
-			if((t.targetname == self.owner.target2) || (!(t.targetname)))
+			if ((t.targetname == self.owner.target2) || (!(t.targetname)))
 			{
 				t.think = t.use;
 				t.nextthink = time + random(0,0.8) + 1.5;
@@ -5446,7 +5462,7 @@ void() martyr_summon =
 		}
 
 	}
-	if(self.frame > 22)
+	if (self.frame > 22)
 		self.think = martyr_idle;
 	else
 		self.think = martyr_summon;
@@ -5456,16 +5472,16 @@ void() martyr_summon =
 void() martyr_idle =
 {
 
-	if(self.state != 1)
+	if (self.state != 1)
 		self.frame = 2;
 	else
 		self.frame = 1;
 
 
-	if((self.owner.boss3_summoning_time > time) &&(self.owner.boss3summonwait < time))
+	if ((self.owner.boss3_summoning_time > time) &&(self.owner.boss3summonwait < time))
 	{
 		float dist = vlen(self.origin - self.owner.origin);
-		if(dist < 512)
+		if (dist < 512)
 		{
 			self.frame = 24;
 			self.think = martyr_pain;
@@ -5479,10 +5495,10 @@ void() martyr_idle =
 void() martyr_pain =
 {
 	self.frame += 0.5;
-	if(self.frame > 42)
+	if (self.frame > 42)
 	self.frame = 24;
 
-	if(self.owner.boss3_summoning_time < time)
+	if (self.owner.boss3_summoning_time < time)
 	{
 		self.think = martyr_summon;
 		self.frame = 3;
@@ -5514,7 +5530,7 @@ void() martyr_assign_owner =
 
 void() gib_fly_touch =
 {
-	if(other.solid != SOLID_BSP)
+	if (other.solid != SOLID_BSP)
 		return;
 	else
 	{
@@ -5532,7 +5548,7 @@ void() martyr_die =
 	entity t = find(world, classname, "boss_summoner");
 	while (t)
 	{
-		if((t.targetname == self.owner.target) || (!(t.targetname)))
+		if ((t.targetname == self.owner.target) || (!(t.targetname)))
 		{
 			remove(t);
 		}
@@ -5610,7 +5626,7 @@ void() martyr_postfdeath =
 	float healthmartyr =  cvar ("martyr_health");
 	self.frame += 0.5;
 	self.solid = SOLID_BBOX;
-	if(self.frame >= 42)
+	if (self.frame >= 42)
 	{
 		self.solid = SOLID_BBOX;
 		self.think = martyr_idle;
@@ -5630,10 +5646,10 @@ void() martyr_fdeath =
 	//self.solid = SOLID_NOT;
 	//self.alpha = 0.5;
 	float martyraddtime =  cvar ("martyr_time_add");
-	if(self.vgear.lifetime > time)
+	if (self.vgear.lifetime > time)
 	{	
 		self.vgear.lifetime -= martyraddtime;
-		if(self.vgear.lifetime < time)
+		if (self.vgear.lifetime < time)
 		self.vgear.lifetime = time + 0.1;
 	}
 	self.think = martyr_postfdeath;
@@ -5686,11 +5702,11 @@ void() nextbossthinkthink =
 void() boss3_path_touch =
 {
 
-	if(other.classname != "boss_guardian3")
+	if (other.classname != "boss_guardian3")
 	return;
-	if(other.pipes == self)
+	if (other.pipes == self)
 	{
-		if(boss3_stage > 0)
+		if (boss3_stage > 0)
 		{
 			entity head = findradius(other.origin, 100000);
 			self.next_path_entity = world;
@@ -5702,7 +5718,7 @@ void() boss3_path_touch =
 				if ((head.classname == "boss_path") && (head.spawnflags & 1))
 				{
 					currentlifetime = floor(head.lifetime);
-					if(currentlifetime < self.nlifetime)
+					if (currentlifetime < self.nlifetime)
 					{				
 						self.nlifetime = currentlifetime;
 						self.next_path_entity = head;
@@ -5760,19 +5776,19 @@ void() boss_orb_die=
 	remove(self.pipes);
 
 	float disttoboss3 = vlen(self.origin - self.owner.owner.origin);
-	if(disttoboss3 < 512)
+	if (disttoboss3 < 512)
 		self.owner.owner.boss3summonwait = time;
 
 	string previoustargetname;
-	if(self.vgear.targetname == "path1")
+	if (self.vgear.targetname == "path1")
 		previoustargetname = "path5";
-	if(self.vgear.targetname == "path2")
+	if (self.vgear.targetname == "path2")
 		previoustargetname = "path1";
-	if(self.vgear.targetname == "path3")
+	if (self.vgear.targetname == "path3")
 		previoustargetname = "path2";
-	if(self.vgear.targetname == "path4")
+	if (self.vgear.targetname == "path4")
 		previoustargetname = "path3";
-	if(self.vgear.targetname == "path5")
+	if (self.vgear.targetname == "path5")
 		previoustargetname = "path4";
 	entity previous_summoner = findradius(self.vgear.origin, 9999);
 	while (previous_summoner)
@@ -5815,7 +5831,7 @@ void() boss_orb_die=
 	slag_explo.nextthink = time + 0.1;
 	SUB_UseTargets();
 	boss3_stage--;
-	if(boss3_stage <= 0)
+	if (boss3_stage <= 0)
 		spawn_shaker (model,25,3,2048);
 	else
 		spawn_shaker (model,25,1.25,2048);
@@ -5851,15 +5867,15 @@ void() boss_orb_spawn =
 	float orbtime4 = cvar ("orbtime4");
 	float orbtime5 = cvar ("orbtime5");
 
-	if(boss3_stage >= 5)
+	if (boss3_stage >= 5)
 		olifetime = orbtime5;
-	if(boss3_stage == 4)
+	if (boss3_stage == 4)
 		olifetime = orbtime4;
-	if(boss3_stage == 3)
+	if (boss3_stage == 3)
 		olifetime = orbtime3;
-	if(boss3_stage == 2)
+	if (boss3_stage == 2)
 		olifetime = orbtime2;
-	if(boss3_stage == 1)
+	if (boss3_stage == 1)
 		olifetime = orbtime1;
 	entity oself = self;
 	self = self.owner;
@@ -5877,14 +5893,14 @@ void() boss_orb_think =
 {
 	self.cnt += 1;
 	float st = self.cnt / 5;
-	if(self.pframe == 1)
+	if (self.pframe == 1)
 	st = self.cnt / 25;
 
 
-	if(self.owner.owner.ammo_revolver >= 40)
+	if (self.owner.owner.ammo_revolver >= 40)
 	{
 		float disttoboss3 = vlen(self.origin - self.owner.owner.origin);
-		if((disttoboss3 < 512) && (self.owner.owner.boss3summonwait > time))
+		if ((disttoboss3 < 512) && (self.owner.owner.boss3summonwait > time))
 		{
 			self.owner.owner.boss3summonwait = time;
 			self.lifetime = time;
@@ -5893,16 +5909,16 @@ void() boss_orb_think =
 	}
 
 
-	if((self.scale < self.ammo_revolver) && (time <= self.lifetime))
+	if ((self.scale < self.ammo_revolver) && (time <= self.lifetime))
 	{
-		if(self.pframe == 1)
+		if (self.pframe == 1)
 			self.scale += 0.025 / 5;
 		else
 			self.scale += 0.025;
 	}	
-	if(time > self.lifetime)
+	if (time > self.lifetime)
 	{
-		if(self.pframe == 1)
+		if (self.pframe == 1)
 		{
 			self.pipes.effects = 0;
 			self.takedamage = DAMAGE_YES;
@@ -5913,10 +5929,10 @@ void() boss_orb_think =
 			self =  oself;
 			self.solid = SOLID_BBOX;
 		}
-		if(self.scale < self.ammo_revolver)
+		if (self.scale < self.ammo_revolver)
 			self.scale += 0.25;
 	}
-	if((time > self.lifetime) &&((self.owner.frame >= 15)&&(self.owner.frame <= 23)))
+	if ((time > self.lifetime) &&((self.owner.frame >= 15)&&(self.owner.frame <= 23)))
 	{
 		setsize (self,'-16 -16 -16','16 16 16');
 
@@ -6000,7 +6016,7 @@ void() boss_orb =
 	self.nextthink = time + 0.2;
 	self.killtarget = self.target;
 
-	local entity bbox = spawn();
+	entity bbox = spawn();
 	setsize (bbox,'-12 -12 -12','12 12 12');
 	bbox.owner = self;
 	bbox.movetype = MOVETYPE_FLY;

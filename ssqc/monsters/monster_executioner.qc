@@ -74,7 +74,7 @@ void() executioner_chrg1;
 
 void() executioner_check = { 
 
-	local float r;
+	float r;
 	r = random() * 5;
 	if ((r < 1) && (!(self.spawnflags &1)) && (self.exec_idle_time < time))
 	{
@@ -95,7 +95,7 @@ void() executioner_check = {
 void() executioner_stand1 =[$ex_idle1, executioner_stand2]
 {
 	ai_stand();
-	local float r;
+	float r;
 	r = random() *10;
 	if ((r < 1) && (!(self.spawnflags &1)) && (self.exec_idle_time < time))
 	{
@@ -207,7 +207,7 @@ void() executioner_subattack;
 void()executioner_death;
 void() executioner_run1 =[$ex_walk1, executioner_run2]
 {
-	if(self.health < 0)
+	if (self.health < 0)
 	self.think = executioner_death;
 
 	ai_test_monster_run(exec_vwalk1);	
@@ -240,7 +240,7 @@ void() executioner_run5 =[$ex_walk5, executioner_run6]
 		self.oldframe = $ex_rtchb;
 		if ((visible2(self.enemy, 768, 0.2))&&(self.charge_time < time))
 		{
-			local float r;
+			float r;
 			r = random();
 			if ((max(self.enemy.origin_z, self.origin_z) - min(self.enemy.origin_z, self.origin_z)) > 32)
 				return;
@@ -287,7 +287,7 @@ void() executioner_run10 =[$ex_walk10, executioner_run1]
 		self.oldframe = $ex_rtcha;
 		if ((visible2(self.enemy, 768, 0.2)) && (self.charge_time < time))
 		{
-			local float r;
+			float r;
 			r = random();
 			if ((max(self.enemy.origin_z, self.origin_z) - min(self.enemy.origin_z, self.origin_z)) > 32)
 				return;
@@ -315,7 +315,7 @@ void() executioner_atkd1;
 
 void(float r) executioner_attack;
 
-void() executioner_subattack = { local entity head;
+void() executioner_subattack = { entity head;
 
 	head = findradius(rorigin(self), exec_radius);	//send lightning line to anything in 250 radius
 	while (head)	// while looking for head
@@ -332,7 +332,7 @@ void() executioner_subattack = { local entity head;
 		head = head.chain;	// go to next enemy
 	}
 	float speed = vlen(self.velocity);
-	if(self.charging ==  2)
+	if (self.charging ==  2)
 	{
 		makevectors (self.angles);
 		tracebox(self.origin, '-3 -3 -3', '3 3 3', self.origin + v_forward *86, 3, self);
@@ -450,7 +450,7 @@ void(float attackfloat) executioner_chargeattack =
 	dist = vlen(delta);
 
 	float enemy_is_reachable =  visibleinfront(self.enemy, 2048);
-	if((enemy_is_reachable != 1) && (self.ammo_revolver == 0) && (self.charge_time > time + 1 ))
+	if ((enemy_is_reachable != 1) && (self.ammo_revolver == 0) && (self.charge_time > time + 1 ))
 	{
 		
 		self.charge_time  = time + 1;
@@ -462,7 +462,7 @@ void(float attackfloat) executioner_chargeattack =
 
 	if (dist < exec_rangeattack)
 	{
-		local vector source, dir;
+		vector source, dir;
 		source = rorigin(self) + '0 0 16';
 		traceline(source, self.enemy.origin, FALSE, self);
 		if (trace_fraction != 1.0)
@@ -470,7 +470,7 @@ void(float attackfloat) executioner_chargeattack =
 			if ((trace_ent.takedamage))
 			{
 				T_Damage(trace_ent, self, self, attackfloat);
-				if(trace_ent == single_player)
+				if (trace_ent == single_player)
 				{
 					makevectors (trace_ent.angles);
 					vector org = trace_ent.origin +trace_ent.view_ofs +v_forward * 7;	
@@ -483,10 +483,10 @@ void(float attackfloat) executioner_chargeattack =
 				SpawnGib(org + randomvector('-5 -5 8','5 5 16'),randomvector('-48 -48 32','48 48 192'));
 				SpawnGib(org + randomvector('-5 -5 8','5 5 16'),randomvector('-48 -48 32','48 48 192'));
 
-				if((trace_ent.flags & FL_ONGROUND) && (trace_ent.charge_time < time))
+				if ((trace_ent.flags & FL_ONGROUND) && (trace_ent.charge_time < time))
 				{
 					trace_ent.punchangle_x = -16;
-					if(trace_ent.flags & FL_ONGROUND)
+					if (trace_ent.flags & FL_ONGROUND)
 					trace_ent.flags = trace_ent.flags - FL_ONGROUND;
 					trace_ent.charge_time = time + 2.5;
 					vector rorigin = self.origin;
@@ -499,7 +499,7 @@ void(float attackfloat) executioner_chargeattack =
 					self.charge_time  = time + random(3,5);
 				}
 
-				if(trace_ent == self.enemy)
+				if (trace_ent == self.enemy)
 				{
 					if (self.ty_charge == 1)
 						self.think = executioner_charge_slash2;
@@ -513,8 +513,8 @@ void(float attackfloat) executioner_chargeattack =
 	}
 
 };
-void(float attackfloat) executioner_attack = { local vector delta;
-	local float dist;
+void(float attackfloat) executioner_attack = { vector delta;
+	float dist;
 	if (!self.enemy)
 		return;	// removed before stroke
 	executioner_subattack();
@@ -525,7 +525,7 @@ void(float attackfloat) executioner_attack = { local vector delta;
 	{
 		if (dist < exec_rangeattack + 32)
 		{
-			local vector source, dir;
+			vector source, dir;
 			source = rorigin(self) + '0 0 16';
 			traceline(source, self.enemy.origin, FALSE, self);
 			if (trace_fraction != 1.0)
@@ -533,7 +533,7 @@ void(float attackfloat) executioner_attack = { local vector delta;
 				if ((trace_ent.takedamage))
 				{
 
-					if(trace_ent == single_player)
+					if (trace_ent == single_player)
 					{
 						makevectors (trace_ent.angles);
 						vector org = trace_ent.origin +trace_ent.view_ofs +v_forward * 7;	
@@ -546,7 +546,7 @@ void(float attackfloat) executioner_attack = { local vector delta;
 					org = trace_endpos - v_forward * 7;	
 					SpawnBlood(org, '0 0 0', 32, 2, 0);
 					SpawnGib(org + randomvector('-5 -5 8','5 5 16'),randomvector('-48 -48 32','48 48 192'));
-					if((trace_ent.flags & FL_ONGROUND) && (trace_ent.charge_time < time))
+					if ((trace_ent.flags & FL_ONGROUND) && (trace_ent.charge_time < time))
 					{
 						trace_ent.punchangle_x = -16;
 						trace_ent.velocity_z += 92;
@@ -657,7 +657,7 @@ void() executioner_atk10 =[$ex_attack10, executioner_run1]
 	}
 
 	self.nextthink = time + 0.1;
-	//if(self.loopflag == 1)
+	//if (self.loopflag == 1)
 	//self.think = executioner_atk1;
 
 };
@@ -736,7 +736,7 @@ void() executioner_atkb10 =[$ex_attacka10, executioner_run1]
 		self.think = executioner_atkc1;
 	self.nextthink = time + 0.1;
 
-	//if(self.loopflag == 2)
+	//if (self.loopflag == 2)
 	//self.think = executioner_atkb1;
 
 };
@@ -823,7 +823,7 @@ void() executioner_atkc10 =[$ex_attackb10, executioner_run1]
 
 	self.nextthink = time + 0.1;
 
-	//if(self.loopflag == 3)
+	//if (self.loopflag == 3)
 	//self.think = executioner_atkc1;
 
 };
@@ -908,12 +908,12 @@ void() executioner_atkd10 =[$ex_attackc10, executioner_run1]
 			self.think = executioner_atk1;
 	}
 
-	if(self.charge_time  > (time + 3))
+	if (self.charge_time  > (time + 3))
 		self.charge_time = time + 3;
 
 	self.nextthink = time + 0.1;
 
-	//if(self.loopflag == 4)
+	//if (self.loopflag == 4)
 	//self.think = executioner_atkd1;
 };
 void() executioner_rawr =[$exec_rawr1, executioner_rawr2] {
@@ -977,7 +977,7 @@ void() executioner_chrg1 = {
 	self.frame = self.oldframe;
 	self.charging = 2;
 	self.ty_charge = 1;
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	self.yaw_speed = 50;
 	ai_face();
 	executioner_subattack();
@@ -989,7 +989,7 @@ void() executioner_chrg1 = {
 void() executioner_chrg1b =[$exec_charge1, executioner_chrg2]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	executioner_subattack();
 	executioner_chargeattack(exec_impactdamage);
 
@@ -997,7 +997,7 @@ void() executioner_chrg1b =[$exec_charge1, executioner_chrg2]
 void() executioner_chrg2 =[$exec_charge2, executioner_chrg3]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	executioner_subattack();
 	executioner_chargeattack(exec_impactdamage);
 
@@ -1005,7 +1005,7 @@ void() executioner_chrg2 =[$exec_charge2, executioner_chrg3]
 void() executioner_chrg3 =[$exec_charge3, executioner_chrg4]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 
 	
 	walksound("enemies/executioner/step", 3);
@@ -1017,7 +1017,7 @@ void() executioner_chrg3 =[$exec_charge3, executioner_chrg4]
 void() executioner_chrg4 =[$exec_charge4, executioner_chrg5]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	executioner_subattack();
 	executioner_chargeattack(exec_impactdamage);
 
@@ -1027,7 +1027,7 @@ void() executioner_chrg4 =[$exec_charge4, executioner_chrg5]
 void() executioner_chrg5 =[$exec_charge5, executioner_chrg6]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	executioner_subattack();
 	executioner_chargeattack(exec_impactdamage);
 
@@ -1035,14 +1035,14 @@ void() executioner_chrg5 =[$exec_charge5, executioner_chrg6]
 void() executioner_chrg6 =[$exec_charge6, executioner_chrg1b]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	
 	walksound("enemies/executioner/step", 3);
 	spawn_shaker (self,5,0.5,256);
 	//self.charging = 0;
 	if (!visible(self.enemy))
 		self.think = executioner_run1;
-	//if((self.velocity_x == 0)&& (self.velocity_y == 0) && (self.oldvelocity_x == 0)&& (self.oldvelocity_y == 0))
+	//if ((self.velocity_x == 0)&& (self.velocity_y == 0) && (self.oldvelocity_x == 0)&& (self.oldvelocity_y == 0))
 	//self.think = executioner_run1;
 	/*if ((max(self.enemy.origin_z, self.origin_z) - min(self.enemy.origin_z, self.origin_z)) > 32)
 		self.think = executioner_run1;*/
@@ -1067,7 +1067,7 @@ void() executioner_chrbg1 = {
 	self.frame = self.oldframe;
 	self.ty_charge = 0;
 	self.charging = 2;
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	self.yaw_speed = 50;
 	ai_face();
 	executioner_subattack();
@@ -1080,7 +1080,7 @@ void() executioner_chrbg1 = {
 void() executioner_chrbg1b =[$exec_charge1, executioner_chrbg2]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	executioner_subattack();
 	executioner_chargeattack(exec_impactdamage);
 
@@ -1088,7 +1088,7 @@ void() executioner_chrbg1b =[$exec_charge1, executioner_chrbg2]
 void() executioner_chrbg2 =[$exec_charge2, executioner_chrbg3]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	executioner_subattack();
 	executioner_chargeattack(exec_impactdamage);
 
@@ -1096,7 +1096,7 @@ void() executioner_chrbg2 =[$exec_charge2, executioner_chrbg3]
 void() executioner_chrbg3 =[$exec_charge3, executioner_chrbg4]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	
 	walksound("enemies/executioner/step", 3);
 	spawn_shaker (self,5,0.5,256);
@@ -1107,7 +1107,7 @@ void() executioner_chrbg3 =[$exec_charge3, executioner_chrbg4]
 void() executioner_chrbg4 =[$exec_charge4, executioner_chrbg5]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	executioner_subattack();
 	executioner_chargeattack(exec_impactdamage);
 
@@ -1119,7 +1119,7 @@ void() executioner_chrbg4 =[$exec_charge4, executioner_chrbg5]
 void() executioner_chrbg5 =[$exec_charge5, executioner_chrbg6]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 	executioner_subattack();
 	executioner_chargeattack(exec_impactdamage);
 
@@ -1127,7 +1127,7 @@ void() executioner_chrbg5 =[$exec_charge5, executioner_chrbg6]
 void() executioner_chrbg6 =[$exec_charge6, executioner_chrbg1b]
 {
 	ai_face();
-	ai_test_monster_run(16 + self.extra_speed); if(self.extra_speed < 10) self.extra_speed += 1; 
+	ai_test_monster_run(16 + self.extra_speed); if (self.extra_speed < 10) self.extra_speed += 1; 
 
 	executioner_subattack();
 	executioner_chargeattack(exec_impactdamage);
@@ -1137,7 +1137,7 @@ void() executioner_chrbg6 =[$exec_charge6, executioner_chrbg1b]
 	//self.charging = 0;
 	if (!visible(self.enemy))
 		{self.think = executioner_run1; }
-	//if((self.velocity_x == 0)&& (self.velocity_y == 0) && (self.oldvelocity_x == 0)&& (self.oldvelocity_y == 0))
+	//if ((self.velocity_x == 0)&& (self.velocity_y == 0) && (self.oldvelocity_x == 0)&& (self.oldvelocity_y == 0))
 	//self.think = executioner_run1;
 
 
@@ -1145,7 +1145,7 @@ void() executioner_chrbg6 =[$exec_charge6, executioner_chrbg1b]
 
 	/*if ((max(self.enemy.origin_z, self.origin_z) - min(self.enemy.origin_z, self.origin_z)) > 16)
 		{self.think = executioner_run1;self.charge_time  = time + random(3,4);}*/
-	if(self.charge_time < time)
+	if (self.charge_time < time)
 		{self.think = executioner_run1; self.charge_time  = time + random(2.5,3);}
 
 	self.nextthink = time + 0.1;
@@ -1153,7 +1153,7 @@ void() executioner_chrbg6 =[$exec_charge6, executioner_chrbg1b]
 
 
 
-void() executioner_atkr = { local float r;
+void() executioner_atkr = { float r;
 	r = random();
 
 	if (self.exec_type == 1)
@@ -1184,7 +1184,7 @@ void() executioner_atkr = { local float r;
 
 //void(float effectnum, vector org, vector vel, float howmany) pointparticles = #337;	// same as in CSQC
 .float armcount;
-void() bleedthink = { local entity e;
+void() bleedthink = { entity e;
 	e = self.owner;
 	if (self.owner.cnt == 100)
 	{
@@ -1199,12 +1199,12 @@ void() bleedthink = { local entity e;
 	}
 
 
-	local float nparticles;
+	float nparticles;
 	nparticles = particleeffectnum("exectrailgib");
 
-	local vector tagorg, dir;
-	local float tagindex;
-	local string tagname;
+	vector tagorg, dir;
+	float tagindex;
+	string tagname;
 
 	makevectors(self.owner.v_angle);
 
@@ -1224,7 +1224,7 @@ void() bleedthink = { local entity e;
 
 	if (!self.armcount)
 	{
-		local entity arm;
+		entity arm;
 		arm = spawn();
 		if (self.cnt == 1)
 			arm.model = "models/enemies/executioner/arm_right.md3";
@@ -1240,13 +1240,13 @@ void() bleedthink = { local entity e;
 		arm.solid = SOLID_TRIGGER;
 		self.armcount = 1;
 		chattersound("impact/gibs/gib_hit", 5, 1);
-		local entity exp_blood;
+		entity exp_blood;
 		exp_blood = spawn();
 		setattachment(exp_blood, self.owner, tagname);
 		setmodel(exp_blood, "particles/explo/explo_blood1.md3");
 		exp_blood.solid = SOLID_NOT;
 		exp_blood.scale = 0.5;
-		local float skinn;
+		float skinn;
 		skinn = ceil(random() *4);
 		if (skinn == 4)
 			skinn = 0;
@@ -1265,7 +1265,7 @@ void() executioner_painf1 =[$exec_painf1, executioner_painf2]
 {
 	self.skin = 1;
 	msound(self, CHAN_AUTO, "enemies/executioner/mutilate.ogg", 1, 0.25);
-	local entity bleed;
+	entity bleed;
 	bleed = spawn();
 	bleed.owner = self;
 	setmodel(bleed, "models/misc/null.md3");
@@ -1296,7 +1296,7 @@ void() executioner_paine1 =[$exec_paine1, executioner_paine2]
 {
 	self.skin = 2;
 	msound(self, CHAN_AUTO, "enemies/executioner/mutilate.ogg", 1, 0.25);
-	local entity bleed;
+	entity bleed;
 	bleed = spawn();
 	bleed.owner = self;
 	bleed.effects = EF_NODRAW;
@@ -1381,7 +1381,7 @@ void() executioner_paina10 =[$exec_paina10, executioner_run1]
 		self.think = executioner_rawr;
 };
 
-void() executioner_postpain = { local float r;
+void() executioner_postpain = { float r;
 	r = random();
 
 	if (r < 0.3)
@@ -1435,7 +1435,7 @@ void(entity attacker, float damage) executioner_pain = {
 	else
 	{
 		float rhealth = random(0,900);
-		if(self.health < rhealth)
+		if (self.health < rhealth)
 			self.think = executioner_postpain2;
 		else
 			self.think = executioner_postpain;
@@ -1444,7 +1444,7 @@ void(entity attacker, float damage) executioner_pain = {
 	if (self.skin != 0)
 		self.think = executioner_postpain;
 
-	if(self.health < 0)
+	if (self.health < 0)
 	self.think = executioner_death;
 
 	self.nextthink = time;
@@ -1495,7 +1495,9 @@ void() executioner_death = { if (self.skin == 1)
 
 };
 
-void() precache_monster_executioner = { precache_sound("enemies/executioner/blade_swing1.ogg");
+void() precache_monster_executioner = 
+{ 
+	precache_sound("enemies/executioner/blade_swing1.ogg");
 	precache_sound("enemies/executioner/blade_swing2.ogg");
 	precache_sound("enemies/executioner/blade_swing3.ogg");
 	precache_sound("enemies/executioner/charge_collide.ogg");
@@ -1524,7 +1526,15 @@ void() precache_monster_executioner = { precache_sound("enemies/executioner/blad
 	precache_model("models/enemies/executioner/arm_left.md3");
 };
 
-void() monster_executioner = { precache_sound("enemies/executioner/blade_swing1.ogg");
+void() monster_executioner = 
+{ 
+	if (deathmatch)
+	{
+		remove(self);
+		return;
+	}
+/*	
+	precache_sound("enemies/executioner/blade_swing1.ogg");
 	precache_sound("enemies/executioner/blade_swing2.ogg");
 	precache_sound("enemies/executioner/blade_swing3.ogg");
 	precache_sound("enemies/executioner/chatter_combat1.ogg");
@@ -1551,7 +1561,7 @@ void() monster_executioner = { precache_sound("enemies/executioner/blade_swing1.
 	precache_model("models/enemies/executioner/executioner.md3");
 	precache_model("models/enemies/executioner/arm_right.md3");
 	precache_model("models/enemies/executioner/arm_left.md3");
-
+*/
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
 	self.flags = self.flags | FL_MONSTER;
@@ -1560,7 +1570,7 @@ void() monster_executioner = { precache_sound("enemies/executioner/blade_swing1.
 	self.heavymonster = 1;
 	//self.damagetopain = opp_dtp;
 	self.stepheight_delta = 8;
-	local float r;
+	float r;
 	r = (random() *3);
 	if (r < 3)
 		self.noise = "enemies/executioner/sight3.ogg";	
@@ -1575,7 +1585,7 @@ void() monster_executioner = { precache_sound("enemies/executioner/blade_swing1.
 	self.view_ofs_z = 72;
 	self.th_stand = executioner_stand1;
 	self.th_walk = executioner_walk1;
-	local float war;
+	float war;
 	war = random();
 
 	if (war > 0.5)

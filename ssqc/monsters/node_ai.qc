@@ -13,7 +13,7 @@ void() spawn_follow_path_remove =
 }
 void() spawn_follow_path_touch =
 {
-	if(other != self.owner)
+	if (other != self.owner)
 	return;
 	if (nodegraph_query_is_valid(other.nodegraph_query_id))
 		nodegraph_query_release(other.nodegraph_query_id);	
@@ -49,18 +49,18 @@ vector()widow_check_dest;
 void(float dist)ai_test_monster_run = 
 {
 
-	if( (self.enemy) &&((!self.enemy.health) || (self.enemy.health < 0)))
+	if ( (self.enemy) &&((!self.enemy.health) || (self.enemy.health < 0)))
 		next_enemy();	
 
-	if((!(self.flags & FL_ONGROUND)) && (self.jumptime > time))
+	if ((!(self.flags & FL_ONGROUND)) && (self.jumptime > time))
 		return;
-	if((self.walktime2 > time) && (self.classname != "monster_brute"))
+	if ((self.walktime2 > time) && (self.classname != "monster_brute"))
 	{
 		self.movetype = MOVETYPE_WALK;
 		self.gravity = 1;
 		makevectors2(self.angles);
 	
-		if(self.flags & FL_ONGROUND)
+		if (self.flags & FL_ONGROUND)
 			self.velocity = v_forward *dist * 24;
 		else
 		{
@@ -81,21 +81,21 @@ void(float dist)ai_test_monster_run =
 	}
 
 
-	if(self.magnettime > time)
+	if (self.magnettime > time)
     	return;
-	if((self.evading_time > time ) || (self.timeangles > time))
+	if ((self.evading_time > time ) || (self.timeangles > time))
 	{
-		if(self.classname == "executioner")
+		if (self.classname == "executioner")
 		{
 			self.movetype = MOVETYPE_STEP;
 			float walkeddist = walkmovedist(self.angles_y,dist  * 2.33);
 		}
 		else
 		{
-			if(self.classname == "monster_incisor")
+			if (self.classname == "monster_incisor")
 			self.movetype = MOVETYPE_WALK;
 			makevectors(self.angles);
-			if(self.flags & FL_ONGROUND)
+			if (self.flags & FL_ONGROUND)
 				self.velocity = v_forward *dist * 24;
 			else
 			{
@@ -107,9 +107,9 @@ void(float dist)ai_test_monster_run =
 		}
 		return;
 	}
-	if(self.classname == "executioner")
+	if (self.classname == "executioner")
 	{
-		if(self.charging == 0)
+		if (self.charging == 0)
 		{
 			self.yaw_speed = 35; 
 			self.effects = 0;
@@ -120,36 +120,36 @@ void(float dist)ai_test_monster_run =
 			float preyawspeed = (10 - self.extra_speed);
 			float execyaw = cvar ("execyaw");
 
-			if(enemy_dist >= 368)
+			if (enemy_dist >= 368)
 				self.yaw_speed = (preyawspeed + 5);
-			if(enemy_dist < 368)
+			if (enemy_dist < 368)
 				self.yaw_speed = (preyawspeed + 3) * execyaw;
-			if(enemy_dist < 256)
+			if (enemy_dist < 256)
 				self.yaw_speed = (preyawspeed + 1) * execyaw;
-			if(enemy_dist < 192)
+			if (enemy_dist < 192)
 				self.yaw_speed = preyawspeed;
 			//self.yaw_speed += 2;	
 			//self.effects = 128;
 		}
 	}
-	if(self.evading == 1)
+	if (self.evading == 1)
 		self.evading = 2;
 
 	float threshold = 182;	
 
 
-	if(!self.trigger_angle_use)
+	if (!self.trigger_angle_use)
 	self.trigger_angle_use = 1; 
 	float isvisible = (visible(self.enemy));
-	if(self.classname == "monster_widow")
+	if (self.classname == "monster_widow")
 	{
 	
 		float height_check = max(self.origin_z,self.enemy.origin_z) - min(self.origin_z,self.enemy.origin_z);
-		if(visible(self.enemy) && (height_check < 92))
+		if (visible(self.enemy) && (height_check < 92))
 		{
 			self.colormod = '1 1 1';
 			isvisible = 1;
-			if(self.classname == "monster_widow")
+			if (self.classname == "monster_widow")
 			threshold = 512;	
 		}
 		else
@@ -160,32 +160,32 @@ void(float dist)ai_test_monster_run =
 	}
 
 
-	if((vlen(self.enemy.origin - self.origin) < threshold) && (isvisible == 1)  && (self.follownodetime < time))
+	if ((vlen(self.enemy.origin - self.origin) < threshold) && (isvisible == 1)  && (self.follownodetime < time))
 	{
 		if (nodegraph_query_is_valid(self.nodegraph_query_id))
 			nodegraph_query_release(self.nodegraph_query_id);	
-		if((self.follow_path) && (self.followingapath == 1))
+		if ((self.follow_path) && (self.followingapath == 1))
 			remove(self.follow_path);
 		self.followingapath = 0;
-		if(self.classname == "monster_widow")
+		if (self.classname == "monster_widow")
 			self.yaw_speed = 60;
 
 	}
 	else
 	{
-		if(!self.followingapath)
+		if (!self.followingapath)
 			find_node_path();
-		if(self.classname == "monster_widow")
+		if (self.classname == "monster_widow")
 			self.yaw_speed = 20;
 
 	}
 	if (nodegraph_query_is_valid(self.nodegraph_query_id)) 
 	{
-		if(self.followingapath != 1)
+		if (self.followingapath != 1)
 		{
 			float currentnodeid = nodegraph_query_get_nodeid(self.nodegraph_query_id, self.nodegraph_query_entry_index);
 			vector currentnode = nodegraph_graph_get_node(0, currentnodeid);
-			if(vlen(self.origin - currentnode) < threshold)
+			if (vlen(self.origin - currentnode) < threshold)
 			{
 				currentnodeid = nodegraph_query_get_nodeid(self.nodegraph_query_id, self.nodegraph_query_entry_index + 1);
 				currentnode = nodegraph_graph_get_node(0, currentnodeid);
@@ -205,7 +205,7 @@ void(float dist)ai_test_monster_run =
 		self.ideal_yaw = vectoyaw(self.enemy.origin - self.origin);	
 
 		
-		if(self.classname == "monster_widow") 
+		if (self.classname == "monster_widow") 
 		{
 			if (self.touchtime < time)
 			{
@@ -221,24 +221,24 @@ void(float dist)ai_test_monster_run =
 
 
 	
-	if((self.walktime > time) && (self.movetype == MOVETYPE_STEP))
+	if ((self.walktime > time) && (self.movetype == MOVETYPE_STEP))
 	self.movetype = MOVETYPE_WALK;
 
 
-	if((self.walktime < time) && (self.movetype != MOVETYPE_STEP))
+	if ((self.walktime < time) && (self.movetype != MOVETYPE_STEP))
 	self.movetype = MOVETYPE_STEP;
 
 	makevectors2(self.angles);
 
 
-	if(self.movetype == MOVETYPE_STEP)
+	if (self.movetype == MOVETYPE_STEP)
 	{
-		if(self.classname == "executioner")
+		if (self.classname == "executioner")
 			dist = dist * 2.33;
 		walkeddist = walkmovedist(self.angles_y,dist);
-		if(walkeddist <= 0)
+		if (walkeddist <= 0)
 		{
-			if(self.strafing >time)
+			if (self.strafing >time)
 				check_angles();
 			else
 			{
@@ -257,11 +257,11 @@ void(float dist)ai_test_monster_run =
 	{
 
 		makevectors(self.angles);
-		if((self.classname == "monster_brute") && (self.skin != 1) ) 
+		if ((self.classname == "monster_brute") && (self.skin != 1) ) 
 		{
 			tracebox(self.origin, '-8 -8 -8', '8 8 8', self.origin + v_forward * 64 - v_up *(32 + 16 + self.stepheight_delta), 3, self);
 
-			if(trace_fraction == 1)
+			if (trace_fraction == 1)
 			{
 				setorigin (self, self.origin + v_forward * -16);
 				self.movetype = MOVETYPE_STEP;
@@ -294,19 +294,19 @@ void(float dist)ai_test_monster_run =
 		float speed = vlen (self.velocity);
 		vector extravel;
 
-		if((self.classname == "monster_widow") && (self.widowspeed < 8))
+		if ((self.classname == "monster_widow") && (self.widowspeed < 8))
 		{
 			extravel = widow_check_dest();
 		}
 		else
 		{
-			if((speed < (dist * 0.5)) && (self.timeangles2 < time))
+			if ((speed < (dist * 0.5)) && (self.timeangles2 < time))
 				check_angles();
 		}
 		float walkvel = 24;
-		if(self.classname == "monster_brute")
+		if (self.classname == "monster_brute")
 			walkvel = 20;
-		if(self.flags & FL_ONGROUND)
+		if (self.flags & FL_ONGROUND)
 			self.velocity = v_forward *dist * walkvel;
 		else
 		{
@@ -322,7 +322,7 @@ void(float dist)ai_test_monster_run =
 
 void() test_monster_run
 {
-	if(!self.enemy)
+	if (!self.enemy)
 		self.enemy = single_player;
 	ai_test_monster_run(16);
 	self.think = test_monster_run;

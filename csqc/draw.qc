@@ -38,7 +38,7 @@ float aspectratio_fix_y;
 
 
 //float(vector position, vector size, vector rgb, float alpha, float flag) drawfill = #323;
-vector(vector vctr) fixed_vector = { local vector vectr;
+vector(vector vctr) fixed_vector = { vector vectr;
 	vectr_x = vctr_x * vy_rel;
 	vectr_y = vctr_y * vy_rel;
 
@@ -54,7 +54,7 @@ void(vector pos, float alph, float escala, vector coloracion, vector siz, float 
 	drawfill(pos, siz, coloracion, alph, flag);
 };
 
-void(vector pos, string pic, float alph, float escala, vector coloracion, vector siz) DImage = { local vector align, pos2;float ry, r2;
+void(vector pos, string pic, float alph, float escala, vector coloracion, vector siz) DImage = { vector align, pos2;float ry, r2;
 	align_x = 240;
 	align_y = vid_height - 27;
 	pos2 = pos + align;
@@ -69,7 +69,7 @@ void(vector pos, string pic, float alph, float escala, vector coloracion, vector
 float DMselected;
 float shrinepresent;
 float tether;
-void(vector pos, string pic, float alph, float escala, vector coloracion, vector siz) DImageButton = { local vector align, pos2;float ry, r2;
+void(vector pos, string pic, float alph, float escala, vector coloracion, vector siz) DImageButton = { vector align, pos2;float ry, r2;
 	align_x = 240;
 	align_y = vid_height - 27;
 	pos2 = pos + align;
@@ -123,7 +123,7 @@ void(vector pos, string pic, float alph, float escala, vector coloracion, vector
 	}
 };
 
-void(vector pos, string pic, float alph, float escala, vector coloracion, vector siz, float fflag) DImage2 = { local vector align, pos2;float ry, r2;
+void(vector pos, string pic, float alph, float escala, vector coloracion, vector siz, float fflag) DImage2 = { vector align, pos2;float ry, r2;
 	align_x = 240;
 	align_y = vid_height - 27;
 	pos2 = pos + align;
@@ -140,7 +140,7 @@ void(vector pos, string pic, float alph, float escala, vector coloracion, vector
 
 vector(vector vctr) nofixed_vector = { return (vctr);
 };
-vector(vector vctr) fixed_vector_siz = { local vector vectr;
+vector(vector vctr) fixed_vector_siz = { vector vectr;
 	vectr_x = vctr_x * vx_rel;
 	vectr_y = vctr_y * vx_rel;
 
@@ -191,7 +191,7 @@ float check_mouse(vector pos, float sizebuttonfactor)
 	vector mouse_pos;
 	mouse_pos = getpointerpos();	//;
 
-	local vector mins, max;
+	vector mins, max;
 
 	if (sizebuttonfactor == 0)
 		mins = pos - fixed_vector('0 18 0');
@@ -239,7 +239,7 @@ void(vector pos, string pic, float alph, vector coloracion, vector siz, float in
 		return;
 	}
 
-	local vector pos2;
+	vector pos2;
 	pos2 = fixed_vector(pos);
 
 	if (index < 200)
@@ -328,7 +328,7 @@ void(vector pos, string pic, float alph, vector coloracion, vector siz, float in
 
 	if (journal_chapter == 2)
 	{
-		//	if(journal_page_armory== 1)
+		//	if (journal_page_armory== 1)
 		//		drawstring('0 0 0', strcat (ftos(journal_page_armory), "   ",ftos(journal_chapter)), '12 12 0' ,'1 1 1', 1, 0);
 
 
@@ -345,7 +345,7 @@ void(vector pos, string pic, float alph, vector coloracion, vector siz, float in
 
 	if (journal_chapter == 3)
 	{
-		//if(journal_page_bestiary== 1)
+		//if (journal_page_bestiary== 1)
 		//drawstring('0 0 0', strcat (ftos(journal_page_bestiary), "   ",ftos(index)), '12 12 0' ,'1 1 1', 1, 0);
 		if ((journal_page_bestiary >= 1) && (journal_page_bestiary <= 10))
 		{
@@ -362,7 +362,7 @@ void(vector pos, string pic, float alph, vector coloracion, vector siz, float in
 	drawpic(pos2, pic, siz, coloracion, alph, 0);
 };
 
-void(vector pos, string str, float alph, float escala, vector coloracion, vector siz) DString = { local vector align, pos2;float ry, r2;
+void(vector pos, string str, float alph, float escala, vector coloracion, vector siz) DString = { vector align, pos2;float ry, r2;
 	align_x = 240;
 	align_y = vid_height - 27;
 	pos2 = pos + align;
@@ -501,7 +501,7 @@ void(vector pos, string str, float alph, float escala, vector coloracion, vector
 		drawstring(pos, str, siz, coloracion, alph, 0);
 };
 
-void(string pic, vector pos1, vector pos2, vector pos3, vector pos4, float alph, vector coloracion, vector sizeimg, vector pol_offset) DPolygon = { local vector aliggn;
+void(string pic, vector pos1, vector pos2, vector pos3, vector pos4, float alph, vector coloracion, vector sizeimg, vector pol_offset) DPolygon = { vector aliggn;
 	DImage('-150 -25 0', "gfx/hud/artifact_ring", 0, 0, '1 1 1', '50 50 0');
 	//aliggn_x = (vid_width - (vid_width /2))/2;
 	aliggn_x = 240;
@@ -561,7 +561,7 @@ void( vector pos, string pic, vector imgsize, vector slotsize, float slotnumber,
 	coordinates_x = slotnumber % slotammount_x;
 	coordinates_y =(slotnumber - coordinates_x) / slotammount_x;
 
-	if(coordinates_y <0)
+	if (coordinates_y <0)
 		coordinates_y = 0;
 
 

@@ -35,7 +35,7 @@ void() widow_stand1 =[$idle1, widow_stand2]
 {
 	ai_stand();
 	loop_widow_soundoff();
-	local float r;
+	float r;
 	r = random() *15;
 	if ((r < 1) && (!(self.spawnflags &1)))
 		msound(self, CHAN_VOICE, "enemies/widow/idle.ogg", 1, 0.5);
@@ -123,7 +123,7 @@ void() widow_jump = { if ((vlen(self.velocity) < 30) && (self.flags &FL_ONGROUND
 	}
 };
 
-void() widow_atk = { local float r;
+void() widow_atk = { float r;
 	r = random();
 	if (r < 0.5)
 		self.think = widow_atk1;
@@ -149,10 +149,10 @@ void() loop_widow_soundoff = { msound(self, CHAN_VOICE, "enemies/widow/run.ogg",
 void() widow_checkbrekeable = 
 { 
 
-	if((self.enemy.wrathflags & FL_BREAKABLE))
+	if ((self.enemy.wrathflags & FL_BREAKABLE))
 	return;
 
-	local entity head;
+	entity head;
 	{
 		head = findradius(rorigin(self), 48);
 		while (head)
@@ -163,7 +163,7 @@ void() widow_checkbrekeable =
 				{
 					if (head != self)
 					{
-						if(self.enemy)
+						if (self.enemy)
 							self.oldenemy2 = self.enemy;
 						self.enemy = head;
 					}
@@ -178,7 +178,7 @@ void() widow_checkbrekeable =
 
 void() widow_subattack = 
 { 
-	local entity head;
+	entity head;
 	{
 		head = findradius(rorigin(self), 72);
 		while (head)
@@ -211,7 +211,7 @@ vector() widow_check_dest =
 	{
 		tempvec = self.origin + (v_right * (attemps - 12) * 165); 
 
-		if((visibleb(tempvec, self.enemy.origin,self)) && (visibleb(tempvec,self.origin,self)))
+		if ((visibleb(tempvec, self.enemy.origin,self)) && (visibleb(tempvec,self.origin,self)))
 		{	
 			ddest1 = tempvec;
 			attemps = 0;
@@ -227,7 +227,7 @@ vector() widow_check_dest =
 
 	float idealtime = time + ((vlen(self.origin - ddest1) / 320) / 20);
 
-	if(ddest1 != '0 0 0')
+	if (ddest1 != '0 0 0')
 	{
 		vector sor = normalize (ddest1 - self.origin) * 128;
 		sor_z += 128;
@@ -356,8 +356,8 @@ void() widow_run12 =[$run6, widow_run1]
 };
 /////////////////////////////////////////////////////////////////////////////////////////////
 void() widow_atkb1;
-void(float wdmg) widow_attack = { local vector delta;
-	local float dist;
+void(float wdmg) widow_attack = { vector delta;
+	float dist;
 	if (!self.enemy)
 		return;	// removed before stroke
 	delta = self.enemy.origin - self.origin;
@@ -376,7 +376,7 @@ void(float wdmg) widow_attack = { local vector delta;
 	}
 	else
 	{
-		if(trace_ent == self.enemy)
+		if (trace_ent == self.enemy)
 		{
 			wdmg = widowdamage;
 			chattersound("enemies/widow/hit_", 4, 1);
@@ -536,7 +536,7 @@ void() widow_painc10 =[$painc10, widow_run1]
 };
 
 void() widow_painr = { loop_widow_soundoff();
-	local float r;
+	float r;
 	r = random();
 	chattersound("enemies/widow/pain", 3, 1);
 	if (r < 0.6)
@@ -556,7 +556,7 @@ void(entity attacker, float damage) widow_pain = { if (self.pain_finished > time
 	self.sustained_damage = 0;
 	self.movetype = MOVETYPE_STEP;
 
-	local float pp, rp;
+	float pp, rp;
 	if (damage >= widph)
 	{
 		pp = hpdmg;
@@ -571,7 +571,7 @@ void(entity attacker, float damage) widow_pain = { if (self.pain_finished > time
 	{
 		pp = lpdmg;
 	}
-	if(self.enemy.weapon != IT_CRYSTAL)
+	if (self.enemy.weapon != IT_CRYSTAL)
 	{
 	rp = random();
 	if (rp > pp)
@@ -665,9 +665,9 @@ void() widow_die = { loop_widow_soundoff();
 	self.movetype = MOVETYPE_TOSS;
 	if ((self.health < widod) || (self.gibbable))
 	{
-		local vector tagorg;
-		local float tagindex;
-		local string tagname;
+		vector tagorg;
+		float tagindex;
+		string tagname;
 		tagname = ("tag_arm_r_a");
 		tagindex = gettagindex(self, tagname);
 		tagorg = gettaginfo(self, tagindex);
@@ -712,7 +712,7 @@ void() widow_die = { loop_widow_soundoff();
 		return;
 	}
 
-	local float r;
+	float r;
 	r = random();
 	chattersound("enemies/widow/die", 3, 1);
 	if (r < 0.6)
@@ -731,7 +731,9 @@ void() widow_die = { loop_widow_soundoff();
 
 /*WRATHED monster_widow (1 0 0) (-16 -16 -24) (16 16 40) Ambush*/
 .vector bbvv;
-void() precache_monster_widow = { precache_sound("enemies/widow/attack1.ogg");
+void() precache_monster_widow = 
+{ 
+	precache_sound("enemies/widow/attack1.ogg");
 	precache_sound("enemies/widow/attack2.ogg");
 	precache_sound("enemies/widow/attack3.ogg");
 	precache_sound("enemies/widow/die1.ogg");
@@ -766,46 +768,17 @@ void() precache_monster_widow = { precache_sound("enemies/widow/attack1.ogg");
 	precache_model("models/enemies/widow/gibs/gib_leg_l_a.md3");
 	precache_model("models/enemies/widow/gibs/gib_leg_l_b.md3");
 };
-void() monster_widow = { precache_sound("enemies/widow/attack1.ogg");
-	precache_sound("enemies/widow/attack2.ogg");
-	precache_sound("enemies/widow/attack3.ogg");
-	precache_sound("enemies/widow/die1.ogg");
-	precache_sound("enemies/widow/die2.ogg");
-	precache_sound("enemies/widow/die3.ogg");
-	precache_sound("enemies/widow/hit_1.ogg");
-	precache_sound("enemies/widow/hit_2.ogg");
-	precache_sound("enemies/widow/hit_3.ogg");
-	precache_sound("enemies/widow/hit_4.ogg");
-	precache_sound("enemies/widow/idle.ogg");
-	precache_sound("enemies/widow/miss1.ogg");
-	precache_sound("enemies/widow/miss2.ogg");
-	precache_sound("enemies/widow/miss3.ogg");
-	precache_sound("enemies/widow/pain1.ogg");
-	precache_sound("enemies/widow/pain2.ogg");
-	precache_sound("enemies/widow/pain3.ogg");
-	precache_sound("enemies/widow/run.ogg");
-	precache_sound("enemies/widow/sight1.ogg");
-	precache_sound("enemies/widow/sight2.ogg");
-	precache_sound("enemies/widow/sight3.ogg");
-	precache_sound("enemies/widow/step1.ogg");
-	precache_sound("enemies/widow/step2.ogg");
-	precache_sound("enemies/widow/step3.ogg");
-	precache_model("models/enemies/widow/widow.md3");
-	precache_model("models/enemies/widow/gibs/gib_arm_r_a.md3");
-	precache_model("models/enemies/widow/gibs/gib_arm_r_b.md3");
-	precache_model("models/enemies/widow/gibs/gib_arm_l_a.md3");
-	precache_model("models/enemies/widow/gibs/gib_arm_l_b.md3");
-	precache_model("models/enemies/widow/gibs/gib_head.md3");
-	precache_model("models/enemies/widow/gibs/gib_leg_r_a.md3");
-	precache_model("models/enemies/widow/gibs/gib_leg_r_b.md3");
-	precache_model("models/enemies/widow/gibs/gib_leg_l_a.md3");
-	precache_model("models/enemies/widow/gibs/gib_leg_l_b.md3");
 
-	if (deathmatch)
+void() monster_widow = 
+{ 
+	if ((cvar("deathmatch")))
 	{
 		remove(self);
 		return;
 	}
+
+	precache_monster_widow();
+
 	self.onlymelee =  1;
 
 	self.solid = SOLID_SLIDEBOX;
@@ -814,7 +787,7 @@ void() monster_widow = { precache_sound("enemies/widow/attack1.ogg");
 	self.bbvv = widowbbox;
 	setsize(self, widownbbox, widowbbox);
 	self.exec_push = 8;
-	local float r;
+	float r;
 	r = (random() *3);
 	if (r < 3)
 		self.noise = "enemies/widow/sight3.ogg";	

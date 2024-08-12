@@ -160,10 +160,10 @@ enum ST_STATS:float
 	STAT_LIST
 	MAX
 };
-
+/*
 #undef _STAT_ID
 #define _STAT_ID(st, type, callback) { st, #st, type, 0, 0, __NULL__ }, // SSQC doesn't get callbacks... fixme ?
 var steamstat_t steam_statlist[] = {
 	STAT_LIST
 };
-
+*/

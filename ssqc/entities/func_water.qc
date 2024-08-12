@@ -17,19 +17,19 @@ void() CheckFuncWaterDeath = {};
 void() func_water_use = 
 { 
 
-	if(self.height_water1)
+	if (self.height_water1)
 	{
-		if((self.height_water3)&& (self.height_water == 2))
+		if ((self.height_water3)&& (self.height_water == 2))
 		{
 			SUB_CalcMove(self.pos5, self.speed, SUB_Null);
 			self.height_water = 3;
 		}
-		if((self.height_water2)&& (self.height_water == 1))
+		if ((self.height_water2)&& (self.height_water == 1))
 		{
 			SUB_CalcMove(self.pos4, self.speed, SUB_Null);
 			self.height_water = 2;
 		}
-		if((!self.height_water))
+		if ((!self.height_water))
 		{
 			SUB_CalcMove(self.pos3, self.speed, SUB_Null);
 			self.height_water = 1;
@@ -58,14 +58,14 @@ void() func_water_use =
 float burning_gibs;
 void() firespawner_think =
 {
-	if(self.owner.colormod_x > 0.2)
+	if (self.owner.colormod_x > 0.2)
 	{
 		self.owner.colormod_x -= 0.02;
 		self.owner.colormod_y -= 0.02;
 		self.owner.colormod_z -= 0.02;
 	} 
 
-	if(!(self.originoffset))
+	if (!(self.originoffset))
 		self.originoffset = self.origin;
 	self.owner.velocity_x = self.owner.velocity_x * 0.9;
 	self.owner.velocity_y = self.owner.velocity_y * 0.9;
@@ -79,13 +79,13 @@ void() firespawner_think =
 	vector offsetorg =  self.owner.origin;
 
 
-	if(self.owner.origin_z > self.pool.absmax_z) 
+	if (self.owner.origin_z > self.pool.absmax_z) 
 		offsetorg_z = self.pool.absmax_z;
 
-	if(self.owner.origin_z < self.pool.absmin_z)
+	if (self.owner.origin_z < self.pool.absmin_z)
 		offsetorg_z = self.pool.absmax_z;
 			
-	if(self.owner.health <= 0)
+	if (self.owner.health <= 0)
 		self.angles = '0 0 0';
 
 
@@ -96,9 +96,9 @@ void() firespawner_think =
 
 
 
-	if((self.owner.burnable == 2) && (random() < 0.1))
+	if ((self.owner.burnable == 2) && (random() < 0.1))
 		pointparticles(particleeffectnum("lava_splash"), self.origin + randomvector(self.owner.mins,self.owner.maxs), '0 0 0', 1);
-	if(self.lifetime < time)
+	if (self.lifetime < time)
 	{	
 		sound7 (self, CHAN_VOICE, "misc/null.wav", 0, 0.5,random(110,150),0);
 		self.think = SUB_Remove;
@@ -114,17 +114,17 @@ void() fireentity_think =
 {
 	//remove(self);
 
-	if(!(self.originoffset))
+	if (!(self.originoffset))
 		self.originoffset = self.origin;
 	vector offsetorg =  self.owner.origin;
 
-	if(self.owner.origin_z > self.pool.absmax_z) 
+	if (self.owner.origin_z > self.pool.absmax_z) 
 		offsetorg_z = self.pool.absmax_z;
 
-	if(self.owner.origin_z < self.pool.absmin_z)
+	if (self.owner.origin_z < self.pool.absmin_z)
 		offsetorg_z = self.pool.absmax_z;
 			
-	if(self.owner.health <= 0)
+	if (self.owner.health <= 0)
 		self.angles = '0 0 0';
 
 	self.originoffset = offsetorg + self.angles;
@@ -132,7 +132,7 @@ void() fireentity_think =
 	if (boxesoverlap(self.pool.absmin, self.pool.absmax, self.originoffset, self.originoffset))
 		setorigin (self,self.originoffset);
 
-	if(self.lifetime < time)
+	if (self.lifetime < time)
 	{	
 		sound7 (self, CHAN_VOICE, "misc/null.wav", 0, 0.5,100,0);
 		self.think = SUB_Remove;
@@ -145,16 +145,16 @@ void() fireentity_think =
 
 void() watersplash_spawn =
 {
-	if(self.count != 1)
+	if (self.count != 1)
 		self.alpha += 0.1; 		
 	else
 		self.alpha -= 0.05; 		
 
 	self.scale += 0.35; 
-	if(self.alpha >= 1.25)
+	if (self.alpha >= 1.25)
 		self.count = 1;
 
-	if(self.alpha <= 0)
+	if (self.alpha <= 0)
 	{
 		self.alpha = -1;
 		self.think = SUB_Remove;
@@ -165,19 +165,20 @@ void() watersplash_spawn =
 };
 
 
-void() liquid_touch = { local float test;
-	local float c;
+void() liquid_touch = 
+{ 
+	float test, c, fdist;
 
-	if((other.classname == "dripper")&&(other.deep != 1))
+	if ((other.classname == "dripper")&&(other.deep != 1))
 	{
 		other.velocity = '0 0 0';
 		vector vorg = other.origin;
 		vorg_z = self.absmax_z + 2;
 
 
-		float fdist = vlen(vorg - other.origin);
+		fdist = vlen(vorg - other.origin);
 
-		//if(fdist < 12)
+		//if (fdist < 12)
 		if ((self.fakewatertype == CONTENT_WATER)||(self.fakewatertype == CONTENT_SLIME))
 		pointparticles(particleeffectnum("water_splash2"), vorg, '0 0 0', 1);
 		if ((self.fakewatertype == CONTENT_BLOOD))
@@ -189,70 +190,73 @@ void() liquid_touch = { local float test;
 		other.nextthink = time + 0.05;
         return;
 	}
+	
+	entity firespawner;
 
-	if((other.wrathflags & FL_PROJECTILE) && (other.origin_z < other.owner.origin_z) && (other.owner.waterlevel < 1.5))
+	if ((other.wrathflags & FL_PROJECTILE) && (other.origin_z < other.owner.origin_z) && (other.owner.waterlevel < 1.5))
 	{
-
-
-		if((other.deep != 1) && (other.origin_z <= self.absmax_z))
+		if ((other.deep != 1) && (other.origin_z <= self.absmax_z))
 		{
 			vorg = other.origin;
 			vorg_z = self.absmax_z - 2;
-			if((self.fakewatertype == CONTENT_WATER)||(self.fakewatertype == CONTENT_SLIME))
+
+			if ((self.fakewatertype == CONTENT_WATER)||(self.fakewatertype == CONTENT_SLIME))
 				pointparticles(particleeffectnum("water_splash2"), vorg, '0 0 0', 1);
-			float fdist = vlen(vorg - other.origin);
+
+			fdist = vlen(vorg - other.origin);
 
 			if ((self.fakewatertype == CONTENT_BLOOD))
 				pointparticles(particleeffectnum("NORMAL_BLOOD"),vorg, '0 0 0', 1);
+
 			if ((self.fakewatertype == CONTENT_LAVA) &&(fdist < 8))
 				pointparticles(particleeffectnum("lava_splash_small"), vorg, '0 0 0', 1);
 
-
-
 			other.deep = 1;
+
 			vector dir = normalize (other.velocity);
-			if((other.classname == "ore") || (other.classname == "ore2"))
+
+			if ((other.classname == "ore") || (other.classname == "ore2"))
 			{
 				float partcount;
-				if(other.classname == "ore")
+				if (other.classname == "ore")
 					partcount = 1;
 				else
 					partcount = 2;
 
-				if((self.fakewatertype == CONTENT_WATER)||(self.fakewatertype == CONTENT_SLIME))
+				if ((self.fakewatertype == CONTENT_WATER)||(self.fakewatertype == CONTENT_SLIME))
 				{
 					pointparticles(particleeffectnum("water_splash3"), vorg, '0 0 0', partcount);
 					pointparticles(particleeffectnum("water_steam"), vorg + (dir * 32), '0 0 0', partcount);
 				}
-		float fdist = vlen(vorg - other.origin);
+				
+				fdist = vlen(vorg - other.origin);
 
 				if ((self.fakewatertype == CONTENT_BLOOD))
-				pointparticles(particleeffectnum("NORMAL_BLOOD"),vorg, '0 0 0', 3);
+					pointparticles(particleeffectnum("NORMAL_BLOOD"),vorg, '0 0 0', 3);
+				
 				if ((self.fakewatertype == CONTENT_LAVA) &&(fdist < 8))
 					pointparticles(particleeffectnum("lava_splash_small"), vorg, '0 0 0', 2);
 
-
-				if(partcount == 2)
+				if (partcount == 2)
 					sound7 (other, CHAN_AUTO, "weapons/cannon/splash.ogg", 1, 0.25,100,0);
 				else				
 					sound7 (other, CHAN_AUTO, "weapons/cannon/splash.ogg", 0.75, 0.25,125,0);
 			}
-
 		}
 	}
 
-	if((other.flags & FL_MONSTER) && (other.wrathflags & FL_SWIMMER))
+	if ((other.flags & FL_MONSTER) && (other.wrathflags & FL_SWIMMER))
 	{
-		if(other.pool != self)
+		if (other.pool != self)
 			other.pool = self;
 	}
-	if((other.burnable == 1) && (self.fakewatertype == CONTENT_LAVA))
+	if ((other.burnable == 1) && (self.fakewatertype == CONTENT_LAVA))
 	{
 		other.modelflags = 0;
 		other.traileffectnum = particleeffectnum("null");
 		vector rcap;
 		rcap_z =random(other.mins_z, 0); 
-		entity firespawner = spawn();
+		firespawner = spawn();
 		firespawner.classname = "firespawnera";
 		setmodel(firespawner,"");
 		setorigin (firespawner,other.origin + rcap);
@@ -264,7 +268,7 @@ void() liquid_touch = { local float test;
 		firespawner.oldtargetname = other.classname;
 		other.colormod = '1 1 1';
 		other.nextthink = firespawner.lifetime;
-		if(other.lavatime < time)
+		if (other.lavatime < time)
 			firespawner.nextthink = time;
 		else
 			firespawner.nextthink = time + random();
@@ -274,20 +278,23 @@ void() liquid_touch = { local float test;
 		firespawner.think = firespawner_think;
 		return;
 	}
-if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == CONTENT_SLIME) &&(other.acidtouch < time)&& (other.classname !=  "monster_afflicted")&& (other.classname !=  "monster_stricken"))
+	
+	float r;
+
+	if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == CONTENT_SLIME) &&(other.acidtouch < time)&& (other.classname !=  "monster_afflicted")&& (other.classname !=  "monster_stricken"))
 	{
 		other.fakewatertype = self.fakewatertype;
 		other.fwatershifttime = time + 0.1;
 		other.forcepain = time + 0.25;
 
-		if(other.classname == "monster_symbol")
+		if (other.classname == "monster_symbol")
 		{
 			symbolrmovement(2,other);
 		}
 		else
 			T_Damage(other, world, world, 100);
-		float r = random();
-		if(r < 0.7)
+		r = random();
+		if (r < 0.7)
 			pointparticles(particleeffectnum("acid_splash2"), other.origin - '0 0 12', '0 0 0', 1);
 		sound7 (other, CHAN_AUTO, "weapons/cannon/splash.ogg", random(0.25,0.35), 1,random(120,120),0);
 		pointparticles(particleeffectnum("acid_splash"), other.origin + randomvector('-16 -16 -16','16 16 16'), '0 0 0', 1);
@@ -302,7 +309,7 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 		//		
 
 		other.forcepain = time + 0.25;
-		if(other.classname == "monster_symbol")
+		if (other.classname == "monster_symbol")
 		{
 			symbolrmovement(2,other);	
 		}
@@ -311,16 +318,16 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 
 		pointparticles(particleeffectnum("lava_splash"), other.origin + randomvector('-16 -16 -16','16 16 16'), '0 0 0', 1);
 
-		float r = random();
+		r = random();
 		rcap_z =12 + random(other.maxs_z * 0.7, other.maxs_z); 
-		if((r < 0.7) && (other.liquidtouch_timing < time))
+		if ((r < 0.7) && (other.liquidtouch_timing < time))
 		{
-			entity firespawner = spawn();
+			firespawner = spawn();
 			firespawner.classname = "firespawnerb";
 			setmodel(firespawner,"");
 			firespawner.angles = rcap;
 			setorigin (firespawner,other.origin + randomvector('-12 -12 -12','12 12 12') + rcap);
-			if(other.lavatime < time)
+			if (other.lavatime < time)
 				firespawner.effects = EF_FLAME;
 			else	
 				firespawner.effects = EF_STARDUST;
@@ -330,7 +337,7 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 			firespawner.pool = self;
 			firespawner.oldtargetname = other.classname;
 
-			if(other.lavatime < time)
+			if (other.lavatime < time)
 				firespawner.nextthink = time;
 			else
 				firespawner.nextthink = time + random();
@@ -342,10 +349,10 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 		}
 
 		other.liquidtouch_timing = time + random(0.1,0.3);
-		if(time > other.firetime)
+		if (time > other.firetime)
 		{
 			
-			entity firespawner = spawn();
+			firespawner = spawn();
 			firespawner.classname = "fireentity";
 			setmodel(firespawner,"");
 			setorigin (firespawner,other.origin + rcap);
@@ -363,30 +370,30 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 		}
 
 	}
-	if((other.flags & FL_MONSTER)|| (self.classentity == "waterchecker") || (self.classentity == "corpse"))
+	if ((other.flags & FL_MONSTER)|| (self.classentity == "waterchecker") || (self.classentity == "corpse"))
 	{
 		test = other.origin_z - other.maxs_z;
-		if(test <= self.absmax_z)
+		if (test <= self.absmax_z)
 		other.funcwaterlevel = 1;
 
 		test = other.origin_z + other.maxs_z;
-		if(test <= self.absmax_z)
+		if (test <= self.absmax_z)
 		other.funcwaterlevel = 2;
 
 		test = other.origin_z + other.maxs_z + 8;	
-		if(test <= self.absmax_z)
+		if (test <= self.absmax_z)
 		other.funcwaterlevel = 3;
 
 		other.liquidtouch_timing = time + 0.5;
 		return;
 	}
-	if((other.classname != "player"))
+	if ((other.classname != "player"))
 	{
-		if(((other.wrathflags & FL_GIB) || (other.wrathflags & FL_SPLASH)) )
+		if (((other.wrathflags & FL_GIB) || (other.wrathflags & FL_SPLASH)) )
 		{
 
-			if(other.classname == "func_door")
-			//if(!(other.gibsize))
+			if (other.classname == "func_door")
+			//if (!(other.gibsize))
 			{
 				vector realsize;
 				realsize_x = other.absmax_x - other.absmin_x; 
@@ -397,11 +404,11 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 			}
 
 		    other.time_toalpha = 0;
-		    if((other.velocity_z != -5)&&(other.classname != "watergib") && (self.fakewatertype != CONTENT_LAVA)) 
+		    if ((other.velocity_z != -5)&&(other.classname != "watergib") && (self.fakewatertype != CONTENT_LAVA)) 
 		    {
 		        other.velocity_y = other.velocity_y * 0.25;
 		        other.velocity_x = other.velocity_x * 0.25;
-				if(other.nofloating >= 1)
+				if (other.nofloating >= 1)
 				    other.velocity_z = other.velocity_z * random(0.95,0.99);
 				else
 				    other.velocity_z = 0;
@@ -411,25 +418,25 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 
 		    other.liquidtouch_timing = time + 0.1;
 		    other.glowmod = '0 0 0';
-			if((other.deep != 1))
+			if ((other.deep != 1))
 			{
-				float r = random();
+				r = random();
 				vorg = other.origin;
-				if(other.classname == "func_door")
+				if (other.classname == "func_door")
 				vorg = (self.absmin + self.absmax) / 2;
 				vorg_z = self.absmax_z + 2;
 				float size_splash;
-				if(other.gibsize >= 512)
+				if (other.gibsize >= 512)
 					size_splash = 4;
-				if(other.gibsize < 512)
+				if (other.gibsize < 512)
 					size_splash = 3;
-				if(other.gibsize < 256)
+				if (other.gibsize < 256)
 					size_splash = 2;
-				if(other.gibsize < 128)
+				if (other.gibsize < 128)
 					size_splash = 1;
-				if((self.fakewatertype == CONTENT_SLIME) && (other.acidtouch < time))
+				if ((self.fakewatertype == CONTENT_SLIME) && (other.acidtouch < time))
 				{
-					if(!(other.wrathflags & FL_ACIDSPLASH))
+					if (!(other.wrathflags & FL_ACIDSPLASH))
 					{
 						other.wrathflags += FL_ACIDSPLASH;
 						other.think = alphafade;
@@ -442,17 +449,17 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 					other.acidtouch = time + random(0.5,0.75);
 					sound7 (other, CHAN_AUTO, "weapons/cannon/splash.ogg", random(0.85,1), 1,random(90,120),0);
 				}
-                if((self.fakewatertype == CONTENT_SLIME)|| (self.fakewatertype == CONTENT_WATER)  )
+                if ((self.fakewatertype == CONTENT_SLIME)|| (self.fakewatertype == CONTENT_WATER)  )
 				{
 					if (self.gibpush < time)
 					{
-						if(size_splash == 1)
+						if (size_splash == 1)
 							pointparticles(particleeffectnum("water_splash2"), vorg, '0 0 0', 1);
-						if(size_splash == 2)
+						if (size_splash == 2)
 							pointparticles(particleeffectnum("water_splash4"), vorg, '0 0 0', 1);
-						if(size_splash == 3)
+						if (size_splash == 3)
 							pointparticles(particleeffectnum("water_splash5"), vorg, '0 0 0', 1);
-						if(size_splash == 4)
+						if (size_splash == 4)
 						{
 							pointparticles(particleeffectnum("water_splash6"), vorg, '0 0 0', 1);
 							entity watersplash = spawn();
@@ -470,7 +477,7 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 						traileffectspawner.solid = SOLID_NOT;
 						
 						traileffectspawner.traileffectnum = particleeffectnum("bubbletrail");
-						if(size_splash >= 3)
+						if (size_splash >= 3)
 							traileffectspawner.traileffectnum = particleeffectnum("bubbletrail2");
 						traileffectspawner.effects = EF_FULLBRIGHT;
 						traileffectspawner.aiment = other; 
@@ -478,26 +485,26 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 						traileffectspawner.nextthink = time + random(2,5);
 
 						float spitch;
-						if(size_splash == 1)
+						if (size_splash == 1)
 		                {
 							spitch = random (1.05,1.25) * 100;
 							sound7 (other, CHAN_AUTO, "env/liquids/water_splash1.ogg", 0.4,0.75,spitch,0);
 							sound7 (other, CHAN_AUTO, "weapons/cannon/splash.ogg", 0.3, 0.75,spitch + 20,0);
 		                }
 
-						if(size_splash == 2)
+						if (size_splash == 2)
 		                {
 							spitch = random (0.95,1.05) * 100;
 							sound7 (other, CHAN_AUTO, "env/liquids/water_splash2.ogg", 0.5, 0.5,spitch,0);
 							sound7 (other, CHAN_AUTO, "weapons/cannon/splash.ogg", 0.4, 0.5,spitch,0);
 		                }
-						if(size_splash == 3)
+						if (size_splash == 3)
 		                {
 							spitch = random (0.85,0.95) * 100;
 							sound7 (other, CHAN_AUTO, "env/liquids/water_splash3.ogg",0.7, 0.35,spitch,0);
 							sound7 (other, CHAN_AUTO, "weapons/cannon/splash.ogg", 0.6,0.35,spitch - 10,0);
 		                }
-						if(size_splash >= 4)
+						if (size_splash >= 4)
 		                {
 							spitch = random (0.75,0.85) * 100;
 							sound7 (other, CHAN_AUTO, "env/liquids/water_splash3.ogg", 0.75, 0.25,spitch,0);
@@ -508,13 +515,13 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 					else
 						pointparticles(particleeffectnum("water_splash2"), vorg, '0 0 0', 1);
 				}
-                if((self.fakewatertype == CONTENT_LAVA) )
+                if ((self.fakewatertype == CONTENT_LAVA) )
                 {
-					if(burning_gibs < 32)
+					if (burning_gibs < 32)
 					{
 						other.touch = SUB_Null;
 
-						if(other.lavatime < time)
+						if (other.lavatime < time)
 						{
 				            other.velocity_z = random(-7,-3);
 				            other.velocity_y = other.velocity_y * 0.125;
@@ -530,20 +537,20 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 							other.gravity = 0.35;
 						}
 
-						if(r < 0.7)
+						if (r < 0.7)
 							pointparticles(particleeffectnum("lava_splash"), vorg, '0 0 0', 1);
 						firespawner = spawn();
 						other.modelflags = 0;
 						other.traileffectnum = particleeffectnum("null");
 
 						vector offsetorg = other.origin;
-						if(other.origin_z + 8 > self.absmax_z)
+						if (other.origin_z + 8 > self.absmax_z)
 						offsetorg_z = self.absmax_z;
 			
 						firespawner.classname = "firespawnerc";
 						setmodel(firespawner,"");
 						setorigin (firespawner,offsetorg);
-						if(other.lavatime < time)
+						if (other.lavatime < time)
 							firespawner.effects = EF_FLAME;
 						else	
 							firespawner.effects = EF_STARDUST;
@@ -556,12 +563,12 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 						firespawner.oldtargetname = other.classname;
 						other.think = alphafade;
 						firespawner.think = firespawner_think;
-						if(other.lavatime < time)
+						if (other.lavatime < time)
 							firespawner.nextthink = time;
 						else
 							firespawner.nextthink = time + random();
 
-						if(r < 0.5)
+						if (r < 0.5)
 						{
 							sound7 (firespawner, CHAN_VOICE, "fx/fire1.ogg", 0.75, 0.5,random(100,125),0);
 							sound7 (firespawner, CHAN_AUTO, "env/liquids/lava_splash.ogg", 0.35, 0.5,random(50,100),0);
@@ -577,7 +584,7 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 
 
 
-		if(time < other.liquidtouch_timing )	
+		if (time < other.liquidtouch_timing )	
 			return;
 			
 		if (other.classname == "decal")
@@ -591,7 +598,7 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 		if (!(other.flags &FL_CLIENT))
 			return;
 	}	
-	if((other.classname == "player"))
+	if ((other.classname == "player"))
 	{
 		other.extradmg = self.extradmg;
 		other.watertype_time = time + 0.05;
@@ -644,7 +651,7 @@ if ((other.flags & FL_MONSTER) && (other.health > 0) && (self.fakewatertype == C
 void(vector org, string noise, float vol, float attn) ambientsound2 =
 {
 
-/*local entity sor;
+/*entity sor;
 sor = spawn();
 setmodel (sor, "erwr");
 sor. origin = org;*/
@@ -696,7 +703,7 @@ void() func_water =
 	precache_sound("env/liquids/water_splash2.ogg");
 	precache_sound("env/liquids/water_splash3.ogg");
 
-	if(!self.watertype)	
+	if (!self.watertype)	
 		self.watertype = -3;
 	
 	self.clipgroup = 2;
@@ -732,17 +739,17 @@ void() func_water =
 	}
 
 
-	if(self.fakewatertype == CONTENT_WATER)
+	if (self.fakewatertype == CONTENT_WATER)
 	{
-		if(self.cshift == "64 0 0 128") 
+		if (self.cshift == "64 0 0 128") 
 		 self.fakewatertype = CONTENT_BLOOD;
-		if(self.cshift == "40 8 0 200") 
+		if (self.cshift == "40 8 0 200") 
 		 self.fakewatertype = CONTENT_BLOOD;
-		if(self.cshift == "40 0 0 200") 
+		if (self.cshift == "40 0 0 200") 
 		 self.fakewatertype = CONTENT_BLOOD;
-		//if(self.cshift == "130 80 50 128") 
+		//if (self.cshift == "130 80 50 128") 
 		 ///self.fakewatertype = CONTENT_BLOOD;
-		if(self.cshift == "255 80 0 150") 
+		if (self.cshift == "255 80 0 150") 
 		self.fakewatertype = CONTENT_BLOOD;
 	}
 	if (self.targetname)
@@ -764,11 +771,11 @@ void() func_water =
 		self.water_movflag = 1;
 	}
 
-	if(self.height_water1)
+	if (self.height_water1)
 		self.pos3 = self.pos1 + self.movedir *(self.height_water1);
-	if(self.height_water2)
+	if (self.height_water2)
 		self.pos4 = self.pos1 + self.movedir *(self.height_water2);
-	if(self.height_water3)
+	if (self.height_water3)
 		self.pos5 = self.pos1 + self.movedir *(self.height_water3);
 	self.use = func_water_use;
 

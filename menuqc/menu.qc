@@ -29,8 +29,8 @@ void()menu_type_options_controlbinds;
 void()menu_type_confirmresettodefaults;
 void() check_vectorcolors =
 {
-//	local float readparms, localmenuversion;
-// 	local string readtext;
+//	float readparms, localmenuversion;
+// 	string readtext;
 // 	readparms = fopen_wrath("colordata.txt", FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
 // 	readtext = fgets(readparms);	//read the text
 //	vectorred = stov(readtext);	//turn the text into the float u want (by using stof: string to float)
@@ -2715,12 +2715,12 @@ void MenuInit_Options_Video(void)
 		float displacement_effect = cvar("cvar_otherdimension");
 		if (!val)
 		{
-			if(displacement_effect != 1)
+			if (displacement_effect != 1)
 				cmd("r_glsl_postprocess_color_lut gfx/lookup_default.png \n");
 		}
 		else
 		{
-			if(displacement_effect != 1)
+			if (displacement_effect != 1)
 				cmd("r_glsl_postprocess_color_lut gfx/lookup_palettized.png\n");
 		}
 		localsound("sounds/menu.wav");
@@ -2863,7 +2863,7 @@ class resolution_t {
 			}
 		}
 
-		if(hld)
+		if (hld)
 			hld._next = this;
 	};
 };
@@ -5127,7 +5127,7 @@ void m_draw(float a, float b)
  	float deadmenu;
  	deadmenu = cvar("scratch3");
 
- 	/*	if(vid_x / vid_y == 16/9)
+ 	/*	if (vid_x / vid_y == 16/9)
  		{*/
  		vid_rx = cvar("vid_width");
  		vid_ry = cvar("vid_height");
@@ -5159,25 +5159,25 @@ void m_draw(float a, float b)
 		}
 		/*	}
 
- 		if(vid_x / vid_y == 4/3)
+ 		if (vid_x / vid_y == 4/3)
  		{
  		vx_rel = (vid_x / 960);
  		vy_rel = (vid_y / 640);
  		}
 
- 		if(vid_x / vid_y == 5/3)
+ 		if (vid_x / vid_y == 5/3)
  		{
  		vx_rel = (vid_x / 640);
  		vy_rel = (vid_y / 384);
  		}
 
- 		if(vid_x / vid_y == 5/4)
+ 		if (vid_x / vid_y == 5/4)
  		{
  		vx_rel = (vid_x / 640);
  		vy_rel = (vid_y / 512);
  		}
 
- 		if(vid_x / vid_y == 16/10)
+ 		if (vid_x / vid_y == 16/10)
  		{
  		vx_rel = (vid_x / 640);
  		vy_rel = (vid_y / 400);
@@ -5207,7 +5207,7 @@ void m_draw(float a, float b)
  	updateMouse();
 	#endif
 
- 	local float w;
+ 	float w;
  	if (Menu_Active)
  	{
  		if (getmousetarget() != MT_MENU || getkeydest() != KEY_MENU)
@@ -5284,7 +5284,7 @@ void m_draw(float a, float b)
 
 	drawpic(ui_mouseposition + '-1 -1', "gfx/cursor", [24 * ui_scale[0], 24 * ui_scale[1]], ' 1 1 1', 1, DRAWFLAG_NORMAL);
 	#else
- 	local vector size, buttions_locs;
+ 	vector size, buttions_locs;
  	size_x = vid_x;
  	size_y = vid_y;
  	buttions_locs_x = ((vid_x / 2) - 128) *vx_rel;
@@ -5294,7 +5294,7 @@ void m_draw(float a, float b)
  	{
  		// Draw the background
  		drawpic('0 0 0', "gfx/conback", size, ' 1 1 1', 1, 0);
- 		local vector txt_pos;
+ 		vector txt_pos;
  		if (menutype == M_TYPE_SKILL) {}
  		else if (menutype == M_YNQ)
  		{

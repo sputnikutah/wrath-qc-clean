@@ -20,18 +20,18 @@ void() v_bfg_idle =
 	}
 
 
-	if(self.totallungetime > time)
+	if (self.totallungetime > time)
 	self.totallungetime = 0;
 
 	self.realoding = 0;
 	self.vweaponstate = 0;
 
-	if(self.ammo_bfg < 10)
+	if (self.ammo_bfg < 10)
 		self.vweaponframe = 0;
 	else
 		self.vweaponframe = 7;
 
-	if((self.ammo_bfg >= 10) && (!(self.playerflags & FL_MACECHARGED)))
+	if ((self.ammo_bfg >= 10) && (!(self.playerflags & FL_MACECHARGED)))
 	{
 		self.think = wsfullcharge_bfg;
 		self.nextthink = time + 0.05;
@@ -56,7 +56,7 @@ void() LightningHit =
 	{
 		if ((head.takedamage)  && (visible(head)))
 		{
-			if(head != self.owner)
+			if (head != self.owner)
             {
 				sound (head, CHAN_WEAPON, "weapons/lhit.wav", 1, ATTN_NORM); // its sound
 				damage = random(1024,2048); 
@@ -73,7 +73,7 @@ void()bfg_explosion_think =
 {
     self.alpha -= 0.0065;
     self.scale += 0.1;
-    if(self.scale >= 10)
+    if (self.scale >= 10)
         self.think = SUB_Remove;
     else
         self.think = bfg_explosion_think;
@@ -83,7 +83,7 @@ void()bfg_explosion_think =
 .float max_homing_projectile;
 void() bfg_projectile_touch =
 {
-	local vector org;
+	vector org;
 	org = self.origin;
 	if (other == self.owner)
 		return;
@@ -143,17 +143,17 @@ void() bfg_projectile_touch =
 	traceline(self.origin, self.origin + v_forward *1024, MOVE_HITMODEL, self);
 	if (trace_ent != other)
 		trace_endpos = old_impact;
-    if(other.bloody == 2)
+    if (other.bloody == 2)
     {
 		makevectors2 (self.angles);
 		if ((bossvulnerable == 1))
 		{
-			if(other == trace_ent)
+			if (other == trace_ent)
 			{
 
 				float r = random(); 
 			    {
-					if(other.classname == "boss_guardian2")
+					if (other.classname == "boss_guardian2")
 						explo_blood_sprite(2, trace_endpos);
 					else
 						explo_blood_sprite(5, trace_endpos);
@@ -180,20 +180,20 @@ void() bfg_search_enemy =
 	float low = 999999;	
 	float score, maxproj;
 	
-	if(!self.enemy)
+	if (!self.enemy)
 	{
-		local entity head;
+		entity head;
 		head = findradius(self.origin, 2048);
 
 
 		while (head)
 		{
 
-		if(head.health >= 0)
+		if (head.health >= 0)
 			maxproj = 1;
-		if(head.health >= 1500)
+		if (head.health >= 1500)
 			maxproj = 2;
-		if(head.health > 3000)
+		if (head.health > 3000)
 			maxproj = 3;
 
 		if ((head.classname == "boss_guardian1") || (head.classname == "boss_guardian2") || (head.classname == "boss_guardian3"))
@@ -220,7 +220,7 @@ void() bfg_search_enemy =
 	if (near)
 	{
 		self.enemy = near;
-		if(self.enemy.classname == "boss_guardian3")
+		if (self.enemy.classname == "boss_guardian3")
 		{
 			self.originoffset_x = random(-64,64); 
 			self.originoffset_y = random(-64,64); 
@@ -236,12 +236,12 @@ void() mace_bfg_drunk =
 { 
 	vector oldvel = self.velocity;
 	vector nextvel;
-	if(!self.enemy)
+	if (!self.enemy)
 	{
 		self.velocity_x = self.velocity_x * 1.05;
 		self.velocity_y = self.velocity_y * 1.05;
 		self.velocity_z = self.velocity_z * 1.05;
-		if(time > self.drunktime)
+		if (time > self.drunktime)
 		{
 			//makevectors (self.angles);
 			//self.velocity += v_right * random(-16,16)  + v_up * random (-16, 16);
@@ -261,7 +261,7 @@ void() mace_bfg_drunk =
 		float dist = vlen(self.origin -venemyorg);	
 		if ((self.enemy.health > 0) ) 
 		{
-			if(dist > 128)
+			if (dist > 128)
 			{
 				vector dir = normalize(vtemp - self.origin);
 				vector wishvel = dir * speed;
@@ -282,7 +282,7 @@ void() mace_bfg_drunk =
 
 	}
 	self.angles = vectoangles(self.velocity);
-	if((self.origin ==  self.oldorigin))
+	if ((self.origin ==  self.oldorigin))
 	{
 		self.think = bfg_projectile_touch;
 	}
@@ -293,11 +293,11 @@ void() mace_bfg_drunk =
 		else
 			self.think = SUB_Remove;
 	}
-	if(self.scale < 1.5)
+	if (self.scale < 1.5)
 		self.scale += 0.15;
 	self.oldorigin = self.origin;
 
-	if(self.cnt != 1)
+	if (self.cnt != 1)
 		self.nextthink = time + 0.1;
 	else
 		self.nextthink = time + 0.025;
@@ -306,7 +306,7 @@ void() pre_mace_projectiles =
 {
 	self.oldorigin = self.origin;
 	self.angles = vectoangles(self.velocity);
-	if(self.scale < 1.5)
+	if (self.scale < 1.5)
 		self.scale += 0.15;
 	self.solid = SOLID_CORPSE;
 	self.effects = 0;
@@ -323,11 +323,11 @@ void() pre_mace_projectiles =
 
 void(float spread, float total_to_spawn) shoot_projectiles
 {	
-	local vector dir, tagorg;
-	local float tagindex;
+	vector dir, tagorg;
+	float tagindex;
 	tagindex = gettagindex(self.vweapon, "tag_mace");
 	tagorg = gettaginfo(self.vweapon, tagindex);
-	local entity sotgun_projectile;
+	entity sotgun_projectile;
 	sotgun_projectile=  spawn();
 	sotgun_projectile.owner =  self;
 	sotgun_projectile.modelflags  = MF_TRACER3;	
@@ -390,22 +390,22 @@ void() wsfire_bfg3 =
 void() wsfire_bfg2 = 
 { 
 	float active_punchangle = cvar ("cl_punch");
-	if(active_punchangle == 1)
+	if (active_punchangle == 1)
 		self.punchangle_x = -5 -(self.ammo_bfg * 0.3);
 
 
-	if(deathmatch == 1) 
+	if (deathmatch == 1) 
 		vector dir = v_forward * ((self.ammo_bfg + 7) * -45);
 	else
 		dir = v_forward * ((self.ammo_bfg + 7) * -45);
 
-	if(self.flags & FL_ONGROUND)
+	if (self.flags & FL_ONGROUND)
 	self.flags -= FL_ONGROUND;
 	dir_z =  dir_z * 0.75; 
 	self.velocity += '0 0 24'; 
 	self.velocity += dir;
-	local vector tagorg;
-	local float tagindex;
+	vector tagorg;
+	float tagindex;
 	tagindex = gettagindex(self.vweapon, "tag_mace");
 	tagorg = gettaginfo(self.vweapon, tagindex);
 
@@ -417,7 +417,7 @@ void() wsfire_bfg2 =
 	entity enemyhead = findradius(self.origin, 99999);	
 	while (enemyhead)
 	{
-		if((enemyhead.flags & FL_MONSTER) || ((enemyhead.classname == "boss_guardian1") || (enemyhead.classname == "boss_guardian2") ||(enemyhead.classname == "boss_guardian3")))
+		if ((enemyhead.flags & FL_MONSTER) || ((enemyhead.classname == "boss_guardian1") || (enemyhead.classname == "boss_guardian2") ||(enemyhead.classname == "boss_guardian3")))
 		{
 			enemyhead.max_homing_projectile  = 0;				
 		}
@@ -434,7 +434,7 @@ void() wsfire_bfg2 =
 
 
 
-	if(self.playerflags & FL_MACECHARGED)
+	if (self.playerflags & FL_MACECHARGED)
 		self.playerflags -= FL_MACECHARGED;
 	self.vweaponframe = 6;
 	self.think = wsfire_bfg3; 
@@ -448,7 +448,7 @@ void() wsfire_bfg =
 	playerwsound("weapons/mace/mace_altfire", 3, CHAN_AUTO);
 	
 	float active_punchangle = cvar ("cl_punch");
-	if(active_punchangle == 1)
+	if (active_punchangle == 1)
 		self.punchangle_x = 2;
 	Controller_Rumble(self, 0.1, 0.22, 800);
 
@@ -520,16 +520,16 @@ void() soulintag =
 };
 void() soulhome =
 {
-	local vector	dir, vtemp;
+	vector	dir, vtemp;
 	vtemp = single_player.maceorigin;
 
-	if(self.alpha < 1)
+	if (self.alpha < 1)
 	{
 		self.alpha += 0.00425;
 		self.scale = self.alpha * 2.5;
 	}
 
-	if((self.alpha >= 0.25) && (self.alpha < 0.5)	&& (self.count != 2))
+	if ((self.alpha >= 0.25) && (self.alpha < 0.5)	&& (self.count != 2))
 	{
 		{
 			randompointsound(self.origin,"weapons/mace/mace_soul_release", 8, random(0.9,1));
@@ -540,19 +540,19 @@ void() soulhome =
 
 	float dist = vlen (self.origin - vtemp);
 
-	if(self.alpha >= 0.5)
+	if (self.alpha >= 0.5)
 	{		
 		self.alpha = 1;
 
 		float playerisvisible = 0;
 		
-		if(self.type != 1)
+		if (self.type != 1)
 		{
-			if(self.attack_finished < time) 
+			if (self.attack_finished < time) 
 			{
 				playerisvisible = visibleb(self.origin,single_player.origin,world);
 				self.attack_finished = time + 0.5;
-				if((playerisvisible == 1) && (single_player.ammo_bfg < 10) &&((single_player.weapon == IT_MACE)))
+				if ((playerisvisible == 1) && (single_player.ammo_bfg < 10) &&((single_player.weapon == IT_MACE)))
 					self.type = 1;
 				else
 					self.type = 0;
@@ -560,14 +560,14 @@ void() soulhome =
 		}
 		if ((single_player.health < 1)||(self.type != 1)|| (single_player.weapon != IT_MACE) || (single_player.ammo_bfg >= 10))
 		{
-			if(self.cnt != 1)
+			if (self.cnt != 1)
 				self.velocity = '0 0 0';
 
-			if(self.cnt == 1)
+			if (self.cnt == 1)
 			{
 				float tspeed = vlen (self.velocity);
 				float tdist = vlen (self.origin - self.ldorigin);
-				if((tdist < self.roaming) && (tspeed > 5))
+				if ((tdist < self.roaming) && (tspeed > 5))
 				{
 					self.velocity_x = self.velocity_x * 0.99;
 					self.velocity_y = self.velocity_y * 0.99;
@@ -593,7 +593,7 @@ void() soulhome =
 		}
 		if (self.type == 1)
 		{
-			if(self.cnt != 1)
+			if (self.cnt != 1)
 				self.movetype = MOVETYPE_NOCLIP;
 
 			self.cnt = 0;
@@ -601,9 +601,9 @@ void() soulhome =
 			dir = normalize(vtemp - self.origin);
 
 			self.velocity = dir * 768;
-			if((dist < 64) && (self.scale > 0.3))
+			if ((dist < 64) && (self.scale > 0.3))
 				self.scale = self.scale * 0.95;
-			if(dist < 12)
+			if (dist < 12)
 			{
 				//stuffcmd (single_player, "bf 1 0.5 0.5 0.5 1 \n");
 				self.velocity = dir * 64;
@@ -611,7 +611,7 @@ void() soulhome =
 				self.think = soulintag;	
 				return;
 			}
-			if(self.count != 1)
+			if (self.count != 1)
 			{
 
 				pointparticles(particleeffectnum("soul_mace_ready"), self.oldorigin, '0 0 0', 1);
@@ -634,9 +634,9 @@ void() soulhome =
 
 void() soulcolormod_controller = 
 {
-	if(!self.cnt)
+	if (!self.cnt)
 	{
-		if(!(self.chain.effects & 512))
+		if (!(self.chain.effects & 512))
 			self.chain.effects += 512;
 		self.colormod = getlight(self.chain.origin);
 		self.colormod += '3 0.5 0.5';
@@ -649,7 +649,7 @@ void() soulcolormod_controller =
 				colormod_controller.pipes = self.pipes;	
 				colormod_controller.oldorigin = self.chain.origin;
 				colormod_controller.chain = gibspawned;
-				if(!(colormod_controller.effects & 512))
+				if (!(colormod_controller.effects & 512))
 					colormod_controller.chain.effects += 512;
 				colormod_controller.colormod = getlight(colormod_controller.chain.origin);
 				colormod_controller.colormod += '3 0.5 0.5';
@@ -661,7 +661,7 @@ void() soulcolormod_controller =
 		}
 		self.cnt = 1;
 	}		
-	if((self.cnt == 2) && (self.attack_finished < time))
+	if ((self.cnt == 2) && (self.attack_finished < time))
 	{
 		float dist = vlen (self.chain.origin - (self.pipes.origin + '0 0 24'));
 		float speed = dist;
@@ -669,7 +669,7 @@ void() soulcolormod_controller =
 		pointparticles(particleeffectnum("secondary_soul_mace"), self.chain.origin,dir, 1);
 		self.attack_finished = time + random(0.05, 0.1);
 	}
-	if((self.cnt == 1) && (self.attack_finished < time))
+	if ((self.cnt == 1) && (self.attack_finished < time))
 	{
 		vector chainorigin;
 		chainorigin_x = self.chain.origin_x + random(-32,32);
@@ -686,9 +686,9 @@ void() soulcolormod_controller =
 	self.colormod_x -= 0.15;	
 	self.colormod_y -= 0.025;	
 	self.colormod_z -= 0.025;	
-	if(self.colormod_x <= self.ldorigin_x)
+	if (self.colormod_x <= self.ldorigin_x)
 	{
-		if(self.chain.effects & 512)
+		if (self.chain.effects & 512)
 			self.chain.effects -= 512;
 		self.colormod = '0 0 0';
 		remove(self);
@@ -701,7 +701,7 @@ void() soulcolormod_controller =
 
 void (float dir, float dirv, float damg) w_bfg_slash = 
 {
-	local vector source, org, orn, ornv;
+	vector source, org, orn, ornv;
 
 	if (dir == 1)
 		orn = v_right *-48;
@@ -731,14 +731,14 @@ void (float dir, float dirv, float damg) w_bfg_slash =
 
 
 	float dmg = damg + (self.ammo_bfg  * damg);
-	if(self.ammo_bfg >= 12)
+	if (self.ammo_bfg >= 12)
 		dmg = damg + (12  * mace_additional_damage);
 
 
 
 	if (trace_ent.takedamage)
 	{
-		if(damg ==100)
+		if (damg ==100)
 		spawn_shaker(self,3 + self.ammo_bfg * 1.75,0.75,512);	
 		if (trace_ent.bloody == 1)
 			SpawnBlood(org, '0 0 0', 20, 3, floor(1 + (self.ammo_bfg / 2)));
@@ -750,13 +750,13 @@ void (float dir, float dirv, float damg) w_bfg_slash =
 
 			//playersound("weapons/mace/mace_hit", 5);
 			trace_ent.death_time_sound = time + 1;
-			if(!self.macemeleeskin)
+			if (!self.macemeleeskin)
 				self.macemeleeskin = 1;
 
 		}
 		string sasd = strcat ((ftos (trace_ent.health)), (" monsterhealth"),ftos(dmg),(" damage"),"\n");
 		bprint (sasd);
-		if((dmg >= trace_ent.health) &&(trace_ent.flags & FL_MONSTER) && (self.ammo_bfg < 10))
+		if ((dmg >= trace_ent.health) &&(trace_ent.flags & FL_MONSTER) && (self.ammo_bfg < 10))
 		{
 			trace_ent.wretch_gibbing = -1;
 			trace_ent.killedbyblade = 1;
@@ -794,14 +794,14 @@ void (float dir, float dirv, float damg) w_bfg_slash =
 		if (trace_ent != old_ent)
 			trace_endpos = old_impact;
 
-        if(old_ent.bloody == 2)
+        if (old_ent.bloody == 2)
         {
 		    SpawnBlood(org, '0 0 0', 20, 6, 0);
 			if ((bossvulnerable == 1))
 			{
-				if(old_ent == trace_ent)
+				if (old_ent == trace_ent)
 				{
-					if(old_ent.classname == "boss_guardian2")
+					if (old_ent.classname == "boss_guardian2")
 						explo_blood_sprite(7, trace_endpos);
 					else
 						explo_blood_sprite(5, trace_endpos);
@@ -882,7 +882,7 @@ void() w_bfg_slash2 =
 	self.fakeframe += 1;
 	if (self.fakeframe == 4)
 		playerwsound("weapons/mace/mace_attack", 4, CHAN_AUTO);
-	if((self.punchangletime < time) &&(self.punchangletime != -1))
+	if ((self.punchangletime < time) &&(self.punchangletime != -1))
 	{
 		makevectors (self.v_angle);
 		if (self.randomattack == 1)
@@ -938,7 +938,7 @@ void() w_bfg_slash2 =
 	}
 
 
-	if((self.ammo_bfg >= 10) && (!(self.playerflags & FL_MACECHARGED)) &&(self.fakeframe >= 20))
+	if ((self.ammo_bfg >= 10) && (!(self.playerflags & FL_MACECHARGED)) &&(self.fakeframe >= 20))
 	{
 		self.think = wsfullcharge_bfg;
 		self.nextthink = time + 0.05;
@@ -975,7 +975,7 @@ void() w_bfg_slash1 = { self.oldrandomattack = self.randomattack;
 
 };
 
-void() w_bfg_attack = { local float r;
+void() w_bfg_attack = { float r;
 
 	r = random();
 
@@ -995,7 +995,7 @@ void() w_bfg_attack = { local float r;
 	if (self.randomattack > 4)
 		self.randomattack = 1;
 
-	if(self.ammo_bfg < 10)
+	if (self.ammo_bfg < 10)
 		self.vweaponframe = 0;
 	else
 		self.vweaponframe = 7;
@@ -1015,10 +1015,10 @@ void() lower_bfg2 =
 	self.vweaponframe += 1;
 	if (self.vweaponframe == 17)
 	{
-		if((!(wasfreed(self.vbfg)) && (self.vbfg.wrathflags & FL_SUBWEAPONMODEL)))
+		if ((!(wasfreed(self.vbfg)) && (self.vbfg.wrathflags & FL_SUBWEAPONMODEL)))
 			remove(self.vbfg);
 
-		if((!(wasfreed(self.vblood)) && (self.vblood.wrathflags & FL_SUBWEAPONMODEL)))
+		if ((!(wasfreed(self.vblood)) && (self.vblood.wrathflags & FL_SUBWEAPONMODEL)))
 			remove(self.vblood);
 	}
 
@@ -1065,9 +1065,9 @@ void() v_bfg_blood_think =
 { 
 
 	self.ammo_bfg = self.owner.ammo_bfg / 2;
-	if(self.owner.ammo_bfg >= 10)
+	if (self.owner.ammo_bfg >= 10)
 	{
-		if(self.count < 2)
+		if (self.count < 2)
 		{
 			self.count ++;
 			self.frame = 1;
@@ -1077,7 +1077,7 @@ void() v_bfg_blood_think =
 	}
 	else
 	{
-		if(self.frame != 0)
+		if (self.frame != 0)
 		{
 			self.count = 0;
 			self.frame = 0;
@@ -1098,7 +1098,7 @@ void() v_bfg_blood_think =
 	else
 		self.think = v_bfg_blood_think;
 
-	if(self.owner.weapon != IT_MACE)
+	if (self.owner.weapon != IT_MACE)
 		self.think = SUB_Remove;
 	self.glowmod = self.owner.vweaponglowmod;
 	self.nextthink = time + 0.025;
@@ -1109,21 +1109,21 @@ void() v_bfg_mace_think =
 	self.skin = self.owner.macemeleeskin;
 	self.glowmod = self.owner.vweaponglowmod;
 	self.alpha = 1;
-	if(self.owner.weapon != IT_MACE)
+	if (self.owner.weapon != IT_MACE)
 		self.think = SUB_Remove;
 	else
 		self.think = v_bfg_mace_think;
 
-	if(self.owner.ammo_bfg == 1)
+	if (self.owner.ammo_bfg == 1)
 		self.skin = 1;
 	else
 		self.skin = self.owner.ammo_bfg / 2;
 
 
-	if(self.skin >= 5)
+	if (self.skin >= 5)
 	{
 		self.skin = 5;
-		if(self.count < 2)
+		if (self.count < 2)
 		{
 			self.count ++;
 			self.frame = 1;
@@ -1133,7 +1133,7 @@ void() v_bfg_mace_think =
 	}
 	else
 	{
-		if(self.frame != 0)
+		if (self.frame != 0)
 		{
 			self.count = 0;
 			self.frame = 0;
@@ -1158,7 +1158,7 @@ void() v_bfg_mace_think2 =
 		self.alpha -= 0.05;
 	}
 
-	if(self.owner.weapon != IT_MACE)
+	if (self.owner.weapon != IT_MACE)
 		self.effects = EF_NODRAW;
 	else
 	{
@@ -1180,7 +1180,7 @@ void() v_bfg_mace_think3 =
 	self.glowmod = self.owner.vweaponglowmod;
 	self.cnt += 1;
 
-	if(self.owner.weapon != IT_MACE)
+	if (self.owner.weapon != IT_MACE)
 		self.effects = EF_NODRAW;
 
 	if (self.cnt >= 60)

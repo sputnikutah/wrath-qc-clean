@@ -49,7 +49,7 @@ void() object_switch2 = { if (!self.wait)
 		self.colormod = '1 1 0';
 		setattachment(self, self.followner, "");
 	}
-	if(self.displacement == 1)
+	if (self.displacement == 1)
 	{
 		self.wrathflags += FL_INVISIBLE;
 		self.effects = EF_NODRAW;
@@ -82,7 +82,7 @@ void() nonsolidswitch_fire_off = { if (self.frame == 9)
 void() nonsolidswitch_fire = 
 { 
 
-	if((self.usable == 2)  && (self.wait == -2))
+	if ((self.usable == 2)  && (self.wait == -2))
 	{
 		if (self.frame == 9)
 		{
@@ -151,7 +151,7 @@ void() object_switch =
 	
 	precache_model("models/objects/switches/collisionswitch.md3");
 	
-	if(!self.model)
+	if (!self.model)
 		string selfpipesmodel = ("models/objects/switches/e1_switch1.md3");
 	else
 		selfpipesmodel = self.model;
@@ -179,7 +179,7 @@ void() object_switch =
 	self.glowmod_y = 1;
 	self.glowmod_z = 1;
 
-	if(self.displacement == 1)
+	if (self.displacement == 1)
 	{
 		self.wrathflags += FL_INVISIBLE;
 		self.effects = EF_NODRAW;
@@ -354,11 +354,11 @@ void() Use_Func = { local vector source;
 			else
 			{
 			
-				if(self.items & IT_COFFERKEY3)
+				if (self.items & IT_COFFERKEY3)
 					{self.items -= IT_COFFERKEY3;self.keyson3.wrathflags -= FL_RESPAWN;}
 				else
 				{
-					if(self.items & IT_COFFERKEY2)
+					if (self.items & IT_COFFERKEY2)
 						{self.items -= IT_COFFERKEY2;self.keyson2.wrathflags -= FL_RESPAWN;}
 					else
 						{self.items -= IT_COFFERKEY1; self.keyson1.wrathflags -= FL_RESPAWN;}

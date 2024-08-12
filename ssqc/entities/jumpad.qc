@@ -14,25 +14,25 @@ void(entity e, entity b) JumpBack =
 	e.stoptime = time + 0.5;
 	e.lungefree = time + 0.5;
 	e.hardstoptime = other.stoptime;
-	if(!(e.flags & FL_IGNOREINPUT))
+	if (!(e.flags & FL_IGNOREINPUT))
 		e.flags += FL_IGNOREINPUT;
 
-	if(e.flags & FL_ONGROUND)
+	if (e.flags & FL_ONGROUND)
 		e.flags -= FL_ONGROUND;
 
 	borg = (e.origin + borg) * 0.5; 	
 	borg_z = e.origin_z + e.view_ofs_z;
-	if(b.classname == "trigger_fly")
+	if (b.classname == "trigger_fly")
 	{
 		pointparticles(particleeffectnum("forcefieldflight"), borg , '0 0 0', 1);
 		te_customflash(borg, 128, 1, '0.75 0.75 1');
 	}
-	if(b.classname == "trigger_wrath")
+	if (b.classname == "trigger_wrath")
 	{
 		pointparticles(particleeffectnum("forcefieldwrath"), borg , '0 0 0', 1);
 		te_customflash(borg, 128, 1, '1 0.75 0.75');
 	}
-	if(b.classname == "trigger_displacement")
+	if (b.classname == "trigger_displacement")
 	{
 		pointparticles(particleeffectnum("forcefielddisplacement"), borg , '0 0 0', 1);
 		te_customflash(borg, 128, 1, '0.5 0.5 0.25');
@@ -44,18 +44,18 @@ void(entity e, entity b) JumpBack =
 
 void() trigger_jumpad_touch = 
 { 
-	local float flighttime, dist, grav;
-	local vector org;
+	float flighttime, dist, grav;
+	vector org;
 	if (other.nojump == 1)
 		return;
 		
-	if(!self.stoptime)	
+	if (!self.stoptime)	
 		other.stoptime = time + jumpad_noinput_time;	
 	else
 		other.stoptime = time +self.stoptime;
 		other.lungefree = time + 2;
 	
-	if(!(other.flags & FL_IGNOREINPUT))
+	if (!(other.flags & FL_IGNOREINPUT))
 	other.flags += FL_IGNOREINPUT;
 	other.hardstoptime = other.stoptime;
 

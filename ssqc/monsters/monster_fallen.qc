@@ -85,8 +85,8 @@ void() fallen_stand10 =[$fn_idle10, fallen_stand1]
 	fallen_check();
 };
 
-void(float exdmg, float range) fallen_attack = { local vector delta;
-	local float dist;
+void(float exdmg, float range) fallen_attack = { vector delta;
+	float dist;
 	if (self.enemy.crouch == 1)
 		range += 32;
 
@@ -100,7 +100,7 @@ void(float exdmg, float range) fallen_attack = { local vector delta;
 		if (dist < range)
 		{
 			makevectors(self.v_angle);
-			local vector source, org;
+			vector source, org;
 			source = rorigin(self) + '0 0 16';
 			traceline(source, self.enemy.origin, FALSE, self);
 			if (trace_fraction != 1.0)
@@ -202,7 +202,7 @@ void() fallen_run1 =[$fn_walk11, fallen_run2]
 	self.randomattacked = 0;
 	if (self.skin != 1)
 	{
-		local float r;
+		float r;
 		r = random();
 		if ((self.idle_time < time) && (r < 0.25))
 		{
@@ -274,7 +274,7 @@ void() fallen_run10 =[$fn_walk20, fallen_run1]
 	}
 
 	float dist = vlen (self.origin - self.enemy.origin);
-	if(visible(self.enemy) && (dist > 128) )
+	if (visible(self.enemy) && (dist > 128) )
 	{
 		if (self.melonhead == 3)
 			self.think = fallen_beam1;
@@ -351,7 +351,7 @@ void() fallen_runb10 =[$fn_walk10, fallen_runb1]
 	}
 
 	float dist = vlen (self.origin - self.enemy.origin);
-	if(visible(self.enemy) && (dist > 128) )
+	if (visible(self.enemy) && (dist > 128) )
 	{
 		if (self.melonhead == 3)
 			self.think = fallen_beam1;
@@ -501,7 +501,7 @@ void() fallen_attackb10 =[$fn_attackb10, fallen_run]
 };
 
 void() fallen_attack_melee = { ai_face();
-	local float r;
+	float r;
 	r = random();
 	if (r < 0.5)
 		self.think = fallen_attacka1;
@@ -578,7 +578,7 @@ void() fallen_walk10 =[$fn_walk10, fallen_walk1]
 	}
 };
 
-void() fallen_walk = { local float r;
+void() fallen_walk = { float r;
 	r = random();
 
 	self.think = fallen_walk1;
@@ -615,12 +615,12 @@ void() gib_prefade =	// avoid gib levitation
 
 		self.nextthink = time + 0.1;
 	};
-void() bleedzthink = { local float nparticles;
+void() bleedzthink = { float nparticles;
 	nparticles = particleeffectnum(self.particleffect2);
 
-	local vector tagorg, dir;
-	local float tagindex;
-	local string tagname;
+	vector tagorg, dir;
+	float tagindex;
+	string tagname;
 
 	makevectors(self.owner.v_angle);
 	tagname = self.tagorg2;
@@ -630,7 +630,7 @@ void() bleedzthink = { local float nparticles;
 
 	if (!self.armcount)
 	{
-		local entity arm;
+		entity arm;
 		arm = spawn();
 		arm.glowmod = self.glowmod;
 		arm.model = self.model2;
@@ -643,14 +643,14 @@ void() bleedzthink = { local float nparticles;
 		arm.angles = self.owner.angles;
 		arm.alpha = 1;
 		dir = relvel(self.oldvelocity, self.owner);
-		local float vel_h;
+		float vel_h;
 		arm.glowmod = '1 1 1';
 		vel_h = 1;	//(self.owner.health *-0.015) + 0.25;
 
 		arm.velocity_x = dir_x * vel_h;
 		arm.velocity_y = dir_y * vel_h;
 		arm.velocity_z = dir_z *(vel_h);
-		local entity pl;
+		entity pl;
 		pl = self.owner.enemy;
 		if ((pl.classname == "player") && (pl.lungetime > time))
 		{
@@ -692,7 +692,7 @@ void(string location, string gibmodel, string bleffect, vector vel, entity gwner
 	if (!(vel == '0 0 0'))
 	{
 		
-		local entity bleed;
+		entity bleed;
 		bleed = spawn();
 		bleed.owner = gwner;
 		setmodel(bleed, "models/misc/null.md3");
@@ -703,7 +703,7 @@ void(string location, string gibmodel, string bleffect, vector vel, entity gwner
 			bscale = 0.5;
 			bleed.glowmod = '1.1 1.1 1.1';
 		}
-		float gibextraduration = cvar("gib_extratime")
+		float gibextraduration = cvar("gib_extratime");
 		bleed.lifetime = time + random(10,25) + gibextraduration;
 		bleed.particleffect = bleffect;
 		bleed.particleffect2 = addeffect;
@@ -720,28 +720,28 @@ void(string location, string gibmodel, string bleffect, vector vel, entity gwner
 
 	if (bscale > 0)
 	{
-		local entity exp_blood;
+		entity exp_blood;
 		exp_blood = spawn();
-		local vector tagorg;
-		local float tagindex;
-		local string tagname;
+		vector tagorg;
+		float tagindex;
+		string tagname;
 		tagname = location;
 		tagindex = gettagindex(gwner, tagname);
 		tagorg = gettaginfo(gwner, tagindex);
 		setorigin(exp_blood, tagorg);
 		//exp_blood.origin = tagorg;
 		exp_blood.scale = bscale;
-		/*if(bscale == 1)
+		/*if (bscale == 1)
 		self.frame = 0;
-		if(bscale == 0.5)
+		if (bscale == 0.5)
 		self.frame = 1;
-		if(bscale == 0.25)
+		if (bscale == 0.25)
 		self.frame = 2;
 		*/
 
 		setmodel(exp_blood, "particles/explo/explo_blood1.md3");
 		exp_blood.solid = SOLID_NOT;
-		local float skinn;
+		float skinn;
 		skinn = ceil(random() *4);
 		if (skinn == 4)
 			skinn = 0;
@@ -750,7 +750,7 @@ void(string location, string gibmodel, string bleffect, vector vel, entity gwner
 		exp_blood.think = cys_explode1b;
 		//exp_blood.scale = bscale;
 		exp_blood.nextthink = time + 0.05;
-		local float nparticles;
+		float nparticles;
 		nparticles = particleeffectnum(bleffect);
 		pointparticles(nparticles, tagorg, '0 0 0', 12);
 
@@ -778,9 +778,9 @@ void() fallen_deathb =[$fn_mutilated1, fallen_deathb2]
 		self.skin = 4;
 		spawn_gib_stuff("tag_torso", "models/enemies/fallen/gibs/gib_torso_a.md3", "fallen_blood_shower_large", '-40 50 10', self, 0.5, "null");
 		spawn_gib_stuff("tag_torso", "models/enemies/fallen/gibs/gib_torso_b.md3", "fallen_blood_shower_large", '40 -50 10', self, 0.5, "null");	//0.5
-		local vector tagorg;
-		local float tagindex;
-		local string tagname;
+		vector tagorg;
+		float tagindex;
+		string tagname;
 		tagname = ("tag_head");
 		tagindex = gettagindex(self, tagname);
 		tagorg = gettaginfo(self, tagindex);
@@ -868,7 +868,7 @@ void() fallen_deatha = {
 	spawn_gib_stuff("tag_leg_b_l", "models/enemies/fallen/gibs/gib_leg_b_l.md3", "null", '20 -30 50', self, 0, "null");
 	spawn_gib_stuff("tag_knee_r", "", "fallen_blood_shower_small", '0 0 0', self, 0.25, "null");	//0.25
 	spawn_gib_stuff("tag_knee_l", "", "fallen_blood_shower_small", '0 0 0', self, 0.25, "null");	//0.25
-	local vector tagorg;local float tagindex;local string tagname;
+	vector tagorg;float tagindex;string tagname;
 	tagname = ("tag_head");tagindex = gettagindex(self, tagname);tagorg = gettaginfo(self, tagindex);
 	if (!self.mutilated)
 	{
@@ -913,20 +913,20 @@ void() fallen_deatha = {
 .entity cyst;
 void() fallen_death = 
 { 
-	local float r;
+	float r;
 	r = random();
 	msound7(self,CHAN_WEAPON,"misc/null.wav",0,0.25,100,0);
 	monstersound5("enemies/fallen/die", 3, CHAN_VOICE);
-	if(self.flash)
+	if (self.flash)
 	remove(self.flash);
-	if(self.cyst)
+	if (self.cyst)
 	{
 		 if (self.melonhead == 1)
 		{
 			self.cyst.think = SUB_Remove;
 			self.cyst.nextthink = time;
 			entity explosion = spawn();
-			local vector tagorg;
+			vector tagorg;
 			tagorg = tag_origin("tag_head", self);		
 			explosion.origin = tagorg;
 			explosion.think = PreCyExplosion;
@@ -991,9 +991,9 @@ void() fallen_paina1 =[$fn_mutilatea1, fallen_paina2]
 	self.lastpain = 3;
 
 	spawn_gib_stuff("tag_head", "models/misc/null.md3", "fallen_blood_spurt_neck", '50 0 100', self, 0.55, "fallen_blood_spurt_neck");
-	local vector tagorg;
-	local float tagindex;
-	local string tagname;
+	vector tagorg;
+	float tagindex;
+	string tagname;
 	tagname = ("tag_head");
 	tagindex = gettagindex(self, tagname);
 	tagorg = gettaginfo(self, tagindex);
@@ -1128,7 +1128,7 @@ void() crawler_death = { chattersound("enemies/fallen/die", 3, 1);
 	self.solid = SOLID_NOT;
 	self.movetype = MOVETYPE_TOSS;
 	spawn_gib_stuff("tag_head", "models/misc/null.md3", "fallen_blood_shower_small", '50 0 100', self, 0.55, "null");
-	local vector tagorg;local float tagindex;local string tagname;
+	vector tagorg;float tagindex;string tagname;
 	tagname = ("tag_head");tagindex = gettagindex(self, tagname);tagorg = gettaginfo(self, tagindex);
 	ThrowGib2("models/enemies/fallen/gibs/gib_head.md3", self.health *0.25, 0.75, 1, 1, tagorg, relvel('50 0 100', self), 0, 1);
 
@@ -1144,12 +1144,12 @@ void() crawler_death = { chattersound("enemies/fallen/die", 3, 1);
 };
 
 void() ai_crawler_face = { /*
-	local entity pl;
+	entity pl;
 	pl = find(world, classname, "player"); 
 	*/
 
-	local vector vec;
-	local float yaw;
+	vector vec;
+	float yaw;
 	vec = self.enemy.origin - self.origin;
 	yaw = vectoyaw(vec);
 	self.angles_y = yaw;
@@ -1170,18 +1170,18 @@ void() blood_frames = { if (self.frame <= 12)
 
 void(vector org, entity e) drop_blood = { return;
 	/*
-	local entity blood;
+	entity blood;
 	blood = spawn();
 	blood.solid = SOLID_NOT;
 	blood.movetype = MOVETYPE_TOSS;
 	blood.colormod = '1 0.3 0';
 
-	local float r;
+	float r;
 
 	traceline (org, org - '0 0 256', TRUE, blood);
-	if(trace_fraction != 1)
+	if (trace_fraction != 1)
 	{
-	local vector ang, coplanar,tpn;
+	vector ang, coplanar,tpn;
 	ang = blood.angles;
 	tpn = trace_plane_normal;
 	ang = blood.angles;
@@ -1191,7 +1191,7 @@ void(vector org, entity e) drop_blood = { return;
 	blood.angles = vectoangles2(coplanar, tpn);
 	}
 
-	local vector org2;
+	vector org2;
 	org2 = trace_endpos;
 	setorigin(blood, org2);
 	blood.alpha =  1;
@@ -1199,7 +1199,7 @@ void(vector org, entity e) drop_blood = { return;
 	setmodel (blood, "models/misc/null.md3");
 
 	r = random();
-	if(r < 0.25)
+	if (r < 0.25)
 	{
 	blood.angles_y  = random()*360;
 	blood.think = blood_frames;
@@ -1253,9 +1253,9 @@ void() crawler_run8 =[$cr_walk8, crawler_run1]
 {
 	ai_runwalk(16);
 	ai_crawler_face();
-	local vector org;
+	vector org;
 	org = rorigin(self);
-	local float r;
+	float r;
 	r = random();
 	if (r > 0.25)
 		drop_blood(org, self);
@@ -1265,10 +1265,10 @@ void() crawler_start = { self.frame += 1;	//
 
 	if (self.frame >= 115)
 	{
-		local entity pl;
+		entity pl;
 		pl = find(world, classname, "player");
-		local vector vec;
-		local float yaw;
+		vector vec;
+		float yaw;
 		vec = pl.origin - self.origin;
 		yaw = vectoyaw(vec);
 		self.angles_y = yaw;
@@ -1284,7 +1284,7 @@ void() crawler_start = { self.frame += 1;	//
 };
 void(entity attacker, float damage) null_pain = {};
 
-void(entity e) fallen_crawler = { local entity crawler;
+void(entity e) fallen_crawler = { entity crawler;
 	crawler = spawn();
 	crawler.owner = e;
 	crawler.solid = SOLID_SLIDEBOX;
@@ -1295,9 +1295,9 @@ void(entity e) fallen_crawler = { local entity crawler;
 	crawler.classname = "crawler";
 	setsize(crawler, '-12 -12 -0', '12 12 12');
 
-	local vector tagorg;
-	local float tagindex;
-	local string tagname;
+	vector tagorg;
+	float tagindex;
+	string tagname;
 
 	makevectors(crawler.owner.angles);
 	tagname = "tag_waist";
@@ -1366,7 +1366,7 @@ void(entity attacker, float damage) fallen_pain = { if ((time < self.pain_finish
 	if ((self.health <= 75) && (!self.mutilated))
 	{
 		self.pain_finished = time + 0.4;
-		local float r;
+		float r;
 		r = random();
 
 		if (r > 0.66)
@@ -1392,7 +1392,7 @@ void(entity attacker, float damage) fallen_pain = { if ((time < self.pain_finish
 				self.think = fallen_painc1;
 		}
 
-		//if(self.type_mutilated == 4)
+		//if (self.type_mutilated == 4)
 		//self.think = fallen_paind1;
 
 		if ((self.headless_time < time) && (self.skin == 1))
@@ -1448,7 +1448,7 @@ void(float material, vector org,float pammount) rise_impacts =
 
 	if (material == MAT_GENERIC)
 	{
-		if(world.episode == 2)
+		if (world.episode == 2)
 			pointparticles(particleeffectnum("fallenspuff2"), trace_endpos + '0 0 16', '0 0 0', 2);
 		else
 			pointparticles(particleeffectnum("gravelparticles"),org, partvel * random (1,1.5), pammount* 32);
@@ -1490,7 +1490,7 @@ void(float material, vector org,float pammount) rise_impacts =
 		pointparticles(particleeffectnum("gravelparticles"),org, partvel * random (1,1.5), pammount* 32);
 
 
-	if(world.episode == 2)
+	if (world.episode == 2)
 		pointparticles(particleeffectnum("fallenspuff2"), trace_endpos + '0 0 16', '0 0 0', 2);
 	else
 		pointparticles(particleeffectnum("fallenspuff"), trace_endpos+ '0 0 16', '0 0 0', 2);
@@ -1504,11 +1504,11 @@ void() fallen_rise = { self.risenframe += 1;
 
 	float r = random();
 
-	if((self.risenframe <= 12))
+	if ((self.risenframe <= 12))
 	{
 		traceline(self.origin, self.origin - '0 0 64', TRUE, self);
 		float material = GetTraceMaterial();
-		if(self.risenframe == 5)
+		if (self.risenframe == 5)
 		{
 			pointparticles(particleeffectnum("fallendecal"), trace_endpos, '0 0 0', 2);
 			rise_impacts(material,trace_endpos +  randomvector('0 0 0','0 0 12'),1);
@@ -1548,7 +1548,7 @@ void() fallen_rise2 = { self.risenframe += 1;
 void()check_jump =
 {
 	makevectors(self.angles);
-	local vector source =rorigin(self);
+	vector source =rorigin(self);
 	float jump_height;
 	jump_height = (((self.absmin_z* -1) + self.absmax_z) *-2) - self.absmax_z;
 	traceline(source,source + v_forward *128 +  v_up * jump_height , FALSE, self);
@@ -1645,7 +1645,7 @@ void() melon_head_think =
 		if (self.glowmod_x >= 1)
 			self.cyst_flag = 1;
 	}
-	if((self.owner.health > 0) && (self.owner.melonhead == 2))
+	if ((self.owner.health > 0) && (self.owner.melonhead == 2))
 	{
 		float tagindex = gettagindex(self.owner, "tag_head");
 		vector tagorg = gettaginfo(self.owner, tagindex);
@@ -1659,7 +1659,7 @@ void() melon_head_think =
 void(entity e) melon_head = 
 {
 	entity cst1 = spawn();
-	if(e.melonhead == 1)
+	if (e.melonhead == 1)
 	    setmodel(cst1, "models/enemies/afflicted/cyst_a.md3");
 	else
 	    setmodel(cst1, "");
@@ -1741,7 +1741,7 @@ void() monster_fallen = { precache_model("models/enemies/fallen/gibs/gib_torso_b
 	//self.damagetopain = fallen_dtp;
 	self.health = 100;
 	//	self.view_ofs_z = 40; 
-	//if(self.rise == 1)
+	//if (self.rise == 1)
 
 	if ((self.rise != 1) || ((self.rise == 1) && (self.warped == 1)))
 		self.th_stand = fallen_stand1;
@@ -1750,7 +1750,7 @@ void() monster_fallen = { precache_model("models/enemies/fallen/gibs/gib_torso_b
 	self.th_walk = fallen_walk1;
 	self.skin = 0;
 
-	local float r, rgib;
+	float r, rgib;
 	r = (random() *5);
 	if (r <= 5)
 		self.noise = "enemies/fallen/sight5.ogg";
@@ -1788,14 +1788,14 @@ void() monster_fallen = { precache_model("models/enemies/fallen/gibs/gib_torso_b
 	self.th_die = fallen_death;
 	self.th_melee = fallen_attack_melee;
 	self.touch = fallen_touch;
-    //if(self.crystal == 1)
+    //if (self.crystal == 1)
     //    crystalized (self);
 	string smonth = strftime(TRUE, "%m");float month = stof(smonth);
 	string sday = strftime(TRUE, "%d");float day = stof(sday);
 
 
 
-	if((day == 27) && (month == 2)) // wraths birthday!
+	if ((day == 27) && (month == 2)) // wraths birthday!
 	{
         float rdate = random() * 1;
         if (rdate < 0.4)
@@ -1807,18 +1807,18 @@ void() monster_fallen = { precache_model("models/enemies/fallen/gibs/gib_torso_b
         if (rdate < 0.1)
 	  	  self.melonhead = 1;
 	}
-	//if(skill >= 3)
+	//if (skill >= 3)
 	//{
 	//r = random(1,20);
-	if(self.melonhead == 1)
+	if (self.melonhead == 1)
     	melon_head(self);
-	if(self.melonhead == 2)
+	if (self.melonhead == 2)
     	melon_head(self);
 
-	if(self.melonhead == 3)
+	if (self.melonhead == 3)
 		self.colormod = '1 0.3 1'; 
 
-	if(self.melonhead == 4)
+	if (self.melonhead == 4)
 	{
 		self.colormod = '0.7 1 0.5'; 
 		spawn_cysts(self);
@@ -1836,7 +1836,7 @@ void() monster_fallen = { precache_model("models/enemies/fallen/gibs/gib_torso_b
 
 		if ((world.model == "maps/testboss3.bsp") || (world.model == "maps/boss3.bsp")) 
 		{
-			//if(self.lastframewarp >= 10)
+			//if (self.lastframewarp >= 10)
 			//	self.lastframewarp = 9;
 			self.frame = 116;
 			self.lastframewarp = 123;

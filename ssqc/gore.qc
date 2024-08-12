@@ -3,14 +3,14 @@ void(vector org, float class) blood_decal;
 
 vector(vector rvel, entity ent) relvel = 
 { 
-	local vector revel;
+	vector revel;
 	makevectors(ent.angles + ent.corpse_angles);
 	revel = v_forward *rvel_x + v_right *rvel_y + v_up * rvel_z;
 
-	if(self.classentity == "deadurn")
+	if (self.classentity == "deadurn")
 	{
 		float dhm = (self.health / 250) * -1;
-		if(dhm >= 20) 
+		if (dhm >= 20) 
 			dhm = 20;
 		vector extravel = revel * dhm;
 		extravel_z += (dhm * 75) ; 
@@ -21,7 +21,7 @@ vector(vector rvel, entity ent) relvel =
 
 vector(vector rvel, entity ent, float multiplier) relvel2 = 
 { 
-	local vector revel;
+	vector revel;
 	makevectors(ent.angles + ent.corpse_angles);
 	revel = v_forward *rvel_x + v_right *rvel_y + v_up * rvel_z;
 	revel_x = revel_x * multiplier;
@@ -31,8 +31,8 @@ vector(vector rvel, entity ent, float multiplier) relvel2 =
 };
 
 
-vector(float svel) VelocityForDamage2 = { local float r;
-	local vector v;
+vector(float svel) VelocityForDamage2 = { float r;
+	vector v;
 	r = random();
 
 	if (r > 0.5)
@@ -48,7 +48,7 @@ vector(float svel) VelocityForDamage2 = { local float r;
 	v_z = svel *0.75* random();
 	return v;
 };
-vector(float dm) VelocityForDamage = { local vector v;
+vector(float dm) VelocityForDamage = { vector v;
 	v_x = 100* crandom();
 	v_y = 100* crandom();
 	v_z = 200 + 100* random();
@@ -81,7 +81,7 @@ void() galphafade = { self.alpha = self.alpha - 0.1;
 
 void() gibalphafade = { self.solid = SOLID_NOT;
 	self.traileffectnum = 0;
-	local float nparticles;
+	float nparticles;
 	nparticles = particleeffectnum("wraith_gib2");
 	pointparticles(nparticles, self.origin, '0 0 0', 1);
 	self.nextthink = time + 0.01;
@@ -129,7 +129,7 @@ void() gibalphafade3 = { self.glowmod_x -= 0.075;
 void() gibalphafade4 = 
 { 
 	self.movetype = MOVETYPE_NOCLIP;
-	if(!self.alphatime)
+	if (!self.alphatime)
 	self.alphatime = 1;
 	if (!self.alpha)
 		self.alpha = 1;
@@ -149,14 +149,14 @@ void() gib_glowmod_controller_think =
 {
 	if ((self.owner.glowmod_x < 0.01) || (!(self.owner.wrathflags & FL_GIB)))
 	{
-		if(self.owner.wrathflags & FL_GIB)
+		if (self.owner.wrathflags & FL_GIB)
 		self.owner.glowmod = '-1 -1 -1';
 		remove(self);
 		return;
 	}
 	else
 	{
-		if(self.owner.wrathflags & FL_GIB)
+		if (self.owner.wrathflags & FL_GIB)
 		{
 			self.owner.glowmod_x -= 0.0375;
 			self.owner.glowmod_y -= 0.0375;
@@ -187,18 +187,18 @@ void() gib_world_touch =
 };
 void() checking_ground = 
 { 
-	if(!(self.wrathflags & FL_GIB))
+	if (!(self.wrathflags & FL_GIB))
 		self.wrathflags += FL_GIB;
 
-	if(!(self.wrathflags & FL_GARBAGE))
+	if (!(self.wrathflags & FL_GARBAGE))
 		self.wrathflags += FL_GARBAGE;
 	if (self.flags &FL_ONGROUND) 
 		self.traileffectnum = 0;
 
-	if(self.added_extra_lifetime != 1)
+	if (self.added_extra_lifetime != 1)
 	{
 		self.added_extra_lifetime = 1;
-		if((self.lifetime < time) || (!(self.lifetime)))
+		if ((self.lifetime < time) || (!(self.lifetime)))
 		{
 			float gibextraduration = cvar("gib_extratime");
 			self.lifetime = time + random(10,25) + gibextraduration;
@@ -212,22 +212,22 @@ void() checking_ground =
 	if (!self.aboveworld)
 		move_gibs();
 
-	if((self.movetype == MOVETYPE_FLY) && (self.wrathflags & FL_PUSHEDGIB))
+	if ((self.movetype == MOVETYPE_FLY) && (self.wrathflags & FL_PUSHEDGIB))
 	{
 		self.velocity_z = random()*-10 -5 ; //splat slowly slides down walls, changing speed
-		//if(!(self.flags &FL_ONGROUND))
-		if(self.oldorigin == self.origin)
+		//if (!(self.flags &FL_ONGROUND))
+		if (self.oldorigin == self.origin)
 		{
 			self.movetype = MOVETYPE_BOUNCE;
 			self.velocity_z += random(64,92); 
-			if(self.wrathflags & FL_PUSHEDGIB)
+			if (self.wrathflags & FL_PUSHEDGIB)
 				self.wrathflags -= FL_PUSHEDGIB;
 		}
 		else
 		{
 
 			float r = random();
-			if(r < 0.1)
+			if (r < 0.1)
 				pointparticles(particleeffectnum("bloodtrailwall"),self.origin, '0 0 0', 1);
 			float touchingwolrd = 0;
 			vector dir ='0 0 0';
@@ -249,20 +249,20 @@ void() checking_ground =
 			if (trace_fraction != 1.0)
 				{touchingwolrd ++; dir = normalize(trace_plane_normal) * random(32,72); decalorg = trace_endpos;}
 
-			if(touchingwolrd != 0)
+			if (touchingwolrd != 0)
 				 self.lvweapon = dir;
 
-			if(touchingwolrd == 0)
+			if (touchingwolrd == 0)
 			{
 				self.movetype = MOVETYPE_BOUNCE;
 				self.velocity = self.lvweapon;
 				self.velocity_z += random(64,92); 
-				if(self.wrathflags & FL_PUSHEDGIB)
+				if (self.wrathflags & FL_PUSHEDGIB)
 					self.wrathflags -= FL_PUSHEDGIB;
 			}	
 			else
 			{
-				if(time > self.attack_finished)
+				if (time > self.attack_finished)
 				{blood_decal(decalorg, 10);self.attack_finished = time + random(2,3);}
 			}
 		
@@ -273,7 +273,7 @@ void() checking_ground =
 	if ((self.velocity == '0 0 0') && (self.flags &FL_ONGROUND) && (self.gibbing == 1))
 	{
 
-		if(self.fakewatertype == CONTENT_LAVA)
+		if (self.fakewatertype == CONTENT_LAVA)
 			pointparticles(particleeffectnum("oppressor_small_gib"), self.origin, '0 0 0', 1);		
 		else
 			blood_decal(self.origin, 9);
@@ -307,17 +307,17 @@ void() checking_ground =
 float magnetic_time;
 
 void(entity targ, entity inflictor, entity attacker, float damage) T_Damage;
-void() gib_touch = { local vector v;
+void() gib_touch = { vector v;
 	self.gravity = 1;
 
-	if(self.effects & EF_FLAME)
+	if (self.effects & EF_FLAME)
 		self.effects -= EF_FLAME;
-	if((magnetic_time > time) && (other.solid == SOLID_BSP))
+	if ((magnetic_time > time) && (other.solid == SOLID_BSP))
 	{
 		float rm = random();
-		if(rm < 0.3)	
+		if (rm < 0.3)	
 		{
-			if(self.fakewatertype == CONTENT_LAVA)
+			if (self.fakewatertype == CONTENT_LAVA)
 				pointparticles(particleeffectnum("oppressor_small_gib"), self.origin, '0 0 0', 1);		
 			else
 				pointparticles(particleeffectnum("blooddecalsmall"), self.origin, '0 0 0', 1);		
@@ -329,7 +329,7 @@ void() gib_touch = { local vector v;
 	if (time < self.touchtime)
 		return;
 
-	if((other == world) && (!(other.flags & FL_ONGROUND)) &&(self.wrathflags & FL_PUSHEDGIB) && (self.count != 3))
+	if ((other == world) && (!(other.flags & FL_ONGROUND)) &&(self.wrathflags & FL_PUSHEDGIB) && (self.count != 3))
 	{
         self.velocity = '0 0 0';
         self.avelocity = '0 0 0';
@@ -346,23 +346,23 @@ void() gib_touch = { local vector v;
 			v_x = (other.velocity_x *1.75 + 30* random());
 			v_y = (other.velocity_y *1.75 + 30* random());
 
-			if(self.liquidtouch_timing < time)
+			if (self.liquidtouch_timing < time)
 			v_z = 95 + 90* random() + (other.velocity_y + other.velocity_x) *0.30;
 			else
 			self.gravity = 0;
 
 			self.traileffectnum = self.traileffectnum2;
 
-			if(self.flags &FL_ONGROUND)
+			if (self.flags &FL_ONGROUND)
 				self.flags -= FL_ONGROUND;
 
 			self.angles_y = random() *360;
-			if(self.liquidtouch_timing < time)
+			if (self.liquidtouch_timing < time)
 				self.avelocity_y = v_y * 2;
 			else
 				self.avelocity_y = v_y * random() * 0.25;
 
-			if(self.liquidtouch_timing < time)
+			if (self.liquidtouch_timing < time)
 			self.velocity = v;
 			else
 			{
@@ -371,7 +371,7 @@ void() gib_touch = { local vector v;
 			}
 
 			self.gib_jumping = 1;
-			local string gsound, r;
+			string gsound, r;
 			r = ftos(floor(random() *2) + 1);
 			gsound = strcat("impact/gibs/gib_splat", r, ".ogg");
 			pointsound(self.origin, gsound, 1, ATTN_NORM);
@@ -388,7 +388,7 @@ void() gib_touch = { local vector v;
 	if (self.gibbing < 1)
 	{
 		self.gibbing = 1;
-		if(self.fakewatertype == CONTENT_LAVA)
+		if (self.fakewatertype == CONTENT_LAVA)
 			pointparticles(particleeffectnum("oppressor_small_gib"), self.origin, '0 0 0', 1);		
 		else
 			blood_decal(self.origin, 9);
@@ -398,9 +398,9 @@ void() gib_touch = { local vector v;
 void()wrethc_explode_head;
 void() gib_touch2 = { 
 
-local vector v;
+vector v;
 
-	if((magnetic_time > time) && (other.solid == SOLID_BSP))
+	if ((magnetic_time > time) && (other.solid == SOLID_BSP))
 		remove(self);
 
 	self.gravity = wretch_shg;
@@ -418,7 +418,7 @@ local vector v;
 	{
 			//self.traileffectnum = self.oldtraileffectnum;
 			self.touchtime = time + 0.25;
-			if(self.flags &FL_ONGROUND)
+			if (self.flags &FL_ONGROUND)
 			self.flags -= FL_ONGROUND;
 			v_x = (other.velocity_x *1.5 +wretch_shkv_x + 50* random());
 			v_y = (other.velocity_y *1.5 +wretch_shkv_y  + 50* random());
@@ -426,14 +426,14 @@ local vector v;
 			self.velocity = v;
 			self.movetype = MOVETYPE_BOUNCE;
 			self.gib_jumping = 1;
-			local string gsound, r;
+			string gsound, r;
 			r = ftos(floor(random() *2) + 1);
 			gsound = strcat("impact/gibs/gib_splat", r, ".ogg");
 			pointsound(self.origin, gsound, 1, ATTN_NORM);
 	}
 };
 .entity gibowner;
-void(string gibname, float dm, float gravitygib, float bstop, float scalegib) ThrowGib = { local entity new;
+void(string gibname, float dm, float gravitygib, float bstop, float scalegib) ThrowGib = { entity new;
 	new = spawn();
 	new.origin = self.origin;
 	new.angles = self.angles;
@@ -445,7 +445,7 @@ void(string gibname, float dm, float gravitygib, float bstop, float scalegib) Th
 
 	new.velocity = VelocityForDamage(dm);
 
-	if(magnetic_time > time)
+	if (magnetic_time > time)
 	new.movetype = MOVETYPE_TOSS;
 
 	if (bstop == 0)
@@ -471,16 +471,16 @@ void(string gibname, float dm, float gravitygib, float bstop, float scalegib) Th
 
 void() gib_water_touch =
 {
-	if(other.classname !=  "player")
+	if (other.classname !=  "player")
 		return;
 	self.velocity_x = other.velocity_x * random(1,3); 
 	self.velocity_y = other.velocity_y * random(1,3); 
 };
 void() checking_water = 
 {
-	if(self.lifetime < time)
+	if (self.lifetime < time)
 		self.think = gibalphafade;
-	if(self.liquidtouch_timing > time)
+	if (self.liquidtouch_timing > time)
 	{
 		self.gravity = 0.25;
 
@@ -491,13 +491,13 @@ void() checking_water =
 		self.avelocity_x = self.avelocity_x * 0.95;
 		self.avelocity_y = self.avelocity_y * 0.95;
 		self.avelocity_z = self.avelocity_z * 0.95;
-		if(self.movetype != MOVETYPE_FLY)
+		if (self.movetype != MOVETYPE_FLY)
 			self.movetype = MOVETYPE_FLY;
 		
 	}
 	else
 	{
-		if(self.movetype != MOVETYPE_TOSS)
+		if (self.movetype != MOVETYPE_TOSS)
 		{
 			self.movetype = MOVETYPE_TOSS;
 			self.gravity = 1;
@@ -513,7 +513,7 @@ void() checking_water =
 
 void(string gibname, float dm, float gravitygib, float bstop, float scalegib, vector orn, vector rvel, float xangonground, float kickable) ThrowGib2 = 
 { 
-	local entity new;
+	entity new;
 	new = spawn();
 	new.origin = orn;
     new.gibowner = self;
@@ -572,7 +572,7 @@ void(string gibname, float dm, float gravitygib, float bstop, float scalegib, ve
 		new.movetype = MOVETYPE_TOSS;
 
 
-	if(magnetic_time > time)
+	if (magnetic_time > time)
 	new.movetype = MOVETYPE_TOSS;
 
 
@@ -593,7 +593,7 @@ void(string gibname, float dm, float gravitygib, float bstop, float scalegib, ve
 
 
 
-	if(gravitygib > 0.25)
+	if (gravitygib > 0.25)
 		new.think = checking_ground;	
 	else
 		new.think = checking_water;
@@ -608,7 +608,7 @@ void(string gibname, float dm, float gravitygib, float bstop, float scalegib, ve
 };
 void()wretch_spining_head;
 float wretch_sht;
-void(entity ownr, string gibname, float dm, float gravitygib, float bstop, float scalegib, vector orn, vector rvel, float xangonground, float kickable) ThrowGib3 = { local entity new;
+void(entity ownr, string gibname, float dm, float gravitygib, float bstop, float scalegib, vector orn, vector rvel, float xangonground, float kickable) ThrowGib3 = { entity new;
 	new = spawn();
 	new.origin = orn;
 	
@@ -662,10 +662,10 @@ void(entity ownr, string gibname, float dm, float gravitygib, float bstop, float
 		new.fakewatertype = CONTENT_LAVA; // just to spawn "lava" decals instead blood decals
 		float r = random();
 		setsize(self, '-8 -8 -8', '8 8 8');
-		if(r > 0.33)
+		if (r > 0.33)
 			new.effects += EF_FLAME;
 	}
-	if(magnetic_time > time)
+	if (magnetic_time > time)
 	new.movetype = MOVETYPE_TOSS;
 
 	new.alpha = 1;	//3 + random() *2;	
@@ -685,7 +685,7 @@ void(entity ownr, string gibname, float dm, float gravitygib, float bstop, float
 	if (new.count >= 3)
 		new.touchtime = time + 0.5 + random();
 	new.scale = scalegib;
-	if(gravitygib > 0.25)
+	if (gravitygib > 0.25)
 	{
 		new.think = checking_ground;
 		gib_glowmod_controller(new);
@@ -719,7 +719,7 @@ void() projectile_touch_str2;
 void()CheckCysStricken;
 void(entity ownr, float dm, vector orn, vector rvel) ThrowGibCyst = 
 { 
-	local entity new;
+	entity new;
 	new = spawn();
 	new.origin = orn;
 	new.owner = ownr;
@@ -738,7 +738,7 @@ void(entity ownr, float dm, vector orn, vector rvel) ThrowGibCyst =
 	new.traileffectnum = particleeffectnum("stricken_cyst_trail");
 	new.movetype = MOVETYPE_BOUNCE;
 
-	if(magnetic_time > time)
+	if (magnetic_time > time)
 		new.movetype = MOVETYPE_TOSS;
 
 
@@ -762,7 +762,7 @@ void(string gibname, float dm) ThrowHead = { setmodel(self, gibname);
 	self.wrathflags = self.wrathflags + FL_TOSS;
 	self.nextthink = -1;
 	self.movetype = MOVETYPE_BOUNCE;
-	if(magnetic_time > time)
+	if (magnetic_time > time)
 	self.movetype = MOVETYPE_TOSS;
 
 	self.wrathflags += FL_GARBAGE;
@@ -786,19 +786,19 @@ void(entity monster) remove_monster = { monster.effects = EF_NODRAW;
 	monster.nextthink = time + 5;
 
 };
-void() bleedthink2 = { local entity e;
+void() bleedthink2 = { entity e;
 	e = self.owner;
 	if (self.owner.health < 0)
 	{
 		remove(self);
 		return;
 	}
-	local float nparticles;
+	float nparticles;
 	nparticles = particleeffectnum(self.particleffect);
 
-	local vector tagorg, dir;
-	local float tagindex;
-	local string tagname;
+	vector tagorg, dir;
+	float tagindex;
+	string tagname;
 
 	tagname = self.tagorg2;
 	tagindex = gettagindex(self.owner, tagname);
@@ -809,7 +809,7 @@ void() bleedthink2 = { local entity e;
 	self.think = bleedthink2;
 }
 
-void(entity ownr, string nameffect, string tagname) bleeding_point = { local entity bleed;
+void(entity ownr, string nameffect, string tagname) bleeding_point = { entity bleed;
 	bleed = spawn();
 	bleed.wrathflags += FL_GARBAGE;
 	bleed.owner = self;
@@ -857,10 +857,10 @@ float magnetic_time;
 void(float type, vector org) explo_blood = { 
 
 
-	if(magnetic_time > time)
+	if (magnetic_time > time)
 	return;
-	local entity giblood;
-	local float skinn;
+	entity giblood;
+	float skinn;
 	giblood = spawn();
 	giblood.origin = org;
 	giblood.cnt = type;
@@ -935,7 +935,7 @@ void(float type, vector org) explo_blood = {
 	}
 	else
 		setmodel(giblood, "particles/explo/explo_blood3.md3");
-	//if(self.classname == "monster_invader")		
+	//if (self.classname == "monster_invader")		
 	if ((giblood.cnt == 6) || (giblood.cnt == 7) || (giblood.cnt == 8) || (giblood.cnt == 9) || (giblood.cnt == 10) || (giblood.cnt == 11))
 		giblood.think = explo_model;
 	else
@@ -945,7 +945,7 @@ void(float type, vector org) explo_blood = {
 void(vector org,string locsound, float rnd, float vol, float sspeed) randompointsound7;
 void(float type, vector org) explo_blood_sprite = 
 { 
-	if(magnetic_time > time)
+	if (magnetic_time > time)
 	    return;
 
 	if (type == 8) // particles instead, for shield deflection
@@ -960,7 +960,7 @@ void(float type, vector org) explo_blood_sprite =
 		}
 
 		string string_sound = "impact/projectiles/trinket_med.ogg";
-		local entity locsound = spawn();
+		entity locsound = spawn();
 		locsound.origin = org;
 		sound7 (locsound, CHAN_AUTO, string_sound, 1, 0.25,random(100,120),0);
 		randompointsound7(org,"impact/projectiles/rico", 15, random(1,1),random(90,120));
@@ -968,8 +968,8 @@ void(float type, vector org) explo_blood_sprite =
 		return;
 	}
 
-	local entity giblood;
-	local float skinn;
+	entity giblood;
+	float skinn;
 	if (!type)
 		return;
 	giblood = spawn();
@@ -1021,7 +1021,7 @@ void(float type, vector org) explo_blood_sprite =
 void(entity inflictor, entity targ, float damage, float pushfactor) explo_physics_gibs;
 void()gibpusher_think =
 {
-	return;
+//??	return;
 	float gib_power = cvar ("gibpushexp");
 	entity head = findradius(self.origin, self.count);
 	float pushfactor = 5 + self.cnt * 2.5;
@@ -1033,9 +1033,9 @@ void()gibpusher_think =
 			explo_physics_gibs (self,head,pushfactor, (self.cnt * 1.7 * gib_power)); 	
 
 			float r = random();	
-			if(r < 0.3)
+			if (r < 0.3)
 			{
-				if(!(head.wrathflags & FL_PUSHEDGIB))
+				if (!(head.wrathflags & FL_PUSHEDGIB))
 					head.wrathflags += FL_PUSHEDGIB;
 			}
 			head.movetype = MOVETYPE_TOSS;
@@ -1067,14 +1067,14 @@ void()gibpusher_think2 =
 			head.velocity += gibpush *  (self.cnt * pushfactor) * gib_power; 
 
 			float r = random();	
-			if(r < 0.3)
+			if (r < 0.3)
 			{
-				if(!(head.wrathflags & FL_PUSHEDGIB))
+				if (!(head.wrathflags & FL_PUSHEDGIB))
 					head.wrathflags += FL_PUSHEDGIB;
 			}
 
 			//head.velocity_z = 12 * pushfactor;
-			if((head.traileffectnum2 > 0) && (gibdist < 256))
+			if ((head.traileffectnum2 > 0) && (gibdist < 256))
 			{
 				entity 	gibtrailcontroller = spawn();
 				gibtrailcontroller.owner = head;
@@ -1108,8 +1108,8 @@ void() blood_decal_touch = { float max_totaldecals;
 		remove(self);
 		return;
 	}
-	local entity decal, near;
-	local float dist, dist2, low;
+	entity decal, near;
+	float dist, dist2, low;
 	low = 999;
 	decal = find(decal, classname, "decal");
 	while (decal)
@@ -1126,8 +1126,8 @@ void() blood_decal_touch = { float max_totaldecals;
 		decal = find(decal, classname, "decal");
 	}
 
-	local float surfnum;
-	local vector decalpos;
+	float surfnum;
+	vector decalpos;
 	surfnum = getsurfacenearpoint(world, self.origin);
 	decalpos = getsurfacenormal(world, surfnum);
 
@@ -1239,7 +1239,7 @@ void() blood_decal_touch = { float max_totaldecals;
 
 	self.nextthink = time + time_totaldecals;
 };
-void(vector org, float class) blood_decal = { local entity decal;
+void(vector org, float class) blood_decal = { entity decal;
 	decal = spawn();
 	//decal.origin = org;
 	setorigin(decal, org);
@@ -1261,7 +1261,7 @@ void(vector org, float class) blood_decal = { local entity decal;
 
 void(vector org, vector enemyangles) decal_monster_pain = { makevectors(enemyangles);
 	traceline(org, org + v_forward *192, TRUE, self);
-	local vector org2;
+	vector org2;
 	if (trace_fraction != 1)
 	{
 		org2 = trace_endpos + '0 0 12';
@@ -1271,7 +1271,7 @@ void(vector org, vector enemyangles) decal_monster_pain = { makevectors(enemyang
 
 void(vector org, vector enemyangles) decal_monster_pain2 = { makevectors(enemyangles);
 	traceline(org, org + v_forward *256, TRUE, self);
-	local vector org2;
+	vector org2;
 	if (trace_fraction != 1)
 	{
 		org2 = trace_endpos + '0 0 12';
@@ -1280,7 +1280,7 @@ void(vector org, vector enemyangles) decal_monster_pain2 = { makevectors(enemyan
 };
 
 void(vector org) decal_monster = {
-	local vector org2;
+	vector org2;
 	traceline(org, org - '0 0 64', TRUE, self);
 	if (trace_fraction != 1)
 	{
@@ -1290,7 +1290,7 @@ void(vector org) decal_monster = {
 };
 
 void(vector org) decal_monster_gib = { decal_monster_pain2(rorigin(self), self.enemy.angles);
-	local vector org2;
+	vector org2;
 	traceline(org, org - '0 0 64', TRUE, self);
 	if (trace_fraction != 1)
 	{
@@ -1299,7 +1299,7 @@ void(vector org) decal_monster_gib = { decal_monster_pain2(rorigin(self), self.e
 	}
 };
 
-void(vector org) decal_monster2 = { local vector org2;
+void(vector org) decal_monster2 = { vector org2;
 	traceline(org, org - '0 0 64', TRUE, self);
 	if (trace_fraction != 1)
 	{
@@ -1308,7 +1308,7 @@ void(vector org) decal_monster2 = { local vector org2;
 	}
 };
 
-vector(string tagname, entity e) tag_origin = { local float tagindex;local vector tagorg;
+vector(string tagname, entity e) tag_origin = { float tagindex;vector tagorg;
 	tagindex = gettagindex(e, tagname);
 	tagorg = gettaginfo(e, tagindex);
 	return tagorg;

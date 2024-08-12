@@ -1,6 +1,6 @@
 void() ShalHome =
 {
-	local vector	dir, vtemp;
+	vector	dir, vtemp;
 	vtemp = self.enemy.origin + '0 0 10';
 	if (self.enemy.health < 1)
 	{
@@ -15,7 +15,7 @@ void() ShalHome =
 	else
 		self.velocity = dir * 250;
 	
-	//if(self.flags & FL_ONGROUND)
+	//if (self.flags & FL_ONGROUND)
 	//self.velocity_z = -200;
 //	else
 //	{

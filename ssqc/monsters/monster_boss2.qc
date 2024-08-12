@@ -321,9 +321,9 @@ void boss2_projectile_touch(void)
 { 
 	if (other == self.owner)
 		return;
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
-	if(other.wrathflags & FL_PROJECTILE)
+	if (other.wrathflags & FL_PROJECTILE)
 		return;
 	
 
@@ -655,8 +655,8 @@ vector boss2_beam_aimpos;
 void boss2_hitscandamage(vector p1, vector p2, entity from, float damage)
 {
 
-	local entity		e1, e2;
-	local vector		f;
+	entity		e1, e2;
+	vector		f;
 	f = p2 - p1;
 	normalize (f);
 	f_x = 0 - f_y;
@@ -668,7 +668,7 @@ void boss2_hitscandamage(vector p1, vector p2, entity from, float damage)
 
 	float r2 = random();
 
-	if(r2 < 0.5)
+	if (r2 < 0.5)
 	{	
 
 		entity muzzle = spawn();
@@ -681,13 +681,13 @@ void boss2_hitscandamage(vector p1, vector p2, entity from, float damage)
 
 		sound7 (from, CHAN_AUTO, "weapons/crystal/crystalise.ogg", 1, 0.25,random(150,200),0);
 		sound7 (from, CHAN_AUTO, "fx/tele4.ogg", 1, 0.5,random(150,200),0);
-		if(r2 < 0.25)
+		if (r2 < 0.25)
 		{
 		te_customflash ( trace_endpos,92,1,'0.9 0 0.75');
 		spawn_relevelation_particles(trace_endpos,7,'0.8 0.25 0.75',1);
 		sound7 (from, CHAN_AUTO, "fx/tele3.ogg", 1, 0.5,random(150,200),0);
 		}
-		if(r2 < 0.1)
+		if (r2 < 0.1)
 		sound7 (from, CHAN_AUTO, "fx/tele2.ogg", 1, 0.5,random(150,200),0);
 
 	}
@@ -1424,10 +1424,11 @@ void boss2_c::destructor(void)
 void boss2_c::puppet_movement(void)
 {
 	vector pos_wanted;
+	vector diff;
 
 	if (this.enemy)
 	{	
-		vector diff = normalize(this.origin - this.enemy.origin);
+		diff = normalize(this.origin - this.enemy.origin);
 		diff[2] *= -2;
 
 		pos_wanted += diff * 112; // stance back a bit from the player
@@ -1447,7 +1448,7 @@ void boss2_c::puppet_movement(void)
 	pos_wanted[2] += sin((time + 1.57) * 0.8) * 24;
 	pos_wanted += this.puppet_vel;
 
-	vector diff = (pos_wanted - this.puppet_offset);
+	diff = (pos_wanted - this.puppet_offset);
 	float dist = vlen(diff);
 	float spd = 16;
 	if (dist > 128)
@@ -1818,7 +1819,7 @@ void func_crystal_fadeout(void)
 			self = o_self;
 
 			entity lst = world;
-			while(lst = find(lst, ::target, self.targetname))
+			while ((lst = find(lst, ::target, self.targetname)))
 			{
 				if (lst.classname != "boss2_stage1_node")
 					continue;
@@ -1993,7 +1994,7 @@ void spawnfunc_trigger_boss2_position(void)
 
 	// find position node
 	entity e = world;
-	while(e = find(e, classname, "boss2_stage1_node"))
+	while ((e = find(e, classname, "boss2_stage1_node")))
 	{
 		if (e.targetname == self.target)
 			break;
@@ -2113,7 +2114,7 @@ float BOSS2_POINTTOCIRCLE(vector diff)
 void boss2_stage2_playerspawn_use(void)
 {
 	entity lst = world;
-	while(lst = findflags(lst, flags, FL_CLIENT))
+	while ((lst = findflags(lst, flags, FL_CLIENT)))
 	{
 		stuffcmd(lst, "bf 0.52 0.5 0.6 0.6 2.5\n");
 		lst.velocity = '0 0 0';
@@ -2136,13 +2137,13 @@ float boss2_c::anim_transitionstage2(void)
 		return FALSE;
 
 	if (this.stage >= 2)
-		return;
+		return FALSE;
 
 	this.stage = 2;
 	this.trigger_stage(this.stage);
 
 	entity lst = world;
-	while(lst = find(lst, ::classname, "boss2_stage2_node")) // find initial spawn spot
+	while ((lst = find(lst, ::classname, "boss2_stage2_node"))) // find initial spawn spot
 	{
 		if !(lst.spawnflags & 8)
 			continue;
@@ -2156,6 +2157,7 @@ float boss2_c::anim_transitionstage2(void)
 		dprint("boss going into stage 2!\n");
 		break;
 	}
+	return 1;//R00k 
 }
 
 void boss2_stage2_crystal_die(void)
@@ -2266,7 +2268,7 @@ float boss2_c::anim_gemshattered(void)
 		this.animation_start($boss2_teleout1, $boss2_teleout10, this.anim_teleportout);
 	
 	return FALSE;
-}
+};
 
 static vector boss2_orbmovements_pos[] = {
 	'0 0 -50',
@@ -2282,7 +2284,7 @@ static float boss2_orbmovements_scale[] = {
 	4,
 	2.4,
 	0.001,
-}
+};
 
 static float boss2_orbmovements_slerp[] = {
 	1,
@@ -2290,7 +2292,7 @@ static float boss2_orbmovements_slerp[] = {
 	0,
 	0,
 	0,
-}
+};
 
 static float boss2_orbmovement_relative[] = {
 	0,
@@ -2298,7 +2300,7 @@ static float boss2_orbmovement_relative[] = {
 	0.2,
 	0.4,
 	0.85,
-}
+};
 
 const float boss2_orbmovements_period = 2;
 
@@ -2378,12 +2380,14 @@ entity boss2_deathorb_spawn(vector ang)
 
 float boss2_c::anim_death(void)
 {
+	entity ghost;
+
 	this.enemy = boss_center;
 
 	if (this.frame == (this.animlock_end - 1))
 	{
 		///*
-		entity ghost = boss2_ghost_spawn(this.puppet);
+		ghost = boss2_ghost_spawn(this.puppet);
 		ghost.alpha = this.puppet.alpha;
 		ghost.spawnflags = 3;
 		//*/
@@ -2454,13 +2458,14 @@ float boss2_c::anim_death(void)
 
 	if ((this.frame % 2) == 0)
 	{
-		entity ghost = boss2_ghost_spawn(this.puppet);
+		ghost = boss2_ghost_spawn(this.puppet);
 		ghost.colormod[0] += random(0.2, 0.9);
 		ghost.colormod[2] -= random(0.02, 0.3);
 		ghost.scale += random(0.7);
 		ghost.alpha = 0.7;
 		return FALSE;
 	}
+	return TRUE;
 }
 
 float boss2_c::anim_destruction1(void)
@@ -2545,7 +2550,7 @@ float boss2_c::anim_destruction2(void)
 		entity lowest_ent = world;
 
 		entity lst = world;
-		while(lst = find(lst, ::classname, "boss2_stage2_destroy"))
+		while((lst = find(lst, ::classname, "boss2_stage2_destroy")))
 		{
 			if (lst == ignore)
 				continue;
@@ -2707,7 +2712,7 @@ float boss2_c::anim_appearwait(void)
 	float locations_total = 0;
 
 	entity oldent = world, ent = world;
-	while(ent = find(ent, ::classname, "boss2_stage2_node")) // find a valid spawn location
+	while((ent = find(ent, ::classname, "boss2_stage2_node"))) // find a valid spawn location
 	{
 		if !(ent.spawnflags & 4)
 			continue;
@@ -2730,7 +2735,7 @@ float boss2_c::anim_appearwait(void)
 	{
 		ent = locations_list;
 		float threshold = floor(random(locations_total));
-		for(float i = 0; i < threshold; i++) { ent = ent.chain; };
+		for(float i = 0; i < threshold; i++) { ent = ent.chain; }
 
 		this.appear_at_position(ent.origin, [0, ent.angles[1], 0]);
 		this.animlock_think = boss2_anim_stage2;
@@ -2782,6 +2787,8 @@ float boss2_c::anim_teleportout(void)
 
 void boss2_c::stage2_frame(void)
 {
+	float spd = 0;
+
 	boss_center = find(world, ::classname, "boss_center");
 
 	// slow damage intake to max 400dps
@@ -2822,7 +2829,7 @@ void boss2_c::stage2_frame(void)
 			}
 		}
 
-		float spd = travel_speed * frametime;
+		spd = travel_speed * frametime;
 		travel_oncircle += travel_direction ? spd : -spd;
 
 		vector circle_pos = boss_center.origin + BOSS2_POINTONCIRCLE(travel_oncircle);
@@ -2852,7 +2859,7 @@ void boss2_c::stage2_frame(void)
 		if (node_next)
 		{
 			travel_speed = 700;
-			float spd = travel_speed * frametime;
+			spd = travel_speed * frametime;
 			travel_position += normalize(node_next.origin - travel_position) * spd;
 			//setorigin(this, this.origin);
 			if (vlen(node_next.origin - travel_position) <= max(32, spd))
@@ -2990,11 +2997,11 @@ void boss2_c::stage2(void)
 
 void(vector org,vector dir, float proj_angles, entity ownerproj, float proj_type,float projdelay, string tagname) launch_projectile_guardian2 = 
 { 
-	local entity guardian2_projectile;
+	entity guardian2_projectile;
 	monstersound3("enemies/wretch/fire", 5, CHAN_AUTO);	
 	guardian2_projectile = spawn();	
 	guardian2_projectile.origin = org;
-	if((ownerproj.magnetized != 0))
+	if ((ownerproj.magnetized != 0))
 		guardian2_projectile.magnetized = ownerproj.magnetized;
 
 	guardian2_projectile.owner = ownerproj;
@@ -3002,9 +3009,9 @@ void(vector org,vector dir, float proj_angles, entity ownerproj, float proj_type
 	guardian2_projectile.wrathflags += FL_PROJECTILE;
 	guardian2_projectile.solid = SOLID_TRIGGER;
 	guardian2_projectile.scale = 2;
-	if(proj_type == 1)
+	if (proj_type == 1)
 		guardian2_projectile.scale = 3;
-	if(proj_type == 2)
+	if (proj_type == 2)
 		guardian2_projectile.scale = 4;
 		
 
@@ -3012,13 +3019,13 @@ void(vector org,vector dir, float proj_angles, entity ownerproj, float proj_type
 
 	guardian2_projectile.colormod = '1.5 0.2 1';
 
-	if(proj_type == 1)
+	if (proj_type == 1)
 	{
 		guardian2_projectile.colormod = '1.2 0.2 1';
 		guardian2_projectile.traileffectnum = particleeffectnum("proj_guardian1_trail2");
 	}
 
-	if(proj_type == 2)
+	if (proj_type == 2)
 	{
 		guardian2_projectile.colormod = '1.5 0.2 1';
 		guardian2_projectile.traileffectnum = particleeffectnum("proj_guardian1_trail3");
@@ -3029,7 +3036,7 @@ void(vector org,vector dir, float proj_angles, entity ownerproj, float proj_type
 	guardian2_projectile.lifetime  = time + 7.5;
 	guardian2_projectile.enemy = ownerproj.enemy;
 
-	local entity oself;oself = self;self = guardian2_projectile;
+	entity oself;oself = self;self = guardian2_projectile;
 	sound7(self, CHAN_WEAPON, "enemies/wraith/proj_loop1.ogg", 1, 0.25, 80 + random() *5, 0);
 	self = oself;
 
@@ -3039,9 +3046,9 @@ void(vector org,vector dir, float proj_angles, entity ownerproj, float proj_type
 	guardian2_projectile.angles = vectoangles(dir) ;
 
 	float angle_y_compensation;
-	if(tagname == "tag_left_hand")
+	if (tagname == "tag_left_hand")
 		angle_y_compensation = -2;
-	if(tagname == "tag_right_hand")
+	if (tagname == "tag_right_hand")
 		angle_y_compensation = 1.79;
 
 	guardian2_projectile.angles_y -= (proj_angles * 0.25) + angle_y_compensation ;
@@ -3049,14 +3056,14 @@ void(vector org,vector dir, float proj_angles, entity ownerproj, float proj_type
 	dir = v_forward;
 
 
-	if(ownerproj.ammo_cannon >= 0 )
+	if (ownerproj.ammo_cannon >= 0 )
 	{
 		float addspeed = ownerproj.ammo_cannon * 16;
 	}
 
 	guardian2_projectile.velocity = dir * (boss1_proj1_vel + addspeed);
 
-	if(guardian2_projectile.magnetized >= 1)
+	if (guardian2_projectile.magnetized >= 1)
 	{
 	  	guardian2_projectile.velocity = dir * (boss1_proj2_vel);
 		guardian2_projectile.guardian_shoot_cnt = boss1_proj2_homingcount; 
@@ -3081,7 +3088,7 @@ void(string tagname, float offset,float projdelay) guardian2_attack_spread =
 
 	vector player_offset = '0 0 12';
 
-	if((self.classname == "boss_guardian2") &&(self.origin_z > (self.enemy.origin_z + 12))) 
+	if ((self.classname == "boss_guardian2") &&(self.origin_z > (self.enemy.origin_z + 12))) 
 		newplayerorg_z += random (24,64);
 	else
 		newplayerorg_z += random (-64,24);
@@ -3090,45 +3097,45 @@ void(string tagname, float offset,float projdelay) guardian2_attack_spread =
 		newplayerorg_y += random (-8,8);
 
 
-	if(self.ammo_cannon >= 0 )
+	if (self.ammo_cannon >= 0 )
 		newplayerorg_z = self.enemy.origin_z + nextpos_z;
 
-	if(self.magnetized == 1)
+	if (self.magnetized == 1)
 		player_offset += '0 0 92';
 
-	if(self.origin_z < (self.enemy.origin_z + 1))
+	if (self.origin_z < (self.enemy.origin_z + 1))
 	{
-		if(self.magnetized == 1)
+		if (self.magnetized == 1)
 			player_offset += '0 0 256';
 		else
 		{
-			if(self.bosscnt == 1)
+			if (self.bosscnt == 1)
 				player_offset += '0 0 24';
 		}
-		if(((self.origin_z + 800) < (self.enemy.origin_z)) && (self.magnetized == 1))
+		if (((self.origin_z + 800) < (self.enemy.origin_z)) && (self.magnetized == 1))
 			player_offset += '0 0 186';
 	}
 
-	if(self.origin_z > (self.enemy.origin_z + 64)) 
+	if (self.origin_z > (self.enemy.origin_z + 64)) 
 	{
-		if(self.bosscnt == 3)
+		if (self.bosscnt == 3)
 			player_offset = '0 0 -32';
 		else
 			player_offset = '0 0 -92';
 
-		if(self.magnetized == 1)
+		if (self.magnetized == 1)
 		{
-			if(self.origin_z > (self.enemy.origin_z + 350)) 
+			if (self.origin_z > (self.enemy.origin_z + 350)) 
 			{				
 				player_offset += '0 0 -256';
 				self.magnetized = 2;
 			}		
-			if(self.origin_z > (self.enemy.origin_z + 700)) 
+			if (self.origin_z > (self.enemy.origin_z + 700)) 
 					player_offset += '0 0 -128';
 		}	
 		else
 		{
-			if(self.bosscnt == 2)
+			if (self.bosscnt == 2)
 				player_offset += '0 0 64';
 		}
 	}
@@ -3136,20 +3143,20 @@ void(string tagname, float offset,float projdelay) guardian2_attack_spread =
 	vector dir = normalize( (newplayerorg +player_offset) - aim_org  );
 	org += v_right * (offset * 1.25);
 	
-	if(tagname == "tag_left_hand")
+	if (tagname == "tag_left_hand")
 		org += v_up * (offset * 0.75);
 	else
 		org += v_up * (offset * -0.75);
 	
 	float proj_type = 0;
-	if(self.vweaponframe == 10)
+	if (self.vweaponframe == 10)
 		proj_type =  1;
-	if(self.vweaponframe == 12)
+	if (self.vweaponframe == 12)
 		proj_type =  2;
 
 //void(vector org, float radius, float lifetime, vector color) te_customflash = #417;
 
-	if(self.magnetized == 1)
+	if (self.magnetized == 1)
 		te_customflash (org, 256,1,'0.35 0.35 1');
 	else
 		te_customflash (org, 170,0.75,'1 0.5 0.5');
@@ -3168,7 +3175,7 @@ void() boss2_alphafade =
 	self.alpha -= 0.05;
 	self.scale -= 0.5;
 
-	if(self.alpha < 0.05)
+	if (self.alpha < 0.05)
 	{
 		self.alpha -1;
 		self.think = SUB_Remove;
@@ -3196,7 +3203,7 @@ void(entity e) guardian2_teleport_effects =
 		tmpstr = "fx/tele5.ogg";
 	sound7(e, CHAN_AUTO, tmpstr, 1, 0.125, 50,0);
 	sound7(e, CHAN_AUTO, tmpstr, 1, 0.125, 120,0);
-	local float bparticle;
+	float bparticle;
 	bparticle = particleeffectnum("boss2teleport");
 	pointparticles(bparticle, e.origin, '0 0 0', 2);
 	pointparticles(bparticle, e.origin + '0 0 128', '0 0 0', 2);
@@ -3218,12 +3225,12 @@ float boss2_distance = 1560;
 
 float(float pdist) TeleportNearestBossPath = 
 { 
-	local entity head, near;
-	local float dist, low;
+	entity head, near;
+	float dist, low;
 	vector tdest;
 	low = pdist;	
 	head = find(world, classname, "boss_path");
-	if(self.enemy == single_player)
+	if (self.enemy == single_player)
 		tdest = single_player.origin;
 	else
 		tdest = self.origin;
@@ -3233,9 +3240,9 @@ float(float pdist) TeleportNearestBossPath =
 	{
 		dist = vlen(head.origin - tdest);
 		float allowteleport = 0;
-		if((self.bosscnt < 3) && (head.using == 1))
+		if ((self.bosscnt < 3) && (head.using == 1))
 			allowteleport = 1;
-		if(self.bosscnt >= 3)
+		if (self.bosscnt >= 3)
 			allowteleport = 1;
 		if ((dist < low) && (allowteleport == 1))
 		{
@@ -3248,7 +3255,7 @@ float(float pdist) TeleportNearestBossPath =
 	{
 		self.finaldest = near.origin;
 		//setorigin (self, near.origin);
-		if(pdist != 999999)
+		if (pdist != 999999)
 			self.evading_time = time + random (5,7);
 		return TRUE;
 	}
@@ -3262,13 +3269,13 @@ float(float pdist) TeleportNearestBossPath =
 
 void() guardian2_teleportbloop =
 {
-	if(self.effects != EF_NODRAW)
+	if (self.effects != EF_NODRAW)
 	{	
 		self.effects = EF_NODRAW;
 		guardian2_teleport_effects(self);
 		setorigin (self, '0 0 0');
 	}
-	if(TeleportNearestBossPath(1560) == TRUE)
+	if (TeleportNearestBossPath(1560) == TRUE)
 	{
 		setorigin (self, self.finaldest);
 		guardian2_teleport_effects(self);
@@ -3307,10 +3314,10 @@ void() guardian2_painb =
 
 void(vector destination) boss2firegrenade =
 {
-    local entity missile;
+    entity missile;
     self.effects = self.effects;
-	local vector tagorg;
-	local float tagindex;
+	vector tagorg;
+	float tagindex;
 	tagindex = gettagindex(self, "tag_chest");
 	tagorg = gettaginfo(self, tagindex);
     missile = spawn ();
@@ -3435,10 +3442,10 @@ void() guardian2_attackb_1 =
 	self.vweaponframe ++;
 	ai_face_boss();
 
-	if(behindapillar (self.enemy.origin))
+	if (behindapillar (self.enemy.origin))
 	{
 		float r_spread = random();
-		if(r_spread < 0.5)
+		if (r_spread < 0.5)
 			r_spread = -48;
 		else
 			r_spread = 48;
@@ -3447,10 +3454,10 @@ void() guardian2_attackb_1 =
 		r_spread = random(-12,12);
 	self.magnetized = 1;
 
-	if(self.vweaponframe == 10)
+	if (self.vweaponframe == 10)
 	{
 		self.attack_finished = time + 2.5 + random(2);
-		if(self.bosscnt < 3)
+		if (self.bosscnt < 3)
 			guardian2_attack_spread("tag_chest",r_spread,0);
 		else
 		{
@@ -3459,7 +3466,7 @@ void() guardian2_attackb_1 =
 			guardian2_attack_spread("tag_chest",92+r_spread,0);
 		}
 	}
-	if(self.vweaponframe >= 12)
+	if (self.vweaponframe >= 12)
 		self.think = guardian2_prealert;
 	else
 		self.think = guardian2_attackb_1;
@@ -3484,7 +3491,7 @@ void() guardian2_attacka_1 =
 	self.frame ++;
 	self.vweaponframe ++;
 	ai_face_boss();
-	if(self.vweaponframe == 12)
+	if (self.vweaponframe == 12)
 	{
 		guardian2_attack_spread("tag_h_t_left",-64,0);
 		guardian2_attack_spread("tag_h_m_left",-48,0);
@@ -3497,7 +3504,7 @@ void() guardian2_attacka_1 =
 		guardian2_attack_spread("tag_h_m_right", 48,0);
 		guardian2_attack_spread("tag_h_t_right", 64,0);
 	}
-	if(self.vweaponframe >= 22)
+	if (self.vweaponframe >= 22)
 	{
 		self.attack_finished = time + 0.5+ random(1.5);
 		self.think = guardian2_prealert;
@@ -3525,15 +3532,15 @@ void()guardian2_alert =
 	self.frame = $boss2_hovera;
 	ai_face_boss();
 	self.colormod = '1 1 1';
-	if(self.state == 1)
+	if (self.state == 1)
 		self.think = guardian2_teleportb;
 	else
 	{
-		if((time > self.attack_finished) && (!(self.enemy.flags &FL_NOTARGET)))
+		if ((time > self.attack_finished) && (!(self.enemy.flags &FL_NOTARGET)))
 		{
-			if(self.bosscnt < 3)
+			if (self.bosscnt < 3)
 			{
-				if(visible(self.enemy))
+				if (visible(self.enemy))
 				{
 					self.think = guardian2_attacka;
 				}
@@ -3547,19 +3554,19 @@ void()guardian2_alert =
 				vector rorg = self.origin;
 				rorg_z = self.enemy.origin_z;
 				float dist = vlen (rorg - self.enemy.origin);
-				if(dist < 512) 
+				if (dist < 512) 
 				{
 					self.think = guardian2_attackc;
 				}
-				if(dist < 960)
+				if (dist < 960)
 				{
 					self.think = guardian2_attackd;
 				}
-				if(dist < 1360)
+				if (dist < 1360)
 				{
 					self.think = guardian2_attacke;
 				}
-				if(dist >= 1768)
+				if (dist >= 1768)
 				{
 					self.think = guardian2_attackb;
 				}
@@ -3606,7 +3613,7 @@ void() guardian2_teleport =
 	else
 		tmpstr = "fx/tele5.ogg";
 	sound7(self, CHAN_AUTO, tmpstr, 1, 0.25, 75,0);
-	local float bparticle;
+	float bparticle;
 	bparticle = particleeffectnum("boss2teleport");
 	pointparticles(bparticle, self.origin, '0 0 0', 1);
 	pointparticles(bparticle, self.origin + '0 0 128', '0 0 0', 1);
@@ -3615,7 +3622,7 @@ void() guardian2_teleport =
 	float distalpha;
 	distalpha = vlen (self.origin - self.enemy.origin);
 	distalpha =  768 /distalpha ;
-	if(distalpha > 1)
+	if (distalpha > 1)
 		distalpha = 1;
 	
 	stuffcmd (self.enemy, strcat(("bf 0.8 0.25 0.75 "),ftos(distalpha * 0.5) ,(" 0.45\n")));
@@ -3661,11 +3668,11 @@ void() guardian2_wakeupa =
 void() guardian2_idle = 
 {
 	self.frame ++;
-	if(self.frame >= $boss2_idle40)
+	if (self.frame >= $boss2_idle40)
 		self.frame = $boss2_idle1;
-	if((self.using == 1))
+	if ((self.using == 1))
 		player_enemy();
-	if(!self.enemy)
+	if (!self.enemy)
 		self.think = guardian2_idle;
 	else
 		self.think = guardian2_wakeupa;
@@ -3683,24 +3690,24 @@ void()nodrawcontroller_think =
 {
 	float bosscounterdist;
 	bosscounterdist = 1560;
-	if((self.owner.enemy != single_player) || (self.owner.evading_time > time))
+	if ((self.owner.enemy != single_player) || (self.owner.evading_time > time))
 		self.owner.state = 0;
 	else
 	{
 		float dist = vlen (self.owner.origin - self.owner.enemy.origin);
  
-		if(dist < bosscounterdist) 
+		if (dist < bosscounterdist) 
 		{
-			if(self.owner.state == 1)
+			if (self.owner.state == 1)
 				self.owner.state = 0;
 		}
 		else
 		{
-			if(self.owner.state == 0)
+			if (self.owner.state == 0)
 				self.owner.state = 1;
 		}
 	}
-	if(self.owner.bosscnt >= 3)
+	if (self.owner.bosscnt >= 3)
 		self.think = SUB_Remove;
 	else
 		self.think = nodrawcontroller_think;
@@ -3737,7 +3744,7 @@ void() boss_guardian2_die =
 		secret_mark2.origin = org;
 
 		float r = random();
-		if(r > 0.3)
+		if (r > 0.3)
 			secret_mark2.colormod = '0.175 0.35 1';
 		else
 			secret_mark2.colormod = '0.25 0.25 0.75';
@@ -3832,7 +3839,7 @@ void() boss_guardian2 =
 void() searchboss2 =
 {
 	entity boss2 = find(world, classname, "boss_guardian2");
-	if(boss2)
+	if (boss2)
 	{
 		self.owner = boss2;
 	}
@@ -3860,12 +3867,12 @@ void()boss2_teleport_stage2;
 
 void()func_crystal_boss_use = 
 {
-	if(self.colormod_x > 0.20)
+	if (self.colormod_x > 0.20)
 	{
 		//self.effects = EF_DOUBLESIDED;
 		self.colormod_x -= 0.01; 
 		self.colormod_y = self.colormod_x  * 1.214285714; 
-		if(self.colormod_y > 1)
+		if (self.colormod_y > 1)
 		self.colormod_y = 1;	
 		self.colormod_z = self.colormod_x; 
 		self.think = func_crystal_boss_use;
@@ -3876,11 +3883,11 @@ void()func_crystal_boss_use =
 	{
 		self.TrinketofRespite = 0;
 		self.owner.bosscnt ++;
-		if(self.owner.bosscnt >= 3)
+		if (self.owner.bosscnt >= 3)
 			self.owner.takedamage = DAMAGE_AIM;
 		self.owner.frame = $boss2_teleportb;
 		self.owner.nextthink = time  + 1.5;
-		if(self.owner.bosscnt >= 3)	
+		if (self.owner.bosscnt >= 3)	
 			self.owner.think = boss2_teleport_stage2;
 		else
 			self.owner.think = guardian2_paina;
@@ -3917,40 +3924,40 @@ void()func_crystal_boss =
 
 void() guardian2_controller_fly_loop =
 {	
-	if(self.owner.boss2attack > 0)
+	if (self.owner.boss2attack > 0)
 	{
-		if(self.owner.speed2 > 0)			
+		if (self.owner.speed2 > 0)			
 			self.owner.speed2 = self.owner.speed2 * 0.85;
 	}
 	else
 	{
-		if(self.owner.speed2 < 2.5)			
+		if (self.owner.speed2 < 2.5)			
 			self.owner.speed2 = self.owner.speed2 * 1.025;
 	}
 
 	/*else
 	{
-		if(self.owner.takenflytime < time)
+		if (self.owner.takenflytime < time)
 		{
-			if(self.owner.speed2 > 0.3)			
+			if (self.owner.speed2 > 0.3)			
 				self.owner.speed2 -= 0.0125;
 
 		}
 		else
 		{
-			if(self.owner.speed2 < 2)
+			if (self.owner.speed2 < 2)
 				self.owner.speed2 += 0.0125;
 		}
 	}*/
 	self.owner.velocity = self.owner.dest * (boss2_speed * 0.5 * self.owner.speed2);
-	if((self.owner.origin_z < single_player.origin_z)) 
+	if ((self.owner.origin_z < single_player.origin_z)) 
 	{
 	
 			self.owner.velocity_z = 32;
 	}
 	else
 	{
-		if((self.owner.origin_z > single_player.origin_z)  && ((self.owner.origin_z - single_player.origin_z) > 64) && ((self.owner.origin_z - self.owner.ldorigin_z) < 192))
+		if ((self.owner.origin_z > single_player.origin_z)  && ((self.owner.origin_z - single_player.origin_z) > 64) && ((self.owner.origin_z - self.owner.ldorigin_z) < 192))
 			self.owner.velocity_z = -32;
 		else
 			self.owner.velocity_z = 0;
@@ -3978,9 +3985,9 @@ void()stage2_preidle;
 
 void() stage2_attack = 
 {
-	if(self.ammo_shotgun > 0)
+	if (self.ammo_shotgun > 0)
 	{
-		if(!self.spawnedcrystal)
+		if (!self.spawnedcrystal)
 		{
 
 			self.beam_counter = 0;
@@ -3991,7 +3998,7 @@ void() stage2_attack =
 			te_crystal(self);*/
 			te_crystal2(self.origin, self.enemy.origin,60,0.25,0.25,5,world,self.enemy.origin);
 		}
-		if(self.ammo_shotgun <= 5)
+		if (self.ammo_shotgun <= 5)
 			CastLightning();
 		self.think = stage2_attack;
 		self.ammo_shotgun --;
@@ -4023,8 +4030,8 @@ void() stage2_preattacka =
 void(vector p1, vector p2, entity from, float damage) LightningDamage =
 {
 
-	local entity		e1, e2;
-	local vector		f;
+	entity		e1, e2;
+	vector		f;
 	f = p2 - p1;
 	normalize (f);
 	f_x = 0 - f_y;
@@ -4036,7 +4043,7 @@ void(vector p1, vector p2, entity from, float damage) LightningDamage =
 
 	float r2 = random();
 
-	if(r2 < 0.5)
+	if (r2 < 0.5)
 	{	
 
 		entity muzzle = spawn();
@@ -4049,13 +4056,13 @@ void(vector p1, vector p2, entity from, float damage) LightningDamage =
 
 		sound7 (self, CHAN_AUTO, "weapons/crystal/crystalise.ogg", 1, 0.25,random(150,200),0);
 		sound7 (self, CHAN_AUTO, "fx/tele4.ogg", 1, 0.5,random(150,200),0);
-		if(r2 < 0.25)
+		if (r2 < 0.25)
 		{
 		te_customflash ( trace_endpos,92,1,'0.9 0 0.75');
 		spawn_relevelation_particles(trace_endpos,7,'0.8 0.25 0.75',1);
 		sound7 (self, CHAN_AUTO, "fx/tele3.ogg", 1, 0.5,random(150,200),0);
 		}
-		if(r2 < 0.1)
+		if (r2 < 0.1)
 		sound7 (self, CHAN_AUTO, "fx/tele2.ogg", 1, 0.5,random(150,200),0);
 
 	}
@@ -4115,7 +4122,7 @@ void() lightningboss2think =
     WriteByte(MSG_BROADCAST, TRUE); // if the beam hit something, which makes the color slightly brighter
 
 
-	if(self.owner.vweaponframe >= 10)
+	if (self.owner.vweaponframe >= 10)
 		self.think = SUB_Remove;
 	else
 		self.think = lightningboss2think;
@@ -4123,7 +4130,7 @@ void() lightningboss2think =
 };
 void() stage2_beamattack =
 {
-	if((self.vweaponframe >= 7) && (self.vweaponframe < 8))
+	if ((self.vweaponframe >= 7) && (self.vweaponframe < 8))
 	{
 		self.frame += 0.075;
 		self.vweaponframe += 0.075;	
@@ -4136,7 +4143,7 @@ void() stage2_beamattack =
 	ai_face_boss();
 	
 
-	if(self.vweaponframe == 6)
+	if (self.vweaponframe == 6)
 	{
 		entity muzzle = spawn();
 		muzzle.owner = self;
@@ -4147,21 +4154,21 @@ void() stage2_beamattack =
 		muzzle.think = SUB_Remove;
 		muzzle.nextthink = time + 0.75;
 	}
-	if(self.vweaponframe == 7)
+	if (self.vweaponframe == 7)
 	{
 		entity lightningboss2 = spawn();
 		lightningboss2.owner = self;
 		lightningboss2.think = lightningboss2think;
 		lightningboss2.nextthink = time;
 	}
-	if((self.vweaponframe >= 7) && (self.vweaponframe < 10))
+	if ((self.vweaponframe >= 7) && (self.vweaponframe < 10))
 	{
-		if(self.glowmod_x > 0.1)
+		if (self.glowmod_x > 0.1)
 			self.glowmod_x -= 0.25;
 		self.glowmod_y = self.glowmod_x;
 		self.glowmod_z = self.glowmod_x;
 
-		if(!self.spawnedcrystal)
+		if (!self.spawnedcrystal)
 		{
 
 			self.beam_counter = 0;
@@ -4179,18 +4186,18 @@ void() stage2_beamattack =
 			LightningDamage(org,dir,self,boss2_beamdamage);
 
 		float r2 = random();
-		if(r2 < 0.5)
+		if (r2 < 0.5)
 			te_customflash ( tagorg,92,1,'0.9 0 0.75');
 	}
 
-	if(self.vweaponframe >= 10)
+	if (self.vweaponframe >= 10)
 		sound(self,CHAN_WEAPON,"sound/misc/null.wav",1,1);
-	if(self.vweaponframe >= 20)
+	if (self.vweaponframe >= 20)
 	{
 		self.spawnedcrystal = 0;
 		self.ammo_revolver --;
 		self.glowmod = '0.05 0.05 0.05';
-		if(self.ammo_revolver <= 0)
+		if (self.ammo_revolver <= 0)
 		{
 			self.think = stage2_preidle;
 			self.glowmod = '0.05 0.05 0.05';
@@ -4211,14 +4218,14 @@ void() stage2_beamattack =
 
 void() stage2_prebeamattack =
 {
-	if(self.ammo_revolver > 0)
+	if (self.ammo_revolver > 0)
 	{
-		if(self.glowmod_x < 1.5)
+		if (self.glowmod_x < 1.5)
 			self.glowmod_x += 0.025;
 		self.glowmod_y = self.glowmod_x;
 		self.glowmod_z = self.glowmod_x;
 	}
-	if((self.glowmod_x >= 1.5) ||(self.ammo_revolver <= 0))
+	if ((self.glowmod_x >= 1.5) ||(self.ammo_revolver <= 0))
 	{
 		self.think = stage2_beamattack;
 		self.frame = $boss2_attackc1;
@@ -4256,15 +4263,15 @@ void() stage2_teleportobeam =
 {
 	self.glowmod = '0.05 0.05 0.05';
 	guardian2_teleport_effects(self);
-	if(self.ammo_revolver == 3)
+	if (self.ammo_revolver == 3)
 		setorigin(self,self.boss2desta);
-	if(self.ammo_revolver == 2)
+	if (self.ammo_revolver == 2)
 		setorigin(self,self.boss2destb);
-	if(self.ammo_revolver == 1)
+	if (self.ammo_revolver == 1)
 		setorigin(self,self.boss2destc);
 	guardian2_teleport_effects(self);
 		sound(self,CHAN_WEAPON,"sound/misc/null.wav",1,1);
-	//if(self.ammo_revolver >= 1)
+	//if (self.ammo_revolver >= 1)
 	{
 		self.think = stage2_prebeamattack;
 		self.frame = $boss2_idle40;
@@ -4288,13 +4295,13 @@ void() stage2_teleportobeam =
 		setattachment (muzzle,self,"tag_gem4");
 	}	
 
-	if(self.ammo_revolver >= 1)
+	if (self.ammo_revolver >= 1)
 	{
 		self.think = stage2_prebeamattack;
 		self.frame = $boss2_idle40;
 	}
 
-	if(self.ammo_revolver >= 1)
+	if (self.ammo_revolver >= 1)
 		self.nextthink = time + 0.75;
 	else
 		self.nextthink = time + 0.05;
@@ -4304,7 +4311,7 @@ void() stage2_teleportobeam =
 void() stage2_preteleportobeam =
 {
 
-	if(self.lefty == 1)
+	if (self.lefty == 1)
 	{
 		self.boss2desta = self.pipes.enemy.enemy.origin;
 		self.boss2destb = self.pipes.enemy.enemy.enemy.enemy.origin;
@@ -4359,36 +4366,36 @@ void() stage2_attackfan =
 {
 
 	ai_face_boss();
-	if(self.vweaponframe < 12)
+	if (self.vweaponframe < 12)
 		self.ammo_cannon = 10;
 		
-	if(self.vweaponframe == 20)
+	if (self.vweaponframe == 20)
 	{
 
-		if(self.ammo_cannon == 10)
+		if (self.ammo_cannon == 10)
 			guardian2_attack_spread("tag_chest", 0,0);
-		if(self.ammo_cannon == 9)
+		if (self.ammo_cannon == 9)
 			guardian2_attack_spread("tag_chest", 0,0);
-		if(self.ammo_cannon == 8)
+		if (self.ammo_cannon == 8)
 			guardian2_attack_spread("tag_chest", 0,0);
-		if(self.ammo_cannon == 7)
+		if (self.ammo_cannon == 7)
 			guardian2_attack_spread("tag_chest", 0,0);
-		if(self.ammo_cannon == 6)
+		if (self.ammo_cannon == 6)
 			guardian2_attack_spread("tag_chest", 0,0);
-		if(self.ammo_cannon == 5)
+		if (self.ammo_cannon == 5)
 			guardian2_attack_spread("tag_chest", 0,0);
-		if(self.ammo_cannon == 4)
+		if (self.ammo_cannon == 4)
 			guardian2_attack_spread("tag_chest", 0,0);
-		if(self.ammo_cannon == 3)
+		if (self.ammo_cannon == 3)
 			guardian2_attack_spread("tag_chest", 0,0);
-		if(self.ammo_cannon == 2)
+		if (self.ammo_cannon == 2)
 			guardian2_attack_spread("tag_chest", 0,0);
-		if(self.ammo_cannon == 1)
+		if (self.ammo_cannon == 1)
 			guardian2_attack_spread("tag_chest", 0,0);
 		self.ammo_cannon --;
 
 
-		if(self.ammo_cannon <= 0)
+		if (self.ammo_cannon <= 0)
 		{
 			self.frame ++;
 			self.vweaponframe ++;
@@ -4411,7 +4418,7 @@ void() stage2_attackfan =
 
 	}
 
-	if(self.vweaponframe >= 22)
+	if (self.vweaponframe >= 22)
 	{
 		self.attack_finished = time + 2 + random(2);
 		self.think = stage2_preteleportobeam;
@@ -4432,11 +4439,11 @@ void() stage2_idle =
 {
 
 	self.frame ++;
-	if(self.frame >= $boss2_idle40)
+	if (self.frame >= $boss2_idle40)
 		self.frame = $boss2_idle1;
 
 	float isivisble = visible(self.enemy);
-	if((self.attack_finished < time) && (isivisble == 1)&&  (!(self.enemy.flags &FL_NOTARGET)))
+	if ((self.attack_finished < time) && (isivisble == 1)&&  (!(self.enemy.flags &FL_NOTARGET)))
 	{
 		self.attack_finished = time + 5 + random(5);
 		self.boss2attack = 1;
@@ -4446,9 +4453,9 @@ void() stage2_idle =
 		self.glowmod = '0.05 0.05 0.05';
 		self.think = stage2_attackfan;
 		/*float r = random();
-		if((r > 0.5) && (self.boss2_changedirectiontime < time) && (isivisble != 1))
+		if ((r > 0.5) && (self.boss2_changedirectiontime < time) && (isivisble != 1))
 		{
-			if(self.lefty == 1)
+			if (self.lefty == 1)
 				self.lefty = 0;
 			else
 				self.lefty = 1;
@@ -4517,8 +4524,8 @@ void()boss2_prestage2 =
 	entity oself = self;
 	self = single_player;
 	spawn_tfog(self.origin);
-	local float v;
-	local string tmpstr;
+	float v;
+	string tmpstr;
 	v = random() *5;
 	if (v < 1)
 		tmpstr = "fx/tele1.ogg";
@@ -4534,7 +4541,7 @@ void()boss2_prestage2 =
 	self.velocity = '0 0 0';
 	self.stoptime = time +1;
 	self.lungefree = time + 1;
-	if(!(self.flags & FL_IGNOREINPUT))
+	if (!(self.flags & FL_IGNOREINPUT))
 		self.flags += FL_IGNOREINPUT;
 	self.hardstoptime = self.stoptime;
 	setorigin (self, destination.origin);

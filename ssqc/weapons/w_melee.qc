@@ -10,7 +10,9 @@ void(entity e, entity vweapn) spawn_v_blood;
 
 void(entity e, entity vweapn) spawn_v_blade;
 
-void() v_melee_idle = { if (self.playerdeadtime > time)
+void() v_melee_idle = 
+{ 
+	if (self.playerdeadtime > time)
 	{
 		self.think = PlayerDeathThink;
 		self.nextthink = time;
@@ -24,33 +26,29 @@ void() v_melee_idle = { if (self.playerdeadtime > time)
 		self.pick_melee = 0;
 	}
 
-
-
-	if(self.totallungetime > time)
-	self.totallungetime = 0;
+	if (self.totallungetime > time)
+		self.totallungetime = 0;
 
 	self.realoding = 0;
 	self.melee_charging = 0;
 	self.vweaponstate = 0;
 	self.vweaponframe = 0;
-	if(wasfreed(self.vmelee))
-	{
+	
+	if (wasfreed(self.vmelee))
 		spawn_v_blade(self, self.vweapon);
-	}
-	if(wasfreed(self.vblood))
-	{
+	
+	if (wasfreed(self.vblood))
 		spawn_v_blood(self, self.vweapon);
-	}
+
 	self.think = v_melee_idle;
 	self.nextthink = time + 0.1;
 };
 
-
-
-void()bersek_push =
+void() bersek_push =
 {
 	entity head = findradius(self.origin, 64);
 	float pushfactor = self.owner.wrath_kills * 5;
+
 	while (head)
 	{
 		if (head.wrathflags & FL_GIB)
@@ -62,8 +60,10 @@ void()bersek_push =
 	remove(self);
 };
 
-
-void(float x_ang, float y_ang) melee_angles = { x_ang = x_ang *0.25;
+/*
+void(float x_ang, float y_ang) melee_angles = 
+{ 
+	x_ang = x_ang *0.25;
 	y_ang = y_ang *0.25;
 
 	msg_entity = self;
@@ -72,32 +72,41 @@ void(float x_ang, float y_ang) melee_angles = { x_ang = x_ang *0.25;
 	WriteAngle(MSG_ONE, self.v_angle_y + y_ang);
 	WriteAngle(MSG_ONE, self.v_angle_z);
 };
-void() melee_angles_center = { msg_entity = self;
+
+void() melee_angles_center = 
+{ 
+	msg_entity = self;
 	WriteByte(MSG_ONE, SVC_SETVIEWANGLES);
 	WriteAngle(MSG_ONE, 0);
 	WriteAngle(MSG_ONE, self.v_angle_y);
 	WriteAngle(MSG_ONE, self.v_angle_z);
 };
+*/
+
 .float oldmaxspeed;
 
 .float fvweaponframe;
 
 .vector neworg;
 
-void() w_melee_release_damage = { self.lungetime = time + 0.1;
-	local vector source;
-	local vector org;
+void() w_melee_release_damage = 
+{ 
+	self.lungetime = time + 0.1;
+	vector source;
+	vector org;
+	
 	if (self.execution == 2)
 		return;
 
 	makevectors(self.v_angle);
 	source = self.origin + '0 0 24' - v_forward * 8;
-		tracebox(source, '-7 -7 -7', '7 7 7', source + v_forward *96, FALSE, self);
+	tracebox(source, '-7 -7 -7', '7 7 7', source + v_forward *96, FALSE, self);
+	
 	vector traceendpos = trace_endpos;
+	
 	if (trace_fraction == 1.0 || GetSkyMaterial())
-	{
 		return;
-	}
+
 	if ((trace_ent.takedamage) && (trace_ent.only_damage_monster != 1))
 	{
 		org = traceendpos - v_forward * 4;
@@ -110,14 +119,17 @@ void() w_melee_release_damage = { self.lungetime = time + 0.1;
 			//	self.vweaponskin = 1;
 			self.meleeskin = 1;
 
-		if (trace_ent.bloody == 1)
-			SpawnBlood(org, '0 0 0', 20, 1, 0);
+			if (trace_ent.bloody == 1)
+				SpawnBlood(org, '0 0 0', 20, 1, 0);
 		}
-		local float lunge_damage;
-		lunge_damage = (self.melee_ammount *30) + (self.wrath_kills + 32);
+		float lunge_damage;
+		if (deathmatch)
+			lunge_damage = 62; //NERF
+		else
+			lunge_damage = (self.melee_ammount * 30) + (self.wrath_kills + 32);
 
 		float real_health = trace_ent.health;
-		if(trace_ent.shieldtime > time)
+		if (trace_ent.shieldtime > time)
 			real_health = trace_ent.health * 0.05;
 
 		if (lunge_damage < trace_ent.health)
@@ -127,7 +139,7 @@ void() w_melee_release_damage = { self.lungetime = time + 0.1;
 
 				if ((trace_ent.flags &FL_MONSTER))
 				{
-				if(trace_ent.flags & FL_ONGROUND)
+				if (trace_ent.flags & FL_ONGROUND)
 				trace_ent.flags = trace_ent.flags - FL_ONGROUND;
 				//trace_ent.movetype = MOVETYPE_BOUNCE; 
 				trace_ent.velocity = v_forward *100 *(self.melee_ammount / 10);
@@ -141,14 +153,15 @@ void() w_melee_release_damage = { self.lungetime = time + 0.1;
 			{
 					trace_ent.solid = SOLID_TRIGGER;
 			}
-			lunge_damage += trace_ent.health;
+			lunge_damage = trace_ent.health;//R00k changed from += for future damage stats
 		}
 
-		if((trace_ent.only_damage_monster != 1))
-		T_Damage(trace_ent, self, self, lunge_damage);
+		if ((trace_ent.only_damage_monster != 1))
+			T_Damage(trace_ent, self, self, lunge_damage);
+		
 		self.melee_ammount = 1;
 
-		//if(self.melee_kill_uber == 1)
+		//if (self.melee_kill_uber == 1)
 		{
 			source = traceendpos;
 			tracebox(source, '-5 -5 -5', '5 5 5', source + v_forward *48, FALSE, self);
@@ -163,13 +176,13 @@ void() w_melee_release_damage = { self.lungetime = time + 0.1;
 		traceline(self.origin, self.origin + v_forward * 1024, MOVE_HITMODEL, self);
 		if (trace_ent != old_ent)
 			trace_endpos = old_impact;
-        if(old_ent.bloody == 2)
+        if (old_ent.bloody == 2)
         {
 			if ((bossvulnerable == 1))
 			{
-				if(old_ent == trace_ent)
+				if (old_ent == trace_ent)
 				{
-					if(old_ent.classname == "boss_guardian2")
+					if (old_ent.classname == "boss_guardian2")
 						explo_blood_sprite(2, trace_endpos);
 					else
 						explo_blood_sprite(5, trace_endpos);
@@ -191,8 +204,9 @@ void() w_melee_release_damage = { self.lungetime = time + 0.1;
 
 
 
-void() w_melee_release = {
- 
+void() w_melee_release = 
+{
+
 	self.vweaponglowmod_x -= 0.05;
 	self.vweaponglowmod_y -= 0.05;
 	self.vweaponglowmod_z -= 0.05;
@@ -237,90 +251,91 @@ void() w_melee_release = {
 	self.nextthink = time + 0.05;
 
 };
-.vector prejumpvelocity;
+
+//.vector prejumpvelocity;
+
+
 void() w_melee_postprerelease =
 {
 	self.totallungetime = time;
-	if(self.melee_released >= 1)
-		self.melee_released = 2;
-	else
-		self.melee_released = 1;			
-	local float secondary_jump;
-	self.vweaponframe = 26;
-	if((!(self.flags & FL_ONGROUND)) && (self.melee_released == 2))
+
+	if (self.stoptime > time)
+	{
+		self.think = w_melee_release;
+		self.nextthink = time + 0.05;
+		return;
+	}
+
+	self.melee_released = (self.melee_released >= 1) ? 2:1;
+
+//										dprint("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+//										dprint(sprintf("self.v_angle_x: %s\n",ftos(self.v_angle_x)));
+//										dprint(sprintf("melee_released: %s\n",ftos(self.melee_released)));
+
+	float secondary_jump = 0;
+
+	if (self.melee_released == 2)
+	if (!(self.flags & FL_ONGROUND))
 		secondary_jump = 1;
-	else
-		secondary_jump = 0;
 	
-	if(self.lungefree > time)
+	if (self.lungefree > time)
 		secondary_jump = 0;
 
+//										dprint(sprintf("secondary_jump: %s\n",ftos(secondary_jump)));
 
-	if((self.flags & FL_ONGROUND)&&(self.stoptime < time))
+	self.onground_time = 0;
+	self.vweaponframe = 26;
+	
+	if (self.v_angle_x > 10)														// Downwards; launching off a ledge
 	{
-		self.velocity_z += 160;
-		self.flags -= FL_ONGROUND;
+		makevectors (self.v_angle);	
+		self.velocity = v_forward * 800;
+//										dprint(sprintf("(self.v_angle_x > 10): %s\n",ftos(self.v_angle_x)));
+//		sound (self, CHAN_VOICE, "weapons/attack8.ogg", 1, ATTN_NORM);
 	}
 	else
 	{
-		if(self.stoptime < time)
+		if ((self.movetype != MOVETYPE_FLY) && (secondary_jump == 0))
+		{
+			if (deathmatch)
+				makevectors (self.v_angle);											// R00k: more arcadey for multiplayer
+			else
+				makevectors (self.angles);
+		
+			float vcfactor = (90 - fabs(self.v_angle_x)) / 90;
+			vector dash = v_forward * (1024 * vcfactor);
+//										dprint(sprintf("(vcfactor): %s\n",ftos(vcfactor)));
+
+			if (deathmatch)															// R00k: This value throttles the lift of the dash. 0.3 would be stock behavior.
+				dash_z *= 0.60;														//		When using self.angles for the makevectors
+																					//		our angles_z component is 1/3 of our v_angle_z;
+																					//		this is just a compromise for using v_angle.
+																					//		Basically doubling the vertical lift
+			if (self.v_angle_x <= 0)
+			if (dash_z < 0) 
+				dash_z *= -1;	
+
+			self.velocity = dash;
+		}
+	}
+
+	if (self.flags & FL_ONGROUND) 
+		self.velocity_z += 160; 										    		// R00k: This was never hit in the original code
+	else		
 		self.velocity_z += 96;
-	}
-	self.onground_time = 0;
-	if((self.movetype != MOVETYPE_FLY)&& ( secondary_jump == 0)  &&(self.stoptime < time))
-	{
-		local float modifier_melee_amount;	
-		modifier_melee_amount = 1;
-		if (self.v_angle_x < 45)
-		{
-			makevectors (self.angles);
-			local float vcfactor, hightfactor;
-			if(self.v_angle_x >0)
-			{
-				vcfactor = (90 - self.v_angle_x) / 90;
-				hightfactor = 0;
-			}
-			else
-			{
-				vcfactor = ( ((90 + self.v_angle_x) / 90) );
-			}
-			hightfactor =  (1 - ((90 + self.v_angle_x) / 90)) * 90;
-			local vector wishspeed;
-			wishspeed += v_forward * (1024 * vcfactor);
-			local vector dir;
-			dir = aim (self, 100);
-			wishspeed = (dir * (1024 * vcfactor));
-			self.gravity = 0;
-			self.noshake = 1;
-			stuffcmd(self, "v_kickroll 0\n");
-			stuffcmd(self, "v_kickpitch 0\n");
-			self.velocity_x = wishspeed_x;
-			self.velocity_y = wishspeed_y;
-			if(wishspeed_z < 0)	
-				wishspeed_z = wishspeed_z *-1;
-			self.velocity_z = wishspeed_z  + hightfactor; 
-			if((self.flags & FL_ONGROUND))
-			{
-				self.velocity_z += 160;
-				self.flags -= FL_ONGROUND;
-			}
-			else
-				self.velocity_z += 96;
-		}
-		else
-		{
-			local float vrange;
-			vrange = 90 / self.v_angle_x; 
-			self.velocity = normalize(self.cursor_trace_endpos - self.origin);
-			self.velocity = self.velocity * 500 * vrange;
-		}
-	}
 
+	self.flags = (self.flags - (self.flags & FL_ONGROUND));
+//										vector wishspeed = self.velocity;
+//										dprint(sprintf("(wishspeed_x): %s (%s*1024)\n",ftos(wishspeed_x),ftos(v_forward_x)));
+//										dprint(sprintf("(wishspeed_y): %s (%s*1024)\n",ftos(wishspeed_y),ftos(v_forward_y)));
+//										dprint(sprintf("(wishspeed_z): %s (%s*1024)\n",ftos(wishspeed_z),ftos(v_forward_z)));
 
-
+//										dprint(sprintf("(dash velocity): %s\n",ftos(vlen(self.velocity))));
+//										dprint("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 	self.think = w_melee_release;
 	self.nextthink = time + 0.05;
 };
+
 
 void() w_melee_prerelease =
 {
@@ -334,7 +349,7 @@ void() w_melee_prerelease2 =
 		self.melee_released = 2;
 	else
 		self.melee_released = 1;
-	local float secondary_jump;
+	float secondary_jump;
 	self.melee_jump_time = time + 0.2;
 	self.vweaponframe = 26;
 
@@ -351,15 +366,15 @@ void() w_melee_prerelease2 =
 			self.flags -= FL_ONGROUND;	
 	if ((self.movetype != MOVETYPE_FLY) && (secondary_jump == 0))
 	{
-		local float modifier_melee_amount;
+		float modifier_melee_amount;
 		modifier_melee_amount = 1;
 
 		if (self.v_angle_x < 45)
 		{
 			makevectors(self.angles);
 
-			local float vcfactor, hightfactor;
-			local vector wishspeed;
+			float vcfactor, hightfactor;
+			vector wishspeed;
 
 			if (self.v_angle_x > 0)
 			{
@@ -373,7 +388,7 @@ void() w_melee_prerelease2 =
 			}
 	
 			wishspeed += v_forward *(lunge_vel *vcfactor);
-			local vector dir;
+			vector dir;
 			dir = aim(self, 100);
 			wishspeed = (dir *(lunge_vel *vcfactor));
 
@@ -388,7 +403,7 @@ void() w_melee_prerelease2 =
 		}
 		else
 		{
-			local float vrange;
+			float vrange;
 			vrange = 90 / self.v_angle_x;
 			self.velocity = normalize(self.cursor_trace_endpos - self.origin);
 			self.velocity = self.velocity *500 * vrange;
@@ -411,7 +426,7 @@ void() w_melee_charge2 =
 		self.attack_finished = time + 0.05;
 		if (self.vweaponframe < 24)
 		{
-			if(self.vweaponglowmod_x <  1)
+			if (self.vweaponglowmod_x <  1)
 			{
 				self.vweaponglowmod_x += 0.05;
 				self.vweaponglowmod_y += 0.05;
@@ -452,7 +467,7 @@ void() w_melee_charge =
 
 .float melee_dmg_ammount;
 void(vector org, string locsound, float rnd, float vol) randompointsound;
-void(float dmg, float dir, float dirv) w_slash = { local vector source, org, orn, ornv;
+void(float dmg, float dir, float dirv) w_slash = { vector source, org, orn, ornv;
 
 	if (dir == 1)
 		orn = v_right *-48;
@@ -493,11 +508,11 @@ void(float dmg, float dir, float dirv) w_slash = { local vector source, org, orn
 			trace_ent.death_time_sound = time + 1;
 			if (!self.meleeskin)
 				self.meleeskin = 1;
-		//if((self.wrath_kills < 64) && (self.wrath_time > time))
+		//if ((self.wrath_kills < 64) && (self.wrath_time > time))
 		//	self.wrath_kills ++;	
 
 		}
-		//if((self.wrath_kills >= 1) && (self.wrath_time > time))
+		//if ((self.wrath_kills >= 1) && (self.wrath_time > time))
 		//	dmg += 32 * self.wrath_kills;
 		// Reki (May 2 2023): Moving Sigil of Wrath damage boost into T_Damage
 
@@ -509,11 +524,11 @@ void(float dmg, float dir, float dirv) w_slash = { local vector source, org, orn
 		traceline(self.origin, self.origin + v_forward * 1024, MOVE_HITMODEL, self);
 		if (trace_ent != old_ent)
 			trace_endpos = old_impact;
-        if(old_ent.bloody == 2)
+        if (old_ent.bloody == 2)
         {
 			if ((bossvulnerable == 1))
 			{
-				if(old_ent == trace_ent)
+				if (old_ent == trace_ent)
 				{
 					explo_blood_sprite(5, trace_endpos);
 				}
@@ -648,7 +663,7 @@ void() w_melee_slash1 = { self.oldrandomattack = self.randomattack;
 
 };
 
-void() w_melee_slash = { local float r;
+void() w_melee_slash = { float r;
 
 	r = random();
 
@@ -680,9 +695,9 @@ void() lower_melee2 =
 	self.vweaponframe += 1;
 	if (self.vweaponframe == 54)
 	{
-		if(!(wasfreed(self.vblood) && (self.vblood.classname == "blade_bloodmodel") && (self.vblood.wrathflags & FL_SUBWEAPONMODEL)))
+		if (!(wasfreed(self.vblood) && (self.vblood.classname == "blade_bloodmodel") && (self.vblood.wrathflags & FL_SUBWEAPONMODEL)))
 			remove(self.vblood);
-		if(!(wasfreed(self.vmelee) && (self.vmelee.classname == "blade_submodel")&& (self.vmelee.wrathflags & FL_SUBWEAPONMODEL)))
+		if (!(wasfreed(self.vmelee) && (self.vmelee.classname == "blade_submodel")&& (self.vmelee.wrathflags & FL_SUBWEAPONMODEL)))
 			remove(self.vmelee);
 	}
 
@@ -750,7 +765,7 @@ void() v_blood_think = { if ((self.owner.meleeskin == 1) && (self.alpha == -1))
 	}
 
 
-	if(self.owner.weapon != IT_MELEE)
+	if (self.owner.weapon != IT_MELEE)
 	{
 		remove(self);
 		return;
@@ -768,13 +783,13 @@ void() v_blood_think = { if ((self.owner.meleeskin == 1) && (self.alpha == -1))
 
 void() v_blade_think = { 
 	
-	if(!self.tag_index)
+	if (!self.tag_index)
 	setattachment(self, self.owner.vweapon, "tag_blade");
 
 	//self.skin = self.owner.meleeskin;
 	self.glowmod = self.owner.vweaponglowmod;
 	self.alpha = 1;
-	if(self.owner.weapon != IT_MELEE)
+	if (self.owner.weapon != IT_MELEE)
 	{
 		self.think = SUB_Remove;
 	}
@@ -865,7 +880,7 @@ void(entity e, entity vweapn) spawn_v_blade =
 {
 
 	entity vmeleeentity = e.vmelee;
-	if((!(wasfreed(vmeleeentity)) && (vmeleeentity.classname == "blade_submodel")&& (vmeleeentity.wrathflags & FL_SUBWEAPONMODEL)))
+	if ((!(wasfreed(vmeleeentity)) && (vmeleeentity.classname == "blade_submodel")&& (vmeleeentity.wrathflags & FL_SUBWEAPONMODEL)))
 		remove(vmeleeentity);
 	e.vmelee = spawn();
     e.vmelee.classname = "blade_submodel";
@@ -882,7 +897,7 @@ void(entity e, entity vweapn) spawn_v_blood =
 { 
 
 	entity vmeleeentity = e.vblood;
-	if((!(wasfreed(vmeleeentity))&& (vmeleeentity.classname == "blade_bloodmodel") && (vmeleeentity.wrathflags & FL_SUBWEAPONMODEL)))
+	if ((!(wasfreed(vmeleeentity))&& (vmeleeentity.classname == "blade_bloodmodel") && (vmeleeentity.wrathflags & FL_SUBWEAPONMODEL)))
 		remove(vmeleeentity);
 	e.vblood = spawn();
 	e.vblood.classname = "blade_bloodmodel";

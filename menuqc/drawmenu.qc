@@ -98,7 +98,7 @@ void() precache_menu_files =
 };
 
 
- void(string txttoclear) writethisstring = { local float writeparms;
+ void(string txttoclear) writethisstring = { float writeparms;
  	float f = fopen("thisstring.txt", FILE_WRITE);	//open what file to use in write mode
 	if (f >= 0)
 	{
@@ -108,7 +108,7 @@ void() precache_menu_files =
  }
 
 
- void(string txttoclear) writeempty = { local float writeparms;
+ void(string txttoclear) writeempty = { float writeparms;
  	writeparms = fopen_wrath(txttoclear, FILE_WRITE);	//open what file to use in write mode
  	fputs(writeparms, "\n");	//and again
  	fputs(writeparms, "\n");	//and again
@@ -131,8 +131,8 @@ void() precache_menu_files =
  	writeempty("profiles/profileslot.txt");
  	writeempty("profiles/totalfileslot.txt");
 
- 	local float writeparms;
- 	local string writethis;
+ 	float writeparms;
+ 	string writethis;
  	writeparms = fopen_wrath("menuversion.txt", FILE_WRITE);	//open what file to use in write mode
  	writethis = ftos(menuversion);	//prepare the next thing to write
  	fputs(writeparms, writethis);	//line 1
@@ -142,8 +142,8 @@ void() precache_menu_files =
  };
 void()deleteallprofiles;
 void()write_totalprofileslot_updatedversion;
- void() check_menuversion = { local float readparms, localmenuversion;
- 	local string readtext;
+ void() check_menuversion = { float readparms, localmenuversion;
+ 	string readtext;
  	readparms = fopen_wrath("menuversion.txt", FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
  	readtext = fgets(readparms);	//read the text
  	localmenuversion = stof(readtext);	//turn the text into the float u want (by using stof: string to float)
@@ -166,8 +166,8 @@ void()write_totalprofileslot_updatedversion;
 		cmd("unbindall\n");
 		cmd("exec gamebuttons.cfg\n");
 	}
- 	local float writeparms;
- 	local string writethis;
+ 	float writeparms;
+ 	string writethis;
  	writeparms = fopen_wrath("menuversion.txt", FILE_WRITE);	//open what file to use in write mode
  	writethis = ftos(menuversion);	//prepare the next thing to write
  	fputs(writeparms, writethis);	//line 1
@@ -175,7 +175,7 @@ void()write_totalprofileslot_updatedversion;
  	fclose_wrath(writeparms);
 	
 	float maxfps = cvar ("cl_maxfps");
-	if((maxfps <= 0) || (maxfps > 1000))	
+	if ((maxfps <= 0) || (maxfps > 1000))	
 	cmd("cl_maxfps 1000\n");
 	
  	//	deleteallprofiles();
@@ -200,7 +200,7 @@ void()write_totalprofileslot_updatedversion;
  	raw_mouse = getpointerpos();
  	// add some mouse acceleration 
 
- 	local float mousesen;
+ 	float mousesen;
  	mousesen = cvar("saved5") + 0.1;
  	raw_mouse_x = raw_mouse_x *mousesen *5;	//pow(vlen(raw_mouse), mousesen);
  	raw_mouse_y = raw_mouse_y *mousesen *5;
@@ -232,8 +232,8 @@ void() updateMouse = {
  		return n;
  	}
  };
- void() check_save = { local float readparms;
- 	local string readtext;
+ void() check_save = { float readparms;
+ 	string readtext;
  	readparms = fopen_wrath("adpsav.dll", FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
  	if (readparms != -1)
  	{
@@ -243,8 +243,8 @@ void() updateMouse = {
  	}
  };
 
- void(string nameprofile) check_profile_saves = { local float readparms;
- 	local string readtext, profilename_svs;
+ void(string nameprofile) check_profile_saves = { float readparms;
+ 	string readtext, profilename_svs;
  	profilename_svs = strcat("profiles/", nameprofile, ".frk");
  	readparms = fopen(profilename_svs, FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
  	if (readparms >= 0)
@@ -256,8 +256,8 @@ void() updateMouse = {
  };
 
  void() check_profileslot = {
-	local float readparms;
- 	local string readtext;
+	float readparms;
+ 	string readtext;
  	readparms = fopen("profiles/profileslot.txt", FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
 	if (readparms < 0)
 		return;
@@ -270,15 +270,15 @@ void() updateMouse = {
  	}
  };
 
- float() check_profileslottotal = { local float readparms;
- 	local string readtext;
+ float() check_profileslottotal = { float readparms;
+ 	string readtext;
  	readparms = fopen_wrath("profiles/totalfileslot.txt", FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
 	
 
  	if (readparms != -1)
  	{
  		readtext = fgets(readparms);	//read the text
- 		local float localprofilesammount;
+ 		float localprofilesammount;
  		localprofilesammount = stof(readtext);	//turn the text into the float u want (by using stof: string to float)
  		fclose_wrath(readparms);
  		return localprofilesammount;
@@ -286,8 +286,8 @@ void() updateMouse = {
  	else
  		return 0;
  };
- void() check_profilenames = { local float readparms;
- 	local string readtext;
+ void() check_profilenames = { float readparms;
+ 	string readtext;
  	readparms = fopen("profiles/profilenames.txt", FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
  	if (readparms != -1)
  	{
@@ -352,8 +352,8 @@ void() updateMouse = {
  	c_profilename7 = strzone(profilename7);
  };
 
- void() write_save = { local float writeparms;
- 	local string writethis;
+ void() write_save = { float writeparms;
+ 	string writethis;
  	writeparms = fopen_wrath("adpsav.dll", FILE_WRITE);	//open what file to use in write mode
  	writethis = ftos(1);	//prepare the next thing to write
  	fputs(writeparms, writethis);	//line 1
@@ -362,8 +362,8 @@ void() updateMouse = {
  };
 
  void() write_currentprofileslot = { check_profilenames_str(profileslot);
- 	local float writeparms;
- 	local string writethis;
+ 	float writeparms;
+ 	string writethis;
  	writeparms = fopen_wrath("profiles/currentprofileslot.txt", FILE_WRITE);	//open what file to use in write mode
  	writethis = ftos(profileslot);	//prepare the next thing to write
  	fputs(writeparms, writethis);	//line 1
@@ -385,8 +385,8 @@ void() updateMouse = {
 	fclose(f);
  };
 
- void() write_totalprofileslot = { local float writeparms;
- 	local string writethis;
+ void() write_totalprofileslot = { float writeparms;
+ 	string writethis;
  	writeparms = fopen_wrath("profiles/totalfileslot.txt", FILE_WRITE);	//open what file to use in write mode
  	writethis = ftos(profilesammount);	//prepare the next thing to write
  	fputs(writeparms, writethis);	//line 1
@@ -394,9 +394,9 @@ void() updateMouse = {
  	fclose_wrath(writeparms);
  };
 
- void() write_totalprofileslot_updatedversion = { local float writeparms;
+ void() write_totalprofileslot_updatedversion = { float writeparms;
  	check_profileslot();
-	local string writethis;
+	string writethis;
  	writeparms = fopen_wrath("profiles/totalfileslot.txt", FILE_WRITE);	//open what file to use in write mode
  	writethis = ftos(profileslot);	//prepare the next thing to write
  	fputs(writeparms, writethis);	//line 1
@@ -406,8 +406,8 @@ void() updateMouse = {
 
 
  void() write_currentprofileslotfirsttime = { check_profilenames_str(profileslot);
- 	local float profilenamef;
- 	local string profilenamestring;
+ 	float profilenamef;
+ 	string profilenamestring;
  	profilenamestring = strcat("profiles/", profilename, ".frk");
  	profilenamef = fopen_wrath(profilenamestring, FILE_WRITE);	//open what file to use in write mode
  	fputs(profilenamef, "0\n");	//and again
@@ -418,13 +418,13 @@ void() updateMouse = {
  };
  
  void() write_menuversion = { check_profilenames_str(profileslot);
- 	local float profilenamef;
- 	local string profilenamestring;
+ 	float profilenamef;
+ 	string profilenamestring;
  	profilenamestring = strcat("profiles/", profilename,"/menu.version");
  	profilenamef = fopen(profilenamestring, FILE_WRITE);	//open what file to use in write mode
 	if (profilenamef < 0)
 		return;
- 	local string writethis; 	
+ 	string writethis; 	
  	writethis = ftos (menuversion);
  	fputs(profilenamef, writethis);
  	fputs(profilenamef, "\n");
@@ -443,8 +443,8 @@ void() updateMouse = {
 	fclose(f);
 };
  
- void() write_profileslot = { local float writeparms;
- 	local string writethis;
+ void() write_profileslot = { float writeparms;
+ 	string writethis;
  	writeparms = fopen_wrath("profiles/profileslot.txt", FILE_WRITE);	//open what file to use in write mode
  	writethis = ftos(profileslot);	//prepare the next thing to write
  	fputs(writeparms, writethis);	//line 1
@@ -452,8 +452,8 @@ void() updateMouse = {
  	fclose_wrath(writeparms);
  };
 
- void() write_profilenames = { local float writeparms;
- 	local string writethis;
+ void() write_profilenames = { float writeparms;
+ 	string writethis;
  	writeparms = fopen_wrath("profiles/profilenames.txt", FILE_WRITE);	//open what file to use in write mode
  	writethis = profilename1;	//prepare the next thing to write
  	fputs(writeparms, writethis);	//line 1
@@ -496,8 +496,8 @@ void() updateMouse = {
 
  float(string name) check_profilemenuversion_byname
 {
-	local float profilenamef;
-	local string profilenamestring;
+	float profilenamef;
+	string profilenamestring;
 	profilenamestring = strcat("data/profiles/", name,"/menu.version");
 	profilenamef = fopen(profilenamestring, FILE_READ);	//open what file to use in write mode
 	if (profilenamef < 0)
@@ -511,8 +511,8 @@ void() updateMouse = {
  void() check_profilemenuversion = 
  { 
 	check_profilenames_str(profileslot);
- 	local float profilenamef;
- 	local string profilenamestring;
+ 	float profilenamef;
+ 	string profilenamestring;
  	profilenamestring = strcat("profiles/", profilename,"/menu.version");
  	profilenamef = fopen_wrath(profilenamestring, FILE_READ);	//open what file to use in write mode
  	profilenamestring = fgets(profilenamef);	//read the text
@@ -588,7 +588,7 @@ void() updateMouse = {
 
     float capvolume = cvar ("capvolume");
 	float mastervolume = cvar("mastervolume");
-	if(mastervolume > capvolume)
+	if (mastervolume > capvolume)
 	{
 		string mvol = strcat("mastervolume ",ftos(capvolume), " \n");
 		cmd(mvol);
@@ -596,7 +596,7 @@ void() updateMouse = {
 
     float capvolume2 = cvar ("capvolume2");
 	float vvolume = cvar("volume");
-	if(vvolume > capvolume2)
+	if (vvolume > capvolume2)
 	{
 		string mvol = strcat("volume ",ftos(capvolume2), " \n");
 		cmd(mvol);
@@ -604,7 +604,7 @@ void() updateMouse = {
 
     float capvolume3 = cvar ("capvolume3");
 	float musicvolume = cvar("bgmvolume")
-	if(musicvolume > capvolume3)
+	if (musicvolume > capvolume3)
 	{
 		string mvol = strcat("bgmvolume ",ftos(capvolume3), " \n");
 		cmd(mvol);
@@ -613,11 +613,11 @@ void() updateMouse = {
 
 	float checked1;
  	checked1 = cvar("saved2");
- 	if(!checked1)
+ 	if (!checked1)
  		cmd("gl_texturemode gl_nearest\n");
- 	if(checked1 == 1)
+ 	if (checked1 == 1)
  		cmd("gl_texturemode gl_nearest_mipmap_linear\n");
- 	if(checked1 == 2)
+ 	if (checked1 == 2)
  		cmd("gl_texturemode gl_linear_mipmap_linear\n");		
 	float checked2;
  	checked2 = cvar("saved7");
@@ -646,10 +646,10 @@ void() updateMouse = {
  	//	check_profilenames();
  };
 
- void() remove_tether = { local float writeparms;
- 	local string writethis;
+ void() remove_tether = { float writeparms;
+ 	string writethis;
  	read_currentprofileslot();
- 	local string campaignloc;
+ 	string campaignloc;
  	campaignloc = strcat("profiles/", profilename, "/tether.txt");
 
  	writeparms = fopen_wrath(campaignloc, FILE_WRITE);	//open what file to use in write mode
@@ -743,7 +743,7 @@ vector fill_vector;
  
 string(float keynum) keynumtostring_wrath =
 {
-	local string key;
+	string key;
 	key = keynumtostring(keynum);
 	return key;
 };
@@ -798,7 +798,7 @@ void(float key, float ascii) menu_keydown = {
 
  		if (menutype == M_TYPE_CONFIRMBIND)
  			menutype = M_TYPE_CONTROLS;
- 		//if((menutype == M_TYPE_HELP) || (menutype == M_TYPE_CREDITS) || (menutype == M_TYPE_PROFILE) ||)
+ 		//if ((menutype == M_TYPE_HELP) || (menutype == M_TYPE_CREDITS) || (menutype == M_TYPE_PROFILE) ||)
  		enterindex = 0;
  	}
 
@@ -811,16 +811,16 @@ void(float key, float ascii) menu_keydown = {
  	}
 
  	/*
- 		if(menutype == M_TYPE_NONE)
+ 		if (menutype == M_TYPE_NONE)
  		{
- 			if(ascii == 'y' || ascii == 'Y')
+ 			if (ascii == 'y' || ascii == 'Y')
  			{
  				menutype = M_TYPE_NONE;
  				cmd("\n disconnect \n");
  				m_init2();
  			}
 
- 			if((ascii == 'n' || ascii == 'N') || (key == K_ESCAPE))
+ 			if ((ascii == 'n' || ascii == 'N') || (key == K_ESCAPE))
  				menutype = M_TYPE_NONE;
  		}		
  	*/
@@ -899,7 +899,7 @@ void(float key, float ascii) menu_keydown = {
 		#endif
 		//
 
-		if(menutype == M_TYPE_CONFIRMBIND)
+		if (menutype == M_TYPE_CONFIRMBIND)
 		{
 			last_selected_option = 0;
 			mouseactive = 0;
@@ -997,7 +997,7 @@ void(float key, float ascii) menu_keydown = {
 
  		//		keybind = ascii;	
 
- 		//		if(key == K_MOUSE1)
+ 		//		if (key == K_MOUSE1)
  		keybind = key;
  		tokenize(findkeysforcommand(localkey, 0));
  	if (stof(argv(0)) == keybind)
@@ -1006,15 +1006,15 @@ void(float key, float ascii) menu_keydown = {
  			return;
 		}
 		
-			if(stof(argv(0)) != -1)
+			if (stof(argv(0)) != -1)
  			cmd(strcat("unbind ", keynumtostring_wrath(stof(argv(0))), "\n"));
-			if(stof(argv(1)) != -1)
+			if (stof(argv(1)) != -1)
  			cmd(strcat("unbind ", keynumtostring_wrath(stof(argv(1))), "\n"));
-			if(stof(argv(2)) != -1)
+			if (stof(argv(2)) != -1)
  			cmd(strcat("unbind ", keynumtostring_wrath(stof(argv(2))), "\n"));
-			if(stof(argv(3)) != -1)
+			if (stof(argv(3)) != -1)
  			cmd(strcat("unbind ", keynumtostring_wrath(stof(argv(3))), "\n"));
-			if(stof(argv(4)) != -1)
+			if (stof(argv(4)) != -1)
  			cmd(strcat("unbind ", keynumtostring_wrath(stof(argv(4))), "\n"));
  
 			cmd(strcat("unbind ",keynumtostring_wrath(keybind), "\n"));
@@ -1072,7 +1072,7 @@ void(float key, float ascii) menu_keydown = {
 
  float check_mouse(vector pos)
  {
- 	local vector mins, max;
+ 	vector mins, max;
  	mins = pos;
  	max = pos + BTT_IMG_SIZE;
  	if (mouse_pos_x > mins_x && mouse_pos_x < max_x)
@@ -1088,7 +1088,7 @@ void(float key, float ascii) menu_keydown = {
 
  float check_mouse2(vector pos)
  {
- 	local vector mins, max;
+ 	vector mins, max;
  	mins = pos;
  	max = pos + BTT_IMG_SIZE2;
  	if (mouse_pos_x > mins_x && mouse_pos_x < max_x)
@@ -1105,9 +1105,9 @@ void(float key, float ascii) menu_keydown = {
  float last_selected_option;
  float mouseactive;
 
- void(vector pos, string txt, float index) draw_buttionwrath = { local float txt_len;
- 	local vector txt_pos;
- 	local string picimage;
+ void(vector pos, string txt, float index) draw_buttionwrath = { float txt_len;
+ 	vector txt_pos;
+ 	string picimage;
 
  	vector posfix, imgsize;
  	posfix_x = 128 * vx_rel;
@@ -1197,7 +1197,7 @@ void(float key, float ascii) menu_keydown = {
  
  float check_mouse_c(vector pos, vector pos2)
  {
- 	local vector mins, max;
+ 	vector mins, max;
  	mins = pos;
  	max = pos2;
  	mins -= fixed_vector('24 24 0');
@@ -1214,7 +1214,7 @@ void(float key, float ascii) menu_keydown = {
 
  float check_mouse_d(vector pos, vector pos2)
  {
- 	local vector mins, max;
+ 	vector mins, max;
  	mins = pos;
  	max = pos2;
 
@@ -1232,7 +1232,7 @@ void(float key, float ascii) menu_keydown = {
 
  float check_mouse_e(vector pos, vector pos2)
  {
- 	local vector mins, max;
+ 	vector mins, max;
  	mins = pos;
  	max = pos2;
 
@@ -1251,12 +1251,12 @@ void(float key, float ascii) menu_keydown = {
  float last_selected_option2;
  void draw_buttionprofile(vector pos, string txt, float nprof_local)
  {
- 	local float txt_len, alpha;
- 	local vector txt_pos, pos2;
+ 	float txt_len, alpha;
+ 	vector txt_pos, pos2;
  	txt_pos = pos + fixed_vector('128 10 0');
  	txt_len = stringwidth(txt, true, fixed_vector('12 12 0'));
  	txt_pos_x -= (txt_len / 2);
- 	local vector cb, bfont;
+ 	vector cb, bfont;
  	pos = txt_pos;
  	pos2 = pos + fixed_vector('12 12 0');
  	pos2_x = pos_x + txt_len;
@@ -1310,12 +1310,12 @@ void(float key, float ascii) menu_keydown = {
  float last_selected_option3;
  void draw_buttionload(vector pos, string txt, float nprof_local)
  {
- 	local float txt_len, alpha;
- 	local vector txt_pos, pos2;
+ 	float txt_len, alpha;
+ 	vector txt_pos, pos2;
  	txt_pos = pos + fixed_vector('128 10 0');
  	txt_len = stringwidth(txt, true, fixed_vector('12 12 0'));
  	txt_pos_x -= (txt_len / 2);
- 	local vector cb, bfont;
+ 	vector cb, bfont;
  	pos = txt_pos;
  	pos2 = pos + fixed_vector('12 12 0');
  	pos2_x = pos_x + txt_len;
@@ -1368,8 +1368,8 @@ void(float key, float ascii) menu_keydown = {
  };
  void draw_buttion(vector pos, string txt, float index)
  {
- 	local float txt_len, alpha;
- 	local vector txt_pos, pos2;
+ 	float txt_len, alpha;
+ 	vector txt_pos, pos2;
  	txt_pos = pos + fixed_vector('128 10 0');
 
  	vector FONT_SIZE;
@@ -1402,7 +1402,7 @@ void(float key, float ascii) menu_keydown = {
 
  	txt_len = stringwidth(txt, true, FONT_SIZE);
  	txt_pos_x -= (txt_len / 2);
- 	local vector cb, bfont;
+ 	vector cb, bfont;
 
  	pos = txt_pos;
  	pos2 = pos + FONT_SIZE;
@@ -1567,8 +1567,8 @@ void(float key, float ascii) menu_keydown = {
 
  void draw_fbuttion(vector pos, string txt)
  {
- 	local float txt_len, alpha;
- 	local vector txt_pos, bfont, cb;
+ 	float txt_len, alpha;
+ 	vector txt_pos, bfont, cb;
  	txt_pos = pos + fixed_vector ('128 10 0');
 
 	vector localfontsize;
@@ -1591,8 +1591,8 @@ void(float key, float ascii) menu_keydown = {
   vector vectorred;
   void draw_fbuttion_warning(vector pos, string txt)
  {
- 	local float txt_len, alpha;
- 	local vector txt_pos, bfont, cb;
+ 	float txt_len, alpha;
+ 	vector txt_pos, bfont, cb;
  	txt_pos = pos + fixed_vector('128 10 0');
 	vector LOC_FONT_SIZE = fixed_vector('12 12 0');
  	txt_len = stringwidth(txt, true, LOC_FONT_SIZE);
@@ -1600,7 +1600,7 @@ void(float key, float ascii) menu_keydown = {
 
  	bfont = LOC_FONT_SIZE;
  	cb = vectorwhite;
-	if(slayeralpha > 0.5)
+	if (slayeralpha > 0.5)
  	cb = vectorred;
 	//cb = '8 4 4';
 
@@ -1610,8 +1610,8 @@ void(float key, float ascii) menu_keydown = {
  };
  void draw_fbuttionsmall(vector pos, string txt, float index)
  {
- 	local float txt_len, alpha;
- 	local vector txt_pos, bfont, cb;
+ 	float txt_len, alpha;
+ 	vector txt_pos, bfont, cb;
  	txt_pos = pos + fixed_vector('128 10 0');
 	if (smallbuttons == 1)
  	bfont = fixed_vector('10 10 0');
@@ -1660,9 +1660,9 @@ void drawfilldraggeable (vector pos, vector size, vector col, float alph, float 
 	}
 	else
 	{
-		if(olddraggable_select == draggable_select)
+		if (olddraggable_select == draggable_select)
 		{
-			if(!mouse1_held)
+			if (!mouse1_held)
 			draggable_select = 0;
 		}	
 	}
@@ -1670,15 +1670,15 @@ void drawfilldraggeable (vector pos, vector size, vector col, float alph, float 
 	 fixed_x = fixed_x * vx_rel;
 
 	 
-	if(draggable_select == draggable_index) 
+	if (draggable_select == draggable_index) 
 	{
-		if(mouse1_held)
+		if (mouse1_held)
 		{
-			if((lmouse_pos_x > pos_x + fixed_x )) 
+			if ((lmouse_pos_x > pos_x + fixed_x )) 
 			{	
 				order_fill(order_b);
 			}	
-			if((lmouse_pos_x < pos_x - fixed_x)) 
+			if ((lmouse_pos_x < pos_x - fixed_x)) 
 			{
 				if (lmouse_pos_x ) 
 				{	
@@ -1692,8 +1692,8 @@ void drawfilldraggeable (vector pos, vector size, vector col, float alph, float 
 }; 
  void draw_fbuttion3(vector pos, string txt)
  {
- 	local float txt_len, alpha;
- 	local vector txt_pos, bfont, cb, text_lenght;
+ 	float txt_len, alpha;
+ 	vector txt_pos, bfont, cb, text_lenght;
  	txt_pos = pos + fixed_vector('128 10 0');
  	txt_len = stringwidth(txt, true, (BTT_FONT_SIZE));
  	txt_pos_x -= (txt_len / 2);
@@ -1713,8 +1713,8 @@ void drawfilldraggeable (vector pos, vector size, vector col, float alph, float 
 
  void draw_fbuttion2(vector pos, string txt)
  {
- 	local float txt_len, alpha;
- 	local vector txt_pos, bfont, cb;
+ 	float txt_len, alpha;
+ 	vector txt_pos, bfont, cb;
  	txt_pos = pos + fixed_vector('128 10 0');
  	txt_len = stringwidth(txt, true,  fixed_vector('8 8 8'));
  	txt_pos_x -= (txt_len / 2);
@@ -1753,7 +1753,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 	wrath_fremove(tethertxt);
 	wrath_fremove(tetherclienttxt);
 
-	local string auto_sav, tether_sav, shrine_sav;
+	string auto_sav, tether_sav, shrine_sav;
 	auto_sav = strcat("profiles/", repeatedprofilename, "/autosave.sav");
 	tether_sav = strcat("profiles/", repeatedprofilename, "/tether.sav");
 	shrine_sav = strcat("profiles/", repeatedprofilename, "/shrine.sav");
@@ -1772,7 +1772,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 
 	string profile_dates = strcat("profiles/", repeatedprofilename, "/dates.txt");
 
-	local string hub1map, e1m1map, e1m2map, e1m3map, e1m4map, e1m5map;
+	string hub1map, e1m1map, e1m2map, e1m3map, e1m4map, e1m5map;
 	hub1map = strcat("profiles/", repeatedprofilename, "/maps/hub1.sav");
 	e1m1map = strcat("profiles/", repeatedprofilename, "/maps/e1m1.sav");
 	e1m2map = strcat("profiles/", repeatedprofilename, "/maps/e1m2.sav");
@@ -1786,7 +1786,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 	wrath_fremove(e1m4map);
 	wrath_fremove(e1m5map);
 
-	local string hub1stat, e1m1stat, e1m2stat, e1m3stat, e1m4stat, e1m5stat;
+	string hub1stat, e1m1stat, e1m2stat, e1m3stat, e1m4stat, e1m5stat;
 	hub1stat = strcat("profiles/", repeatedprofilename, "/maps/hub1.stats");
 	e1m1stat = strcat("profiles/", repeatedprofilename, "/maps/e1m1.stats");
 	e1m2stat = strcat("profiles/", repeatedprofilename, "/maps/e1m2.stats");
@@ -1800,7 +1800,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 	wrath_fremove(e1m4stat);
 	wrath_fremove(e1m5stat);
 
-	local string hub1map_shrine, e1m1map_shrine, e1m2map_shrine,e1m3map_shrine, e1m4map_shrine, e1m5map_shrine;
+	string hub1map_shrine, e1m1map_shrine, e1m2map_shrine,e1m3map_shrine, e1m4map_shrine, e1m5map_shrine;
 	hub1map_shrine = strcat("profiles/", repeatedprofilename, "/shrine/maps/hub1.sav");
 	e1m1map_shrine = strcat("profiles/", repeatedprofilename, "/shrine/maps/e1m1.sav");
 	e1m2map_shrine = strcat("profiles/", repeatedprofilename, "/shrine/maps/e1m2.sav");
@@ -1814,7 +1814,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 	wrath_fremove(e1m4map_shrine);
 	wrath_fremove(e1m5map_shrine);
 
-	local string hub1stat_shrine, e1m1stat_shrine, e1m2stat_shrine, e1m3stat_shrine, e1m4stat_shrine, e1m5stat_shrine;
+	string hub1stat_shrine, e1m1stat_shrine, e1m2stat_shrine, e1m3stat_shrine, e1m4stat_shrine, e1m5stat_shrine;
 	hub1stat_shrine = strcat("profiles/", repeatedprofilename, "/shrine/maps/hub1.stats");
 	e1m1stat_shrine = strcat("profiles/", repeatedprofilename, "/shrine/maps/e1m1.stats");
 	e1m2stat_shrine = strcat("profiles/", repeatedprofilename, "/shrine/maps/e1m2.stats");
@@ -1828,7 +1828,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 	wrath_fremove(e1m4stat_shrine);
 	wrath_fremove(e1m5stat_shrine);
 
-	local string hub1map_autosave, e1m1map_autosave, e1m2map_autosave, e1m3map_autosave, e1m4map_autosave, e1m5map_autosave;
+	string hub1map_autosave, e1m1map_autosave, e1m2map_autosave, e1m3map_autosave, e1m4map_autosave, e1m5map_autosave;
 	hub1map_autosave = strcat("profiles/", repeatedprofilename, "/autosave/maps/hub1.sav");
 	e1m1map_autosave = strcat("profiles/", repeatedprofilename, "/autosave/maps/e1m1.sav");
 	e1m2map_autosave = strcat("profiles/", repeatedprofilename, "/autosave/maps/e1m2.sav");
@@ -1842,7 +1842,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 	wrath_fremove(e1m4map_autosave);
 	wrath_fremove(e1m5map_autosave);
 
-	local string hub1stat_autosave, e1m1stat_autosave, e1m2stat_autosave, e1m3stat_autosave, e1m4stat_autosave, e1m5stat_autosave;
+	string hub1stat_autosave, e1m1stat_autosave, e1m2stat_autosave, e1m3stat_autosave, e1m4stat_autosave, e1m5stat_autosave;
 	hub1stat_autosave = strcat("profiles/", repeatedprofilename, "/autosave/maps/hub1.stats");
 	e1m1stat_autosave = strcat("profiles/", repeatedprofilename, "/autosave/maps/e1m1.stats");
 	e1m2stat_autosave = strcat("profiles/", repeatedprofilename, "/autosave/maps/e1m2.stats");
@@ -1856,7 +1856,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 	wrath_fremove(e1m4stat_autosave);
 	wrath_fremove(e1m5stat_autosave);
 
-	local string hub1map_tether, e1m1map_tether, e1m2map_tether, e1m3map_tether, e1m4map_tether, e1m5map_tether;
+	string hub1map_tether, e1m1map_tether, e1m2map_tether, e1m3map_tether, e1m4map_tether, e1m5map_tether;
 	hub1map_tether = strcat("profiles/", repeatedprofilename, "/tether/maps/hub1.sav");
 	e1m1map_tether = strcat("profiles/", repeatedprofilename, "/tether/maps/e1m1.sav");
 	e1m2map_tether = strcat("profiles/", repeatedprofilename, "/tether/maps/e1m2.sav");
@@ -1870,7 +1870,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 	wrath_fremove(e1m4map_tether);
 	wrath_fremove(e1m5map_tether);
 
-	local string hub1stat_tether, e1m1stat_tether, e1m2stat_tether, e1m3stat_tether, e1m4stat_tether, e1m5stat_tether;
+	string hub1stat_tether, e1m1stat_tether, e1m2stat_tether, e1m3stat_tether, e1m4stat_tether, e1m5stat_tether;
 	hub1stat_tether = strcat("profiles/", repeatedprofilename, "/tether/maps/hub1.stats");
 	e1m1stat_tether = strcat("profiles/", repeatedprofilename, "/tether/maps/e1m1.stats");
 	e1m2stat_tether = strcat("profiles/", repeatedprofilename, "/tether/maps/e1m2.stats");
@@ -1884,7 +1884,7 @@ void(string repeatedprofilename) remove_all_repeated_data = {
 	wrath_fremove(e1m4stat_tether);
 	wrath_fremove(e1m5stat_tether);
 
-	local string cprofiledir;
+	string cprofiledir;
 	cprofiledir = strcat("profiles/", repeatedprofilename);
 	rmtree(cprofiledir);
 	
@@ -1905,7 +1905,7 @@ void() remove_all_data = { read_currentprofileslot();
 	wrath_fremove(tethertxt);
 	wrath_fremove(tetherclienttxt);
 
-	local string auto_sav, tether_sav, shrine_sav;
+	string auto_sav, tether_sav, shrine_sav;
 	auto_sav = strcat("profiles/", profilename, "/autosave.sav");
 	tether_sav = strcat("profiles/", profilename, "/tether.sav");
 	shrine_sav = strcat("profiles/", profilename, "/shrine.sav");
@@ -1924,7 +1924,7 @@ void() remove_all_data = { read_currentprofileslot();
 	string profile_dates = strcat("profiles/",profilename, "/dates.txt");
 
 
-	local string hub1map, e1m1map, e1m2map, e1m3map, e1m4map, e1m5map;
+	string hub1map, e1m1map, e1m2map, e1m3map, e1m4map, e1m5map;
 	hub1map = strcat("profiles/", profilename, "/maps/hub1.sav");
 	e1m1map = strcat("profiles/", profilename, "/maps/e1m1.sav");
 	e1m2map = strcat("profiles/", profilename, "/maps/e1m2.sav");
@@ -1938,7 +1938,7 @@ void() remove_all_data = { read_currentprofileslot();
 	wrath_fremove(e1m4map);
 	wrath_fremove(e1m5map);
 
-	local string hub1stat, e1m1stat, e1m2stat, e1m3stat, e1m4stat, e1m5stat;
+	string hub1stat, e1m1stat, e1m2stat, e1m3stat, e1m4stat, e1m5stat;
 	hub1stat = strcat("profiles/", profilename, "/maps/hub1.stats");
 	e1m1stat = strcat("profiles/", profilename, "/maps/e1m1.stats");
 	e1m2stat = strcat("profiles/", profilename, "/maps/e1m2.stats");
@@ -1952,7 +1952,7 @@ void() remove_all_data = { read_currentprofileslot();
 	wrath_fremove(e1m4stat);
 	wrath_fremove(e1m5stat);
 
-	local string hub1map_shrine, e1m1map_shrine, e1m2map_shrine,e1m3map_shrine, e1m4map_shrine, e1m5map_shrine;
+	string hub1map_shrine, e1m1map_shrine, e1m2map_shrine,e1m3map_shrine, e1m4map_shrine, e1m5map_shrine;
 	hub1map_shrine = strcat("profiles/", profilename, "/shrine/maps/hub1.sav");
 	e1m1map_shrine = strcat("profiles/", profilename, "/shrine/maps/e1m1.sav");
 	e1m2map_shrine = strcat("profiles/", profilename, "/shrine/maps/e1m2.sav");
@@ -1966,7 +1966,7 @@ void() remove_all_data = { read_currentprofileslot();
 	wrath_fremove(e1m4map_shrine);
 	wrath_fremove(e1m5map_shrine);
 
-	local string hub1stat_shrine, e1m1stat_shrine, e1m2stat_shrine, e1m3stat_shrine, e1m4stat_shrine, e1m5stat_shrine;
+	string hub1stat_shrine, e1m1stat_shrine, e1m2stat_shrine, e1m3stat_shrine, e1m4stat_shrine, e1m5stat_shrine;
 	hub1stat_shrine = strcat("profiles/", profilename, "/shrine/maps/hub1.stats");
 	e1m1stat_shrine = strcat("profiles/", profilename, "/shrine/maps/e1m1.stats");
 	e1m2stat_shrine = strcat("profiles/", profilename, "/shrine/maps/e1m2.stats");
@@ -1980,7 +1980,7 @@ void() remove_all_data = { read_currentprofileslot();
 	wrath_fremove(e1m4stat_shrine);
 	wrath_fremove(e1m5stat_shrine);
 
-	local string hub1map_autosave, e1m1map_autosave, e1m2map_autosave, e1m3map_autosave, e1m4map_autosave, e1m5map_autosave;
+	string hub1map_autosave, e1m1map_autosave, e1m2map_autosave, e1m3map_autosave, e1m4map_autosave, e1m5map_autosave;
 	hub1map_autosave = strcat("profiles/", profilename, "/autosave/maps/hub1.sav");
 	e1m1map_autosave = strcat("profiles/", profilename, "/autosave/maps/e1m1.sav");
 	e1m2map_autosave = strcat("profiles/", profilename, "/autosave/maps/e1m2.sav");
@@ -1994,7 +1994,7 @@ void() remove_all_data = { read_currentprofileslot();
 	wrath_fremove(e1m4map_autosave);
 	wrath_fremove(e1m5map_autosave);
 
-	local string hub1stat_autosave, e1m1stat_autosave, e1m2stat_autosave, e1m3stat_autosave, e1m4stat_autosave, e1m5stat_autosave;
+	string hub1stat_autosave, e1m1stat_autosave, e1m2stat_autosave, e1m3stat_autosave, e1m4stat_autosave, e1m5stat_autosave;
 	hub1stat_autosave = strcat("profiles/", profilename, "/autosave/maps/hub1.stats");
 	e1m1stat_autosave = strcat("profiles/", profilename, "/autosave/maps/e1m1.stats");
 	e1m2stat_autosave = strcat("profiles/", profilename, "/autosave/maps/e1m2.stats");
@@ -2008,7 +2008,7 @@ void() remove_all_data = { read_currentprofileslot();
 	wrath_fremove(e1m4stat_autosave);
 	wrath_fremove(e1m5stat_autosave);
 
-	local string hub1map_tether, e1m1map_tether, e1m2map_tether, e1m3map_tether, e1m4map_tether, e1m5map_tether;
+	string hub1map_tether, e1m1map_tether, e1m2map_tether, e1m3map_tether, e1m4map_tether, e1m5map_tether;
 	hub1map_tether = strcat("profiles/", profilename, "/tether/maps/hub1.sav");
 	e1m1map_tether = strcat("profiles/", profilename, "/tether/maps/e1m1.sav");
 	e1m2map_tether = strcat("profiles/", profilename, "/tether/maps/e1m2.sav");
@@ -2022,7 +2022,7 @@ void() remove_all_data = { read_currentprofileslot();
 	wrath_fremove(e1m4map_tether);
 	wrath_fremove(e1m5map_tether);
 
-	local string hub1stat_tether, e1m1stat_tether, e1m2stat_tether, e1m3stat_tether, e1m4stat_tether, e1m5stat_tether;
+	string hub1stat_tether, e1m1stat_tether, e1m2stat_tether, e1m3stat_tether, e1m4stat_tether, e1m5stat_tether;
 	hub1stat_tether = strcat("profiles/", profilename, "/tether/maps/hub1.stats");
 	e1m1stat_tether = strcat("profiles/", profilename, "/tether/maps/e1m1.stats");
 	e1m2stat_tether = strcat("profiles/", profilename, "/tether/maps/e1m2.stats");
@@ -2036,7 +2036,7 @@ void() remove_all_data = { read_currentprofileslot();
 	wrath_fremove(e1m4stat_tether);
 	wrath_fremove(e1m5stat_tether);
 
-	local string cprofiledir;
+	string cprofiledir;
 	cprofiledir = strcat("profiles/", profilename);
 	rmtree(cprofiledir);
 	
@@ -2075,8 +2075,8 @@ void()menu_type_resume;
 float() current_local_profilenames = 
 {
 	float total_profile_counter;
-	local float readparms;
- 	local string readtext;
+	float readparms;
+ 	string readtext;
  	readparms = fopen("profiles/profilenames.txt", FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
  	if (readparms != -1)
  	{
@@ -2226,8 +2226,8 @@ float() current_local_profilenames =
  { 
 	remove_save_maps();
 	remove_all_data();
-	local float readparms;
- 	local string readtext, local_profilename1,local_profilename2,local_profilename3,local_profilename4,local_profilename5,local_profilename6,local_profilename7;
+	float readparms;
+ 	string readtext, local_profilename1,local_profilename2,local_profilename3,local_profilename4,local_profilename5,local_profilename6,local_profilename7;
 	readparms = fopen_wrath("profiles/profilenames.txt", FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
  	if (readparms != -1)
  	{
@@ -2250,8 +2250,8 @@ float() current_local_profilenames =
  	}
 	check_profileslot();
 	
-	local float writeparms;
- 	local string writethis;
+	float writeparms;
+ 	string writethis;
  	writeparms = fopen_wrath("profiles/profilenames.txt", FILE_WRITE);	//open what file to use in write mode
 	if (profileslot != 1)
  	{writethis = local_profilename1;fputs(writeparms, writethis);fputs(writeparms, "\n");}
@@ -2275,7 +2275,7 @@ float() current_local_profilenames =
 	write_currentprofileslot();	
 
 
-/*	if(profileslot > 1) 
+/*	if (profileslot > 1) 
 	{
 	profileslot --;
 	write_profileslot();

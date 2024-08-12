@@ -113,10 +113,10 @@ void() boss_light =
 {
 	setmodel(self,"");
 
-	if(!self.style)
+	if (!self.style)
 		self.style = 17;
 
-	if(!self.count)
+	if (!self.count)
 		self.count = 12;
 
 	if (!self.targetname)

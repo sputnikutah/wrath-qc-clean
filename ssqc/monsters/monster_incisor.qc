@@ -40,7 +40,7 @@ void() loop_incisor_soundoff;
 .float resting;
 void()incisor_touch =
 {
-	if((other.classname == "player") && (self.resting == 1))
+	if ((other.classname == "player") && (self.resting == 1))
 	{
 		self.angles_y = vectoyaw((self.enemy.origin) - rorigin(self));
 		self.ideal_yaw = self.angles_y;
@@ -54,17 +54,17 @@ void()incisor_touch =
 .float walktime2;
 void() alpha_modifier =
 {
-	if(self.owner.walktime2 > time)
+	if (self.owner.walktime2 > time)
 	self.owner.alpha_fade  = -1;
 
-	if((self.alpha_fade != self.owner.alpha_fade) && (self.owner.classname ==  "monster_incisor"))
+	if ((self.alpha_fade != self.owner.alpha_fade) && (self.owner.classname ==  "monster_incisor"))
 	{
-		if(self.owner.alpha_fade == 1)
+		if (self.owner.alpha_fade == 1)
 			sound(self, CHAN_AUTO, "enemies/prowler/cloak.ogg", 1, 0.25);
-		if(self.owner.alpha_fade == -1) 
+		if (self.owner.alpha_fade == -1) 
 			sound(self, CHAN_AUTO, "enemies/prowler/decloak.ogg", 1, 0.25);
 	}
-	if((self.owner.health <= 0) && (self.cnt != 1))
+	if ((self.owner.health <= 0) && (self.cnt != 1))
 	{
 		self.cnt = 1;
 		self.owner.alpha_fade = -1;
@@ -72,37 +72,37 @@ void() alpha_modifier =
 	}
 	if (self.owner.classname ==  "monster_incisor")
 	{
-		if((self.owner.alpha_fade == 1) ) 
+		if ((self.owner.alpha_fade == 1) ) 
 		{
 
-			if(self.owner.alpha <= 0)
+			if (self.owner.alpha <= 0)
 				self.owner.alpha = -1;
 			if (self.owner.alpha != -1)
 				self.owner.alpha -= 0.05;
 
 		}
-		if(self.owner.alpha_fade == -1)
+		if (self.owner.alpha_fade == -1)
 		{
-			if(self.owner.alpha == -1)
+			if (self.owner.alpha == -1)
 				self.owner.alpha = 0.01;
 
-			if(self.owner.alpha >= 1)
+			if (self.owner.alpha >= 1)
 				self.owner.alpha = 1;
 
-			if(self.owner.alpha != 1)
+			if (self.owner.alpha != 1)
 				self.owner.alpha += 0.05;
 
 		}
-		if(single_player.displacement_time > time)
+		if (single_player.displacement_time > time)
 		{
 			self.owner.alpha = 1;
 		}	
 	}
 	self.alpha_fade = self.owner.alpha_fade;
 
-	if(((self.owner.health <= 0) ||(self.owner.classname !=  "monster_incisor")||(!self.owner.health) ) && (self.lifetime < time))
+	if (((self.owner.health <= 0) ||(self.owner.classname !=  "monster_incisor")||(!self.owner.health) ) && (self.lifetime < time))
 	{	
-		if(self.owner.classname == "crystallised");
+		if (self.owner.classname == "crystallised")
 			self.owner.alpha = 1;
 		self.think = SUB_Remove;
 	}
@@ -115,7 +115,7 @@ void() incisor_stand1 =[$inc_idle1, incisor_stand2]
 {
 	ai_stand();
 	loop_incisor_soundoff();
-	if(!(self.flags & FL_MONSTER))
+	if (!(self.flags & FL_MONSTER))
 		self.flags += FL_MONSTER;
 
 
@@ -177,14 +177,14 @@ void() incisor_jump = { if ((vlen(self.velocity) < 30) && (self.flags &FL_ONGROU
 
 .float runincisortime;
 .float incisorscreamingtime;
-void() incisor_atk = { local float r;
+void() incisor_atk = { float r;
 
-	if(self.alpha < 0.5)	
+	if (self.alpha < 0.5)	
 	self.alpha = 0.5;
 	self.alpha_fade  = -1;
 
 
-	if(single_player.displacement_time > time)
+	if (single_player.displacement_time > time)
 	self.alpha = 1;
 	
 	r = (random() *5);
@@ -238,7 +238,7 @@ void() incisor_run1 =[$inc_run1, incisor_run2]
 	self.movetype = MOVETYPE_STEP;
 	self.randomattack = 0;
 	self.resting = 0;
-	if(self.evading != 0)
+	if (self.evading != 0)
 		redirect_newangles(-30,30);
 	self.alpha_fade  = 1;
 	ai_test_monster_run(24);
@@ -266,14 +266,14 @@ void() incisor_run3 =[$inc_run3, incisor_run4]
 	}
 	self.nextthink = time + 0.05;
 	walksound("enemies/prowler/step", 3);
-	if(self.evading != 0)
+	if (self.evading != 0)
 		redirect_newangles(-70,70);
 };
 void() incisor_run4 =[$inc_run4, incisor_run5]{ai_test_monster_run(24);self.nextthink = time + 0.05;};
 void() incisor_run5 =[$inc_run5, incisor_run6]
 {
 	ai_test_monster_run(24);
-	if(self.evading != 0)
+	if (self.evading != 0)
 		redirect_newangles(-20,20);
 	self.nextthink = time + 0.05;
 };
@@ -305,9 +305,9 @@ void() incisor_run6 =[$inc_run6, incisor_run1]
 
 void() incisor_attack =
 {
-	local vector delta;
-	local float dist;
-	local float wdmg;
+	vector delta;
+	float dist;
+	float wdmg;
 
 	if (!self.enemy)
 	{
@@ -514,10 +514,10 @@ void() incisor_dieb17 = [ $inc_deathb17, incisor_dieb17 ]{checkburnable(self);};
 
 void() incisor_die =
 {
-	local vector tagorg;
-	local float tagindex;
-	local string tagname;
-	local float r;
+	vector tagorg;
+	float tagindex;
+	string tagname;
+	float r;
 	//self.colormod = '1 1 1';
 	self.effects = 0;	
 	loop_incisor_soundoff();
@@ -692,9 +692,9 @@ void() precache_monster_prowler =
 void()xangle_controller_think;
 void() monster_prowler =
 {
-	local entity alphamodifier;
-	local float r;
-	local entity clipgroup_controller;
+	entity alphamodifier;
+	float r;
+	entity clipgroup_controller;
 
 	precache_sound("enemies/prowler/attack1.ogg");
 	precache_sound("enemies/prowler/attack2.ogg");
@@ -792,7 +792,7 @@ void() monster_prowler =
 	clipgroup_controller.owner = self;
 	clipgroup_controller.think = clipgroup_controller_think;
 	clipgroup_controller.nextthink = time;
-	if(single_player.displacement_time > time)
+	if (single_player.displacement_time > time)
 	{
 		self.color = '0.225 0.237 1.3';
 		self.light_lev = 92;
@@ -808,7 +808,7 @@ void() monster_prowler =
 void()xangle_controller_think =
 {
 
-	if(self.owner.walktime2 > time)
+	if (self.owner.walktime2 > time)
 	{
 		setorigin (self, self.owner.origin);
 		makevectors2(self.owner.angles);
@@ -844,9 +844,9 @@ void()xangle_controller_think =
 
 	else
 	{
-		if(self.owner.angles_x != 0)
+		if (self.owner.angles_x != 0)
 			self.owner.angles_x = 0;
-		if(self.owner.gravity != 1)
+		if (self.owner.gravity != 1)
 			self.owner.gravity = 1;
 	}
 
@@ -864,12 +864,12 @@ void()monster_incisor =
 
 void()trigger_wallwalktouch =
 {
-	if(other.classname != "monster_incisor")
+	if (other.classname != "monster_incisor")
 		return;
 	other.walktime2 = time + 0.25;
 	
 
-	if(other.xangle_controller_cnt != 1)
+	if (other.xangle_controller_cnt != 1)
 	{
 		entity xangle_controller = spawn();
 		setmodel(xangle_controller,"");

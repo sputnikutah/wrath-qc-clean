@@ -9,7 +9,7 @@ void() vicious_idol_waiting1 =[$wre_idle1, vicious_idol_waiting1]
 	}
 	else
 		next_enemy();
-	if(!self.enemy)
+	if (!self.enemy)
 		next_enemy();
 
 };
@@ -31,7 +31,7 @@ void() vicious_idol_waiting10 =[$wre_idle10, vicious_idol_waiting10
 	}
 	else
 		next_enemy();
-	if(!self.enemy)
+	if (!self.enemy)
 		next_enemy();
 };
 void() vicious_idol_waiting11 =[$wre_idle11, vicious_idol_waiting11]{ai_face();if (visible(self.enemy)){self.think = vicious_idol_attacka1;self.nextthink = time + 0.1;}};
@@ -60,7 +60,7 @@ void()vicious_idol_attacka5 =[$wre_attack5,vicious_idol_attacka6]
 void()vicious_idol_attacka6 =[$wre_attack6,vicious_idol_attacka7]
 {
 	ai_face();
-	if(test_ia == 1)
+	if (test_ia == 1)
 		self.enemy_prediction = self.oldposition.origin;
 	wretch_attack();
 	self.glowmod = '0.9 0.9 0.9';
@@ -70,15 +70,15 @@ void()vicious_idol_attacka8 =[$wre_attack8,vicious_idol_attacka11]
 {	
 	ai_face();
 	float enemy_is_visible = visible(self.enemy);
-	if(!self.enemy)
+	if (!self.enemy)
 		next_enemy();
 	else
 	{
-		if(!enemy_is_visible)
+		if (!enemy_is_visible)
 			next_enemy();
 		else
 		{
-		if((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
+		if ((self.enemy.classname == "player") && (self.player_temp_enemy < time)) 
 			next_enemy();
 		}	
 	}		
@@ -98,7 +98,7 @@ void() ViciousIdol_touch =
 {
 	if ((other == self.owner))
 		return;	
-	//if(!(other == world))
+	//if (!(other == world))
 	//	return;	
 
 	//self.colormod = '3 0.125 2';
@@ -122,7 +122,7 @@ void() ViciousIdol_selected =
 	float ViciousIdol_vel = 512;
 	float ViciousIdol_velz = 128;
 
-	local entity ViciousIdol;
+	entity ViciousIdol;
 	ViciousIdol = spawn ();
 	ViciousIdol.owner = self;
 	ViciousIdol.movetype = MOVETYPE_BOUNCE;

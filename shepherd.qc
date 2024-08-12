@@ -63,6 +63,7 @@ float shepherd_dialogue_chooseline(void)
 		if (i == 5)
 			break;
 	}
+	return 0;
 }
 
 void shepherd_dialogue_usetargets(void)
@@ -74,7 +75,7 @@ void shepherd_dialogue_usetargets(void)
 void shepherd_dialogue_use(void)
 {
 	entity lst = world;
-	while(lst = findflags(lst, flags, FL_CLIENT))
+	while ((lst = findflags(lst, flags, FL_CLIENT)))
 	{
 		centerprint(lst, strcat("&", self.message));
 	}
@@ -125,7 +126,7 @@ void shepherd_usepressed(void)
 		activator = self;
 		string targ = self.targlist[line];
 		entity lst = world;
-		while(lst = find(lst, targetname, targ))
+		while ((lst = find(lst, targetname, targ)))
 		{
 			self = lst;
 			lst.use();
@@ -138,6 +139,9 @@ void shepherd_approached(void)
 {
 	if (time < shepherd_speak_cooldown)
 		return;
+
+	entity lst = world;
+	string targ = "";
 
 	if (self.spawnflags & 1)
 	{
@@ -153,9 +157,9 @@ void shepherd_approached(void)
 			shepherd_hublines_lastspoken = line;
 
 			activator = self;
-			string targ = self.targlist[line];
-			entity lst = world;
-			while(lst = find(lst, targetname, targ))
+			targ = self.targlist[line];
+			lst = world;
+			while ((lst = find(lst, targetname, targ)))
 			{
 				self = lst;
 				lst.use();
@@ -172,9 +176,9 @@ void shepherd_approached(void)
 		self.shepherd_thisautomatic = TRUE;
 
 		activator = self;
-		string targ = self.target;
-		entity lst = world;
-		while(lst = find(lst, targetname, targ))
+		targ = self.target;
+		lst = world;
+		while ((lst = find(lst, targetname, targ)))
 		{
 			self = lst;
 			lst.use();
@@ -214,6 +218,9 @@ void place_shepherd_think(void)
 		return;
 	}
 
+	float diff = 0;
+	entity lst = world;
+
 	if (self.spawnflags & 1) // hub mode, so we expect hub lines
 	{
 		if (shepherd_hublines_lastspoken >= 0 && (time > self.attack_finished) && (time > shepherd_speak_cooldown))
@@ -229,11 +236,11 @@ void place_shepherd_think(void)
 			self.frame |= 0x40;
 		
 		// check for approach
-		entity lst = world;
-		while(lst = findflags(lst, flags, FL_CLIENT))
+		lst = world;
+		while ((lst = findflags(lst, flags, FL_CLIENT)))
 		{
-			vector diff = vlen(lst.origin - self.origin);
-			if (vlen(diff) > 256)
+			diff = vlen(lst.origin - self.origin);
+			if (diff > 256)
 				continue;
 			
 			shepherd_approached();
@@ -246,11 +253,11 @@ void place_shepherd_think(void)
 		if !(self.shepherd_thisautomatic)
 			self.frame |= 0x40;
 
-		entity lst = world;
-		while(lst = findflags(lst, flags, FL_CLIENT))
+		lst = world;
+		while ((lst = findflags(lst, flags, FL_CLIENT)))
 		{
-			vector diff = vlen(lst.origin - self.origin);
-			if (vlen(diff) > 256)
+			diff = vlen(lst.origin - self.origin);
+			if (diff > 256)
 				continue;
 			
 			shepherd_approached();
@@ -269,7 +276,7 @@ void place_shepherd_filter(void)
 		loc = 6;
 
 	entity lst = world;
-	while(lst = find(lst, classname, "place_shepherd"))
+	while ((lst = find(lst, classname, "place_shepherd")))
 	{
 		if !(lst.spawnflags & 1)
 			continue;

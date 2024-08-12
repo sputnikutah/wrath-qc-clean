@@ -38,7 +38,7 @@ void()colormodel_think =
 	self.scale = single_player.lradius / 200;
 	self.think = colormodel_think;
 	/*self.skin ++;
-	if(self.skin >= 10)
+	if (self.skin >= 10)
 	self.skin = 0;*/
 
 	self.nextthink = time + 0.05;
@@ -68,8 +68,8 @@ void() PlayerValuesEditor = {	///////////////////////////////editor/////////////
 	///////////////////////////////editor//////////////////////////
 };
 
-void(float orientation) Check_Editor_Commands = {	//local string selfcommand;
-	local float selfvalue, selfvalueb, selfvaluec;
+void(float orientation) Check_Editor_Commands = {	//string selfcommand;
+	float selfvalue, selfvalueb, selfvaluec;
 	if (self.button3)
 	{
 		self.lradius = self.lradius + orientation * 5;
@@ -311,7 +311,7 @@ void() Toggle_Angles = { if (self.editingangles)
 void() Toggle_Mode = 
 {
 
-	if(world.model == "maps/boss1.bsp")
+	if (world.model == "maps/boss1.bsp")
 	{
 		entity colormodel = spawn();
 		setmodel (colormodel,"models/objects/decor/crystals/crystal_base.md3");

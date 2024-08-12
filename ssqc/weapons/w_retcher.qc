@@ -2,12 +2,12 @@
 void(float cdmg, float aoe, entity e) Cyxplode;
 void() reload_retcher;
 .float magnetized;
-float() somecustomizefunction = { local entity pl;
+float() somecustomizefunction = { entity pl;
 	pl = find(world, classname, "player");	//find the client
 	traceline(pl.origin + pl.view_ofs, self.origin, TRUE, other);
 	if (trace_fraction == 1)
 	{
-		local float d;
+		float d;
 		d = vlen(pl.origin - self.origin);
 		if ((self.flags &FL_ONGROUND) || (d > 250))
 			self.effects = 0;
@@ -21,16 +21,20 @@ float() somecustomizefunction = { local entity pl;
 		return TRUE;
 	}
 };
-void() explo_model_retcher = { self.frame += 1;
+
+void() explo_model_retcher = 
+{ 
+	self.frame += 1;
 	self.alpha -= 0.2;
 	if (self.frame < 5)
 		self.think = explo_model_retcher;
 	else
 		self.think = SUB_Remove;
-	self.nextthink = time + 0.05;
+	self.nextthink = time + 0.025;//r00k: testing, remove asap...
 };
 
-void(vector org) explo_retcher = { local entity giblood;
+void(vector org) explo_retcher = { 
+	entity giblood;
 	giblood = spawn();
 	giblood.alpha = 1;
 	giblood.origin = org;
@@ -63,7 +67,7 @@ void() cys_explode1b = { self.skin += 0;self.think = cys_explode2;self.nextthink
 };
 
 .float aoe_big;
-void() aoe_think = { local float vcnt, rdamage, radiusretcher;
+void() aoe_think = { float vcnt, rdamage, radiusretcher;
 	vcnt = self.cnt / self.oldcnt;
 
 	if (self.aoe_big == 1)
@@ -114,7 +118,7 @@ void() aoep_think = { if (self.owner.cnt > 0)
 	self.nextthink = time + 0.1;
 }
 
-void(entity e) aoe_spawn = { local entity aoe, aoep;
+void(entity e) aoe_spawn = { entity aoe, aoep;
 	aoe = spawn();
 	aoep = spawn();
 	aoe.wrathflags += FL_GARBAGE;
@@ -146,7 +150,7 @@ void(entity e) aoe_spawn = { local entity aoe, aoep;
 
 	aoe.nextthink = time;
 	aoep.nextthink = time;
-	local string snd;
+	string snd;
 	snd = strcat("impact/projectiles/cyst_aoe", ftos(floor(random() *5) + 1), ".ogg");
 	sound(aoe, CHAN_WEAPON, snd, 1, 0.5);
 	aoe.think = aoe_think;
@@ -196,12 +200,12 @@ void() CyExplosion = { self.movetype = MOVETYPE_NONE;
 	setmodel(self, "particles/explo/explo_cyst.md3");
 	self.solid = SOLID_NOT;
 
-	local float skinn;
+	float skinn;
 	skinn = ceil(random() *4);
 	if (skinn == 4)
 		skinn = 0;
 	self.skin = skinn * 10;
-	local string snd;
+	string snd;
 	snd = strcat("impact/projectiles/cyst_explo", ftos(floor(random() *5) + 1), ".ogg");
 	sound(self, CHAN_AUTO, snd, 1, 0.25);
 	pointparticles(particleeffectnum("retcher"), self.origin, v_forward *(-550), 1);
@@ -213,7 +217,7 @@ void() PreCyExplosion = { Cyxplode(self.cnt, 1, world); self.lifetime = 0;
 void() CheckCys = {
 	if (self.flags &FL_ONGROUND)
 	{
-		//if(self.movetype == MOVETYPE_BOUNCE)
+		//if (self.movetype == MOVETYPE_BOUNCE)
 		//self.flags = self.flags - (self.flags & FL_ONGROUND);
 		//self.velocity = self.oldvelocity;
 		self.traileffectnum = particleeffectnum("null");
@@ -225,11 +229,11 @@ void() CheckCys = {
 			self.traileffectnum = particleeffectnum("retchertrail");
 	}
 
-	if(self.magnetized >= 1)
+	if (self.magnetized >= 1)
 	{
 		float dist = vlen (self.enemy.origin - self.origin);
 
-		if(dist < 128)
+		if (dist < 128)
 		{
 			vector dir = normalize ((self.enemy.origin -'0 0 16') - self.origin) * 768;
 			self.velocity_z = (self.velocity_z + dir_z) * 0.5;
@@ -238,7 +242,7 @@ void() CheckCys = {
 		}
 
 	}
-	if(self.solid == SOLID_NOT)
+	if (self.solid == SOLID_NOT)
 		self.solid = SOLID_BBOX;
 
 	if (self.lifetime < time)
@@ -249,7 +253,7 @@ void() CheckCys = {
 };
 
 void(float cdmg, float aoe, entity ignore) Cyxplode = { self.classname = "explosion_retcher";
-	local float damg;
+	float damg;
 	if (cdmg == 1)
 		damg = retcherdamg2;
 	else
@@ -258,7 +262,7 @@ void(float cdmg, float aoe, entity ignore) Cyxplode = { self.classname = "explos
 		T_SplashDamage(self, self.owner, stricken_splashdmg, ignore, stricken_splashradius);
 	else
 		T_SplashDamage(self, self.owner, retchersplashdamage, ignore, retchersplashradius);
-	local vector org;
+	vector org;
 	org = self.origin;
 	CyExplosion();
 	if (aoe == 1)
@@ -269,12 +273,12 @@ void() cyst_field_think =
 {
 	setorigin (self, self.owner.origin);
 
-	if(self.oldorigin != self.origin)
+	if (self.oldorigin != self.origin)
 	{
 		self.owner.lifetime =  0;
 		self.think = SUB_Remove;
 	}
-	if(self.owner.lifetime < time)
+	if (self.owner.lifetime < time)
 		self.think = SUB_Remove;
 	else
 		self.think = cyst_field_think;
@@ -283,11 +287,11 @@ void() cyst_field_think =
 
 void() cyst_field_touch =
 {
-	if(other.classname == "func_blade")
+	if (other.classname == "func_blade")
 		self.owner.lifetime =  0;
-	if(other.classname == "func_trap")
+	if (other.classname == "func_trap")
 		self.owner.lifetime =  0;
-	if((other.health) &&(other.flags & FL_MONSTER))
+	if ((other.health) &&(other.flags & FL_MONSTER))
 		self.owner.lifetime =  0;
 
 	//remove(self);
@@ -295,7 +299,7 @@ void() cyst_field_touch =
 
 void() cyst_field_die =
 {
-		if(self.ammo_shotgun == 1)
+		if (self.ammo_shotgun == 1)
 			self.owner.lifetime =  time + random (0.25,0.5);
 		else
 			self.owner.lifetime =  0;
@@ -314,22 +318,22 @@ void() cyst_touch =
 	pointparticles(particleeffectnum("retcherdecal"), self.origin, '0 0 0', 1);
 	if (other == self.owner)
 		return;	// don't explode on owner
-//	if(other.classname == "func_trap")
+//	if (other.classname == "func_trap")
 //	self.lifetime =  0;
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
 	if (self.cnt == 2)
 	{
 		if (other.takedamage > 0)
 		{
-			if(deathmatch == 1)
+			if (deathmatch == 1)
 			T_Damage(other, self, self.owner, retcherdamg2_mp);
 			else
 			T_Damage(other, self, self.owner, retcherdamg2);
 			Cyxplode(self.cnt, 0, other);
 			return;
 		}
-		local string snd;
+		string snd;
 		
 		self.bouncefactor -= 0.05;
 		self.velocity_x = self.velocity_x + random (-120,120);
@@ -342,7 +346,7 @@ void() cyst_touch =
 	{
 		if ((other.takedamage > 0) && (other.classname != "cystfield"))
 		{
-			if(deathmatch == 1)
+			if (deathmatch == 1)
 			T_Damage(other, self, self.owner, retcherdamg_mp);
 			else
 			T_Damage(other, self, self.owner, retcherdamg);
@@ -382,7 +386,7 @@ void() cyst_touch =
 			force_retouch = 2;
 			
 			self.pain_finished = time; // Reki: added this to track for achievement
-			if(other !=  world)
+			if (other !=  world)
 			{
 				self.movetype = MOVETYPE_FOLLOW;
 				self.solid = SOLID_BBOX;
@@ -401,8 +405,8 @@ void() cyst_touch =
 	}
 };
 
-void(float rtag) W_Fireretcher = { local vector dir, rorg, tagorg;
-	local float sv, tagindex;
+void(float rtag) W_Fireretcher = { vector dir, rorg, tagorg;
+	float sv, tagindex;
 	newmis = spawn();
 	newmis.owner = self;
 	newmis.dphitcontentsmask = DPCONTENTSMASK_WEAPON;
@@ -413,7 +417,7 @@ void(float rtag) W_Fireretcher = { local vector dir, rorg, tagorg;
 	newmis.traileffectnum = particleeffectnum("retchertrail");
 	dir = aim(self, 1000);
 	rorg = self.view_ofs - '0 0 19';
-	local string tagname;
+	string tagname;
 	tagname = strcat("tag_muzzle_", ftos(rtag));
 	tagindex = gettagindex(self.vweapon, tagname);
 	tagorg = gettaginfo(self.vweapon, tagindex);
@@ -450,7 +454,7 @@ void(float rtag) W_Fireretcher = { local vector dir, rorg, tagorg;
 	newmis.wrathflags += FL_PROJECTILE;
 	setsizeitem(newmis, retcher_proj_size);
 	float active_punchangle = cvar ("cl_punch");
-	if(active_punchangle == 1)
+	if (active_punchangle == 1)
 	self.punchangle_x = -2;
 };
 

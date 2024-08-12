@@ -1,8 +1,8 @@
 string profilename;
 float profileslot;
 float(string filename, float mode) fopen_wrath = { 
-local float frikfile;
-//	if(!(fexists(filename)))
+float frikfile;
+//	if (!(fexists(filename)))
 //		return FALSE;	
 
 	frikfile = fopen(filename, mode);
@@ -15,8 +15,8 @@ void(float fhandle) fclose_wrath = { if (fhandle != -1)
 		fclose(fhandle);
 }
 
-void() read_currentprofileslot = { local float readparms;
-	local string readtext;
+void() read_currentprofileslot = { float readparms;
+	string readtext;
 	readparms = fopen_wrath("profiles/currentprofileslot.txt", FILE_READ);	
 	readtext = fgets(readparms);	
 	profileslot = stof(readtext);	
@@ -26,8 +26,8 @@ void() read_currentprofileslot = { local float readparms;
 	fclose_wrath(readparms);
 };
 
-void(float totalsaves) writeprofilesavedlist = { local float profilenamef;
-	local string writethis, profilenamestring;
+void(float totalsaves) writeprofilesavedlist = { float profilenamef;
+	string writethis, profilenamestring;
 
 	profilenamestring = strcat("profiles/", profilename, ".frk");
 
@@ -39,11 +39,11 @@ void(float totalsaves) writeprofilesavedlist = { local float profilenamef;
 };
 
 void(float val) write_tether2 = { read_currentprofileslot();
-	local string saveloc;
+	string saveloc;
 	saveloc = strcat("profiles/", profilename, "/tetherclient.txt");
 
-	local float writeparms;
-	local string writethis;
+	float writeparms;
+	string writethis;
 	writeparms = fopen_wrath(saveloc, FILE_WRITE);	
 	writethis = ftos(val);	
 	fputs(writeparms, writethis);	
@@ -51,11 +51,11 @@ void(float val) write_tether2 = { read_currentprofileslot();
 	fclose_wrath(writeparms);
 };
 void(float val) write_shrine = { read_currentprofileslot();
-	local string saveloc;
+	string saveloc;
 	saveloc = strcat("profiles/", profilename, "/shrine.txt");
 
-	local float writeparms;
-	local string writethis;
+	float writeparms;
+	string writethis;
 	writeparms = fopen_wrath(saveloc, FILE_WRITE);	
 	writethis = ftos(val);	
 	fputs(writeparms, writethis);	
@@ -64,11 +64,11 @@ void(float val) write_shrine = { read_currentprofileslot();
 };
 
 void(float val) write_shrine_user = { read_currentprofileslot();
-	local string saveloc;
+	string saveloc;
 	saveloc = strcat("profiles/", profilename, "/shrine_user.txt");
 
-	local float writeparms;
-	local string writethis;
+	float writeparms;
+	string writethis;
 	writeparms = fopen_wrath(saveloc, FILE_WRITE);	
 	writethis = ftos(val);	
 	fputs(writeparms, writethis);	
@@ -77,11 +77,11 @@ void(float val) write_shrine_user = { read_currentprofileslot();
 };
 
 void() Kill_Tether = { read_currentprofileslot();
-	local string campaignloc;
+	string campaignloc;
 	campaignloc = strcat("profiles/", profilename, "/tether.txt");
 
-	local float writeparms;
-	local string writethis;
+	float writeparms;
+	string writethis;
 	writeparms = fopen_wrath(campaignloc, FILE_WRITE);	
 	writethis = ftos(0);	
 	fputs(writeparms, writethis);	
@@ -127,7 +127,7 @@ void() remove_save_maps = {
 		
 
 
-	local string hub1stat, e1m1stat, e1m2stat, e1m3stat, e1m4stat, e1m5stat, boss1stat;
+	string hub1stat, e1m1stat, e1m2stat, e1m3stat, e1m4stat, e1m5stat, boss1stat;
 	hub1stat = strcat("data/profiles/", profilename, "/maps/hub1.stats");
 	e1m1stat = strcat("data/profiles/", profilename, "/maps/e1m1.stats");
 	e1m2stat = strcat("data/profiles/", profilename, "/maps/e1m2.stats");
@@ -153,7 +153,7 @@ void() remove_save_maps = {
 		
 	//episode 2
 
-	local string hub2map, e2m1map, e2m2map,e2m3map, e2m4map, e2m5map, boss2map;
+	string hub2map, e2m1map, e2m2map,e2m3map, e2m4map, e2m5map, boss2map;
 	hub2map = strcat("data/profiles/", profilename, "/maps/hub2.sav");
 	e2m1map = strcat("data/profiles/", profilename, "/maps/e2m1.sav");
 	e2m2map = strcat("data/profiles/", profilename, "/maps/e2m2.sav");
@@ -177,7 +177,7 @@ void() remove_save_maps = {
 	if (fexists(boss2map))
 		fremove(boss2map);
 
-	local string hub2stat, e2m1stat, e2m2stat, e2m3stat, e2m4stat, e2m5stat, boss2stat;
+	string hub2stat, e2m1stat, e2m2stat, e2m3stat, e2m4stat, e2m5stat, boss2stat;
 	hub2stat = strcat("data/profiles/", profilename, "/maps/hub2.stats");
 	e2m1stat = strcat("data/profiles/", profilename, "/maps/e2m1.stats");
 	e2m2stat = strcat("data/profiles/", profilename, "/maps/e2m2.stats");
@@ -201,7 +201,7 @@ void() remove_save_maps = {
 	if (fexists(boss2stat))
 		fremove(boss2stat);
 		
-	local string hub3map, e3m1map, e3m2map,e3m3map, e3m4map, e3m5map, boss3map;
+	string hub3map, e3m1map, e3m2map,e3m3map, e3m4map, e3m5map, boss3map;
 	hub3map = strcat("data/profiles/", profilename, "/maps/hub3.sav");
 	e3m1map = strcat("data/profiles/", profilename, "/maps/e3m1.sav");
 	e3m2map = strcat("data/profiles/", profilename, "/maps/e3m2.sav");
@@ -225,7 +225,7 @@ void() remove_save_maps = {
 	if (fexists(boss3map))
 		fremove(boss3map);
 		
-	local string hub3stat, e3m1stat, e3m2stat, e3m3stat, e3m4stat, e3m5stat,boss3stat;
+	string hub3stat, e3m1stat, e3m2stat, e3m3stat, e3m4stat, e3m5stat,boss3stat;
 	hub3stat = strcat("data/profiles/", profilename, "/maps/hub3.stats");
 	e3m1stat = strcat("data/profiles/", profilename, "/maps/e3m1.stats");
 	e3m2stat = strcat("data/profiles/", profilename, "/maps/e3m2.stats");
@@ -251,7 +251,7 @@ void() remove_save_maps = {
 void(string filefrom, string fileto)fcopy_wrath =
 {
 
-if(fexists(strcat ("data/",filefrom)))
+if (fexists(strcat ("data/",filefrom)))
 fcopy (filefrom, fileto);
 };
 void(float istether) copy_save_maps = { 
@@ -484,8 +484,8 @@ string shrine_date;
 
 void(string local_profilename) checkdates =
 {
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen_wrath(strcat("profiles/",local_profilename,"/dates.txt"), FILE_READ);
 	readtext = fgets(readparms);
 	autosave_date = (readtext);
@@ -502,23 +502,23 @@ void(float type) writedates =
 
 	checkdates (profilename);
 
- 	local float writeparms;
- 	local string writethis;
+ 	float writeparms;
+ 	string writethis;
 	writeparms = fopen_wrath(strcat("profiles/", profilename,"/dates.txt"),  FILE_WRITE);
  	writethis = strftime(1,"%Y-%m-%d %H:%M:%S");
-	if(type == 1)
+	if (type == 1)
 		fputs(writeparms, writethis);
 	else
 		fputs(writeparms, autosave_date);
  	fputs(writeparms, "\n");
 
-	if(type == 2)
+	if (type == 2)
 		fputs(writeparms, writethis);
 	else
 		fputs(writeparms, tether_date);
  	fputs(writeparms, "\n");
 
-	if(type == 3)
+	if (type == 3)
 		fputs(writeparms, writethis);
 	else
 		fputs(writeparms, shrine_date);
@@ -536,8 +536,8 @@ string timestamp_map3;
 void(string local_profilename) get_timestamp_map = 
 {
 
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen_wrath(strcat("profiles/",local_profilename,"/timestamp.txt"), FILE_READ);
 	readtext = fgets(readparms);
 	timestamp_map1= (readtext);

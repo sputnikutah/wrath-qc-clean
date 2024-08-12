@@ -35,27 +35,27 @@ void()height_controller_think =
 {
 
 
-	if(self.owner.time_float == 0)
+	if (self.owner.time_float == 0)
 	{
 		self.owner.velocity_z = self.owner.velocity_z * 0.95;
 		float nextthink_time =  0.1;
 	}
 
-	if(self.owner.time_float == 2)
+	if (self.owner.time_float == 2)
 	{
 		vector t_dest = self.owner.origin - '0 0 256';
 		traceline((self.owner.origin), t_dest, MOVE_WORLDONLY, self);
 		float distance_to_floor = vlen (self.owner.origin - trace_endpos);
 		if (trace_fraction != 1.0)
 		{
-			if(distance_to_floor < 192)
+			if (distance_to_floor < 192)
 				self.owner.velocity_z = distance_to_floor / (1/0.25);
 			else
 				self.owner.velocity_z = 0; 
 		}
 		else
 		{
-			if(distance_to_floor > 192 )
+			if (distance_to_floor > 192 )
 				self.owner.velocity_z =-1 * distance_to_floor / (1/0.25); 
 			else
 				self.owner.velocity_z = 0; 
@@ -63,7 +63,7 @@ void()height_controller_think =
 		nextthink_time =  random( 1, 2.5);
 	}
 
-	if(self.owner.time_float == 1)
+	if (self.owner.time_float == 1)
 	{
 		setorigin (self, self.owner.origin);
 		vector xy_selforigin, xy_targetorigin;
@@ -74,7 +74,7 @@ void()height_controller_think =
 		xy_targetorigin_z = 0;
 		
 
-		if(((vlen(xy_targetorigin - xy_selforigin) < 128) && (xy_targetorigin_z > xy_selforigin_z)) &&  (self.owner.following_monster == 1))
+		if (((vlen(xy_targetorigin - xy_selforigin) < 128) && (xy_targetorigin_z > xy_selforigin_z)) &&  (self.owner.following_monster == 1))
 		{
 			self.owner.velocity_z = random (254,274); 
 			return;
@@ -89,18 +89,18 @@ void()height_controller_think =
 
 		nextthink_time =  random( 0.1, 0.5);
 
-		if(self.owner.following_monster != 1)
+		if (self.owner.following_monster != 1)
 		{
 			if (trace_fraction != 1.0)
 			{
-				if(distance_to_floor < 192)
+				if (distance_to_floor < 192)
 					self.owner.velocity_z = distance_to_floor / (1/nextthink_time);
 				else
 					self.owner.velocity_z = 0; 
 			}
 			else
 			{
-				if(distance_to_floor > 192 )
+				if (distance_to_floor > 192 )
 					self.owner.velocity_z =-1 * distance_to_floor / (1/nextthink_time); 
 				else
 					self.owner.velocity_z = 0; 
@@ -114,8 +114,8 @@ void()height_controller_think =
 
 void() check_alerted_monsters = 
 { 
-	local entity head, near;
-	local float dist, gdist, low, distanthealth;
+	entity head, near;
+	float dist, gdist, low, distanthealth;
 	low = 99999;	
 	head = find(world, classentity, "monsters");
 	while (head)
@@ -148,7 +148,7 @@ void() check_alerted_monsters =
 void(float dist, float isaligned)ai_keeper_fly =
 {
 	float enemy_is_visible = visible_keeper(self.enemy);
-	if(enemy_is_visible)
+	if (enemy_is_visible)
 	{
 		self.lastplace_spoted = self.enemy.origin;
 		self.enemyonspot = 1;
@@ -156,7 +156,7 @@ void(float dist, float isaligned)ai_keeper_fly =
 
 	}
 	
-	if(self.enemyonspot == 1)
+	if (self.enemyonspot == 1)
 	{
 		self.keeper_search_time = time + random(1,3);
 		self.enemyonspot = 0;
@@ -185,10 +185,10 @@ void() keeperparticlespawner =
 	self.cnt --;
 	float ammount = self.cnt;
 
-	if(ammount <= 0)
+	if (ammount <= 0)
 		ammount = 1;
 	pointparticles(particleeffectnum("keeperlaunch3"), self.origin + ' 0 0 12', '0 0 0',ammount);
-	if(self.lifetime < time)
+	if (self.lifetime < time)
 		self.think = SUB_Remove;
 	else
 		self.think = keeperparticlespawner;
@@ -203,7 +203,7 @@ void() keeper_launch1 =[$kpr_launch1, keeper_launch]
 	self.time_float = 0;
 	self.oldthink = keeper_launch1;
 
-	if(self.timefootstep < time)
+	if (self.timefootstep < time)
 	{
 		pointparticles(particleeffectnum("keeperdecal"), self.spriteorg, '0 0 0', 2);
 		pointparticles(particleeffectnum("keeperdecalbase"), self.spriteorg, '0 0 0', 1);
@@ -214,22 +214,22 @@ void() keeper_launch1 =[$kpr_launch1, keeper_launch]
 void() keeper_launch =
 {
 
-	if(self.frame == $kpr_launch8)
+	if (self.frame == $kpr_launch8)
 	{
 		setorigin (self,self.origin + '0 0 37');
 		self.velocity_z += 20;
 		setsize(self, '-16 -16 0', '16 16 64');
 	}
-	if(self.frame > $kpr_launch8)
+	if (self.frame > $kpr_launch8)
 		self.velocity_z += 16;
 	self.frame ++;
 	self.time_float = 0;
 	float enemy_is_visible = visible_keeper(self.enemy);
-	if(self.frame < $kpr_launch14)
+	if (self.frame < $kpr_launch14)
 		self.think = keeper_launch;
 	else
 	{
-		if(!enemy_is_visible)
+		if (!enemy_is_visible)
 		{ 
 			if (time > self.keeper_search_time)
 				self.following_monster = 0;
@@ -237,10 +237,10 @@ void() keeper_launch =
 				self.following_monster = 1;
 		}
 
-		if(enemy_is_visible)
+		if (enemy_is_visible)
 			self.following_monster = 1;
 
-		if(self.following_monster == 1)
+		if (self.following_monster == 1)
 			self.think = keeper_fast1;
 		else
 			self.think = keeper_wander1;
@@ -267,19 +267,19 @@ void() keeper_standb1 =[$kpr_idleb1, keeper_standb]
 void()keeper_standb =
 {
 	self.frame ++;
-	if(self.frame > $kpr_idleb11)
+	if (self.frame > $kpr_idleb11)
 		self.frame = $kpr_idleb1;
 
 	float alerted = FALSE;
 	self.time_noturret2 = time + 0.5;
-	if((self.enemy.flags & FL_MONSTER) && (self.enemy.health > 0)&& (self.enemy.enemy == single_player))
+	if ((self.enemy.flags & FL_MONSTER) && (self.enemy.health > 0)&& (self.enemy.enemy == single_player))
 		alerted = TRUE;
 	self.time_float = -1;
 	
-	if(alerted == FALSE)
+	if (alerted == FALSE)
 		check_alerted_monsters();
 
-	if(alerted == TRUE)
+	if (alerted == TRUE)
 		self.think = keeper_launch1;
 	else
 		self.think = keeper_standb;
@@ -297,12 +297,12 @@ void() keeper_clamp1 =[$kpr_clamp1, keeper_clamp]
 void() keeper_clamp =
 {
 	self.frame ++;
-	if(self.frame == $kpr_clamp2)
+	if (self.frame == $kpr_clamp2)
 	{
 		self.timefootstep = time + 20;
 	}
     self.oldthink = keeper_clamp;
-	if(self.frame >= $kpr_clamp6)
+	if (self.frame >= $kpr_clamp6)
 	{
 		vector tagorg = tag_origin("tag_kneea",self) + '0 0 64'; traceline (tagorg ,tagorg - '0 0 128',MOVE_WORLDONLY,self);tagorg =trace_endpos;
 		pointparticles(particleeffectnum("keeperdecal"), tagorg, '0 0 0', 1);
@@ -336,7 +336,7 @@ void()keeper_descend =
 {
 	self.frame ++;
     self.oldthink = keeper_descend;
-	if(self.frame > $kpr_descend9)
+	if (self.frame > $kpr_descend9)
 		self.frame = $kpr_descend9;
 	self.time_float = 0;
 	self.velocity_x =  self.velocity_x * 0.975;
@@ -349,10 +349,10 @@ void()keeper_descend =
 	if (trace_fraction != 1.0)
 	{
 		self.spriteorg = trace_endpos +'0 0 2';
-		if((trace_ent.solid == SOLID_BSP) || (trace_ent == world))
+		if ((trace_ent.solid == SOLID_BSP) || (trace_ent == world))
 		float onground = 1;
 	}
-	if((onground == 1) && ((self.origin_z == self.oldorigin_z) || (self.flags & FL_ONGROUND)))
+	if ((onground == 1) && ((self.origin_z == self.oldorigin_z) || (self.flags & FL_ONGROUND)))
 	{	
 		self.think = keeper_clamp1;
 		pointparticles(particleeffectnum("keeperlaunch2"), self.origin +'0 0 64', '0 0 0', 2);
@@ -363,7 +363,7 @@ void()keeper_descend =
 		self.think = keeper_descend;		
 	self.oldorigin = self.origin;
 
-	if(self.frame >= $kpr_descend9)
+	if (self.frame >= $kpr_descend9)
 		self.nextthink = time + 0.0125; 
 	else
 		self.nextthink = time + 0.1; 
@@ -384,7 +384,7 @@ void()keeper_wander =
 {
 	self.frame ++;
     self.oldthink = keeper_wander;
-	if(self.frame > $kpr_slow12)
+	if (self.frame > $kpr_slow12)
 		self.frame = $kpr_slow1;
 	check_alerted_monsters();
 	self.velocity_x =  self.velocity_x * 0.97;
@@ -392,17 +392,17 @@ void()keeper_wander =
 
 
 	float enemy_is_visible = visible_keeper(self.enemy);
-	if(!enemy_is_visible)
+	if (!enemy_is_visible)
 	self.time_float = 2;
 	else
 	self.time_float = 1;
 
-	if((self.enemy != world) && (self.enemy.flags & FL_MONSTER) && (self.enemy.health > 0)&& (self.enemy.enemy == single_player))
+	if ((self.enemy != world) && (self.enemy.flags & FL_MONSTER) && (self.enemy.health > 0)&& (self.enemy.enemy == single_player))
 		self.think = keeper_fast1;
 	else
 	{	
 
-		if(self.keeper_wander_time > time)
+		if (self.keeper_wander_time > time)
 			self.think = keeper_wander;
 		else
 		{
@@ -425,11 +425,11 @@ void()keeper_wander =
 .float spawned_shield;
 void() scale_shield =
 {
-	if(self.alpha < 1)
+	if (self.alpha < 1)
 	{
 		self.light_lev += 12.8;
 		self.alpha += 0.025;
-		if(self.owner.classname == "func_crystal_boss")
+		if (self.owner.classname == "func_crystal_boss")
 			self.scale += martyr_radius / 7000;
 		else
 			self.scale += martyr_radius / 4267;
@@ -439,7 +439,7 @@ void() scale_shield =
 		self.owner.glowmod_z += 0.05;
 	}
 
-	if(self.owner.TrinketofRespite == 0)
+	if (self.owner.TrinketofRespite == 0)
 	{
 		self.glowmod = '0.05 0.05 0.05';
 		chattersound("enemies/keeper/shield_end", 2, 1);
@@ -448,11 +448,11 @@ void() scale_shield =
 	else
 		self.think = scale_shield;
 
-	if(self.alpha <= 1)
+	if (self.alpha <= 1)
 	{
 		vector orbsize_n, orbsize;
 
-		if(self.owner.classname == "func_crystal_boss")
+		if (self.owner.classname == "func_crystal_boss")
 		{
 			orbsize_n_x = -martyr_radius * self.alpha * 0.58;
 			orbsize_n_y = -martyr_radius * self.alpha * 0.58;
@@ -478,34 +478,34 @@ void() scale_shield =
 	}
 	vector orb_offset;
 	orb_offset_z = martyr_orb_offset;
-	if(self.owner.classname != "func_crystal_boss")
+	if (self.owner.classname != "func_crystal_boss")
 		setorigin (self, self.owner.origin  + orb_offset);
 	force_retouch = 2;
 	self.nextthink = time + 0.05;
 };
 void() orb_touch =
 {
-	if(other.owner.classname == "boss_guardian2")
+	if (other.owner.classname == "boss_guardian2")
 		return;
 	other.orb_time = time + 0.5;
-	if((other.wrathflags & FL_PROJECTILE)&&  (other.owner  != self.owner) && (other.trinket_touched != 1) && (other.owner.orb_time < time))
+	if ((other.wrathflags & FL_PROJECTILE)&&  (other.owner  != self.owner) && (other.trinket_touched != 1) && (other.owner.orb_time < time))
 	{
 
 		chattersound("enemies/keeper/shield_ricochet", 5, 1);
-		if(other.classname == "projectile_shot")
+		if (other.classname == "projectile_shot")
 			{float bparticle = particleeffectnum("forcefieldsmall"); string string_sound = "impact/projectiles/trinket_small.ogg";}
-		else if((other.classname == "spleetcyst") || (other.classname == "ore2"))
+		else if ((other.classname == "spleetcyst") || (other.classname == "ore2"))
 			{bparticle = particleeffectnum("forcefieldbig"); string_sound = "impact/projectiles/trinket_med.ogg";}
 		else
 			{bparticle = particleeffectnum("forcefield"); string_sound = "impact/projectiles/trinket_med.ogg";}
 		sound (other, CHAN_AUTO, string_sound, 1, 0.25);	// stop loop sound if present
 
-		if(self.owner.classname == "func_crystal_boss")
+		if (self.owner.classname == "func_crystal_boss")
 			bparticle = particleeffectnum("forcefieldboss2");
 		pointparticles(bparticle, other.origin,(other.velocity), 1);
 
 
-		if(self.owner.classname == "func_crystal_boss")
+		if (self.owner.classname == "func_crystal_boss")
 		{
 			pointparticles( particleeffectnum("forcefieldboss2"), other.origin,(other.velocity), 1);
 			other.touch = SUB_Null;
@@ -532,11 +532,11 @@ void() orb_touch =
 
 float (entity targ) visible_keeper =
 {
-	if(wasfreed(targ))
+	if (wasfreed(targ))
 		return FALSE;
-	if(visible(targ))
+	if (visible(targ))
 	{
-		if((targ.health > 0) && (targ.classentity == "monsters") && (targ.flags & FL_MONSTER))
+		if ((targ.health > 0) && (targ.classentity == "monsters") && (targ.flags & FL_MONSTER))
 			return TRUE;
 		else
 			return FALSE;
@@ -559,12 +559,12 @@ void() keeper_generate =
     self.oldthink = keeper_generate;
 	self.think = keeper_generate;
 	self.frame ++;
-	if(self.frame > $kpr_gnrt17)
+	if (self.frame > $kpr_gnrt17)
 		self.frame = $kpr_gnrt1;
 
 
 	float enemy_is_visible = visible_keeper(self.enemy);
-	if(!enemy_is_visible)
+	if (!enemy_is_visible)
 		self.time_float = 2;
 	else
 		self.time_float = 1;
@@ -578,7 +578,7 @@ void() keeper_generate =
 	float hdist = vlen(enorg - sforg);
 
 
-	if((self.TrinketofRespite != 1) && (self.frame >= $kpr_gnrt12))
+	if ((self.TrinketofRespite != 1) && (self.frame >= $kpr_gnrt12))
 	{
 		chattersound("enemies/keeper/shield_start", 2, 1);
 		string shieldmodel = "models/enemies/keeper/orb_keeper.md3";
@@ -599,13 +599,13 @@ void() keeper_generate =
 		self.TrinketofRespite = 1;
 	}
 
-	if(self.TrinketofRespite == 1) 
+	if (self.TrinketofRespite == 1) 
 		self.radial_time =  time + 0.25;
 
 
 
 	enemy_is_visible = visible_keeper(self.enemy);
-	if(!enemy_is_visible)
+	if (!enemy_is_visible)
 	{ 
 		if (time > self.keeper_search_time)
 			self.following_monster = 0;
@@ -613,13 +613,13 @@ void() keeper_generate =
 			self.following_monster = 1;
 	}
 
-	if(enemy_is_visible)
+	if (enemy_is_visible)
 		self.following_monster = 1;
 
-	if(self.enemy.classentity != "monsters")
+	if (self.enemy.classentity != "monsters")
 		self.following_monster = 0;
 
-	if(self.enemy.health <= 0)
+	if (self.enemy.health <= 0)
 		self.following_monster = 0;
 
 	if (self.following_monster == 1)
@@ -630,7 +630,7 @@ void() keeper_generate =
 		self.think = keeper_stand1;	
 	}
 
-	if(hdist < 96)
+	if (hdist < 96)
 	{
 
 		float kpr_speed;
@@ -661,7 +661,7 @@ void() keeper_fast =
 {
     self.oldthink = keeper_fast;
 	self.frame ++;
-	if(self.frame > $kpr_fast8)
+	if (self.frame > $kpr_fast8)
 		self.frame = $kpr_fast1;
 	if (self.sight_time < time)
 	{
@@ -669,17 +669,17 @@ void() keeper_fast =
 		self.sight_time = time + random(3,7);
 	}
 	float enemy_is_visible = visible_keeper(self.enemy);
-	if(enemy_is_visible)
+	if (enemy_is_visible)
 		self.following_monster = 1;
 
 
-	if(!enemy_is_visible)
+	if (!enemy_is_visible)
 		self.time_float = 2;
 	else
 		self.time_float = 1;
 
 
-	if(enemy_is_visible != 1) 
+	if (enemy_is_visible != 1) 
 	{ 
 		if (time > self.keeper_search_time)
 			self.following_monster = 0;
@@ -689,7 +689,7 @@ void() keeper_fast =
 
 
 
-	if(self.following_monster == 1)
+	if (self.following_monster == 1)
 	{	
 		
 		vector enorg, sforg;
@@ -701,7 +701,7 @@ void() keeper_fast =
 
 		float hdist = vlen(enorg - sforg);
 
-		if(hdist < 48)
+		if (hdist < 48)
 			self.think = keeper_generate1;
 		else
 			self.think = keeper_fast;
@@ -730,20 +730,20 @@ void()keeper_stand =
     self.oldthink = keeper_stand;
 	self.frame ++;
 	float alerted = FALSE;
-	if((self.enemy.flags & FL_MONSTER) && (self.enemy.health > 0)&& (self.enemy.enemy == single_player))
+	if ((self.enemy.flags & FL_MONSTER) && (self.enemy.health > 0)&& (self.enemy.enemy == single_player))
 		alerted = TRUE;
 	self.time_float = 2;
-	if(alerted == FALSE)
+	if (alerted == FALSE)
 		check_alerted_monsters();
 
-	if(self.frame > $kpr_idle11)
+	if (self.frame > $kpr_idle11)
 		self.frame = $kpr_idle1;
 
-	if(alerted == TRUE)
+	if (alerted == TRUE)
 		self.think = keeper_fast1;
 	else
 	{
-		if((visible(single_player)) && (!(single_player.flags &FL_NOTARGET)))
+		if ((visible(single_player)) && (!(single_player.flags &FL_NOTARGET)))
 			self.think = keeper_wander1;
 		else
 			self.think = keeper_stand;
@@ -826,10 +826,10 @@ void(entity a,float b) keeper_pain =
 	self.glowmod ='0.01 0.01 0.01';
 	self.pipes.count = ((self.pipes.max_size - self.pipes.min_size) / 20);
 
-	if(	self.time_float == -1)
+	if (	self.time_float == -1)
 	{
 		float r = random();	
-		if(r < 0.5)
+		if (r < 0.5)
 			self.think = keeper_painc1;
 		else
 			self.think = keeper_paind1;
@@ -837,7 +837,7 @@ void(entity a,float b) keeper_pain =
 	}
 	else
 	{
-		if(self.radial_time < time)
+		if (self.radial_time < time)
 			self.think = keeper_paina1;
 		else
 			self.think = keeper_painb1;
@@ -916,18 +916,18 @@ void() keeper_die =
 void() glow_controller_think =
 {
 
-	if((self.glowmod_x >= self.max_size) && (self.cnt == 1))
+	if ((self.glowmod_x >= self.max_size) && (self.cnt == 1))
 		self.cnt = -1;
 
-	if((self.glowmod_x <= self.min_size) && (self.cnt == -1))
+	if ((self.glowmod_x <= self.min_size) && (self.cnt == -1))
 		self.cnt = 1;
 
-	if(self.cnt == -1)
+	if (self.cnt == -1)
 		self.glowmod_x -= self.count /2;
-	if(self.cnt == 1)
+	if (self.cnt == 1)
 		self.glowmod_x += self.count /2;
 
-	if(self.glowmod_x <= 0)
+	if (self.glowmod_x <= 0)
 		self.glowmod_x  = 0.1;
 
 	self.owner.glowmod_x = self.glowmod_x;
@@ -1012,7 +1012,7 @@ void() monster_keeper =
 	height_controller.think = height_controller_think;
 	height_controller.nextthink = time;
 
-    if(self.warped == 1)
+    if (self.warped == 1)
     {
 		entity color_controller = spawn();
 		setmodel	 (color_controller,"");

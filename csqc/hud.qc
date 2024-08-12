@@ -23,11 +23,11 @@ float shrinepresent;
 float theter_alreadychecked;
 
 void() write_tether = { read_currentprofileslot();
-	local string campaignloc;
+	string campaignloc;
 	campaignloc = strcat("profiles/", profilename, "/tetherclient.txt");
 
-	local float writeparms;
-	local string writethis;
+	float writeparms;
+	string writethis;
 	writeparms = fopen(campaignloc, FILE_WRITE);	//open what file to use in write mode
 	writethis = ftos(0);	//prepare the next thing to write
 	fputs(writeparms, writethis);	//line 1
@@ -40,10 +40,10 @@ void() write_tether = { read_currentprofileslot();
 
  
 void() check_tether = { read_currentprofileslot();
-	local string campaignloc;
+	string campaignloc;
 	campaignloc = strcat("profiles/", profilename, "/tether.txt");
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen(campaignloc, FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);	//read the text
 	tether = stof(readtext);
@@ -57,10 +57,10 @@ void() check_tether = { read_currentprofileslot();
 };
 float shrine_user;
 void() check_shrine_user = { read_currentprofileslot();
-	local string campaignloc;
+	string campaignloc;
 	campaignloc = strcat("profiles/", profilename, "/shrine_user.txt");
-	local float readparms;
-	local string readtext;
+	float readparms;
+	string readtext;
 	readparms = fopen(campaignloc, FILE_READ);	//open what file to use (THIS TIME IN READ MODE)
 	readtext = fgets(readparms);	//read the text
 	shrine_user = stof(readtext);
@@ -83,7 +83,7 @@ void() Death_Menu = { vector omp;
 
 	drawfill('0 0 0', vid_width *'1 0 0' + vid_height *'0 1 0', '0 0 0', 0.65 *dmenualpha, 0);
 
-	local vector dmsgpos2;
+	vector dmsgpos2;
 	dmsgpos2_x = dmsgpos_x + ((vid_width - 960) / 2);
 	dmsgpos2_y = dmsgpos_y * vy_rel;
 
@@ -229,7 +229,7 @@ void() Ammo_Hud = { float c_w, c_a, digits, cws;
 	float pulse_y ;
 
 	float fclframetime = gettime(2);
-	if(!fclframetime)
+	if (!fclframetime)
 		fclframetime = 0.002;
 	
 	float vfpsmultiplier;
@@ -367,7 +367,7 @@ void() pulse_darmor =
 
 void() Hud_Armor =
 {
-	local float digits, fphicona, fphicond;
+	float digits, fphicona, fphicond;
 	float c_armr = floor(getstatf(STAT_RARM));
 	float c_drmr = floor(getstatf(STAT_DARM));
 	if (c_armr > 0)
@@ -1552,7 +1552,7 @@ void HUD_InitializeDeathMenu(void)
 				check_shrine_user();
 				parse_last_saveslot();
 				
-				if((shrinepresent <= 0) && (shrine_user >  0))
+				if ((shrinepresent <= 0) && (shrine_user >  0))
 					shrinepresent = 1;
 				localcmd("crosshair 0\n");
 				localcmd("scratch3 1\n");
@@ -1824,7 +1824,7 @@ void() Hud = { vector postimage;
 
 	float gettime2;
 	gettime2 = gettime(2);
-	if(!gettime2)
+	if (!gettime2)
 	gettime2 = 0.002;
 	
 	time0 = ftos(1 + ((500 - (1 / gettime2)) / 220));
@@ -1837,7 +1837,7 @@ void() Hud = { vector postimage;
 	//DString (postimage,(time2), 1, 1, '1 1 1',' 14 14 0');postimage += '0 20 0';
 	//DString (postimage,(time3), 1, 1, '1 1 1',' 14 14 0');postimage += '0 20 0';
 	//DString (postimage,(time4), 1, 1, '1 1 1',' 14 14 0');postimage += '0 20 0';
-	local float health, kitems, digits, fphicon;
+	float health, kitems, digits, fphicon;
 	health = getstati(STAT_HEALTH);
 
 	string picofnammo;
@@ -1936,7 +1936,7 @@ void() Hud = { vector postimage;
 	}
 	else
 	{
-		if(deathmatch == 1)
+		if (deathmatch == 1)
 			showscores = 1;
 	}
 	//	c_drmr =rint(c_drmr);
@@ -1951,8 +1951,8 @@ void() Hud = { vector postimage;
 	float sl_slotkeys;
 	sl_slotkeys = rint(getstatf(STAT_SLOT_KEYS));
 	realkeypos_y += 48;
-	local string slotdigits, slotdigitsthous, slotdigitscent, slotdigitsdozen, slotdigitsunit;
-	local float slotthous,slotcents, slotdozens, slotunits;
+	string slotdigits, slotdigitsthous, slotdigitscent, slotdigitsdozen, slotdigitsunit;
+	float slotthous,slotcents, slotdozens, slotunits;
 	if (sl_slotkeys)
 	{
 		vector slot_realkeypos, slot_realkeypos2, slot_realkeypos3;
@@ -2126,7 +2126,7 @@ void() Hud = { vector postimage;
 	string ring_artifact, ring_artifact2, ring_artifact3, timer_artifact;
 	string ring_tether, ring_tether2, ring_tether3;
 	//DImage(artr1,"gfx/hud/rings.tga",1,artr2,'1 1 1','160 60 0');
-	local float radialactive, radialtime, tether_time,tetheractive;
+	float radialactive, radialtime, tether_time,tetheractive;
 	radialactive = getstatf(STAT_RADIALACTIVE);
 	tetheractive = getstatf(STAT_RD_ST);
 	
@@ -2145,7 +2145,7 @@ void() Hud = { vector postimage;
 	float infinitesaves = cvar("infinite_saves");
 	if (infinitesaves != 1)
 	{
-		if(tetheractive < 10)
+		if (tetheractive < 10)
 		{		
 			string ns1 = strcat("gfx/artifactmenu/artifact_num", ftos(tetheractive), ".tga");
 			DImage2(spos + artn, ns1, 1, artrns, '1 1 1', '8 8 0', radialflag);
@@ -2161,9 +2161,9 @@ void() Hud = { vector postimage;
 			spos += '4 0 0';
 		}
 	}
-	if(tether_time > 0)
+	if (tether_time > 0)
 	{
-		local float stntimer, st_ralpha;
+		float stntimer, st_ralpha;
 		stntimer = tether_time;
 		if (stntimer == 136)
 			stalphaflag = 1;
@@ -2275,12 +2275,12 @@ void() Hud = { vector postimage;
 		{
 
 
-			local float ntimer, artalpha;
+			float ntimer, artalpha;
 			ntimer = radialtime;
-			local string nametimer;
+			string nametimer;
 			nametimer = ftos(ntimer);
 			timer_artifact = strcat("gfx/hud/cooldown/cd", nametimer, ".tga");
-			local float da_alpha;
+			float da_alpha;
 			if (ntimer <= 134)
 				da_alpha = 1;
 			if (ntimer == 134)
@@ -2385,9 +2385,9 @@ void() Hud = { vector postimage;
 		if ((radialactive  >= 1))
 		{	
 
-			if(artifact_count <= 0)
+			if (artifact_count <= 0)
 			return;
-			if(artifact_count < 10)
+			if (artifact_count < 10)
 			{		
 				string rns1 = strcat("gfx/artifactmenu/artifact_num", ftos(artifact_count), ".tga");
 				DImage2(spos + artin, rns1, 1, artrns, '1 1 1', '8 8 0', radialflag);
@@ -2427,7 +2427,7 @@ void CSQC_UpdateView(float b, float c)
 	oldtime = cltime;
 	float wdscreen, vwframe, ennframe, ennhealth;
 	string vframe, enemyhealth, enemyclass;
-	local entity e;
+	entity e;
 	vid_width = cvar("vid_conwidth");
 	vid_height = cvar("vid_conheight");
 	vid_rwidth = cvar("vid_width");
@@ -2486,7 +2486,7 @@ void CSQC_UpdateView(float b, float c)
 
 
 
-local vector angulos, origen;
+vector angulos, origen;
 
 	static vector radial_viewmodel_ang;
 	static float radial_viewmodel_frac;
@@ -2602,11 +2602,11 @@ local vector angulos, origen;
 
 		// Reki (January 8 2024): consistent camera fov (yoinked from DOOMBRINGER, originally added by andrew apted)
 		const float h_fov = 90;
-		local float frustumy = tan(h_fov * M_PI / 360.0) * 0.75;
-		local float frustumx = frustumy * vid_width / vid_height / cvar("vid_pixelheight");
+		float frustumy = tan(h_fov * M_PI / 360.0) * 0.75;
+		float frustumx = frustumy * vid_width / vid_height / cvar("vid_pixelheight");
 	
-		local float fovx = atan(frustumx) * 360.0 / M_PI;
-		local float fovy = atan(frustumy) * 360.0 / M_PI;
+		float fovx = atan(frustumx) * 360.0 / M_PI;
+		float fovy = atan(frustumy) * 360.0 / M_PI;
 	
 		setproperty(VF_FOVX, fovx);
 		setproperty(VF_FOVY, fovy);
@@ -2617,7 +2617,7 @@ local vector angulos, origen;
 
 	float fdev = cvar ("developer");
 	float fcamera_stage = cvar ("camera_stage");
-	if((fdev >= 1) && (hidehud == 3) &&(fcamera_stage > 0)) 
+	if ((fdev >= 1) && (hidehud == 3) &&(fcamera_stage > 0)) 
 	{
 		drawstring('0 0 0', strcat("camera stage: ",""), '16 16 0', '1 1 1', 1, 0);
 		drawstring('0 0 0', strcat("              ",ftos(fcamera_stage)), '16 16 0', '1 1 0', 1, 0);
@@ -2741,33 +2741,27 @@ local vector angulos, origen;
 	}
 
 	float fclframetime = gettime(2);
-	if(!fclframetime)
+	if (!fclframetime)
 	fclframetime = 0.002;
 
 	float vfpsmultiplier;
-	if(fclframetime > 0)
+	if (fclframetime > 0)
 	vfpsmultiplier = (1 + ((300 - (1 / fclframetime)) / 220));
 	else
 	vfpsmultiplier = 1;
 	float vfps = 60 + 30 * vfpsmultiplier;
 	
-	if(fclframetime > 0)
+	if (fclframetime > 0)
 	{
-	if (1 / fclframetime > 100)
-		vfps = 60;
-	}
+		if (1 / fclframetime > 100)
+			vfps = 60;
 	//	drawstring('0 0 0', ftos (fclframetime), '8 8 0', '12 12 0', 1, 0);     	// Draw the "cursor"
-
-	float v_sfps = vfps / ((rint(1 / (fclframetime + 0.1))));
-
-	local float shrinew;
-	shrinew = floor(getstatf(STAT_SHRINE));
+		float v_sfps = vfps / ((rint(1 / (fclframetime + 0.1))));//R00k: this is giving us a DIV by ZERO error during vid_restart.
+	}
 	
+	float shrinew = floor(getstatf(STAT_SHRINE));
 
-
-
-
-	local float f, dm;
+	float f, dm;
 	f = getstati(STAT_HEALTH);
 	dm = floor(getstatf(STAT_DEADMENU));
 	if (/*(f <= 0) && */(dm == 1) && FALSE)
@@ -2778,7 +2772,7 @@ local vector angulos, origen;
 			check_tether();
 			check_shrine_user();
 			
-			if((shrinepresent <= 0) && (shrine_user >  0))
+			if ((shrinepresent <= 0) && (shrine_user >  0))
 			shrinepresent = 1;
 			mm2 = 0;
 			setcursormode(1);
@@ -2793,7 +2787,7 @@ local vector angulos, origen;
 			theter_alreadychecked = 1;
 		}
 
-		if(f < 0)
+		if (f < 0)
 		{
 		if (dmenualpha < 1)
 			dmenualpha += v_sfps / 1200;
@@ -2846,7 +2840,7 @@ local vector angulos, origen;
 		if ((rmenu == 1))
 		{
 		
-			if(slot_timer > 0)
+			if (slot_timer > 0)
 			slot_timer -= clframetime * 5;
 			if (rmenualpha < 1)
 				rmenualpha += clframetime * 5;
@@ -2899,42 +2893,42 @@ local vector angulos, origen;
 			stalpha -= clframetime *7.5;
 
 
-		if(pulsehealth_icon == 1)
+		if (pulsehealth_icon == 1)
 			phicon += clframetime * 27;
 		else
 			phicon = 0;
 
 		float fhealth = getstati(STAT_HEALTH);
-		if(fhealth <= 30)
+		if (fhealth <= 30)
 		{
 			float frametime_cnt = 20;
-			if(fhealth < 20)
+			if (fhealth < 20)
 				frametime_cnt = 27;
-			if(fhealth < 10)
+			if (fhealth < 10)
 				frametime_cnt = 34;
 		
-			if(pulsehealth_low_int == 0)
+			if (pulsehealth_low_int == 0)
 			{
-				if(pulsehealth_low > 10)
+				if (pulsehealth_low > 10)
 					pulsehealth_low_int = 1;	
 				pulsehealth_low += clframetime * frametime_cnt;
 			}
 			else
 			{
-				if(pulsehealth_low <= 0)
+				if (pulsehealth_low <= 0)
 					pulsehealth_low_int = 0;	
 				pulsehealth_low -= clframetime * frametime_cnt;
 			}
 		}
 	
 
-		if(nexartifacticon_int == 2)
+		if (nexartifacticon_int == 2)
 		{
 			float frametime_cnt = 50;
-			if(nexartifacticon > 10)
+			if (nexartifacticon > 10)
 				nexartifacticon -= clframetime * frametime_cnt;
 				
-			if(nexartifacticon <= 10)
+			if (nexartifacticon <= 10)
 			{
 				nexartifacticon = 10;
 				nexartifacticon_int = 1;
@@ -2947,15 +2941,15 @@ local vector angulos, origen;
 			{
 				float frametime_cnt = 10;
 
-				if(nexartifacticon_int == 0)
+				if (nexartifacticon_int == 0)
 				{
-					if(nexartifacticon > 10)
+					if (nexartifacticon > 10)
 						nexartifacticon_int = 1;	
 					nexartifacticon += clframetime * frametime_cnt;
 				}
 				else
 				{
-					if(nexartifacticon <= 5)
+					if (nexartifacticon <= 5)
 						nexartifacticon_int = 0;	
 					nexartifacticon -= clframetime * frametime_cnt;
 				}
@@ -2963,13 +2957,13 @@ local vector angulos, origen;
 			else
 			{
 
-				if(nexartifacticon <= 10)
+				if (nexartifacticon <= 10)
 					nexartifacticon = 10;
 			}
 		}
-		if(appparatus_using == 1)
+		if (appparatus_using == 1)
 		{
-			if(appparatus_flash >= 1)
+			if (appparatus_flash >= 1)
 				appparatus_flash = 1;
 			else
 				appparatus_flash += clframetime;
@@ -2977,17 +2971,17 @@ local vector angulos, origen;
 		else
 			appparatus_flash = 0;
 		
-		if(pulseammo_icon == 1)
+		if (pulseammo_icon == 1)
 			ammphicon += clframetime * 27;
 		else
 			ammphicon = 0;
 
-		if(pulsearmor_icon == 1)
+		if (pulsearmor_icon == 1)
 			arphicon += clframetime * 27;
 		else
 			arphicon = 0;
 
-		if(pulsedarmor_icon == 1)
+		if (pulsedarmor_icon == 1)
 			drphicon += clframetime * 27;
 		else
 			drphicon = 0;
@@ -3058,7 +3052,7 @@ local vector angulos, origen;
 		
 		if (showjournal == 1)
 		{
-			if(deathmatch == 1)
+			if (deathmatch == 1)
 			showscores = 1;
 			else
 			{
@@ -3078,7 +3072,7 @@ local vector angulos, origen;
 		}
 		else if (showjournal == 2)
 		{
-			//if(deathmatch == 1)
+			//if (deathmatch == 1)
 			//	showscores = 0;
 			//else
 			{
@@ -3089,7 +3083,7 @@ local vector angulos, origen;
 		else
 		{
 			float health = getstati(STAT_HEALTH);
-			if((deathmatch == 1))
+			if ((deathmatch == 1))
 				showscores = 0;		
 			else
 			{
@@ -3134,7 +3128,7 @@ local vector angulos, origen;
 		}
 
 
-		if((showscores == 1) && (deathmatch == 1))
+		if ((showscores == 1) && (deathmatch == 1))
 		{
 
 			draw_multiplayer_scoreboard();
@@ -3248,7 +3242,7 @@ local vector angulos, origen;
 	//drawpic([vid_width * 0.5, vid_height * 0.5] + radial_pos, "gfx/cursor.tga", '20 20 0', '1 1 1', 1, 0);
 
 	float crt_active = cvar ("crt");
-	if(crt_active > 0)
+	if (crt_active > 0)
 	{
 		vector res;
 		drawpic('0 0 0', "gfx/crt.tga", vid_width *'0.5 0 0' + vid_height *'0 0.5 0', '1 1 1', crt_active, 0);

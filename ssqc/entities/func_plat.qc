@@ -9,8 +9,8 @@ float PLAT_LOW_TRIGGER = 1;
 
 void() plat_spawn_inside_trigger =
 {
-	local entity	trigger;
-	local vector	tmin, tmax;
+	entity	trigger;
+	vector	tmin, tmax;
 
 //
 // middle trigger
@@ -150,19 +150,19 @@ void() func_plat =
 	if (!self.t_width)
 		self.t_width = 10;
 
-	if(self.noise)
+	if (self.noise)
 	precache_sound (self.noise);
-	if(self.noise1)
+	if (self.noise1)
 	precache_sound (self.noise1);
-	if(self.noise2)
+	if (self.noise2)
 	precache_sound (self.noise2);
-    if(!self.rad_sound)
+    if (!self.rad_sound)
         self.rad_sound = 1024;
 
     float attn = 512 / self.rad_sound;
     self.rad_sound = attn;
 
-    if(!self.volume)
+    if (!self.volume)
         self.volume = 1;
 
 	self.mangle = self.angles;

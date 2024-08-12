@@ -235,7 +235,7 @@
  		localsound("sounds/menu.wav");
  	if ((local_option >= 250) && (local_option <= 275))
  		menutype = M_TYPE_CONFIRMRESOLUTION;
- 	//	if((selected_option >= 274) && (selected_option <= 276))
+ 	//	if ((selected_option >= 274) && (selected_option <= 276))
  	//	menutype = M_TYPE_CONFIRMRESOLUTION;
 
  	if ((local_option >= 307) && (local_option <= 311))
@@ -281,7 +281,7 @@
 			selected_option = 0;
  			break;
  		case 5:
-			if(profileslot < 1)
+			if (profileslot < 1)
 			profileslot = 1;
 			
 			profilesammount = current_local_profilenames();
@@ -387,7 +387,7 @@
 			profileslot = 8;
 			profileslotpage = 8;
 			profilesammount = current_local_profilenames();
-			if(profilesammount < 1)
+			if (profilesammount < 1)
 			{
 			profilesammount = 0;
 			profileslot = 0;
@@ -1176,13 +1176,13 @@
  			if (checked11 == 1)
 			{
 				cmd("saved9 0\n");
-				if(displacement_effect != 1)
+				if (displacement_effect != 1)
 					cmd("r_glsl_postprocess_color_lut gfx/lookup_default.png \n");
 			}
  			else
 			{
  				cmd("saved9 1\n");
-				if(displacement_effect != 1)
+				if (displacement_effect != 1)
 					cmd("r_glsl_postprocess_color_lut gfx/lookup_palettized.png\n");
 			}
  		break;

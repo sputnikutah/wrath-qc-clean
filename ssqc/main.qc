@@ -16,8 +16,8 @@ void() Precache;
 void() check_tether;
 void()check_maxammo;
 .float message_number;
-void() CSQC_AddStats = 
-{ 
+void() CSQC_AddStats =
+{
 	SV_AddStatFloat(STAT_RMENU, 8, rmenu);
 	SV_AddStatFloat(STAT_LF, 8, lf);
 	SV_AddStatFloat(STAT_RARM, 8, rarmorvalue);
@@ -93,68 +93,108 @@ void() CSQC_AddStats =
 	SV_AddStatFloat(STAT_ENDSCREENSTART, 8, r_endscreen);
 };
 
-void(entity client, string s) centerprint = {
+void (entity client, string s) centerprint =
+{
 	float msg_type = MSG_ALL;
+
 	if (client != world)
 		msg_type = MSG_ONE;
+
 	msg_entity = client;
 
-	WriteByte(msg_type, SVC_TEMPENTITY);
-	WriteByte(msg_type, TEMPENT::CENTERPRINT);
-	WriteString(msg_type, s);
+	WriteByte	(msg_type, SVC_TEMPENTITY);
+	WriteByte	(msg_type, TEMPENT::CENTERPRINT);
+	WriteString	(msg_type, s);
 }
 
 entity lastspawn;
 .float episode;
+float deathmatch;	//R00k: moved here from radial.qc
 
-void() worldspawn = 
-{ 
+void() worldspawn =
+{
 	lastspawn = world;
-	skill = cvar("skill");
 
+	deathmatch = (cvar("deathmatch"));	//R00k: populate the deathmatch variable.
 
+//	if (!(deathmatch))					//R00k: TODO: reorder this to sandbox deathmatch requirements only.
+//	{
+		skill = cvar("skill");
 
+		if (!(world.episode))
+		{
+			switch (self.model)
+			{
+				case "maps/intro.bsp":
+				case "maps/hub1.bsp":
+				case "maps/e1m1.bsp":
+				case "maps/e1m2.bsp":
+				case "maps/e1m3.bsp":
+				case "maps/e1m4.bsp":
+				case "maps/e1m5.bsp":
+				case "maps/boss1.bsp":
+					world.episode = 1;
+				break;
 
-	if(!(world.episode))
-	{
-	if ((self.model == "maps/intro.bsp") || (self.model == "maps/hub1.bsp") || (self.model == "maps/e1m1.bsp") ||
-(self.model == "maps/e1m2.bsp") || (self.model == "maps/e1m3.bsp")|| (self.model == "maps/e1m4.bsp")|| (self.model == "maps/e1m5.bsp")|| (self.model == "maps/boss1.bsp"))
-	world.episode = 1;
-	else if ( (self.model == "maps/hub2.bsp") || (self.model == "maps/e2m1.bsp") ||
-(self.model == "maps/e2m2.bsp") || (self.model == "maps/e2m3.bsp")|| (self.model == "maps/e2m4.bsp")|| (self.model == "maps/e2m5.bsp")|| (self.model == "maps/boss2.bsp")|| (self.model == "maps/urns2.bsp"))
-	world.episode = 2;
-	else if ( (self.model == "maps/hub3.bsp") || (self.model == "maps/e3m1.bsp") ||
-(self.model == "maps/e3m2.bsp") || (self.model == "maps/e3m3.bsp")|| (self.model == "maps/e3m4.bsp")|| (self.model == "maps/e3m5.bsp")|| (self.model == "maps/boss3.bsp"))
-	world.episode = 3;
-	}
+				case "maps/hub2.bsp":
+				case "maps/e2m1.bsp":
+				case "maps/e2m2.bsp":
+				case "maps/e2m3.bsp":
+				case "maps/e2m4.bsp":
+				case "maps/e2m5.bsp":
+				case "maps/boss2.bsp":
+				case "maps/urns2.bsp":
+					world.episode = 2;
+				break;
 
-	if(!(world.episode))
-		world.episode = 1;
-	
-	// Reki (February 14 2024): keep track of our up-to-date save
-	// compatibility versions, we'll need to fix stuff if this changes
-	map_save_version = world.map_version;
-	prog_save_version = PROG_SAVE_VERSION;
-	world.prog_version = PROG_SAVE_VERSION;
-	//
+				case "maps/hub3.bsp":
+				case "maps/e3m1.bsp":
+				case "maps/e3m2.bsp":
+				case "maps/e3m3.bsp":
+				case "maps/e3m4.bsp":
+				case "maps/e3m5.bsp":
+				case "maps/boss3.bsp":
+					world.episode = 3;
+				break;
+			}
+		}
 
-	//Precache();
-	check_enemies_frik();
-	check_itemammount();
-	check_itemflash();
-	check_itemsigil_flash();
-	check_itemsize();
-	check_coffer();
-	check_attar();
-	check_shockwave();
-	check_itemlight();
-	check_maxammo();
-	float noqcprecaches = cvar("cl_noqcprecache");	
-	if(noqcprecaches != 1)
-	precaches();
-	CSQC_AddStats();
-	//	check_tether();
-	globalfake_illumination = 1;
+		if (!(world.episode))
+			world.episode = 1;
+
+		// Reki (February 14 2024): keep track of our up-to-date save
+		// compatibility versions, we'll need to fix stuff if this changes
+		map_save_version = world.map_version;
+		prog_save_version = PROG_SAVE_VERSION;
+		world.prog_version = PROG_SAVE_VERSION;
+		//
+
+		//Precache();
+		if (!(deathmatch))
+		{
+			check_enemies_frik();
+			check_coffer();
+			check_attar();
+			check_shockwave();
+		}
+		check_itemflash();
+		check_itemsigil_flash();//used?
+		check_itemammount();
+		check_itemsize();
+		check_itemlight();
+		check_maxammo();
+
+		float noqcprecaches = cvar("cl_noqcprecache");
+
+		if (noqcprecaches != 1)
+			precaches();
+
+		CSQC_AddStats();
+
+		//	check_tether();
+		globalfake_illumination = 1;
+//	}//(!deathmatch)
+
 	//
 	// Setup light animation tables. 'a' is total darkness, 'z' is maxbright.
 	//
@@ -240,14 +280,14 @@ void() precache_monster_prowler;
 void() precache_monster_boss1;
 void() precache_monster_keeper;
 
-void() precaches = 
-{ 
+void() precaches =
+{
 
 
 
-	
-	
-	
+
+
+
 	//	precache_model ("models/items/glyph_blue.md3");
 	//	precache_model ("models/items/glyph_red.md3");
 	//	precache_model ("models/items/glyph_yellow.md3");
@@ -267,6 +307,7 @@ void() precaches =
 	precache_model ("models/player/outlander/head.md3");
 	precache_model ("models/player/outlander/lower.md3");
 	precache_model ("models/player/outlander/upper.md3");
+	precache_model ("models/enemies/dummy/dummy.md3");	// R00k (4/4/2024) Let's get this ball rolling!
 	precache_model ("models/artifacts/active/flask_active.md3");
 	precache_model ("models/artifacts/active/life_siphon_active.md3");
 	precache_model ("models/artifacts/active/sigil_flight_active.md3"); //
@@ -453,6 +494,7 @@ void() precaches =
 	precache_model ("models/weapons/spitter/v_fangs.md3");
 	precache_model ("models/weapons/spitter/v_spitter.md3");
 	precache_model ("models/weapons/spitter/w_spitter.md3");
+
 	precache_model ("particles/explo/explo_blood1.md3");
 	precache_model ("particles/explo/explo_blood2.md3");
 	precache_model ("particles/explo/explo_blood3.md3");
@@ -469,13 +511,16 @@ void() precaches =
 	precache_model ("particles/smoke_6.md3");
 	precache_model ("particles/smoke_7.md3");
 	precache_model ("particles/smoke_8.md3");
+
 	precache_model("models/objects/decor/crystals/crystal_base.md3");
 	//precache_model("models/weapons/lance/v_lance_wrath.md3");
 	precache_model("models/artifacts/effects/revelation_particle.md3");
 	precache_model("models/artifacts/effects/orb_blackhole_small.md3");
 	precache_model("models/projectiles/proj_mace.md3");
 	precache_model("models/weapons/mace/soul.md3");
+
 	precache_model("particles/impact/impact_oppressor6.md3");
+
 	precache_model("models/dev/collisionbox.md3");
 	precache_model("models/alpha/impact_oppressor8.md3");
 	precache_model("models/items/item_readable.md3");
@@ -483,10 +528,16 @@ void() precaches =
 	precache_model("models/artifacts/effects/revelation_note_blur.md3");
 	precache_model("models/artifacts/effects/revelation_note_particle.md3");
 	precache_model("sdf");
+
+	precache_model ("models/meshes/liquids/waterfall_base.md3");
+	precache_model ("models/objects/eyeball/eyelid.md3");
+
+
 	precache_sound("weapons/lhit.wav");
 	precache_sound("weapons/mace/inspect.ogg");
 	precache_sound("enemies/wretch/proj_loop.ogg");
 	precache_sound("enemies/symbol/fire.ogg");
+
 
 	precache_monster_afflicted();
 	precache_monster_afflicted();
@@ -909,7 +960,7 @@ void() precaches =
 	precache_sound ("weapons/crystal/crystallizer_release3.ogg");
 	precache_sound ("weapons/crystal/crystallizer_release4.ogg");
 	precache_sound ("weapons/crystal/crystallizer_release5.ogg");
-	
+
 	precache_sound ("weapons/crystal/crystallizer_fire_loop.ogg");
 
 	precache_sound ("weapons/crystal/crystallizer_fire_alt_loop.ogg");
@@ -927,7 +978,7 @@ void() precaches =
 	precache_sound ("weapons/crystal/crystallizer_select2.ogg");
 	precache_sound ("weapons/crystal/crystallizer_select3.ogg");
 	precache_sound ("weapons/crystal/crystallizer_altfire_stinger.ogg");
-	
+
 
 	precache_sound ("weapons/lance/fire1.ogg");
 	precache_sound ("weapons/lance/fire2.ogg");
@@ -1066,7 +1117,7 @@ void() precaches =
     precache_sound ("weapons/crystaliser/fire1.ogg");
     precache_sound ("weapons/crystaliser/inspect.ogg");
     precache_sound ("weapons/crystaliser/raise.ogg");
-	precache_sound ( "impact/destruct/skullbreak.ogg");
+	precache_sound ("impact/destruct/skullbreak.ogg");
 };
 
 ///////////////////////////////////end of qc file

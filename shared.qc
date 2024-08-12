@@ -10,7 +10,7 @@ void(float index, float type, .float) SV_AddStatFloat = #232;
 
 // Entity Sending
 
-.float(entity to, float sendflags) SendEntity;
+.float(void) SendEntity; //R00k: changed to void
 .float SendFlags ;
 .float Version;
 
@@ -681,14 +681,14 @@ float SG_MathModulus(float a, float b)
 
 string SG_GetFormattedTimeStringUnZoned(float tTime)
 {
-	local float nTime;
+	float nTime;
 	nTime = rint(tTime);
-	local string strTime;
-	local float nMinutes;
+	string strTime;
+	float nMinutes;
 	nMinutes = floor(nTime / 60);
 	strTime = ftos(nMinutes);
 	strTime = strcat(strTime, ":");
-	local float nSeconds;
+	float nSeconds;
 	nSeconds = SG_MathModulus(nTime, 60);
 	if (nSeconds < 10)
 		strTime = strcat(strTime, "0", ftos(nSeconds));
@@ -789,7 +789,7 @@ float findPosition(float n)
 void numfield_addtostring(__inout string numfield, float insert)
 {
 	float argc = tokenizebyseparator(numfield, "&")-1;
-	string numstr = strcat(numfield);
+	string numstr = strcat(numstr, numfield);
 	
 	for(float i = 1; i <= argc; i++)
 	{
@@ -924,7 +924,7 @@ float crandom()
 
 float crandom2()
 {
-	local float r, r2, rtrn;
+	float r, r2, rtrn;
 	r = random() *0.5 + 0.5;
 	r2 = random();
 	if (r2 > 0.5)
@@ -960,7 +960,7 @@ float cprandom(float seed)
 
 float (float x, float y) angle_difference =
 {
-    local float a;
+    float a;
     a = x - y;
     a = (a + 180) % 360 - 180;
     if (a > 180) a -= 360;

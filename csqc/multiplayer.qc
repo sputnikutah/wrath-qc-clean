@@ -2,7 +2,7 @@ float mpalpha;
 float showscores;
 void() draw_multiplayer_scoreboard =
 {
-	local float num, totalplayersconnected;
+	float num, totalplayersconnected;
 	string mpstring, playername, playerping,playerpl, playerfrags;
 
 	num = 0;
@@ -37,7 +37,7 @@ void() draw_multiplayer_scoreboard =
 		mpstring = strcat (playerfrags);
 		DstringJournal(posimage2,mpstring, 1, mpalpha, colorimg, ' 10 8 0');
 
-		if(playername != "")
+		if (playername != "")
 		{
 			totalplayersconnected ++;
 		}

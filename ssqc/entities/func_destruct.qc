@@ -58,9 +58,9 @@ void() becomesolid =
 
 	}
 
-	//	if((!(self.flags &FL_ONGROUND)) && (self.velocity == '0 0 0')) 
+	//	if ((!(self.flags &FL_ONGROUND)) && (self.velocity == '0 0 0')) 
 	move_gibs();
-	local float ctre;
+	float ctre;
 	ctre = 100 *self.scale + 20;
 	if ((self.tre > ctre))
 		self.think = alphafade;
@@ -88,13 +88,13 @@ void() becomesolid =
 
 void()info_nogib_touch =
 {
-	if(!(other.wrathflags & FL_GIB))
+	if (!(other.wrathflags & FL_GIB))
 		return;
 	else
 	{
 		vector dir = (self.origin - '0 0 8')  - other.origin;
 		dir = normalize(dir);
-		other.velocity += dir * (128,256);
+		other.velocity += dir * random(128,256);
 		other.movetype = MOVETYPE_NOCLIP;
 		other.think = becomesolid;
 		other.nextthink = time + random(0.2,0.5);
@@ -116,12 +116,12 @@ void() prebecomesolid =
 	{
 		self.think = prebecomesolid;
 
-		if(!self.lifetime)
+		if (!self.lifetime)
 			self.lifetime = time + random(7,15);
-		if(!self.oldvelocity)
+		if (!self.oldvelocity)
 			self.oldvelocity = randomvector('-128 -128 -16','128 128 256');
 
-		if(self.origin == self.oldorigin2)
+		if (self.origin == self.oldorigin2)
 		{
 			self.velocity = self.oldvelocity * 1.5;
 			self.velocity_x = self.oldvelocity_x * random(1.5,3);
@@ -204,7 +204,7 @@ void() prebecomesolid =
 	}
 
 	self.oldorigin2 = self.origin;
-	if(self.lifetime < time)
+	if (self.lifetime < time)
 		self.think = alphafade;
 	self.nextthink = time + 0.05;
 };
@@ -213,18 +213,18 @@ void() prebecomesolid =
 .entity autotrigger;
 void(string gibname, float dm, entity ouner, float bf, float bs) LanzarGib = 
 { 
-	local entity new;
+	entity new;
 
 	new = spawn();
 	new.owner = ouner;
 
-	local vector org;
+	vector org;
 	org_x = (self.absmin_x) + (random() *self.size_x *0.75);
 	org_y = (self.absmin_y) + (random() *self.size_y *0.75);
 	org_z = (self.absmin_z) + (random() *self.size_z *0.75);
 
 
-	if(self.classname == "func_destruct_rotate")
+	if (self.classname == "func_destruct_rotate")
 	{
 		self.movetype = MOVETYPE_FLY;
 		self.solid = SOLID_TRIGGER;
@@ -260,7 +260,7 @@ void(string gibname, float dm, entity ouner, float bf, float bs) LanzarGib =
 	setsize(new, '0 0 0', '0 0 0');
 
 	new.gravity = random(0.75,1);
-	if(new.model_ammount > 300)
+	if (new.model_ammount > 300)
 	new.gravity += random(0.1,0.5);
 	new.velocity = self.oldvelocity;
 	new.oldvelocity = self.oldvelocity;
@@ -271,7 +271,7 @@ void(string gibname, float dm, entity ouner, float bf, float bs) LanzarGib =
 	new.bouncestop = bs;
 	new.angles_y = random() *360;
 	new.alpha = 1;
-	local float massfloat;
+	float massfloat;
 
 	massfloat = 1 / new.mass;
 
@@ -283,7 +283,7 @@ void(string gibname, float dm, entity ouner, float bf, float bs) LanzarGib =
 	new.avelocity_z = random() *massfloat *180;
 
 	new.wrathflags += FL_GARBAGE;
-	if(!(new.wrathflags & FL_GIB))
+	if (!(new.wrathflags & FL_GIB))
 	new.wrathflags += FL_GIB;
 	new.scale = ouner.base_scale *(0.25 + random() *1);
 	if (ouner.base_scale <= 0)
@@ -299,10 +299,10 @@ void(string gibname, float dm, entity ouner, float bf, float bs) LanzarGib =
 .float autotrigger_flag;
 void() destruct_gibs = 
 { 
-	local float ngibs;
-	local string gibmodel, numbergib;
+	float ngibs;
+	string gibmodel, numbergib;
 
-	local entity pl;
+	entity pl;
 	pl = self.enemy;
 
 	if (pl.classname == "executioner")
@@ -338,7 +338,7 @@ void() destruct_gibs =
 		else
 			makevectors(pl.angles);
 
-		local float massfloat;
+		float massfloat;
 		massfloat = 1.25 / (self.mass + 1);
 			self.enemyangle = v_forward;
 			float speedchanger = 	(self.spread_vel * -0.5) - 1;
@@ -353,7 +353,7 @@ void() destruct_gibs =
 		else
 		{
 			self.oldvelocity = VelocityForDamage2(self.spread_vel);
-			if((self.spread_vel == 64.5) && (self.mass == 4))
+			if ((self.spread_vel == 64.5) && (self.mass == 4))
 			{	
 				self.oldvelocity_z = (50 *massfloat) + (random() *50);
 				self.oldvelocity += (v_forward *(192 *massfloat *(1 + (random() *0.5)))) * (self.health / -150);
@@ -363,9 +363,9 @@ void() destruct_gibs =
 		self.gibcount -= 1;
 	}
 
-	if((self.autotrigger_flag == 1))
+	if ((self.autotrigger_flag == 1))
 	{	
-		if(self.autotrigger.solid == SOLID_TRIGGER)	
+		if (self.autotrigger.solid == SOLID_TRIGGER)	
 		{	
 			remove(self.autotrigger);
 			self.autotrigger_flag = 0;
@@ -379,7 +379,7 @@ void() extrafield_touch =
 {
 
 
-	if(!(other.classentity == "wrathbreakable") || (other.health <=  0)|| (other.classentity == "corpse"))
+	if (!(other.classentity == "wrathbreakable") || (other.health <=  0)|| (other.classentity == "corpse"))
 		return;
 
 	entity corpse = other;
@@ -391,7 +391,7 @@ void() extrafield_touch =
 
 	if ((trace_fraction == 1) && (corpse.movetype = MOVETYPE_TOSS) && (corpse.pushed_time < time))
 	{
-		if(corpse.flags &FL_ONGROUND)
+		if (corpse.flags &FL_ONGROUND)
 			corpse.flags -= FL_ONGROUND;
 		corpse.velocity_x = random() *5 + 2;
 		corpse.velocity_y = random() *5 + 2;
@@ -406,7 +406,7 @@ void() destruct_die =
 	float nsnd, rnsnd;
 
 
-	if(self.wrath_active == 2)
+	if (self.wrath_active == 2)
 		remove(self.pipes);
 	
 	if (!self.type)
@@ -414,7 +414,7 @@ void() destruct_die =
 		if (!self.bouncefactor)
 			self.bouncefactor = 0.25;
 		self.namegib = "custom";
-		if((!self.spread_vel) && (!self.mass))
+		if ((!self.spread_vel) && (!self.mass))
 			self.spread_vel = 64.5;
 		if (!self.mass)
 			self.mass = 4;
@@ -467,7 +467,7 @@ void() destruct_die =
 		self.mass = 0.75;
 	}
 
-	local float attn;
+	float attn;
 	if (self.rad_sound == 0)
 		attn = 0;
 	else if (self.rad_sound == -1)
@@ -490,18 +490,18 @@ void() destruct_die =
 		if (rnsnd == 3)
 			self.noise = self.noise3;
 
-		local vector orgsound;
+		vector orgsound;
 		orgsound = 0.5 *(self.absmax + self.absmin);
-		if(self.classname == "func_destruct_rotate")
+		if (self.classname == "func_destruct_rotate")
 			orgsound = 0.5 *(self.autotrigger.absmax + self.autotrigger.absmin);
-		if(self.classname == "func_rotate")
+		if (self.classname == "func_rotate")
 			orgsound = self.origin;
 		pointsound(orgsound, self.noise, self.volume, attn);
 	}
 
 	if (self.spawnflags &2)
 	{
-		local vector org;
+		vector org;
 		org = 0.5 *(self.absmax + self.absmin);
 		if (self.particlename)
 			pointparticles(particleeffectnum(self.particlename), org, '0 0 0', 1);
@@ -532,7 +532,7 @@ void() destruct_die =
 
 void() func_destruct_touch =
 {
-	if(other.classname != "player")
+	if (other.classname != "player")
 		return;
 	self.touch_smash = 0;
 	self.think = destruct_die;
@@ -553,18 +553,18 @@ void() auto_triggerhurt_touch2 =
 };
 void() auto_triggerhurt_touch =
 {
-	if(self.owner.spawnflags & 4)
+	if (self.owner.spawnflags & 4)
 	{
 		if ((other.classname == "boss_guardian3") || (other.classname == "jbox_boss3"))
 		{
 
-			if((other.classname == "boss_guardian3")  && (other.frame >= 40))
+			if ((other.classname == "boss_guardian3")  && (other.frame >= 40))
 				float destruct_happens = 1;
 
-			if((other.classname == "jbox_boss3")  && (other.owner.frame >= 40))
+			if ((other.classname == "jbox_boss3")  && (other.owner.frame >= 40))
 				destruct_happens = 1;
 
-			if(destruct_happens == 1)
+			if (destruct_happens == 1)
 			{
 				T_Damage(self.owner, other, other, 999999);	// its damage
 				remove(self);
@@ -574,7 +574,7 @@ void() auto_triggerhurt_touch =
 			return;
 	}
 
-	if(self.touch_smash & 2)
+	if (self.touch_smash & 2)
 	{
 		if (other.flags & FL_MONSTER)
 		{
@@ -616,9 +616,9 @@ void() func_destruct =
 	precache_model("models/gibs/gib_wood3.bsp");
 	precache_model("models/gibs/gib_wood4.bsp");
 
-	if(self.crystallized == 1)
+	if (self.crystallized == 1)
 	self.wrathflags += FL_CRYSTAL;
-	if(!(self.nofloating))
+	if (!(self.nofloating))
 		self.nofloating = 1;
 
 	if (self.noise)
@@ -754,7 +754,7 @@ void() func_destruct =
 	if ((self.spawnflags &1) && (self.targetname))
 		self.takedamage = DAMAGE_YES;
 
-	if(self.wrath_active == 1)
+	if (self.wrath_active == 1)
 	{
 		self.glowmod = '-1 -1 -1';
 		self.takedamage = 0;
@@ -762,20 +762,20 @@ void() func_destruct =
 
 	else
 	{		
-	if(self.touch_smash & 1)
+	if (self.touch_smash & 1)
 		self.touch = func_destruct_touch;
 	}
 	self.use = destruct_die;
 	self.th_die = destruct_die;
 
-	if(self.crystallized >= 1)
+	if (self.crystallized >= 1)
 	{
 		self.use = death_crystal_gibs;
 		self.th_die = death_crystal_gibs;
 	}
 
 
-    if(self.min_damage > 0)
+    if (self.min_damage > 0)
 	    self.th_pain = destruct_pain;
 
 	self.fake_origin = (self.absmin + self.absmax) *0.5;
@@ -784,7 +784,7 @@ void() func_destruct =
 
 	if (self.spawnflags &4)	
 	{
-		local entity auto_triggerhurt;
+		entity auto_triggerhurt;
 		auto_triggerhurt = spawn();
 		self.autotrigger = auto_triggerhurt;
 		self.autotrigger_flag = 1;
@@ -809,7 +809,7 @@ void() func_destruct =
 			auto_triggerhurt.owner = self;
 			auto_triggerhurt.touch_smash = self.touch_smash;
 			auto_triggerhurt.touch_smash_delay = self.touch_smash_delay;
-			if(self.touch_smash & 2)
+			if (self.touch_smash & 2)
 				setsize(auto_triggerhurt, (self.absmin - ('4 4 2')), (self.absmax + ('4 4 2')));
 			else
 				setsize(auto_triggerhurt, (self.absmin - ('20 20 2')), (self.absmax + ('20 20 2')));
@@ -817,9 +817,9 @@ void() func_destruct =
 		}
 	}
 
-	//if(!self.spread_vel)
+	//if (!self.spread_vel)
 	//	self.spread_vel = -1;
-	if(self.startnonsolid == 1)
+	if (self.startnonsolid == 1)
 	{
 		self.oldsolid = self.solid;
 		self.wrathflags += FL_STARTNONSOLID;
@@ -943,13 +943,13 @@ void() model_destruct =
 		self.takedamage = DAMAGE_YES;
 	self.use = destruct_die;
 	self.th_die = destruct_die;
-	if(self.touch_smash & 1)
+	if (self.touch_smash & 1)
 		self.touch = func_destruct_touch;
 	self.fake_origin = (self.absmin + self.absmax) *0.5;
 	 
 	if (((self.targetname) && (self.spawnflags &1)) || (self.touch_smash&2)) 
 	{
-		local entity auto_triggerhurt;
+		entity auto_triggerhurt;
 		auto_triggerhurt = spawn();
 			
 		self.autotrigger_flag = 1;
@@ -958,13 +958,13 @@ void() model_destruct =
 		auto_triggerhurt.owner = self;
 		auto_triggerhurt.touch_smash = self.touch_smash;
 		auto_triggerhurt.touch_smash_delay = self.touch_smash_delay;
-		if(self.touch_smash & 2)
+		if (self.touch_smash & 2)
 			setsize(auto_triggerhurt, (self.absmin - ('4 4 2')), (self.absmax + ('4 4 2')));
 		else
 			setsize(auto_triggerhurt, (self.absmin - ('20 20 2')), (self.absmax + ('20 20 2')));
 		auto_triggerhurt.touch = auto_triggerhurt_touch;
 	}
-	if(self.startnonsolid == 1)
+	if (self.startnonsolid == 1)
 	{
 		self.oldsolid = self.solid;
 		self.wrathflags += FL_STARTNONSOLID;
@@ -1002,7 +1002,7 @@ void() rotate_stop =
 
 void() rotdoor_use = 
 { 
-	local float angvmul;
+	float angvmul;
 	angvmul = 1 / self.wait;
 	float attn = 512 / self.rad_sound;
 	if (self.noise)
@@ -1020,9 +1020,9 @@ void() func_rotate =
 { 
 
 
-	if(!(self.noise))
+	if (!(self.noise))
 		self.noise = "misc/null.wav";
-	if(!(self.noise2)) 
+	if (!(self.noise2)) 
 		self.noise2 = "misc/null.wav";
 
 	precache_sound(self.noise);
@@ -1076,7 +1076,7 @@ void() func_wall_use_glowmod =
 
 	self.cnt ++;
 
-	if(self.cnt <= glowsteps)
+	if (self.cnt <= glowsteps)
 	{
 		self.glowmod_x += xdif;
 		self.glowmod_y += ydif;
@@ -1089,11 +1089,11 @@ void() func_wall_use_glowmod =
 		self.think = SUB_Null;
 	}
 
-	if(self.glowmod_x <= 0)
+	if (self.glowmod_x <= 0)
 		self.glowmod_x = -1;
-	if(self.glowmod_y <= 0)
+	if (self.glowmod_y <= 0)
 		self.glowmod_y = -1;
-	if(self.glowmod_z <= 0)
+	if (self.glowmod_z <= 0)
 		self.glowmod_z = -1;
 
 
@@ -1103,7 +1103,7 @@ void() func_wall_use_glowmod =
 
 void() func_wall_use =
 {
-	if(self.spawnflags & 1)
+	if (self.spawnflags & 1)
 	{
 		self.effects = 0;
 		self.solid = SOLID_BSP;
@@ -1117,19 +1117,19 @@ void() func_wall =
 { 
 	self.movetype = MOVETYPE_PUSH;
 	self.solid = SOLID_BSP;
-	if(self.spawnflags & 1)
+	if (self.spawnflags & 1)
 	{
 		self.effects += EF_NODRAW;
 		self.solid = 0;
 		self.use = func_wall_use;
 	}
-	if(self.spawnflags & 2)
+	if (self.spawnflags & 2)
 	{
-		if(!self.glowmod)
+		if (!self.glowmod)
 			self.glowmod = '1 1 1';
-		if(!self.nextglowmod)
+		if (!self.nextglowmod)
 			self.nextglowmod = '0 0 0';
-		if(!self.wait);
+		if (!self.wait)
 			self.wait = 1;	
 		self.oldglowmod = self.glowmod;
 
@@ -1137,14 +1137,14 @@ void() func_wall =
 		self.displacement = 0;
 	}
 
-	if(self.displacement == 1)
+	if (self.displacement == 1)
 	{
 		self.movetype = 0;
 		self.wrathflags += FL_INVISIBLE;
 		self.effects = EF_NODRAW;
 		self.solid = 0;
 	}	
-	if(self.displacement == -1)
+	if (self.displacement == -1)
 	{
 		self.wrathflags += FL_INVISIBLE;
 		self.oldeffects = EF_NODRAW;
@@ -1160,24 +1160,24 @@ void() ray_colormodcontroller_pulse_think =
 	float maxcolormod;
 	float mincolormod;
 
-	if(self.owner.spawnflags & 1)
+	if (self.owner.spawnflags & 1)
 	{maxcolormod = 1.5; mincolormod = 0.5;}
-	if(self.owner.spawnflags & 2)
+	if (self.owner.spawnflags & 2)
 	{maxcolormod = 2; mincolormod = 1;}
 
 
-	if(self.owner.effects == 512)
+	if (self.owner.effects == 512)
 	{
-		if(self.cnt == 1)
+		if (self.cnt == 1)
 		{
-			if(self.owner.colormod_x >= maxcolormod)
+			if (self.owner.colormod_x >= maxcolormod)
 				self.cnt = 0;
 			else  
 				self.owner.colormod_x += random(0.025,0.05);
 		}
 		else
 		{
-			if(self.owner.colormod_x <= mincolormod)
+			if (self.owner.colormod_x <= mincolormod)
 				self.cnt = 1;
 			else  
 				self.owner.colormod_x -= random(0.025,0.05);
@@ -1207,7 +1207,7 @@ void() func_ray_toggle_on;
 
 void() func_ray_thinkoff =
 {
-	if(self.alpha > self.valpha_x)
+	if (self.alpha > self.valpha_x)
 		self.alpha -= (self.valpha_z / 20); 	
 	else
 	{
@@ -1230,7 +1230,7 @@ void() func_ray_toggle_off =
 void() func_ray_think =
 {
 
-	if(self.alpha < self.valpha_y)
+	if (self.alpha < self.valpha_y)
 		self.alpha += (self.valpha_z / 20); 	
 	else
 	{
@@ -1256,13 +1256,13 @@ void() func_ray =
 { 
 	self.solid = 0;
 
-	if(!(self.valpha))
+	if (!(self.valpha))
 		self.valpha = '0.01 0.75 1';
-	if(self.valpha_x <= 0)
+	if (self.valpha_x <= 0)
 		self.valpha_x = 0.01; 
 
 
-	if(self.spawnflags & 1)
+	if (self.spawnflags & 1)
 	{
 		self.effects = EF_NODRAW;
 		self.use = func_ray_toggle_on;
@@ -1275,7 +1275,7 @@ void() func_ray =
 		self.alpha = self.valpha_y;
 	}
 
-		if(self.spawnflags & 2)
+		if (self.spawnflags & 2)
 		self.effects = 0;
 
 	ray_colormodcontroller_pulse_spawn(self);
@@ -1299,10 +1299,10 @@ void() func_illusionary_use =
 
 	if (self.effects & EF_NODRAW)
 	{
-		if(self.velocity)
+		if (self.velocity)
 			self.movetype = MOVETYPE_NOCLIP;
 		self.effects -= EF_NODRAW;
-		if(self.wait > 0)
+		if (self.wait > 0)
 		{
 			self.think  =  alphafade;
 			self.nextthink = time + self.wait; 
@@ -1322,11 +1322,11 @@ void() func_illusionary =
 
 	if (self.type == 1)
 		self.effects += EF_DOUBLESIDED;
-	if(self.spawnflags & 1)
+	if (self.spawnflags & 1)
 	self.effects += EF_NODRAW;
-	if(self.spawnflags & 2)
+	if (self.spawnflags & 2)
 	self.effects += EF_DYNAMICMODELLIGHT;
-//	if(!(self.wait))
+//	if (!(self.wait))
 //	self.wait = 5;
 //	self.trace_dphitq3surfaceflags = Q3SURFACEFLAG_NOMARKS;
 	self.use = func_illusionary_use;
@@ -1478,7 +1478,7 @@ void() func_figment =
 	self.count = 1;
 	self.cnt = 1 / (self.delay / 0.05);
 	setmodel(self, self.model);
-	local float nf;
+	float nf;
 	nf = 1;
 	self.vel_var_x = ((self.rot_ang_x - self.rot_ang_end_x) / (20 *self.delay)) *nf;
 	self.vel_var_y = ((self.rot_ang_y - self.rot_ang_end_y) / (20 *self.delay)) *nf;
@@ -1522,8 +1522,8 @@ void() func_fakeshadow =
 
 float(entity bloke, entity rotate) backtouch2 = 
 { 
-	local float result;
-	local vector veca, vecb;
+	float result;
+	vector veca, vecb;
 
 	makevectors(bloke.v_angle);
 
@@ -1542,8 +1542,8 @@ float(entity bloke, entity rotate) backtouch2 =
 };
 float(entity targ, entity eself) backtouch = 
 { 
-	local vector vec;
-	local float dot;
+	vector vec;
+	float dot;
 
 	makevectors2(eself.angles);
 	vec = normalize(rorigin(targ) - rorigin(eself));
@@ -1580,7 +1580,7 @@ void() func_rotate_fence_rotates =
 	if ((self.cnt > 0))
 	{
 		self.cnt--;
-		local float avel;
+		float avel;
 		avel = self.rot_ang_y *(self.cnt / 20);
 		self.virtualangles_y += avel;
 		self.skin = self.virtualangles_y / 20;
@@ -1681,7 +1681,7 @@ void() use_debris =
 	self.solid = SOLID_CORPSE;	
 	self.wrathflags += FL_GIB;
 	self.effects = EF_DYNAMICMODELLIGHT;
-	if(!(self.spawnflags & 1))
+	if (!(self.spawnflags & 1))
 		explo_physics_bmodels(self.oldorigin, self, 130, 1);
 	else
 	{
@@ -1701,7 +1701,7 @@ void() use_debris =
 void()debris_think = 
 {
 
-	if(!self.model_ammount) 
+	if (!self.model_ammount) 
 	{	
 		vector realsize;
 		realsize_x = self.absmax_x - self.absmin_x; 
@@ -1710,12 +1710,12 @@ void()debris_think =
 
 		self.model_ammount = floor((realsize_x * realsize_y * realsize_z)/100);
 	}
-	if(!self.oldorigin) 
+	if (!self.oldorigin) 
 	{
 		entity t = find(world, target, self.targetname2);
 		self.oldorigin = b_org(t);
 	}
-	if(self.flags & FL_ONGROUND)
+	if (self.flags & FL_ONGROUND)
 	{
 		self.avelocity = '0 0 0';
 		self.velocity = '0 0 0';
@@ -1736,13 +1736,13 @@ void() preuse_debris =
 void() func_debris  = 
 {
 	setmodel(self, self.model);
-	if(!self.gravity)
+	if (!self.gravity)
 		self.gravity = random(0.75,1);
-	if(!(self.spawnflags & 2))
+	if (!(self.spawnflags & 2))
 	self.effects = EF_NODRAW;
 	self.solid = SOLID_NOT;
 
-	if(!self.delay)
+	if (!self.delay)
 		self.delay = random(0,0.25);
 	self.use = preuse_debris;
 	self.think = debris_think;
@@ -1751,7 +1751,7 @@ void() func_debris  =
 
 void()trigger_shake_use = 
 {
-	if(self.sradius)
+	if (self.sradius)
 	{
 		float distancetoplayer = vlen (self.origin - single_player.origin);
 		if (distancetoplayer >= self.sradius)
@@ -1761,7 +1761,7 @@ void()trigger_shake_use =
 		}
 		else
 		{	
-			if(self.sattenuation == 1)
+			if (self.sattenuation == 1)
 				float modifier = 1 / (self.sradius / (self.sradius - distancetoplayer ));
 			else
 				modifier = 1;
@@ -1780,7 +1780,7 @@ void()trigger_shake_use =
 	}
 	*/
 
-	if(self.classname != "spawnedshaker")
+	if (self.classname != "spawnedshaker")
 	{
 		single_player.shake_camera_time = time + self.wait;
 		single_player.shake_camera_ammountx = self.intensity_x * 0.1;
@@ -1802,19 +1802,19 @@ void()trigger_shake_use =
 			single_player.shake2_camera_ammounty = self.intensity_y *-1 * 0.1;
 		single_player.shake2_camera_refresh_rate = self.shake_camera_refresh_rate;
 	}
-	if(!(self.spawnflags & 1))
+	if (!(self.spawnflags & 1))
 		remove(self);
 };
 
 void() trigger_shake = 
 {
-	if(!self.wait)
+	if (!self.wait)
 		self.wait = 1;
-	if(!self.intensity_x)
+	if (!self.intensity_x)
 		self.intensity_x = 10;
-	if(!self.intensity_y)
+	if (!self.intensity_y)
 		self.intensity_y = 10;
-	if(!self.shake_camera_refresh_rate)
+	if (!self.shake_camera_refresh_rate)
 		self.shake_camera_refresh_rate = 0.05;
 /*
 	single_player.shaked = 1;
@@ -1840,10 +1840,10 @@ void() restore_oldstepheight =
 void() trigger_stepheight_touch =
 {
 
-	if((other.flags & FL_MONSTER) && (other.stepheighttime < time))
+	if ((other.flags & FL_MONSTER) && (other.stepheighttime < time))
 	{
-		local float dev = cvar ("developer");
-		if(dev == 1)
+		float dev = cvar ("developer");
+		if (dev == 1)
 			other.colormod = '1 1 0';
 		other.stepheight_delta = self.stepheight + 1;
 		other.stepheighttime = time + self.wait;
@@ -1858,9 +1858,9 @@ void() trigger_stepheight =
 	setmodel (self, self.model);
 	self.effects = EF_NODRAW;
 	self.solid = SOLID_TRIGGER;
-	if(!self.wait)
+	if (!self.wait)
 		self.wait = 3;
-	if(!self.stepheight)
+	if (!self.stepheight)
 		self.stepheight = 16;
 	self.touch = trigger_stepheight_touch;
 }
@@ -1871,7 +1871,7 @@ void() trigger_stepheight =
 
 void() trigger_gib_zone_touch =
 {
-	if(other.classname != "func_destruct_rotate_think") 
+	if (other.classname != "func_destruct_rotate_think") 
 	{
 
 	}
@@ -1884,13 +1884,13 @@ void() trigger_gib_zone =
 void()func_destruct_rotate_think;
 void() destruct_rotate_blocked =
 {
-	if(self.cnt < 3)
+	if (self.cnt < 3)
 	{
 		self.movetype = MOVETYPE_NOCLIP;
 		if (other.takedamage)
 			T_Damage(other, self, self, 10000000);
 
-		if(other == world)
+		if (other == world)
 		self.wait2 = 0;
 
 		self.think = func_destruct_rotate_think;
@@ -1902,23 +1902,23 @@ void() destruct_rotate_blocked =
 void()func_destruct_rotate_think =
 {
 
-	if(!self.count)
+	if (!self.count)
 	{
 		self.wait2 = time + self.wait + self.wait1+ self.wait2;
 		self.wait1 = time + self.wait + self.wait1;
 		self.wait = time + self.wait;
 		self.count = 1;
 
-		if(!self.rot_angles)
+		if (!self.rot_angles)
 			self.rot_angles = self.avelocity;
-		if(!self.rot_angles1)
+		if (!self.rot_angles1)
 			self.rot_angles1 = self.avelocity1;
-		if(!self.rot_angles2)
+		if (!self.rot_angles2)
 			self.rot_angles2 = self.avelocity2;
 		self.cnt ++;
 	}
 
-	if(time > self.wait2)
+	if (time > self.wait2)
 	{
 		self.solid =SOLID_NOT;
 		self.movetype = MOVETYPE_NOCLIP;
@@ -1931,13 +1931,13 @@ void()func_destruct_rotate_think =
 	if (self.spawnflags & 1)
 		self.effects = EF_DYNAMICMODELLIGHT;
 	
-	if((self.movetype == MOVETYPE_NOCLIP) && (self.cnt < 3))
+	if ((self.movetype == MOVETYPE_NOCLIP) && (self.cnt < 3))
 		self.movetype = MOVETYPE_PUSH;
 
-	if(!self.autotrigger)
+	if (!self.autotrigger)
 	{
 		entity t = find(world, targetname, self.target2);
-		if(t.classname == "trigger_gib_zone")
+		if (t.classname == "trigger_gib_zone")
 		{
 			self.autotrigger_flag = 1;
 			self.autotrigger =  t;
@@ -1946,20 +1946,20 @@ void()func_destruct_rotate_think =
 
 
 	self.blocked = destruct_rotate_blocked;
-	if(self.cnt == 1)
+	if (self.cnt == 1)
 	{
 
 		if ((self.noise) && (self.count ==  1))
 		{
 			self.count = 2;
-			local float attn;
+			float attn;
 			if (self.rad_sound == 0)
 				attn = 0;
 			else if (self.rad_sound == -1)
 				attn = -1;
 			else
 				attn = 512 / self.rad_sound;	// 200 for snd_soundradius default cvar!
-			local vector orgsound;
+			vector orgsound;
 			orgsound =self.origin;
 			pointsound(orgsound, self.noise, self.volume, attn);
 			if (world.model == "maps/boss1.bsp")
@@ -1967,7 +1967,7 @@ void()func_destruct_rotate_think =
 			self.noise = self.noise2;
 		}
 
-		if((self.movetype != MOVETYPE_NOCLIP) && (time > self.wait)) 
+		if ((self.movetype != MOVETYPE_NOCLIP) && (time > self.wait)) 
 			self.cnt ++;
 		self.movetype = MOVETYPE_PUSH;
 
@@ -1978,7 +1978,7 @@ void()func_destruct_rotate_think =
 		self.think = func_destruct_rotate_think;		
 		self.nextthink = self.ltime + 0.05;
 	}
-	if(self.cnt == 2)
+	if (self.cnt == 2)
 	{
 		self.velocity = self.velocity1;
 
@@ -1986,7 +1986,7 @@ void()func_destruct_rotate_think =
 		self.avelocity_y = self.rot_angles1_y * (1 / self.oldwait1);
 		self.avelocity_z = self.rot_angles1_z * (1 / self.oldwait1);
 
-		if((self.movetype != MOVETYPE_NOCLIP) && (time > self.wait1)) 
+		if ((self.movetype != MOVETYPE_NOCLIP) && (time > self.wait1)) 
 		{
 			self.cnt ++;
 		}
@@ -1994,7 +1994,7 @@ void()func_destruct_rotate_think =
 		self.think = func_destruct_rotate_think;
 		self.nextthink = self.ltime + 0.05;
 	}
-	if(self.cnt == 3)
+	if (self.cnt == 3)
 	{
 		self.velocity = self.velocity2;
 		self.avelocity_x = self.rot_angles2_x * (1 / self.oldwait2);
@@ -2040,11 +2040,11 @@ void()func_destruct_rotate =
 		self.volume = 1;
 	if (!self.rad_sound)
 		self.rad_sound = 4096;
-	if(!self.rot_angles)
+	if (!self.rot_angles)
 		self.rot_angles = self.avelocity;
-	if(!self.rot_angles1)
+	if (!self.rot_angles1)
 		self.rot_angles1 = self.avelocity1;
-	if(!self.rot_angles2)
+	if (!self.rot_angles2)
 		self.rot_angles2 = self.avelocity2;
 	setmodel (self, self.model);
 
@@ -2055,7 +2055,7 @@ void()func_destruct_rotate =
 	self.solid = SOLID_BSP;
 	self.blocked = destruct_rotate_blocked;
 	self.use =func_destruct_rotate_think;
-	if(self.dmg)
+	if (self.dmg)
 	{
 		entity field = spawn();
 		field.owner = self;
@@ -2115,7 +2115,7 @@ void() func_pendulum_touch =
 
 	if (other.takedamage)
 	{
-		if(self.attack_finished < time)
+		if (self.attack_finished < time)
 		{
 			T_Damage (other, self, self, random(160,320));
 
@@ -2156,19 +2156,19 @@ void() func_pendulum_think=
 		
 	self.count ++;
 
-	if(self.cnt == 1)
+	if (self.cnt == 1)
 	{
 		float avelinc = 1 - (self.count / (self.oldwait / 4));
-		if(avelinc <= 0)
+		if (avelinc <= 0)
 		{	
 			self.count = 0;
 			self.cnt = 2;
 		}
 	}
-	if(self.cnt == 2)
+	if (self.cnt == 2)
 	{
 		avelinc = 0 + (self.count / (self.oldwait / 4)) * -1;
-		if(avelinc <= -1)
+		if (avelinc <= -1)
 		{	
 			self.count = 0;
 			self.cnt = 3;
@@ -2179,19 +2179,19 @@ void() func_pendulum_think=
 
 		}
 	}
-	if(self.cnt == 3)
+	if (self.cnt == 3)
 	{
 		avelinc =  (1 - (self.count / (self.oldwait / 4))) * -1;
-		if(avelinc >= 0)
+		if (avelinc >= 0)
 		{	
 			self.count = 0;
 			self.cnt = 4;
 		}
 	}
-	if(self.cnt == 4)
+	if (self.cnt == 4)
 	{
 		avelinc = 0 + (self.count / (self.oldwait / 4));
-		if(avelinc >= 1)
+		if (avelinc >= 1)
 		{	
 			self.count = 0;
 			self.cnt = 1;
@@ -2243,9 +2243,9 @@ void() field_pendulum_think =
 void() func_pendulum =
 {    
 	setmodel (self, self.model);
-	if(!self.rot_angles)
+	if (!self.rot_angles)
 		self.rot_angles = '90 0 0';
-	if(!self.wait)
+	if (!self.wait)
 		self.wait = 0.5;
 	self.blocked =  func_pendulum_blocked;
 	self.count = 0;

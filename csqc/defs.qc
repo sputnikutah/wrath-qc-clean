@@ -73,7 +73,7 @@ float		movevar_airaccelerate;
 float		movevar_wateraccelerate;
 float		movevar_friction;
 float		movevar_waterfriction;
-float		movevar_entgravity;	//the local player's gravity field. Is a multiple (1 is the normal value)
+float		movevar_entgravity;	//the player's gravity field. Is a multiple (1 is the normal value)
 
 //================================================
 void		end_sys_globals;		// flag for structure dumping
@@ -687,7 +687,7 @@ const float RF_MODELLIGHT = 4096;
 // darkplaces implementation: VorteX
 // builtin definitions:
 void(float ispaused) setpause = #531;
-// description: provides ability to set pause in local games (similar to one set once console is activated)
+// description: provides ability to set pause in games (similar to one set once console is activated)
 // not stopping sound/cd track, useful for inventory screens, ingame menus with input etc.
 
 // DP_CSQC_QUERYRENDERENTITY
@@ -1196,7 +1196,7 @@ float(float modlindex, float framenum) frameduration = #277; // returns the inte
 //"leftarm" (which is a child of "torso") which would return 2 instead...
 float(float skel, float bonenum, string g1, string g2, string g3, string g4, string g5, string g6) example_skel_findbonegroup =
 {
-	local string bonename;
+	string bonename;
 	while (bonenum >= 0)
 	{
 		bonename = skel_get_bonename(skel, bonenum);
@@ -1236,8 +1236,8 @@ void(float animmodelindex, float framegroup, float framegroupstarttime) example_
 // apply a different framegroup animation to bones with a specified parent
 void(float animmodelindex, float framegroup, float framegroupstarttime, float blendalpha, string groupbonename, string excludegroupname1, string excludegroupname2) example_skel_player_update_applyoverride =
 {
-	local float bonenum;
-	local float numbones;
+	float bonenum;
+	float numbones;
 	self.frame = framegroup;
 	self.frame2 = 0;
 	self.frame3 = 0;
@@ -1261,14 +1261,14 @@ void(float animmodelindex, float framegroup, float framegroupstarttime, float bl
 // make eyes point at a target location, be sure v_forward, v_right, v_up are set correctly before calling
 void(vector eyetarget, string bonename) example_skel_player_update_eyetarget =
 {
-	local float bonenum;
-	local vector ang;
-	local vector oldforward, oldright, oldup;
-	local vector relforward, relright, relup, relorg;
-	local vector boneforward, boneright, boneup, boneorg;
-	local vector parentforward, parentright, parentup, parentorg;
-	local vector u, v;
-	local vector modeleyetarget;
+	float bonenum;
+	vector ang;
+	vector oldforward, oldright, oldup;
+	vector relforward, relright, relup, relorg;
+	vector boneforward, boneright, boneup, boneorg;
+	vector parentforward, parentright, parentup, parentorg;
+	vector u, v;
+	vector modeleyetarget;
 	bonenum = skel_find_bone(self.skeletonindex, bonename) - 1;
 	if (bonenum < 0)
 		return;

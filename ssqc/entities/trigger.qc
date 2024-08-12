@@ -184,7 +184,7 @@ void() trigger_once =
 
 void() trigger_oncebac = 
 {
-	local entity trig;
+	entity trig;
 	trig = spawn();
 	trig.solid = SOLID_TRIGGER;
 	setmodel(trig, "");
@@ -247,7 +247,7 @@ void() counter_use =
 	self.count = self.count - 1;
 
 	float dev = cvar ("developer");
-	if(dev == 1)
+	if (dev == 1)
 	centerprint(single_player, strcat("trigger counter count", ftos(self.count), "\n"));
 
 	if (self.count < 0)
@@ -276,8 +276,8 @@ void() trigger_counter =
 
 void() play_teleport = 
 {
-	local float v;
-	local string tmpstr;
+	float v;
+	string tmpstr;
 
 	v = random() *5;
 
@@ -337,7 +337,7 @@ void() tdeath_touch =
 
 void(vector org, entity death_owner) spawn_tdeath = 
 {
-	local entity death;
+	entity death;
 
 	death = spawn();
 	death.classname = "teledeath";
@@ -356,8 +356,8 @@ void(vector org, entity death_owner) spawn_tdeath =
 
 void() teleport_touch = 
 { 
-	local entity t;
-	local vector org;
+	entity t;
+	vector org;
 	if (other.teleported_time > time)
 	{
 		other.teleported_time = time + 0.7;
@@ -442,7 +442,7 @@ void() teleport_use =
 
 void() trigger_teleport = 
 {
-	local vector o;
+	vector o;
 	InitTrigger();
 	self.touch = teleport_touch;
 	// find the destination 
@@ -505,24 +505,24 @@ void() trigger_monsterjump_touch =
 	if (other.flags &(FL_MONSTER | FL_FLY | FL_SWIM) != FL_MONSTER)
 		return;
 
-	if(other.jumptime > time)
+	if (other.jumptime > time)
 	return;
 	//float(entity targ, vector viewerangles,vector viewerorigin,float viewerdeviance) custom_infront
 	if (self.viewer_deviance != 0)
 	{
 		float activejump = custom_infront (other.enemy, self.angles,((self.absmin + self.absmax) * 0.5),self.viewer_deviance);
-		if(!activejump)
+		if (!activejump)
 			return;
 	}
-	if(self.type == 1)	
+	if (self.type == 1)	
 	{
-		if((other.enemy.origin_z - other.origin_z) > 8)
+		if ((other.enemy.origin_z - other.origin_z) > 8)
 		return;		
 	}
 
-	if(self.type == 2)	
+	if (self.type == 2)	
 	{
-		if((other.origin_z - other.enemy.origin_z) > 8)
+		if ((other.origin_z - other.enemy.origin_z) > 8)
 		return;		
 	}
 //	if (other.nojump == 1)
@@ -536,7 +536,7 @@ void() trigger_monsterjump_touch =
 	other.flags = other.flags - FL_ONGROUND;
 	other.velocity_z = self.height;
 	other.jumptime = time + self.wait;
-	if(self.cnt == 1)
+	if (self.cnt == 1)
 	{
 		self.count --;
 		if (self.count <= 0)
@@ -553,9 +553,9 @@ void() trigger_monsterjump =
 		self.height = 200;
 	if (self.angles == '0 0 0')
 		self.angles = '0 360 0';
-	if(self.count > 0)
+	if (self.count > 0)
 	self.cnt = 1;
-	//if(!self.wait)
+	//if (!self.wait)
 	//	self.wait = 1;
 	InitTrigger();
 	self.touch = trigger_monsterjump_touch;
@@ -569,15 +569,15 @@ void() trigger_fly_touch =
 	if (other.classname != "player")
 		return;
 
-	if(other.radial_time > time)
+	if (other.radial_time > time)
 	{
-		if(other.time_hudmessage < time)
+		if (other.time_hudmessage < time)
 			sound7(other,CHAN_AUTO,"weapons/lance/shield_fire1.ogg",0.75,0.25,75,0);
 		Hud_CantUseSigilNotification(other);
 		JumpBack(other,self);
 		return;	
 	}
-	if(self.timefly <= 0)
+	if (self.timefly <= 0)
 	{
 		other.takenflytime = 0;
 		other.radialactive = 0;
@@ -624,7 +624,7 @@ void() sigil =
 void() trigger_fly = 
 {	
 
-	if(!self.timefly)
+	if (!self.timefly)
 	self.timefly = self.duration;
 
 	if (!self.timefly)
@@ -635,10 +635,10 @@ void() trigger_fly =
 	setmodel(self, self.model);
 	vector center = (self.absmax + self.absmin) / 2;  
 
-	if(!self.volume)
+	if (!self.volume)
 		self.volume = 1;	
 
-	if(self.volume > 0)
+	if (self.volume > 0)
 	{
 		self.noise = "objects/pylon_loop.ogg";
 		precache_sound(self.noise);
@@ -659,23 +659,23 @@ void(entity e) turn_invisible_andnonsolid =
 {
 	self = e;
 	self.effects = self.oldeffects;
-	if(self.classname == "coffer")
+	if (self.classname == "coffer")
 		self.solid = 0;
-	if(self.classname == "func_wall")
+	if (self.classname == "func_wall")
 		self.solid = 0;
-	if(self.classname == "func_door")
+	if (self.classname == "func_door")
 		self.solid = 0;
-	if(self.classname == "object_switch")
+	if (self.classname == "object_switch")
 	{	
 		self.usable = 0;
 		self.solid = SOLID_BSP;
 	}
 
 	
-	if(self.think)
+	if (self.think)
 	{
 		self.think = self.oldthink;
-		if((self.classname == "func_wall")||(self.classname == "func_door"))
+		if ((self.classname == "func_wall")||(self.classname == "func_door"))
 			self.nextthink = self.ltime;
 		else
 			self.nextthink = time;
@@ -685,10 +685,10 @@ void(entity e) turn_invisible_andnonsolid =
 void(entity e) turn_visible_andsolid =
 {
 	self = e;
-	if(self.effects & EF_NODRAW)
+	if (self.effects & EF_NODRAW)
 	{
 		self.oldeffects = self.effects;
-		if(self.displacement == -1)
+		if (self.displacement == -1)
 			self.effects = 0;
 		else
 			self.effects = 512; // 0
@@ -696,31 +696,31 @@ void(entity e) turn_visible_andsolid =
 		self.alpha = 0.5;
 	}
 
-	if((self.classname == "monster_incisor") && (self.alpha != 1))
+	if ((self.classname == "monster_incisor") && (self.alpha != 1))
 		self.alpha = 1;
-	if(self.classname == "coffer")
+	if (self.classname == "coffer")
 		self.solid = SOLID_BSP;
-	if(self.classname == "func_wall")
+	if (self.classname == "func_wall")
 		self.solid = SOLID_BSP;
-	if(self.classname == "func_door")
+	if (self.classname == "func_door")
 		self.solid = SOLID_BSP;
-	if(self.classname == "object_switch")
+	if (self.classname == "object_switch")
 	{	
 		self.usable = 1;
 		self.solid = SOLID_BSP;
 	}
-	if(self.classname == "nonsolidswitch")
+	if (self.classname == "nonsolidswitch")
 	{	
 		self.alpha = 1;
 		self.usable = 1;
 		self.solid = SOLID_TRIGGER;
 	}
 
-	if(self.think)
+	if (self.think)
 	{
 		self.think = self.oldthink;
 
-		if(self.classname == "func_door")
+		if (self.classname == "func_door")
 			self.nextthink = self.ltime;
 		else
 			self.nextthink = time;
@@ -729,15 +729,15 @@ void(entity e) turn_visible_andsolid =
 
 void(float type) toggle_displacement = 
 { 
-	local entity invisible;
+	entity invisible;
 	//invisible = findradius('0 0 0', 1000000);
 	invisible = nextent(world);
 	while (invisible)	
 	{
 		entity holder = nextent(invisible);
-		if(invisible.oldclassname == "monster_incisor")
+		if (invisible.oldclassname == "monster_incisor")
 		{
-			if(type == 1)
+			if (type == 1)
 			{
 				invisible.color = '0.225 0.237 1.3';
 				invisible.light_lev = 92;
@@ -757,27 +757,27 @@ void(float type) toggle_displacement =
 		{
 
 
-			if(invisible.think)
+			if (invisible.think)
 			invisible.oldthink = invisible.think;
 			else
 			invisible.oldthink = SUB_Null;
 	
-			if(invisible.classname == "spleetcyst")
+			if (invisible.classname == "spleetcyst")
 				invisible.lifetime = 0;
 
 			entity oself = self;
 			self =  invisible;
 			
-			if(self.displacement == -1)
+			if (self.displacement == -1)
 			{
-				if(type != 1)
+				if (type != 1)
 					turn_visible_andsolid(self);
 				else
 					turn_invisible_andnonsolid(self);
 			}
 			else
 			{
-				if(type == 1)
+				if (type == 1)
 					turn_visible_andsolid(self);
 				else
 					turn_invisible_andnonsolid(self);
@@ -788,18 +788,18 @@ void(float type) toggle_displacement =
 
 		invisible = holder;	
 	}
-	if(type == 1)
+	if (type == 1)
     	stuffcmd (single_player, "bf 1 0.7 0.7 1.05 1\n");
 };
 
 void() trigger_displacement_touch= 
 { 
 
-	if(other.classname != "player")
+	if (other.classname != "player")
 		return;
-	if(other.radial_time > time)
+	if (other.radial_time > time)
 	{
-		if(other.time_hudmessage < time)
+		if (other.time_hudmessage < time)
 			sound7(other,CHAN_AUTO,"weapons/lance/shield_fire1.ogg",0.75,0.25,75,0);
 		Hud_CantUseSigilNotification(other);
 		JumpBack(other,self);
@@ -808,11 +808,11 @@ void() trigger_displacement_touch=
 
 
 
-	if((other.displacement_time < (time + (self.duration - 5))) || (other.sigiltouchingtime < time))
+	if ((other.displacement_time < (time + (self.duration - 5))) || (other.sigiltouchingtime < time))
 	{
-		if(self.duration < 0)
+		if (self.duration < 0)
 		{
-			if((other.displacement_time > time))
+			if ((other.displacement_time > time))
 			{
 				other.displacement_time = 0;
 				other.sigil_time = 0;
@@ -841,7 +841,7 @@ void() trigger_displacement_touch=
 
 void() sigil_ambientsound_check
 {
-	if((self.owner.classname != self.oldclassname) || (wasfreed(self.owner))) 
+	if ((self.owner.classname != self.oldclassname) || (wasfreed(self.owner))) 
 	{
 		soundwrath(self, CHAN_VOICE, "misc/null.wav", 0, 1,100,0,1);
 		remove(self);
@@ -872,11 +872,11 @@ void sigils_initializeambients(void)
 
 void() trigger_displacement = 
 {	
-	if(!(self.noise))
+	if (!(self.noise))
 		self.noise = "objects/pylon_loop.ogg";
 	precache_sound(self.noise);
 
-	if(!self.duration)
+	if (!self.duration)
 		self.duration = 10;
 
 
@@ -884,11 +884,11 @@ void() trigger_displacement =
 	self.solid = SOLID_TRIGGER;
 	setmodel(self, self.model);
 	vector center = (self.absmax + self.absmin) / 2;  
-	float attn;
+	//float attn;
 	if (!self.rad_sound)
 		self.rad_sound = 512;	
 	self.atten = 512 / self.rad_sound;
-	if(self.duration > 0)
+	if (self.duration > 0)
 	{	
 		if (self.rad_sound >= 0)
 		{
@@ -908,16 +908,16 @@ void() trigger_displacement =
 //============================================================================
 void() trigger_wrath_touch= 
 { 
-	if(other.classname != "player")
+	if (other.classname != "player")
 		return;
 
-	if(other.radial_time > time)
+	if (other.radial_time > time)
 	{
 		/*other.Aegis_time = 0;  other.LifeSiphon_time = 0;  other.DrownerApp_time = 0;  other.Tether_time = 0;
 		other.wrath_time = 0;	
 		other.radial_time = 0;
 		other.radialactive = 0;*/
-		if(other.time_hudmessage < time)
+		if (other.time_hudmessage < time)
 			sound7(other,CHAN_AUTO,"weapons/lance/shield_fire1.ogg",0.75,0.25,75,0);
 		Hud_CantUseSigilNotification(other);
 		JumpBack(other,self);
@@ -926,7 +926,7 @@ void() trigger_wrath_touch=
 
 
 
-	if((other.wrath_time < (time + (self.duration - 5))) || (other.sigiltouchingtime < time))
+	if ((other.wrath_time < (time + (self.duration - 5))) || (other.sigiltouchingtime < time))
 	{
 
 		sound7(other, CHAN_SIGIL, "items/sigils/sigil_wrath_active.ogg", 1, 1, 100, 0);
@@ -958,12 +958,12 @@ void() trigger_wrath_touch=
 		self = oself;
 
 
-		local entity destructwrath;
+		entity destructwrath;
 		destructwrath = nextent(world);
 		while (destructwrath)	
 		{
 			entity holder = nextent (destructwrath);
-			if((destructwrath.classname == "func_destruct") && (destructwrath.wrath_active == 1))
+			if ((destructwrath.classname == "func_destruct") && (destructwrath.wrath_active == 1))
 			{
 				destructwrath.takedamage = DAMAGE_YES;
 				destructwrath.wrath_active = 2;
@@ -986,9 +986,9 @@ void() trigger_wrath =
 	precache_sound("items/sigils/sigil_wrath_start.ogg");
 	precache_sound("items/sigils/sigil_wrath_end.ogg");
 
-	if(!self.duration)
+	if (!self.duration)
 	self.duration = 20;
-	if(self.duration < 5)
+	if (self.duration < 5)
 		self.duration = 5;
 
 	self.touch = trigger_wrath_touch;
@@ -1022,7 +1022,7 @@ void() trigger_shrine_touch =
 	
 	read_currentprofileslot();
 	copy_save_maps(0);
-	local string saveloc;
+	string saveloc;
 	saveloc = strcat("save data/profiles/", profilename, "/shrine\n");
 	stuffcmd(other, "scratch1 1\n");
 	stuffcmd(other, saveloc);
@@ -1030,7 +1030,7 @@ void() trigger_shrine_touch =
 	//	stuffcmd(other, "save shrine\n");
 	if (!(other.savedlist &SAVED_SIGIL))
 		other.savedlist += SAVED_SIGIL;
-	local float savestotalnumber;
+	float savestotalnumber;
 	savestotalnumber = other.savedlist;
 	writeprofilesavedlist(savestotalnumber);
 	update_latest_saveslot(2);
@@ -1043,7 +1043,7 @@ void() trigger_shrine_touch =
 		other.Shrine_time = time + 0.25;
 	write_shrine_user(1);
 	sound(other, CHAN_AUTO, "objects/shrine.ogg", 1, ATTN_NONE);
-	if(other.health < 100)
+	if (other.health < 100)
 	{
 		other.health = 100;
 		stuffcmd (other,"pulsehealth\n");
@@ -1066,27 +1066,27 @@ void() trigger_shrine_touch =
 void() fdupdate =
 {
 	
-	if(time > self.attack_finished)
+	if (time > self.attack_finished)
 	{	
 		sound7(self, CHAN_BODY, "bullet16.ogg", 1, 0.75,100,2);
 		self.attack_finished = time + 27.569;
 		self.wrath_time = time + 1.8425;	
 	}
-	if(time > self.wrath_time)
+	if (time > self.wrath_time)
 	{
 		vector rlight;
 		float r = random();
-		if(r < 1)
+		if (r < 1)
 			rlight = '0 0 1';
-		if(r < 0.85)
+		if (r < 0.85)
 			rlight = '1 0 0';
-		if(r < 0.7)
+		if (r < 0.7)
 			rlight = '0 1 0';
-		if(r < 0.55)
+		if (r < 0.55)
 			rlight = '0 1 1';
-		if(r < 0.4)
+		if (r < 0.4)
 			rlight = '1 1 0';
-		if(r < 0.25)
+		if (r < 0.25)
 			rlight = '1 0 1';
 
 		te_customflash(self.origin + '0 0 64', 256, 1, rlight);		
@@ -1095,7 +1095,7 @@ void() fdupdate =
 
 
 	self.frame ++;
-	if(self.frame > 456)
+	if (self.frame > 456)
 		self.frame = 0;
 		
 	self.think = fdupdate;
@@ -1111,19 +1111,19 @@ void() fd_die=
 	fallen_deatha();
 	spawn_explogibs(self.origin - '0 0 72',0.1);
 };
-
+/*
 void() pointlight_d =
 {
-	return;
+//	return;
 	vector org = (self.absmin + self.absmax) / 2;
 	org_z -= 64;
-	if(self.classname != "func_shrine")
+	if (self.classname != "func_shrine")
 	{
-		if(!self.cnt)
+		if (!self.cnt)
 			self.cnt = 100;
 		org = self.origin;
 		float r = random() * 100;
-		if(r > self.cnt)
+		if (r > self.cnt)
 		remove(self);
 		return;
 	}
@@ -1139,9 +1139,10 @@ void() pointlight_d =
 	fd.th_die = fd_die;
 	fd.think = fdupdate;
 	fd.nextthink = time + 0.5;
-	if(self.classname != "func_shrine")
+	if (self.classname != "func_shrine")
 		remove(self);
 };
+*/
 void() trigger_shrine = 
 { 
 	self.touch = trigger_shrine_touch;
@@ -1153,7 +1154,7 @@ void() trigger_shrine =
 
 void() func_shrine_use =
 {
-	if(self.glowmod_x > 1)
+	if (self.glowmod_x > 1)
 		self.glowmod = '0.95 0.95 0.95';
 	self.lightson.light_lev -= 3;
 	
@@ -1165,7 +1166,7 @@ void() func_shrine_use =
 	self.glowmod_y -= 0.025;
 	self.glowmod_z -= 0.025;
 
-	if(self.glowmod_x <= 0)
+	if (self.glowmod_x <= 0)
 	{
 		self.lightson.pflags = 0;
 		self.glowmod = '-1 -1 -1';
@@ -1200,7 +1201,7 @@ void() func_shrine =
 	pointlight.style = 0;
 	self.lightson = pointlight;
 	/*float r = random(1,40);
-	if(((r <= 2) && (world.episode == 2)) || (self.nextcolormod_x == 1))
+	if (((r <= 2) && (world.episode == 2)) || (self.nextcolormod_x == 1))
 	{ 
 		pointlight_d();
 		pointlight.pflags = 0;
@@ -1238,11 +1239,11 @@ void() end_trigger_restart2 =
 void() remove_tether = 
 {
 	read_currentprofileslot();
-	local string campaignloc;
+	string campaignloc;
 	campaignloc = strcat("profiles/", profilename, "/tether.txt");
 
-	local float writeparms;
-	local string writethis;
+	float writeparms;
+	string writethis;
 	writeparms = fopen(campaignloc, FILE_WRITE);	//open what file to use in write mode
 	writethis = ftos(0);	//prepare the next thing to write
 	fputs(writeparms, writethis);	//line 1
@@ -1280,7 +1281,7 @@ void() trigger_restart =
 {
 	if (!self.exit)
 		self.exit = 1;
-	if(!self.wait)
+	if (!self.wait)
 	self.wait = 16.7;
 
 	self.touch = trigger_restart_touch;
@@ -1353,21 +1354,21 @@ void() trigger_turret_touch =
 	if (!(other.flags & FL_MONSTER))
 		return;
 
-	if(!other.turretable)
+	if (!other.turretable)
 		return;
 
-	if(!other.trigger_angle_use)
+	if (!other.trigger_angle_use)
 		return;
 	
-	if(other.turret_time > time)	
+	if (other.turret_time > time)	
 		return;
 
-	if(other.warped_time > time)	
+	if (other.warped_time > time)	
 		return;	
 
-	if(self.turret_enemy_visible)
+	if (self.turret_enemy_visible)
 	{
-		local entity oself;
+		entity oself;
 		oself = self;
 		self = other;
 		if (!(visible(self.enemy)))
@@ -1375,12 +1376,12 @@ void() trigger_turret_touch =
 		self = oself;	
 	}	
 
-	if((!other.takedamage) && (other.classentity == "monsters"))
+	if ((!other.takedamage) && (other.classentity == "monsters"))
 		other.takedamage = DAMAGE_AIM;
 
-	if((self.target)||(self.turret_enemy_visible))
+	if ((self.target)||(self.turret_enemy_visible))
 	{
-		if(self.target)
+		if (self.target)
 		{
 			other.minorangle =( (-1 * self.angle_deviance) + 180 )* (2/360);
 			determine_subangle();
@@ -1396,17 +1397,17 @@ void() trigger_turret_touch =
 	{
 		other.turret_time = time + 2.5;	
 		other.turret = 1;
-		if(self.turret_enemy_visible)
+		if (self.turret_enemy_visible)
 			other.turret_enemy_visible = 1;
-		if(other.classname == "monster_stricken")
+		if (other.classname == "monster_stricken")
 			other.th_run = stricken_preattack1;
-		if(other.classname == "monster_invader")
+		if (other.classname == "monster_invader")
 			other.th_run = invader_preattack;
-		if(self.classname == "monster_afflicted")
+		if (self.classname == "monster_afflicted")
 			other.th_run = afflicted_atk1;
-		if(self.classname == "monster_wretch")
+		if (self.classname == "monster_wretch")
 			other.th_run = wretch_attacka1;
-		if(self.classname == "monster_oppressor")
+		if (self.classname == "monster_oppressor")
 			other.th_run = oppressor_attacka1;
 		other.think = other.th_missile;
 		other.nextthink = time;
@@ -1416,10 +1417,10 @@ void() trigger_turret_touch =
 void() trigger_turret = 
 {
 	self.touch = trigger_turret_touch;
-	if(!self.angle_deviance)
+	if (!self.angle_deviance)
 	self.angle_deviance = 90;
 	
-	if(self.angle_deviance > 180)
+	if (self.angle_deviance > 180)
 		self.angle_deviance =180;
 	self.angle_deviance = self.angle_deviance * 2;
 	self.solid = SOLID_TRIGGER;
@@ -1457,11 +1458,11 @@ void() SUB_Die =
 };
 void() hurt_touch =
 {
-	if((other.allowoverlap > time) && (self.allowoverlap == 1))
+	if ((other.allowoverlap > time) && (self.allowoverlap == 1))
 		return;
 	if ((other.takedamage) && (self.using ==  1))
 	{
-		if((self.kill_player == 1) && (other.classname == "player") && (other.health >0) &&(!(other.flags &FL_GODMODE))) 
+		if ((self.kill_player == 1) && (other.classname == "player") && (other.health >0) &&(!(other.flags &FL_GODMODE))) 
 		{
 			other.health = -100;
 			entity oself = self;
@@ -1472,7 +1473,7 @@ void() hurt_touch =
 			self = oself;
 			other = oldother;
 
-			if(!(self.spawnflags & 1))
+			if (!(self.spawnflags & 1))
 			{
 				playersound7("impact/gibs/gib_explo", 3, random(80,100));
 				playersound7("impact/gibs/gib_hit", 6, random(80,120));
@@ -1482,18 +1483,18 @@ void() hurt_touch =
 				explo_blood(2, tagorg+ randomvector('-24 -24 24','24 24 24'));	
 				explo_blood(9, tagorg+ randomvector('-24 -24 24','24 24 24'));	
 				pointparticles(particleeffectnum("wretch_bloodshower"), tagorg , '0 0 0', 1);
-				ThrowGib3(self, "models/gibs/gib_small.md3", 0, 0.75, 1, 2, tagorg + randomvector('-24 -24 24','24 24 24'), relvel('12 12 -24', self), 0, 3);	// relvel: forward, right, up
-				ThrowGib3(self, "models/gibs/gib_small.md3", 0, 0.75, 1, 2, tagorg+ randomvector('-24 -24 24','24 24 24'), relvel('32 -12 -32', self), 0, 3);	// relvel: forward, right, up
-				ThrowGib3(self, "models/gibs/gib_med.md3", 0, 0.75, 1, 2, tagorg+ randomvector('-24 -24 24','24 24 24'), relvel('48 12 -12', self), 0, 3);	// relvel: forward, right, up
-				ThrowGib3(self, "models/gibs/gib_med.md3", 0, 0.75, 1, 2, tagorg+ randomvector('-24 -24 24','24 24 24'), relvel('24 -12 -24', self), 0, 3);	// relvel: forward, right, up
-				ThrowGib3(self, "models/gibs/gib_large.md3", 0, 0.75, 1, 2, tagorg+ randomvector('-24 -24 24','24 24 24'), relvel('24 12 -24', self), 0, 3);	// relvel: forward, right, up
-				ThrowGib3(self, "models/gibs/gib_large.md3", 0, 0.75, 1, 2, tagorg+ randomvector('-24 -24 24','24 24 24'), relvel('42 12 -12', self), 0, 3);	// relvel: forward, right, up
+
+				ThrowGib3(self, "models/gibs/gib_small.md3",0, 0.75, 1, 2, tagorg + randomvector('-24 -24 24','24 24 24'), relvel('12 12 -24' , self), 0, 3);	// relvel: forward, right, up
+				ThrowGib3(self, "models/gibs/gib_small.md3",0, 0.75, 1, 2, tagorg + randomvector('-24 -24 24','24 24 24'), relvel('32 -12 -32', self), 0, 3);	// relvel: forward, right, up
+				ThrowGib3(self, "models/gibs/gib_med.md3",	0, 0.75, 1, 2, tagorg + randomvector('-24 -24 24','24 24 24'), relvel('48 12 -12' , self), 0, 3);	// relvel: forward, right, up
+				ThrowGib3(self, "models/gibs/gib_med.md3", 	0, 0.75, 1, 2, tagorg + randomvector('-24 -24 24','24 24 24'), relvel('24 -12 -24', self), 0, 3);	// relvel: forward, right, up
+				ThrowGib3(self, "models/gibs/gib_large.md3",0, 0.75, 1, 2, tagorg + randomvector('-24 -24 24','24 24 24'), relvel('24 12 -24' , self), 0, 3);	// relvel: forward, right, up
+				ThrowGib3(self, "models/gibs/gib_large.md3",0, 0.75, 1, 2, tagorg + randomvector('-24 -24 24','24 24 24'), relvel('42 12 -12' , self), 0, 3);	// relvel: forward, right, up
 			}
 		}
-		if((self.kill_player == 1) && (other.flags & FL_MONSTER)&& (!other.wrathflags & FL_CRYSTAL))
+		if ((self.kill_player == 1) && (other.flags & FL_MONSTER)&& (!(other.wrathflags & FL_CRYSTAL)))
 		{
-
-			if((other.th_die) && (other.voided != 1))
+			if ((other.th_die) && (other.voided != 1))
 			{
 
 				other.th_die = SUB_Die;
@@ -1504,16 +1505,16 @@ void() hurt_touch =
 
 		}
 
-		if((self.only_to_player ==  1)&& (other.classname == "player"))
+		if ((self.only_to_player ==  1)&& (other.classname == "player"))
 			T_Damage (other, self, self, self.dmg);
 		else
 			T_Damage (other, self, self, self.dmg);
 
 		float active_punchangle = cvar ("cl_punch");
-		if((active_punchangle == 1) && (self.punch_time < time))
+		if ((active_punchangle == 1) && (self.punch_time < time))
 		{
 			self.punch_time = time + 0.25;
-			if(self.cnt == 1)	
+			if (self.cnt == 1)	
 			{
 			other.punchangle_x = self.dmg * -0.25;
 			self.cnt = 0;
@@ -1526,18 +1527,15 @@ void() hurt_touch =
 		}
 
 		self.solid = SOLID_NOT;
-		if(self.allowoverlap == 1)
+		
+		if (self.allowoverlap == 1)
 			other.allowoverlap = time + self.wait;
 		
-		if(self.wait > 0)
+		if (self.wait > 0)
 		{
 			self.think = hurt_on;
 			self.nextthink = time + self.wait;
 		}
-		else
-			remove(self);
-			
-
 	}
 
 	return;
@@ -1545,7 +1543,7 @@ void() hurt_touch =
 
 void() trigger_hurt =
 {
-	if(!self.wait)
+	if (!self.wait)
 		self.wait = 1;
 	InitTrigger ();
 	self.touch = hurt_touch;
@@ -1560,7 +1558,7 @@ void() trigger_hurt =
 void() void_touch =
 {
 
-	if(other == world)
+	if (other == world)
 		return;
 
 	other.solid = 0;
@@ -1570,7 +1568,7 @@ void() void_touch =
 	if (other.classname != "player")
 		other.th_die = SUB_Remove;
 
-	if((other.th_die) && (other.voided != 1))
+	if ((other.th_die) && (other.voided != 1))
 	{
 		other.voided = 1;
 			
@@ -1620,10 +1618,10 @@ void()  assign_random_org =
     while (tcount == 1)
     {
 
-		if(t.targetname == self.target)
+		if (t.targetname == self.target)
 		{
 			self.count --;		
-			if(self.count <= 0)	
+			if (self.count <= 0)	
 			{
 				org = t.origin;
 				ang = self.angles;	
@@ -1645,7 +1643,7 @@ void() trigger_changer_origin_think =
     while (t)
     {
 
-		if(t.targetname == self.target)
+		if (t.targetname == self.target)
 		self.cnt ++;
 		t = find(t, targetname, self.target);
     }
@@ -1737,7 +1735,7 @@ void spawnfunc_info_achievement_gamecomplete()
 void info_endscreen_use(void)
 {
 	entity lst = world;
-	while(lst = findflags(lst, flags, FL_CLIENT))
+	while ((lst = findflags(lst, flags, FL_CLIENT)))
 	{
 		lst.r_endscreen = time;
 	}

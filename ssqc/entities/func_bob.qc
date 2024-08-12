@@ -1,6 +1,6 @@
 void() bob_blocked = 
 {
-	if(self.cnt == 1)
+	if (self.cnt == 1)
 		self.cnt = 0;
 	else
 		self.cnt = 1;
@@ -8,24 +8,24 @@ void() bob_blocked =
 void() func_bob_next =
 {
 
-	if(self.owner.using == 1)
+	if (self.owner.using == 1)
 	{
 		setorigin(self, self.owner.origin);
 
 		float dist;
 
-		if(self.owner.cnt == 1)
+		if (self.owner.cnt == 1)
 		{
 			dist = vlen (self.owner.ldtdest - self.owner.origin);
 			self.owner.velocity = normalize(self.owner.ldtdest - self.owner.origin);
-			if( dist < 10)
+			if ( dist < 10)
 				self.owner.cnt = 0;
 		}
 		else
 		{
 			dist = vlen (self.owner.oldorigin - self.owner.origin);
 			self.owner.velocity = normalize(self.owner.oldorigin  - self.owner.origin) ;
-			if( dist < 10)
+			if ( dist < 10)
 				self.owner.cnt = 1;
 		}
 
@@ -38,7 +38,7 @@ void() func_bob_next =
 		}
 		else
 		{
-			if(self.owner.speed < self.owner.maxspeed)	
+			if (self.owner.speed < self.owner.maxspeed)	
 				self.owner.speed = self.owner.speed * (1 + vfactor);
 		}
 		self.owner.velocity = self.owner.velocity * self.owner.speed;
@@ -52,7 +52,7 @@ void() func_bob_next =
 
 void() func_bob_find = 
 { 
-	local entity targ;
+	entity targ;
 	targ = find(world, targetname, self.target);
 	self.ldtdest = targ.origin;
 	targ = find(world, targetname, self.target2);
@@ -63,7 +63,7 @@ void() func_bob_find =
 	//self.velocity = '0 0 1';
 	//setorigin(self, targ.origin - self.mins);
 
-	local entity velocity_controller = spawn();
+	entity velocity_controller = spawn();
 	setmodel(velocity_controller,"");
 	velocity_controller.movetype = MOVETYPE_NOCLIP;
 	velocity_controller.owner = self;
@@ -75,16 +75,16 @@ void() func_bob_find =
 
 void() func_bob =
 {
-	if(!self.speed)
+	if (!self.speed)
 		self.speed = 512;
-	if(!self.using)
+	if (!self.using)
 		self.using = 1;
 	self.maxspeed =  self.speed;
-	if(!self.distancetotarget)
+	if (!self.distancetotarget)
 		self.distancetotarget = 128;	
 	if (!self.count)	
 		self.count = 2;	
-	if(self.count < 1)
+	if (self.count < 1)
 		self.count = 1;
 	self.blocked = bob_blocked;
 	self.cnt = 1;
@@ -103,7 +103,7 @@ void() func_bob =
 .float phase;
 void() func_bobbing_controller_think =
 {
-	local vector v;
+	vector v;
 	self.nextthink = time + 0.05;
 	// calculate sinewave using makevectors
 	makevectors((time * self.owner.cnt + self.owner.phase) * '0 1 0');
@@ -120,7 +120,7 @@ phase : cycle timing adjustment (0-1 as a fraction of the cycle, default 0)
 */
 void() func_bobbing =
 {
-	local entity controller;
+	entity controller;
 
 	if (!self.speed)
 		self.speed = 16;

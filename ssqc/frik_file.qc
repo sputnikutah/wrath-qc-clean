@@ -11,8 +11,8 @@ float lava_damage_time;
 float player_zviewofs;
 void() check_player= 
 { 
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("player.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	sliding_fps = stof(readtext);
@@ -47,8 +47,8 @@ void() check_melee = { self.melee_model = "models/weapons/melee/v_gauntlet.md3";
 	self.vweaponangles_x = 0;	// stof(readtext);
 	self.vweaponangles_y = 0;	//stof(readtext);
 	self.vweaponangles_z = 0;	//stof(readtext);
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/melee.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	readtext = fgets(readfrik);
@@ -78,8 +78,8 @@ float mace_proj_acelerationfactor;            // projectile homing strength /*??
 
 void() check_mace = 
 { 
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/mace.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.macevweapon_x = stof(readtext);
@@ -110,8 +110,8 @@ void() check_mace =
 //vweaponangles
 
 //string wviewmodel;
-void() check_vmodel = { local float readfrik;
-	local string readtext;
+void() check_vmodel = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/viewmodel.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.vvweapon_model = strzone(readtext);
@@ -132,8 +132,8 @@ void() check_vmodel = { local float readfrik;
 	fclose(readfrik);
 };
 
-void() check_shotgun_pos = { local float readfrik;
-	local string readtext;
+void() check_shotgun_pos = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/shotgun_pos.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.svweapon_x = stof(readtext);
@@ -162,8 +162,8 @@ void() check_shotgun_pos = { local float readfrik;
 	fclose(readfrik);
 };
 
-void() check_shotgun = { local float readfrik;
-	local string readtext;
+void() check_shotgun = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/shotgun.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.shotgun_damage1 = stof(readtext);
@@ -200,8 +200,8 @@ void() check_shotgun = { local float readfrik;
 	fclose(readfrik);
 };
 float coach_proj_vel;
-void() check_revolver_pos = { local float readfrik;
-	local string readtext;
+void() check_revolver_pos = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/revolver_pos.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.cgvweapon_x = stof(readtext);
@@ -229,8 +229,8 @@ void() check_revolver_pos = { local float readfrik;
 	self.centered_cgweaponangles_z = stof(readtext);
 	readtext = fgets(readfrik);	fclose(readfrik);
 };
-void() check_revolver = { local float readfrik;
-	local string readtext;
+void() check_revolver = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/revolver.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.revolver_damage1 = stof(readtext);
@@ -276,8 +276,8 @@ float retcher_proj_velz;
 float retcher_proj_vel;
 float retcher_proj_grav;
 
-void() check_retcher_pos = { local float readfrik;
-	local string readtext;
+void() check_retcher_pos = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/retcher_pos.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.rvweapon_x = stof(readtext);
@@ -305,8 +305,8 @@ void() check_retcher_pos = { local float readfrik;
 	self.rweaponangles_z = stof(readtext);	fclose(readfrik);
 };
 
-void() check_retcher = { local float readfrik;
-	local string readtext;
+void() check_retcher = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/retcher.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	retcherdamg = stof(readtext);
@@ -355,8 +355,8 @@ void() check_retcher = { local float readfrik;
 };
 
 
-void() check_slagcannon_pos = { local float readfrik;
-	local string readtext;
+void() check_slagcannon_pos = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/slagcannon_pos.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.cvweapon_x = stof(readtext);
@@ -385,8 +385,8 @@ void() check_slagcannon_pos = { local float readfrik;
 	readtext = fgets(readfrik);
 	fclose(readfrik);
 };
-void() check_slagcannon = { local float readfrik;
-	local string readtext;
+void() check_slagcannon = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/slagcannon.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	slagcannon_damage1 = stof(readtext);
@@ -438,8 +438,8 @@ float spittervel;
 float spittervel2;
 float spitter_svpf;
 float spitter_svsf;
-void() check_spitter_pos = { local float readfrik;
-	local string readtext;
+void() check_spitter_pos = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/spitter_pos.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.pvweapon_x = stof(readtext);
@@ -468,8 +468,8 @@ void() check_spitter_pos = { local float readfrik;
 	fclose(readfrik);
 };
 
-void() check_spitter = { local float readfrik;
-	local string readtext;
+void() check_spitter = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/spitter.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	spitterdamg = stof(readtext);
@@ -500,8 +500,8 @@ void() check_spitter = { local float readfrik;
 	fclose(readfrik);
 };
 .float lance_muzzle_scale;
-void() check_lance= { local float readfrik;
-	local string readtext;
+void() check_lance= { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/lance.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.lance_damage = stof(readtext);
@@ -527,8 +527,8 @@ void() check_lance= { local float readfrik;
 	self.lance_viewzoom_rate = stof(readtext);
 	fclose(readfrik);
 };
-void() check_lance_pos= { local float readfrik;
-	local string readtext;
+void() check_lance_pos= { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/lance_pos.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.lvweapon_x = stof(readtext);
@@ -562,8 +562,8 @@ void() check_lance_pos= { local float readfrik;
 .vector centered_chvweapon;
 .vector centered_chvweaponangles;
 
-void() check_crystal_pos = { local float readfrik;
-	local string readtext;
+void() check_crystal_pos = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/crystal_pos.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	self.chvweapon_x = stof(readtext);
@@ -600,8 +600,8 @@ float crystal2_damage_mp;
 
 void() check_crystal = 
 { 
-local float readfrik;
-	local string readtext;
+float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/crystal.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	crystal1_damage = stof(readtext);
@@ -654,8 +654,8 @@ float attar_time;//AOE duration
 float attar_effect_time;//affected enemy duration
 void() check_attar = 
 { 
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("artifacts/attar.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	attar_vel = stof(readtext);
@@ -684,8 +684,8 @@ float shockwave_time;		//explosion duration (in seconds)
 
 void() check_shockwave = 
 { 
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("artifacts/shockwave.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	shockwave_radius = stof(readtext);
@@ -709,8 +709,8 @@ float lance_ammount;
 float crystal_ammount;
 float mace_ammount;
 
-void() check_itemammount = { local float readfrik;
-	local string readtext;
+void() check_itemammount = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("items/ammount.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	revolver_ammount = stof(readtext);
@@ -749,8 +749,8 @@ float max_ammo_lance;
 float max_ammo_crystal;
 
 
-void() check_maxammo = { local float readfrik;
-	local string readtext;
+void() check_maxammo = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("items/maxammo.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	max_ammo_revolver = stof(readtext);
@@ -785,8 +785,8 @@ vector shard_light_col;
 float cofferkey_lightlev;
 vector cofferkey_light_col;
 
-void() check_itemlight = { local float readfrik;
-	local string readtext;
+void() check_itemlight = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("items/light.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	artifact_lightlev = stof(readtext);
@@ -831,8 +831,8 @@ float coffer_item_delay;
 
 void() check_coffer =
 {
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("items/coffer.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	coffer_item_gravity = stof(readtext);
@@ -844,8 +844,8 @@ void() check_coffer =
 	coffer_item_delay= stof(readtext);
 	fclose(readfrik);
 };	
-void() check_itemsize = { local float readfrik;
-	local string readtext;
+void() check_itemsize = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("items/size.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	artifact_nsize = stov(readtext);
@@ -929,8 +929,8 @@ vector flash_color;
 float flash_alpha;
 float flash_fade;
 
-void() check_itemflash = { local float readfrik;
-	local string readtext;
+void() check_itemflash = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("items/flash.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	flash_color = stov (readtext);
@@ -947,8 +947,8 @@ float sigil_flash_fade;
 
 void() check_itemsigil_flash = 
 { 
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("sigil/fly_flash.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	sigil_flash_color = stov (readtext);
@@ -993,8 +993,8 @@ float opp_zzmd;
 //float opp_dr_idle;
 vector opp_proj_size;
 
-void() check_op_vel = { local float readfrik;
-	local string readtext;
+void() check_op_vel = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/oppressor.txt", FILE_READ);
 	readtext = fgets(readfrik); 
 	opp_health = stof(readtext);
@@ -1072,8 +1072,8 @@ float afflicted_damagetomonsters;
 float afflicted_pushfactor;
 float afflicted_suicide_distance;
 
-void() check_af_vel = { local float readfrik;
-	local string readtext;
+void() check_af_vel = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/afflicted_vel.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	affwvel1 = stof(readtext);
@@ -1169,8 +1169,8 @@ vector aff_gib18;
 vector aff_gib19;
 vector aff_gib20;
 
-void() check_afflicted_gibs = { local float readfrik;
-	local string readtext;
+void() check_afflicted_gibs = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/afflicted_gibs.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	aff_gib1 = stov(readtext);
@@ -1226,8 +1226,8 @@ float herelif;
 
 void()check_here_vel=
 {
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath ("enemies/heretic_vel.txt", FILE_READ);    
 	readtext = fgets(readfrik);   
 	herepl = stof(readtext);
@@ -1250,8 +1250,8 @@ float lpdmg;
 float mpdmg;
 float hpdmg;
 
-void() check_damg_pain = { local float readfrik;
-	local string readtext;
+void() check_damg_pain = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("weapons/damagepercent.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	lpdmg = stof(readtext);
@@ -1325,8 +1325,8 @@ float exec_impactdamage;
 float exec_radius;
 float exec_chargetime;
 
-void() check_exec_vel = { local float readfrik;
-	local string readtext;
+void() check_exec_vel = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/exec_vel.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	exec_health = stof(readtext);
@@ -1473,8 +1473,8 @@ float fn_vwalk18;
 float fn_vwalk19;
 float fn_vwalk20;
 
-void() check_fallen2 = { local float readfrik;
-	local string readtext;
+void() check_fallen2 = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/fallen_vel.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	fn_vwalk1 = stof(readtext);
@@ -1540,8 +1540,8 @@ float dummypt;
 float dummypth;
 vector dummybbox;
 
-void() check_dummy = { local float readfrik;
-	local string readtext;
+void() check_dummy = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/dummy.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	dummyhealth = stof(readtext);	//helath
@@ -1614,8 +1614,8 @@ float invader_zzmd;
 float invader_itadr;
 float invader_gdv;
 
-void() check_invader = { local float readfrik;
-	local string readtext;
+void() check_invader = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/invader.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	invader_health = stof(readtext);
@@ -1703,8 +1703,8 @@ vector inv_gib18;
 vector inv_gib19;
 vector inv_gib20;
 
-void() check_invader_gibs = { local float readfrik;
-	local string readtext;
+void() check_invader_gibs = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/invader_gibs.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	inv_gib1 = stov(readtext);
@@ -1796,8 +1796,8 @@ float wretch_pushfactor;
 float wretch_shg;	// spining head gravity
 vector wretch_shkv;	// kick velocity
 
-void() check_wretch = { local float readfrik;
-	local string readtext;
+void() check_wretch = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/wretch.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	wretch_health = stof(readtext);
@@ -1909,8 +1909,8 @@ vector wre_gib23;
 vector wre_gib24;
 vector wre_gib25;
 
-void() check_wretch_gibs = { local float readfrik;
-	local string readtext;
+void() check_wretch_gibs = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/wretch_gibs.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	wre_gib1 = stov(readtext);
@@ -1996,8 +1996,8 @@ float incisor_zzd;
 float incisor_zzmd;
 float incisor_itadr;
 
-void() check_incisor = { local float readfrik;
-	local string readtext;
+void() check_incisor = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/incisor.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	incisor_health = stof(readtext);
@@ -2094,8 +2094,8 @@ float stricken_walkradius;
 float stricken_damagetomonsters;
 float stricken_pushfactor;
 
-void() check_stricken = { local float readfrik;
-	local string readtext;
+void() check_stricken = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/stricken.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	stricken_health = stof(readtext);	// health
@@ -2180,8 +2180,8 @@ vector str_gib18;
 vector str_gib19;
 vector str_gib20;
 
-void() check_stricken_gibs = { local float readfrik;
-	local string readtext;
+void() check_stricken_gibs = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/stricken_gibs.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	str_gib1 = stov(readtext);
@@ -2252,8 +2252,8 @@ float heretic_zzd;
 float heretic_zzmd;
 float her_radius;
 float her_chargetime;
-void() check_heretic = { local float readfrik;
-	local string readtext;
+void() check_heretic = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/heretic.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	heretic_health = stof(readtext);	// health
@@ -2328,8 +2328,8 @@ vector her_gib18;
 vector her_gib19;
 vector her_gib20;
 
-void() check_heretic_gibs = { local float readfrik;
-	local string readtext;
+void() check_heretic_gibs = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/heretic_gibs.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	her_gib1 = stov(readtext);
@@ -2422,8 +2422,8 @@ float widph;
 
 
 
-void() check_wd_vel = { local float readfrik;
-	local string readtext;
+void() check_wd_vel = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/widow_vel.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	widowhealth = stof(readtext);
@@ -2445,8 +2445,8 @@ void() check_wd_vel = { local float readfrik;
 };
 
 
-void() check_widow = { local float readfrik;
-	local string readtext;
+void() check_widow = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/widow.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	widow_health = stof(readtext);
@@ -2519,8 +2519,8 @@ float incisorph;
 
 
 
-void() check_incisor_vel = { local float readfrik;
-	local string readtext;
+void() check_incisor_vel = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/incisor_vel.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	incisorhealth = stof(readtext);
@@ -2544,8 +2544,8 @@ void() check_incisor_vel = { local float readfrik;
 
 float wraith_health;
 float wraith_damage;
-void() check_wraith = { local float readfrik;
-	local string readtext;
+void() check_wraith = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/wraith.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	wraith_health = stof(readtext);
@@ -2573,8 +2573,8 @@ float symbol_near;
 vector symbol_bbox;
 vector symbol_bboxn;
 
-void() check_symbol = { local float readfrik;
-	local string readtext;
+void() check_symbol = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/symbol.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	symbol_health = stof(readtext);	//helath
@@ -2613,8 +2613,8 @@ float martyr_radius;
 float martyr_orb_offset;
 float martyr_flight_dist;
 
-void() check_martyr = { local float readfrik;
-	local string readtext;
+void() check_martyr = { float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/martyr.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	martyr_health = stof(readtext);	// health
@@ -2644,8 +2644,8 @@ float boss1_proj2_rv;
 
 void() check_boss1 = 
 { 
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/boss1.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	boss1_proj1_vel = stof(readtext);	// speed
@@ -2691,8 +2691,8 @@ float boss2_stage2transitiontime;
 
 void() check_boss2 = 
 { 
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/boss2.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	boss2_healtha = stof(readtext);
@@ -2734,8 +2734,8 @@ float boss3_fallennumberc;
 
 void() check_boss3 = 
 { 
-	local float readfrik;
-	local string readtext;
+	float readfrik;
+	string readtext;
 	readfrik = fopen_wrath("enemies/boss3.txt", FILE_READ);
 	readtext = fgets(readfrik);
 	boss3_health = stof(readtext);
@@ -2798,8 +2798,8 @@ void() check_enemies_frik = { check_op_vel();
 ////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-void() Precache = { local float f;	// file handle, basically assigns a number to whatever file is open
-	local string ln;	// ln = line of the file being read
+void() Precache = { float f;	// file handle, basically assigns a number to whatever file is open
+	string ln;	// ln = line of the file being read
 	f = fopen_wrath("system/precache.txt", FILE_READ);	// opens "system/precache.txt" to be read
 	if (f != -1)	// if f = -1 then the file could not be found
 	{

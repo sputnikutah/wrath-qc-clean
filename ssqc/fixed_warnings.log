@@ -1,0 +1,410 @@
+FTEQCC: 6082 (2021-10-12T04:42:07.737357Z)
+Source file: progs.src
+outputfile: ../../progs.dat
+compiling progsdefs.qc
+compiling dpextensions.qc
+in function SV_ParseClientCommand (line 2452),
+dpextensions.qc:2509: warning Q201: suggest parenthesis for assignment used as truth value
+dpextensions.qc:2532: warning Q207: lst duplicate definition ignored
+dpextensions.qc:2508:    entity lst is defined here
+dpextensions.qc:2533: warning Q201: suggest parenthesis for assignment used as truth value
+in function chara_setpos (line 2773),
+dpextensions.qc:2776: warning: Expected punctuation
+dpextensions.qc:2776: warning: Missing semicolon at end of definition
+compiling nodegraph/definitions.qc
+compiling ../shared.qc
+in function numfield_addtostring (line 790),
+../shared.qc:792: warning Q105: too few parameters on call to strcat, s2 will be UNDEFINED
+dpextensions.qc:2225:    const string(string s1, string s2, ...) strcat is defined here
+compiling ../shared_menu.qc
+compiling wrathdefs.qc
+compiling subroutines.qc
+compiling frik_file.qc
+compiling ../save_salvage.qc
+in function Check_SaveCompatibility (line 95),
+../save_salvage.qc:133: warning Q207: e_relics duplicate definition ignored
+../save_salvage.qc:131:    float e_relics is defined here
+../save_salvage.qc:135: warning Q207: e_relics duplicate definition ignored
+../save_salvage.qc:131:    float e_relics is defined here
+../save_salvage.qc:181: warning Q201: suggest parenthesis for assignment used as truth value
+../save_salvage.qc:188: warning Q201: suggest parenthesis for assignment used as truth value
+compiling main.qc
+compiling gore.qc
+compiling timescale.qc
+compiling dmg_system.qc
+in function Killed (line 268),
+dmg_system.qc:275: warning F304: suggest parenthesis for unary operator that applies to multiple terms
+compiling editor/editor.qc
+compiling ../localization.qc
+compiling func_readable.qc
+compiling player/artifact.qc
+in function write_tether (line 263),
+player/artifact.qc:344: warning Q105: too few parameters on call to trigger_all_soultether_checkers, who will be UNDEFINED
+player/artifact.qc:262:    const void(entity who) trigger_all_soultether_checkers is defined here
+in function mark_revelation (line 1469),
+player/artifact.qc:1487: warning Q201: suggest parenthesis for assignment used as truth value
+compiling player/player.qc
+compiling player/model.qc
+compiling player/client.qc
+in function RestoreGame (line 3296),
+player/client.qc:3319: warning Q201: suggest parenthesis for assignment used as truth value
+player/client.qc:3374: warning Q207: holder duplicate definition ignored
+player/client.qc:3359:    entity holder is defined here
+player/client.qc:3570: warning Q207: hold duplicate definition ignored
+player/client.qc:3426:    entity hold is defined here
+compiling player/use.qc
+compiling weapons/node_editor.qc
+compiling weapons/weapon_system.qc
+in function WeaponFrames (line 2983),
+weapons/weapon_system.qc:2993: warning Q201: suggest parenthesis for assignment used as truth value
+compiling weapons/w_melee.qc
+compiling weapons/w_revolver.qc
+compiling weapons/w_cannon.qc
+compiling weapons/w_spitter.qc
+compiling weapons/w_retcher.qc
+compiling weapons/w_shotgun.qc
+in function shotgun_proj_touch (line 104),
+weapons/w_shotgun.qc:306: warning Q207: neworg duplicate definition ignored
+weapons/w_shotgun.qc:304:    vector neworg is defined here
+in function wfire_shotgun (line 1098),
+weapons/w_shotgun.qc:1166: warning Q207: active_punchangle duplicate definition ignored
+weapons/w_shotgun.qc:1129:    float active_punchangle is defined here
+weapons/w_shotgun.qc:1176: warning Q207: muzzle duplicate definition ignored
+weapons/w_shotgun.qc:1139:    entity muzzle is defined here
+weapons/w_shotgun.qc:1177: warning Q207: muzzlemodel duplicate definition ignored
+weapons/w_shotgun.qc:1140:    string muzzlemodel is defined here
+compiling weapons/w_lance.qc
+compiling weapons/w_crystal.qc
+compiling weapons/w_bfg.qc
+compiling weapons/w_viewmodel.qc
+compiling entities/lights.qc
+compiling entities/sounds.qc
+compiling entities/func_water.qc
+in function liquid_touch (line 168),
+entities/func_water.qc:203: warning Q207: fdist duplicate definition ignored
+entities/func_water.qc:178:    float fdist is defined here
+entities/func_water.qc:227: warning Q207: fdist duplicate definition ignored
+entities/func_water.qc:178:    float fdist is defined here
+entities/func_water.qc:314: warning Q207: r duplicate definition ignored
+entities/func_water.qc:289:    float r is defined here
+entities/func_water.qc:318: warning Q207: firespawner duplicate definition ignored
+entities/func_water.qc:255:    entity firespawner is defined here
+entities/func_water.qc:348: warning Q207: firespawner duplicate definition ignored
+entities/func_water.qc:255:    entity firespawner is defined here
+entities/func_water.qc:416: warning Q207: r duplicate definition ignored
+entities/func_water.qc:289:    float r is defined here
+compiling entities/func_button.qc
+compiling entities/func_door.qc
+in function door_fire (line 52),
+entities/func_door.qc:79: warning Q205: Statement does not do anything
+compiling entities/trigger.qc
+in function hurt_touch (line 1459),
+entities/trigger.qc:1493: warning F304: suggest parenthesis for unary operator that applies to multiple terms
+in function info_endscreen_use (line 1738),
+entities/trigger.qc:1740: warning Q201: suggest parenthesis for assignment used as truth value
+compiling entities/entity_model.qc
+in function train_stop (line 41),
+entities/entity_model.qc:44: warning Q105: too few parameters on call to soundwrath, trapezoid will be UNDEFINED
+dpextensions.qc:1340:    const void(entity e, float chan, string samp, float vol, float atten, float speed, float flags, float trapezoid) soundwrath is defined here
+in function train_wait (line 51),
+entities/entity_model.qc:56: warning Q105: too few parameters on call to soundwrath, trapezoid will be UNDEFINED
+dpextensions.qc:1340:    const void(entity e, float chan, string samp, float vol, float atten, float speed, float flags, float trapezoid) soundwrath is defined here
+in function train_next (line 67),
+entities/entity_model.qc:91: warning Q105: too few parameters on call to soundwrath, trapezoid will be UNDEFINED
+dpextensions.qc:1340:    const void(entity e, float chan, string samp, float vol, float atten, float speed, float flags, float trapezoid) soundwrath is defined here
+in function place_model_checkowner (line 351),
+entities/entity_model.qc:382: warning F314: Implicit cast from float to vector
+in function spawngibs (line 959),
+entities/entity_model.qc:983: warning Q205: Hanging ';'
+compiling entities/breakables.qc
+in function urn_die (line 7),
+entities/breakables.qc:62: warning: too many parameters on call to randomsound7, argument IMMEDIATE will be ignored
+entities/sounds.qc:983:    const void(string locsound, float rnd, float vol, float pitch) randomsound7 is defined here
+compiling entities/items.qc
+in function Message_delay (line 376),
+entities/items.qc:378: warning F314: Implicit cast from float() to float(entity to, float sendflags)
+in function drop_item (line 2465),
+entities/items.qc:2700: warning Q203: 'drop_item' returned nothing, expected entity
+compiling entities/func_destruct.qc
+in function info_nogib_touch (line 90),
+entities/func_destruct.qc:97: warning Q205: Statement does not do anything
+in function func_wall (line 1117),
+entities/func_destruct.qc:1132: warning Q205: Hanging ';'
+compiling entities/func_trap.qc
+compiling entities/func_bob.qc
+compiling entities/func_plat.qc
+compiling entities/func_weather.qc
+compiling entities/jumpad.qc
+compiling entities/portal.qc
+compiling ../orrey.qc
+compiling ../shepherd.qc
+in function shepherd_dialogue_use (line 75),
+../shepherd.qc:77: warning Q201: suggest parenthesis for assignment used as truth value
+in function shepherd_usepressed (line 121),
+../shepherd.qc:128: warning Q201: suggest parenthesis for assignment used as truth value
+in function shepherd_approached (line 138),
+../shepherd.qc:158: warning Q201: suggest parenthesis for assignment used as truth value
+../shepherd.qc:175: warning Q207: targ duplicate definition ignored
+../shepherd.qc:156:    string targ is defined here
+../shepherd.qc:176: warning Q207: lst duplicate definition ignored
+../shepherd.qc:157:    entity lst is defined here
+../shepherd.qc:177: warning Q201: suggest parenthesis for assignment used as truth value
+in function place_shepherd_think (line 187),
+../shepherd.qc:233: warning Q201: suggest parenthesis for assignment used as truth value
+../shepherd.qc:235: warning F314: Implicit cast from float to vector
+../shepherd.qc:249: warning Q207: lst duplicate definition ignored
+../shepherd.qc:232:    entity lst is defined here
+../shepherd.qc:250: warning Q201: suggest parenthesis for assignment used as truth value
+../shepherd.qc:252: warning Q207: diff duplicate definition ignored
+../shepherd.qc:235:    vector diff is defined here
+../shepherd.qc:252: warning F314: Implicit cast from float to vector
+in function place_shepherd_filter (line 266),
+../shepherd.qc:272: warning Q201: suggest parenthesis for assignment used as truth value
+compiling monsters/ai.qc
+in function CheckAnyAttack (line 1404),
+monsters/ai.qc:1407: warning Q203: 'CheckAnyAttack' returned nothing, expected float
+in function check_step (line 1814),
+monsters/ai.qc:1836: warning Q207: tracefraction duplicate definition ignored
+monsters/ai.qc:1833:    float tracefraction is defined here
+monsters/ai.qc:1839: warning Q207: tracefraction duplicate definition ignored
+monsters/ai.qc:1833:    float tracefraction is defined here
+in function check_strafe (line 1995),
+monsters/ai.qc:2011: warning Q207: ofs duplicate definition ignored
+monsters/ai.qc:2003:    float ofs is defined here
+in function trigger_angle_touch (line 2787),
+monsters/ai.qc:2811: warning Q207: oself duplicate definition ignored
+monsters/ai.qc:2789:    entity oself is defined here
+compiling monsters/population_control.qc
+compiling monsters/monsters.qc
+compiling monsters/monster_afflicted.qc
+compiling monsters/node_ai.qc
+compiling monsters/monster_widow.qc
+compiling monsters/monster_wraith.qc
+compiling monsters/monster_executioner.qc
+compiling monsters/monster_template.qc
+compiling monsters/monster_invader.qc
+compiling monsters/monster_wretch.qc
+in function wretch_run1 (line 333),
+monsters/monster_wretch.qc:352: warning Q207: r duplicate definition ignored
+monsters/monster_wretch.qc:337:    float r is defined here
+in function projectile_touch_wre (line 495),
+monsters/monster_wretch.qc:534: warning Q207: factordmg duplicate definition ignored
+monsters/monster_wretch.qc:532:    float factordmg is defined here
+monsters/monster_wretch.qc:536: warning Q207: factordmg duplicate definition ignored
+monsters/monster_wretch.qc:532:    float factordmg is defined here
+compiling monsters/monster_incisor.qc
+in function alpha_modifier (line 56),
+monsters/monster_incisor.qc:105: warning Q205: Hanging ';'
+compiling monsters/monster_stricken.qc
+compiling monsters/monster_heretic.qc
+in function heretic_melee_attack (line 1077),
+monsters/monster_heretic.qc:1082: warning Q203: 'heretic_melee_attack' returned nothing, expected float
+compiling monsters/monster_fallen.qc
+in function spawn_gib_stuff (line 691),
+monsters/monster_fallen.qc:707: warning: Expected punctuation
+monsters/monster_fallen.qc:707: warning: Missing semicolon at end of definition
+compiling monsters/monster_oppressor.qc
+compiling monsters/monster_symbol.qc
+in function symbol_run15 (line 713),
+monsters/monster_symbol.qc:721: warning Q207: r duplicate definition ignored
+monsters/monster_symbol.qc:715:    float r is defined here
+in function symbolrmovement (line 891),
+monsters/monster_symbol.qc:901: warning Q207: r duplicate definition ignored
+monsters/monster_symbol.qc:896:    float r is defined here
+in function symbolshoot2 (line 1013),
+monsters/monster_symbol.qc:1013: warning Q205: Statement does not do anything
+in function symbolshoot3 (line 1014),
+monsters/monster_symbol.qc:1014: warning Q205: Statement does not do anything
+in function symbolshoot4 (line 1015),
+monsters/monster_symbol.qc:1015: warning Q205: Statement does not do anything
+in function symbolshoot5 (line 1016),
+monsters/monster_symbol.qc:1016: warning Q205: Statement does not do anything
+in function symbolshoot6 (line 1017),
+monsters/monster_symbol.qc:1017: warning Q205: Statement does not do anything
+in function symbolshoot7 (line 1018),
+monsters/monster_symbol.qc:1018: warning Q205: Statement does not do anything
+in function symbolshoot8 (line 1019),
+monsters/monster_symbol.qc:1019: warning Q205: Statement does not do anything
+in function symbolshoot9 (line 1020),
+monsters/monster_symbol.qc:1020: warning Q205: Statement does not do anything
+in function symbolshoot12 (line 1076),
+monsters/monster_symbol.qc:1077: warning Q205: Statement does not do anything
+in function symbolshoot13a (line 1106),
+monsters/monster_symbol.qc:1113: warning Q205: Statement does not do anything
+in function symbolshoot13 (line 1117),
+monsters/monster_symbol.qc:1148: warning Q205: Statement does not do anything
+compiling monsters/monster_brute.qc
+in function brute_run8 (line 880),
+monsters/monster_brute.qc:890: warning F314: Implicit cast from float to vector
+in function brute_run16 (line 912),
+monsters/monster_brute.qc:921: warning F314: Implicit cast from float to vector
+in function brute_deatha22 (line 1114),
+monsters/monster_brute.qc:1118: warning Q207: snd2 duplicate definition ignored
+monsters/monster_brute.qc:1115:    string snd2 is defined here
+in function brute_deathb18 (line 1172),
+monsters/monster_brute.qc:1180: warning Q207: snd2 duplicate definition ignored
+monsters/monster_brute.qc:1177:    string snd2 is defined here
+monsters/monster_brute.qc:1183: warning Q207: snd2 duplicate definition ignored
+monsters/monster_brute.qc:1177:    string snd2 is defined here
+compiling monsters/crawler.qc
+compiling monsters/monster_lurker.qc
+in function ai_swim_charge (line 29),
+monsters/monster_lurker.qc:52: warning F314: Implicit cast from float to vector
+in function lurker_roaming1 (line 149),
+monsters/monster_lurker.qc:181: warning Q205: Statement does not do anything
+monsters/monster_lurker.qc:221: warning Q207: r duplicate definition ignored
+monsters/monster_lurker.qc:174:    float r is defined here
+monsters/monster_lurker.qc:243: warning Q207: dir duplicate definition ignored
+monsters/monster_lurker.qc:177:    vector dir is defined here
+in function lurker_charge4 (line 359),
+monsters/monster_lurker.qc:359: warning Q205: Hanging ';'
+in function lurker_precharge1 (line 381),
+monsters/monster_lurker.qc:387: warning Q207: dir duplicate definition ignored
+monsters/monster_lurker.qc:386:    vector dir is defined here
+in function ai_swim (line 402),
+monsters/monster_lurker.qc:502: warning Q207: disttoplayer duplicate definition ignored
+monsters/monster_lurker.qc:440:    float disttoplayer is defined here
+monsters/monster_lurker.qc:533: warning F314: Implicit cast from float to vector
+in function water_checker_think (line 1025),
+monsters/monster_lurker.qc:1111: warning Q207: pool_rorigin duplicate definition ignored
+monsters/monster_lurker.qc:1052:    vector pool_rorigin is defined here
+monsters/monster_lurker.qc:1114: warning Q207: dir duplicate definition ignored
+monsters/monster_lurker.qc:1065:    vector dir is defined here
+compiling monsters/monster_keeper.qc
+compiling monsters/spawner.qc
+compiling monsters/monster_boss1.qc
+in function projectile_guardian1_think (line 103),
+monsters/monster_boss1.qc:154: warning Q207: bossproj duplicate definition ignored
+monsters/monster_boss1.qc:133:    float bossproj is defined here
+monsters/monster_boss1.qc:156: warning Q207: wishvel duplicate definition ignored
+monsters/monster_boss1.qc:134:    vector wishvel is defined here
+in function guardian1_attack (line 756),
+monsters/monster_boss1.qc:771: warning Q207: diceshot duplicate definition ignored
+monsters/monster_boss1.qc:769:    float diceshot is defined here
+in function guardian1_float (line 950),
+monsters/monster_boss1.qc:1013: warning Q207: r duplicate definition ignored
+monsters/monster_boss1.qc:997:    float r is defined here
+monsters/monster_boss1.qc:1014: warning Q207: distz duplicate definition ignored
+monsters/monster_boss1.qc:998:    float distz is defined here
+in function boss1_die_end (line 1372),
+monsters/monster_boss1.qc:1402: warning Q207: dir duplicate definition ignored
+monsters/monster_boss1.qc:1385:    vector dir is defined here
+monsters/monster_boss1.qc:1403: warning Q207: vel duplicate definition ignored
+monsters/monster_boss1.qc:1386:    vector vel is defined here
+compiling monsters/monster_boss2.qc
+in function bossnav_reconstruct_path (line 266),
+monsters/monster_boss3.qc:268: warning Q205: Statement does not do anything
+in function bossmartyr_c::explode (line 462),
+monsters/monster_boss3.qc:491: warning Q207: tagorg duplicate definition ignored
+monsters/monster_boss3.qc:482:    vector tagorg is defined here
+in function boss3_c::anim_transform (line 1198),
+monsters/monster_boss3.qc:1237: warning Q207: tag duplicate definition ignored
+monsters/monster_boss3.qc:1229:    float tag is defined here
+in function bossmartyr_c::mainloop (line 1493),
+monsters/monster_boss3.qc:1514: warning Q207: delta duplicate definition ignored
+monsters/monster_boss3.qc:1500:    float delta is defined here
+monsters/monster_boss3.qc:1547: warning Q207: delta duplicate definition ignored
+monsters/monster_boss3.qc:1500:    float delta is defined here
+in function boss3_c::anim_flail (line 1637),
+monsters/monster_boss3.qc:1646: warning Q205: Statement does not do anything
+in function boss3_c::stage1 (line 1881),
+monsters/monster_boss3.qc:2038: warning Q207: adiff duplicate definition ignored
+monsters/monster_boss3.qc:2006:    float adiff is defined here
+monsters/monster_boss3.qc:2107: warning Q207: delta duplicate definition ignored
+monsters/monster_boss3.qc:2009:    float delta is defined here
+at global scope,
+monsters/monster_boss3.qc:3269: warning: Missing semicolon at end of definition
+in function boss3_c::attack_spam (line 3414),
+monsters/monster_boss3.qc:3460: warning Q207: dir duplicate definition ignored
+monsters/monster_boss3.qc:3445:    vector dir is defined here
+in function boss2_c::puppet_movement (line 1425),
+monsters/monster_boss2.qc:1450: warning Q207: diff duplicate definition ignored
+monsters/monster_boss2.qc:1430:    vector diff is defined here
+in function func_crystal_fadeout (line 1804),
+monsters/monster_boss2.qc:1821: warning Q201: suggest parenthesis for assignment used as truth value
+in function spawnfunc_trigger_boss2_position (line 1987),
+monsters/monster_boss2.qc:1996: warning Q201: suggest parenthesis for assignment used as truth value
+in function boss2_stage2_playerspawn_use (line 2114),
+monsters/monster_boss2.qc:2116: warning Q201: suggest parenthesis for assignment used as truth value
+in function boss2_c::anim_transitionstage2 (line 2134),
+monsters/monster_boss2.qc:2141: warning Q203: 'boss2_c::anim_transitionstage2' returned nothing, expected float
+monsters/monster_boss2.qc:2145: warning Q201: suggest parenthesis for assignment used as truth value
+at global scope,
+monsters/monster_boss2.qc:2287: warning: Missing semicolon at end of definition
+monsters/monster_boss2.qc:2295: warning: Missing semicolon at end of definition
+monsters/monster_boss2.qc:2303: warning: Missing semicolon at end of definition
+in function boss2_c::anim_death (line 2380),
+monsters/monster_boss2.qc:2457: warning Q207: ghost duplicate definition ignored
+monsters/monster_boss2.qc:2386:    entity ghost is defined here
+in function boss2_c::anim_destruction2 (line 2521),
+monsters/monster_boss2.qc:2548: warning Q201: suggest parenthesis for assignment used as truth value
+in function boss2_c::anim_appearwait (line 2702),
+monsters/monster_boss2.qc:2710: warning Q201: suggest parenthesis for assignment used as truth value
+monsters/monster_boss2.qc:2733: warning Q205: Hanging ';'
+in function boss2_c::stage2_frame (line 2784),
+monsters/monster_boss2.qc:2855: warning Q207: spd duplicate definition ignored
+monsters/monster_boss2.qc:2825:    float spd is defined here
+compiling monsters/monster_boss3.qc
+compiling nodegraph/nodegraph.qc
+compiling entities/dummy.qc
+compiling npc_scene.qc
+in function GenerateCommand (line 702),
+npc_scene.qc:722: warning Q207: ang duplicate definition ignored
+npc_scene.qc:718:    class setang_c ang is defined here
+npc_scene.qc:725: warning Q207: path duplicate definition ignored
+npc_scene.qc:721:    entity path is defined here
+npc_scene.qc:726: warning Q207: ang duplicate definition ignored
+npc_scene.qc:718:    class setang_c ang is defined here
+npc_scene.qc:734: warning Q207: path duplicate definition ignored
+npc_scene.qc:721:    entity path is defined here
+npc_scene.qc:735: warning Q207: move duplicate definition ignored
+npc_scene.qc:731:    class move_c move is defined here
+npc_scene.qc:738: warning Q207: path duplicate definition ignored
+npc_scene.qc:721:    entity path is defined here
+npc_scene.qc:739: warning Q207: move duplicate definition ignored
+npc_scene.qc:731:    class move_c move is defined here
+npc_scene.qc:803: warning Q207: v4 duplicate definition ignored
+npc_scene.qc:800:    class varbitand_c v4 is defined here
+in function spawnfunc_boss3_c (line 988),
+:: warning: Member function boss3_c::attack_func was not defined
+in function spawnfunc_boss2_c (line 259),
+:: warning: Member function boss2_c::attack_evaluate was not defined
+:: warning: Member function boss2_c::attack_func was not defined
+in function gibpusher_think (line 1023),
+gore.qc:1025: warning F323: gibpusher_think: contains unreachable code (line 1025)
+in function pointlight_d (line 1116),
+entities/trigger.qc:1118: warning F323: pointlight_d: contains unreachable code (line 1118)
+in function shepherd_dialogue_chooseline (line 46),
+../shepherd.qc:679: warning Q206: shepherd_dialogue_chooseline: not all control paths return a value
+in function heretic_melee_attack (line 1077),
+monsters/monster_heretic.qc:1115: warning F323: heretic_melee_attack: contains unreachable code (line 1115)
+in function zoom_up_check (line 494),
+monsters/monster_symbol.qc:499: warning F323: zoom_up_check: contains unreachable code (line 499)
+monsters/monster_symbol.qc:679: warning Q206: zoom_up_check: not all control paths return a value
+in function boss2_c::anim_death (line 2380),
+monsters/monster_boss2.qc:679: warning Q206: boss2_c::anim_death: not all control paths return a value
+at global scope,
+../achievements.h:166: warning Q302: struct steamstat_t steam_statlist[33]  no references.
+in function Killed (line 268),
+dmg_system.qc:269: warning Q302: float health_gain  no references.
+in function spawn_player_model (line 110),
+player/model.qc:111: warning Q302: entity torso  no references.
+in function wfire_shotgun1 (line 968),
+weapons/w_shotgun.qc:976: warning Q302: vector dir  no references.
+in function trigger_displacement (line 874),
+entities/trigger.qc:887: warning Q302: float attn  no references.
+at global scope,
+entities/items.qc:5147: warning Q302: float rel_totalmonsters  no references.
+in function trigger_fog_prethink (line 1023),
+entities/func_weather.qc:1036: warning Q302: string lmessage  no references.
+in function trigger_fog_touch (line 1076),
+entities/func_weather.qc:1089: warning Q302: string lmessage  no references.
+in function ai_recheable (line 133),
+monsters/monster_wretch.qc:159: warning Q302: vector traceorigin  no references.
+in function lurker_precharge1 (line 381),
+monsters/monster_lurker.qc:386: warning Q302: vector lurkervel  no references.
+at global scope,
+note: suppressed 1 more warnings about unreferenced variables, as you clearly don't care about the first 10.
+note: suppressed 1 warnings about unused extensions.
+Compile finished: ../../progs.dat (id format)
+Done. 154 warnings

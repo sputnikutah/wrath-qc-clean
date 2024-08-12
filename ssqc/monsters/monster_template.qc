@@ -39,7 +39,7 @@ $frame paina1
 $frame death1
 
 	.float runing_time;
-void() setsizemonster2 = { local vector rbbox, nrbbox;
+void() setsizemonster2 = { vector rbbox, nrbbox;
 	rbbox_x = dummybbox_x / 2;
 	rbbox_y = dummybbox_y / 2;
 	rbbox_z = dummybbox_z / 2;
@@ -52,7 +52,7 @@ void() setsizemonster2 = { local vector rbbox, nrbbox;
 /////////////////////////////////////////////////////////////////////////////////////////////
 void() dummy_stand1 =[$idle1, dummy_stand1]
 {
-	local float r;
+	float r;
 	r = random() *100;
 
 	if (dummywth <= r)
@@ -95,7 +95,7 @@ void() dummy_run1 =[$run1, dummy_run1]
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-void() projectile_touch = { local float damg;
+void() projectile_touch = { float damg;
 	if (other == self.owner)
 		return;
 	self.solid = SOLID_NOT;
@@ -116,8 +116,8 @@ void() projectile_touch = { local float damg;
 	self.think = slag_explode1;
 };
 
-void(float wdmg) dummy_melee_attack = { local vector delta;
-	local float dist;
+void(float wdmg) dummy_melee_attack = { vector delta;
+	float dist;
 	if (!self.enemy)
 		return;	// removed before stroke
 	delta = self.enemy.origin - self.origin;
@@ -133,7 +133,7 @@ void(float wdmg) dummy_melee_attack = { local vector delta;
 };
 
 void(entity e) missileattack = { e.effects = EF_MUZZLEFLASH;
-	local entity projectile;
+	entity projectile;
 	projectile = spawn();
 	projectile.owner = e;
 	setmodel(projectile, "models/projectiles/proj_slag1.md3");
@@ -181,7 +181,7 @@ void() dummy_preattack = { self.colormod = ' 0 0 1';
 void(entity enemy, float dmg) dummy_paina1 = { self.frame = $paina1;
 	ai_pain(4);
 
-	local float r;
+	float r;
 	r = random() *100;
 	if (dummypth <= r)
 		self.think = dummy_run1;

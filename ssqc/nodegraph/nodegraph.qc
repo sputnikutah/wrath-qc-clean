@@ -14,8 +14,8 @@ float nodegraph_queue_initialize_has_already_been_called;
 
 void() nodegraph_graphset_post_initialize = 
 {
-	local float i, j, graph_nodes_count, queryid, query_entries_count, nodeidto;
-	local vector nodefrom, nodeto;
+	float i, j, graph_nodes_count, queryid, query_entries_count, nodeidto;
+	vector nodefrom, nodeto;
 
 	graph_nodes_count = nodegraph_graph_nodes_count(0);
 
@@ -63,8 +63,8 @@ void() nodegraph_debug_think =
 {
 	if	(test_ia == 1)
 	{
-		local float i, j, graph_nodes_count, queryid, query_entries_count, nodeidto;
-		local vector nodefrom, nodeto;
+		float i, j, graph_nodes_count, queryid, query_entries_count, nodeidto;
+		vector nodefrom, nodeto;
 		graph_nodes_count = nodegraph_graph_nodes_count(0);
 		i = 0;
 		while (i < graph_nodes_count)
@@ -81,7 +81,7 @@ void() nodegraph_debug_think =
 					if (i != nodeidto)
 					{
 						nodeto = nodegraph_graph_get_node(0, nodeidto);
-							 if((vlen (nodefrom - single_player.origin) < 512)  && (vlen (nodeto - single_player.origin) < 512) )
+							 if ((vlen (nodefrom - single_player.origin) < 512)  && (vlen (nodeto - single_player.origin) < 512) )
 								te_tei_g3 (nodefrom, nodeto);
 					}
 					j = j + 1;
@@ -97,8 +97,8 @@ void() nodegraph_debug_think =
 
 void() nodegraph_debug_thinkscxzxc =
 {
-	local float i, j, graph_nodes_count, queryid, query_entries_count, nodeidto;
-	local vector nodefrom, nodeto;
+	float i, j, graph_nodes_count, queryid, query_entries_count, nodeidto;
+	vector nodefrom, nodeto;
 	if (test_ia == 1)
 	{
 		graph_nodes_count = nodegraph_graph_nodes_count(0);
@@ -108,7 +108,7 @@ void() nodegraph_debug_thinkscxzxc =
 		while (i < graph_nodes_count)
 		{
 			nodefrom = nodegraph_graph_get_node(0, i);
-			//if(test_ia == 1)
+			//if (test_ia == 1)
 			//pointparticles(particleeffectnum("cystbody"), nodefrom + '0 0 16', '0 0 16', 1);
 
 			queryid = nodegraph_graph_query_nodes_linked(0, i);
@@ -152,7 +152,7 @@ void() nodegraph_debug_thinkscxzxc =
 // ============================================================================
 void() nodegraph_queue_initialize =
 {
-	local entity nodegraph_entity;
+	entity nodegraph_entity;
 
 	if (!nodegraph_queue_initialize_has_already_been_called)
 	{
@@ -175,7 +175,7 @@ void() nodegraph_queue_initialize =
 		{
 			nodegraph_entity = spawn();
 			nodegraph_entity.classname = "nodegraph_debug";
-			local entity pl;
+			entity pl;
 			pl = find (world,classname, "player");
 			nodegraph_entity.owner = pl;
 
@@ -190,7 +190,7 @@ void() nodegraph_queue_initialize =
 // ============================================================================
 void() node_model_think =
 {
-if(test_ia == 1)
+if (test_ia == 1)
 self.effects = 0;
 else
 self.effects = EF_NODRAW;
@@ -202,7 +202,7 @@ void() info_node =
 	nodegraph_queue_initialize();
 	if (dev == 1)
 	{
-		local entity node_model;
+		entity node_model;
 		node_model = spawn();
 		node_model.classname = "info_node";
 		node_model.origin = self.origin;
@@ -239,9 +239,9 @@ void() info_node =
 
 void() info_node_link_connect_nodes =
 {
-	local entity nodeentity;
-	local float nodeidfrom;
-	local float nodeidto;
+	entity nodeentity;
+	float nodeidfrom;
+	float nodeidto;
 
 	nodeentity = find(world, targetname, self.link_field_nodeidfrom);
 	nodeidfrom = nodegraph_graph_find_nearest_nodeid(self.link_field_graphid, nodeentity.origin);
@@ -261,7 +261,7 @@ void() info_node_link =
 	float dev = cvar("developer");
 	if (dev == 1)
 	{
-		local entity node_model;
+		entity node_model;
 		node_model = spawn();
 		node_model.classname = "info_node_link";
 		node_model.colormod = '0 5 0.5';
@@ -288,13 +288,13 @@ void() info_node_link =
 
 void() find_node_path =
 {
-	local float queryid, nodeidfrom, nodeidto;
-	local vector from, to;
+	float queryid, nodeidfrom, nodeidto;
+	vector from, to;
 
 	traceline(self.origin, self.origin + self.mins - '0 0 16', TRUE, world);
 	from = trace_endpos;
 
-	if(self.evade == 1)
+	if (self.evade == 1)
 	traceline(self.goalentity.origin, self.goalentity.origin + self.goalentity.mins - '0 0 1024', TRUE, world);
 	else
 	traceline(self.enemy.origin, self.enemy.origin + self.enemy.mins - '0 0 1024', TRUE, world);
@@ -318,7 +318,7 @@ void() find_node_path =
 		nodeidto = nodegraph_query_get_nodeid(queryid, 0);
 		nodegraph_query_release(queryid);
 	}
-	if(nodeidfrom >= 0)
+	if (nodeidfrom >= 0)
 		self.nodegraph_query_id = nodegraph_graph_query_path(0, nodeidfrom, nodeidto);
 	self.nodegraph_query_entry_index = 0;
 };

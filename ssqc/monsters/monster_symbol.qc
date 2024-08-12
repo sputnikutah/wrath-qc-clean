@@ -45,7 +45,7 @@ void() symbol_run1 =
 		self.think = symbol_run1b;
 
 
-	if(time > self.touchtime)
+	if (time > self.touchtime)
 	{
 	//	sound(self, CHAN_VOICE2, "enemies/symbol/idle_loop.ogg", 0.5, 0.15);
 		self.touchtime = time + soundlength("enemies/symbol/idle_loop.ogg");
@@ -60,9 +60,9 @@ void() symbol_run1 =
 symbolCheckAttack
 =================
 */
-float() symbolCheckAttack = { local vector spot1, spot2;
-	local entity targ;
-	local float chance;
+float() symbolCheckAttack = { vector spot1, spot2;
+	entity targ;
+	float chance;
 	self.movetype = MOVETYPE_STEP;
 	if (time < self.attack_finished)
 		return FALSE;
@@ -145,8 +145,8 @@ symbolAttackFinished
 void() symbolshoot1;
 void() symbolshoot;
 
-void() symbolAttackFinished = { local float renemy_range;
-	local vector spot1, spot2;
+void() symbolAttackFinished = { float renemy_range;
+	vector spot1, spot2;
 	spot1 = rorigin(self) + self.view_ofs;
 	spot2 = self.enemy.origin;
 
@@ -163,7 +163,7 @@ void() symbolAttackFinished = { local float renemy_range;
 	else
 	{
 
-		local float rnd;
+		float rnd;
 		rnd = random();
 		if (rnd > 0.7)
 		{
@@ -177,8 +177,8 @@ void() symbolAttackFinished = { local float renemy_range;
 	self.nextthink = time + 0.025;
 };
 
-void() symbolCheckDistance = { local float renemy_range;
-	local vector spot1, spot2;
+void() symbolCheckDistance = { float renemy_range;
+	vector spot1, spot2;
 	spot1 = rorigin(self) + self.view_ofs;
 	spot2 = self.enemy.origin;
 	renemy_range = vlen(spot1 - spot2);
@@ -191,7 +191,7 @@ void() symbolCheckDistance = { local float renemy_range;
 	else
 	{
 
-		local float rnd;
+		float rnd;
 		rnd = random();
 		if (rnd > 0.9)
 		{
@@ -209,7 +209,7 @@ void() symbolCheckDistance = { local float renemy_range;
 .float righty_dir;
 .float lefty_dir;
 
-void() symbol_checkr_direction = { local vector source;
+void() symbol_checkr_direction = { vector source;
 
 	makevectors(self.v_angle);
 	source = self.origin;
@@ -219,7 +219,7 @@ void() symbol_checkr_direction = { local vector source;
 	else
 		self.righty_dir = 0;
 };
-void() symbol_checkl_direction = { local vector source;
+void() symbol_checkl_direction = { vector source;
 
 	makevectors(self.v_angle);
 	source = self.origin;
@@ -248,7 +248,7 @@ void() proj_symbol_explo = { self.alpha -= 0.1;
 }
 
 
-void() symbol_idlesound = { local float wr;
+void() symbol_idlesound = { float wr;
 	wr = random() *5;
 
 	if (self.waitmin < time)
@@ -266,14 +266,14 @@ void() symbol_idlesound = { local float wr;
 void() symbol_stand1 =
 {
 
-	if(time > self.touchtime)
+	if (time > self.touchtime)
 	{
 		//sound(self, CHAN_VOICE2, "enemies/symbol/idle_loop.ogg", 0.5, 0.15);
 		self.touchtime = time + soundlength("enemies/symbol/idle_loop.ogg");
 	}
 	self.frame = $symbolidle1 + self.pframe;
 	self.pframe ++;
-	if(self.pframe >= 19)
+	if (self.pframe >= 19)
 		self.pframe = 0;
 	self.glowmod = '0.5 0.5 0.5';
 
@@ -294,7 +294,7 @@ void() symbol_walk1 =[$symbolidle1, symbol_walk2]
 	self.glowmod = '0.5 0.5 0.5';
 	if (self.sight_time < time)
 	{
-		local float r;
+		float r;
 		r = random();
 		if (r > 0.5)
 			chattersound("enemies/symbol/chatter", 3, 1);
@@ -436,8 +436,8 @@ void() symbol_lside10 =[$symbolidle19, symbolCheckDistance]
 	ai_run(4);
 };
 
-void() symbol_side1 = { local vector source;
-	local float r;
+void() symbol_side1 = { vector source;
+	float r;
 	makevectors(self.v_angle);
 	source = self.origin;
 	traceline(source, source + v_right *128, FALSE, self);
@@ -495,14 +495,14 @@ float()zoom_up_check =
 	vector source;
 	makevectors2(self.angles);
 	source = self.origin;
-	return 0;
+
 	tracebox(source,'-48 -32 -32','48 48 32' ,source + v_up * 128, MOVE_WORLDONLY, self);
 	if (trace_fraction == 1)
 		return 1;
 	tracebox(source,'-48 -32 -32','48 48 32' ,source + v_up * 368, MOVE_WORLDONLY, self);
 	if (trace_fraction == 1)
 		return 2;
-
+	return 0;//R00k: move down here..
 };
 
 float(float height)zoom_down_check = 
@@ -524,13 +524,13 @@ void() symbol_chase =
 	{
 		vector vtemp = self.enemy.origin + '0 0 38';
 		vector dir = normalize(vtemp - self.origin);
-		if(dist > 192)
+		if (dist > 192)
 			self.velocity = dir * 368;
 		else
 			self.velocity = dir * dist;
 	}
 
-	if(zoom_down_check(-192) )
+	if (zoom_down_check(-192) )
 		self.velocity_y = random(10,20);
 };
 
@@ -541,7 +541,7 @@ void() symbol_fall1 =[$symbolwalk1, symbol_fall2]
 
 	if (self.sight_time < time)
 	{
-		local float r;
+		float r;
 		r = random();
 		if (r > 0.5)
 			chattersound("enemies/symbol/chatter", 3, 1);
@@ -590,7 +590,7 @@ void() symbol_fall19 =[$symbolwalk19, symbol_run1]{symbol_chase();
 	float roofreachable = zoom_up_check();
 
 
-	if(r < 0.5)
+	if (r < 0.5)
 	{
 		if ((zoom_down_check(-192)&& (roofreachable > 0) && (r > 0.25)))
 		{	
@@ -641,7 +641,7 @@ void() symbol_run4 =[$symbolwalk4, symbol_run5]{ai_runwalk(24);};
 void() symbol_run5 =[$symbolwalk5, symbol_run6]{ai_run(26);
 
 	float r = random();
-	if((visible(self.enemy))&& (r > 0.5))
+	if ((visible(self.enemy))&& (r > 0.5))
 		self.think = symbolshoot1;
 };
 void() symbol_run6 =[$symbolwalk6, symbol_run7]{ai_runwalk(28);
@@ -674,8 +674,9 @@ void() symbol_run9 =[$symbolwalk9, symbol_run10]{ai_runwalk(26);
 	}
 
 };
-void() symbol_run10 =[$symbolwalk10, symbol_run11]{ai_runwalk(26);
-
+void() symbol_run10 =[$symbolwalk10, symbol_run11]
+{
+	ai_runwalk(26);
 
 	float roofreachable = zoom_up_check();
 	float v_dist = self.enemy.origin_z - self.origin_z;
@@ -690,7 +691,7 @@ void() symbol_run10 =[$symbolwalk10, symbol_run11]{ai_runwalk(26);
 	else
 	{
 		float r = random();
-		if((visible(self.enemy))&& (r > 0.35))
+		if ((visible(self.enemy))&& (r > 0.35))
 			self.think = symbolshoot1;
 	}
 
@@ -710,24 +711,26 @@ void() symbol_run12 =[$symbolwalk12, symbol_run13]{ai_run(26);
 };
 void() symbol_run13 =[$symbolwalk13, symbol_run14]{ai_runwalk(26);};
 void() symbol_run14 =[$symbolwalk14, symbol_run15]{ai_runwalk(26);};
-void() symbol_run15 =[$symbolwalk15, symbol_run16]{ai_runwalk(26);
-
+void() symbol_run15 =[$symbolwalk15, symbol_run16]
+{
+	ai_runwalk(26);
 	float r = random();
-	if((visible(self.enemy))&& (r > 0.5))
+	
+	if ((visible(self.enemy))&& (r > 0.5))
 		self.think = symbolshoot1;
 	else
 	{
 		float dist = vlen (self.origin - self.enemy.origin);
-		float r = random();
-		if(((dist > 512) && (self.origin_z > self.enemy.origin_z)) && (r < 0.5))
+		r = random();
+		if (((dist > 512) && (self.origin_z > self.enemy.origin_z)) && (r < 0.5))
 			self.think = symbol_fall1;
 		self.nextthink = time + 0.05;
 	}
-
 };
 void() symbol_run16 =[$symbolwalk16, symbol_run17]{ai_run(26);};
-void() symbol_run17 =[$symbolwalk17, symbol_run18]{ai_runwalk(26);
-
+void() symbol_run17 =[$symbolwalk17, symbol_run18]
+{
+	ai_runwalk(26);
 	float roofreachable = zoom_up_check();
 
 	if ((zoom_down_check(-192)&& (roofreachable > 0)))
@@ -737,29 +740,29 @@ void() symbol_run17 =[$symbolwalk17, symbol_run18]{ai_runwalk(26);
 		else	
 			self.think = symbol_fly1;
 	}
-
 };
 void() symbol_run18 =[$symbolwalk18, symbol_run19]{ai_runwalk(26);};
-void() symbol_run19 =[$symbolwalk19, symbol_run1]{ai_runwalk(26);
+void() symbol_run19 =[$symbolwalk19, symbol_run1]
+{
+	ai_runwalk(26);
 
 	float dist = vlen (self.origin - self.enemy.origin);
 	float r = random();
-	if(((dist > 512) && (self.origin_z > self.enemy.origin_z)) && (r < 0.5))
+	if (((dist > 512) && (self.origin_z > self.enemy.origin_z)) && (r < 0.5))
 		self.think = symbol_fall1;
 	self.nextthink = time + 0.05;
 };
-
 
 .vector projectile_old_velocity;
 
 void() projectile_symbol_touch = 
 { 
-	local float damg;
+	float damg;
 	if (other == self.owner)
 		return;
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
-	if(other.wrathflags & FL_PROJECTILE)
+	if (other.wrathflags & FL_PROJECTILE)
 		return;
 	self.solid = SOLID_NOT;
 	if (pointcontents(self.origin) == CONTENT_SKY)
@@ -783,10 +786,10 @@ void() projectile_symbol_touch =
 void() symbol_proj_think =
 {
 
-	if(self.frame < 3)
+	if (self.frame < 3)
 	self.frame += 0.5;
 	float speed = vlen (self.velocity);
-	if(speed < symbol_proj_speed * symbol_proj_aceleration)
+	if (speed < symbol_proj_speed * symbol_proj_aceleration)
 		self.velocity = self.velocity * 1.1; 
 
 	vector delta = (self.enemy.origin) - rorigin(self);
@@ -804,10 +807,10 @@ void() symbol_proj_think =
 		self.cnt = 1;
 	}
 
-	if(speed < 10)
+	if (speed < 10)
 	self.lifetime = 0;
 
-	if((self.lifetime < time ) || (speed < 10))
+	if ((self.lifetime < time ) || (speed < 10))
 	{	
 		self.movetype = 0; 
 		self.think = slag_explode1;
@@ -830,12 +833,12 @@ void(entity e, string tagname, float spread, float enemyorigin) symbol_missileat
 { 
 	e.effects = EF_MUZZLEFLASH;
 
-	local entity projectile;
+	entity projectile;
 	projectile = spawn();
 	projectile.owner = e;
 	setmodel(projectile, "models/projectiles/proj_symbol.md3");
 	projectile.traileffectnum = particleeffectnum("symbol_proj_trail");
-	local vector tagorg;
+	vector tagorg;
 
 	tagorg = tag_origin(tagname, e);
 	projectile.classname = "symbol_projectile";
@@ -850,7 +853,7 @@ void(entity e, string tagname, float spread, float enemyorigin) symbol_missileat
 
 
 
-	if(enemyorigin == 1)
+	if (enemyorigin == 1)
 	{
 		float playerspeed = (vlen (self.enemy.velocity));
 		vector nextpos = (normalize (self.enemy.velocity)) * playerspeed;	
@@ -863,7 +866,7 @@ void(entity e, string tagname, float spread, float enemyorigin) symbol_missileat
 	if (spread)
 	{
 		vector vec = normalize(pvec - (self.origin + (v_right * 12 * spread)));
-		if(enemyorigin == 2)	
+		if (enemyorigin == 2)	
 		vec = normalize(pvec - (self.origin + (v_up * 12 * spread)));
 
 	}
@@ -874,9 +877,9 @@ void(entity e, string tagname, float spread, float enemyorigin) symbol_missileat
 
 	projectile.think = symbol_proj_prethink;
 
-	if(spread != 0)
+	if (spread != 0)
 	{
-		if(spread < 0)
+		if (spread < 0)
 			spread = spread * -1;
 		projectile.ammo_shotgun = spread;
 	}
@@ -889,46 +892,54 @@ void(entity e, string tagname, float spread, float enemyorigin) symbol_missileat
 
 void(float forceit,entity lself) symbolrmovement = 
 {
-
-	if(lself.symbolrmovementtime > time)
-	return;
-	makevectors (lself.angles);
+	if (lself.symbolrmovementtime > time)
+		return;
+	
 	float r = random();
 
-	if((r <= 0.5) && (forceit < 1))
+	makevectors (lself.angles);	
+
+	if ((r <= 0.5) && (forceit < 1))
 	{
 		float dist = vlen (self.origin - self.enemy.origin);
-		float r = random();
-		if(((dist > 512) && (self.origin_z > self.enemy.origin_z)) && (r < 0.5))
+		r = random();
+		if (((dist > 512) && (self.origin_z > self.enemy.origin_z)) && (r < 0.5))
 			self.think = symbol_fall1;
 		self.nextthink = time + 0.05;
 		return;
 	}
 
-	if((r > 0.5) || (forceit == 1))
+	if ((r > 0.5) || (forceit == 1))
 	{
 		lself.movetype = MOVETYPE_FLY;
 		float sright, sleft;
 		vector source = lself.origin;
+		
 		tracebox(source, '-48 -48 -48', '48 48 48', source + v_right *192, FALSE, lself);
-		if (trace_fraction == 1) sright = 1;
+		
+		if (trace_fraction == 1) 
+			sright = 1;
+		
 		tracebox(source, '-48 -48 -48', '48 48 48', source + v_right *-192, FALSE, lself);
-		if (trace_fraction == 1) sleft = 1;
-		if((sright != 1) && (sleft == 1))
-		lself.velocity = v_right * random(-512,-256);
-		if((sright == 1) && (sleft != 1))
-		lself.velocity = v_right *  random(256,512);
-		if((sright == 1) && (sleft == 1))
+		
+		if (trace_fraction == 1) 
+			sleft = 1;
+		if ((sright != 1) && (sleft == 1))
+			lself.velocity = v_right * random(-512,-256);
+		if ((sright == 1) && (sleft != 1))
+			lself.velocity = v_right *  random(256,512);
+		
+		if ((sright == 1) && (sleft == 1))
 		{
-			float r2 = random();
-			if(r2 > 0.5)
+			r = random();
+			if (r > 0.5)
 			{
-				if((sright != 1) && (sleft == 1))
+				if ((sright != 1) && (sleft == 1))
 					lself.velocity = v_right * random(-384,-320);
 			}
 			else
 			{
-				if((sright == 1) && (sleft != 1))
+				if ((sright == 1) && (sleft != 1))
 					lself.velocity = v_right *  random(320,384);
 			}
 
@@ -937,13 +948,12 @@ void(float forceit,entity lself) symbolrmovement =
 			tracebox(source, '-48 -48 -48', '48 48 48', source + v_up * -192, FALSE, lself);
 			if (trace_fraction == 1) float s_up2 = -1;
 
-
 			s_up = s_up + s_up2;
 
-			if(s_up == 0)
+			if (s_up == 0)
 			{
 				r = random();
-				if((lself.symbol_up == 0))
+				if ((lself.symbol_up == 0))
 				{
 
 					if (r > 0.5)
@@ -953,29 +963,27 @@ void(float forceit,entity lself) symbolrmovement =
 				}
 				else
 				{
-				if(lself.symbol_up == -1)
+				if (lself.symbol_up == -1)
 					{lself.velocity += v_up * random(320,384);lself.symbol_up = 1; }
-				if(lself.symbol_up == 1)
+				if (lself.symbol_up == 1)
 					{lself.velocity += v_up * random(-384,-320);lself.symbol_up = -1; }
 
 				}
 
 
 			}
-			if(s_up == 1)
+			if (s_up == 1)
 				{lself.velocity += v_up * random(320,384);lself.symbol_up = 1; }
-			if(s_up == -1)
+			if (s_up == -1)
 				{lself.velocity += v_up * random(-256,-128);lself.symbol_up = -1; }
 
 		}
-	//makevectors (lself.angles);
 
 		lself.symbolrmovementtime = time + random(0.5,1.5);
-	makevectors2 (lself.angles);
-	lself.velocity += v_forward * random(320,384);
-
+		makevectors2 (lself.angles);
+		lself.velocity += v_forward * random(320,384);
 	}
-	if(forceit == 2)
+	if (forceit == 2)
 	{
 		lself.movetype = MOVETYPE_FLY;
 		lself.velocity += v_up * random(320,384);
@@ -990,12 +998,12 @@ void(float forceit,entity lself) symbolrmovement =
 void() symbolshoot1 =[$symbolshoot1, symbolshoot2]{ai_face();self.glowmod = '0.6 0.6 0.6';
 
 	float r = random();
-	/*if(r < 0.33)
+	/*if (r < 0.33)
 	{
 		self.movetype = MOVETYPE_FLY; 
 		self.velocity = '0 0 128';
 	}
-	else if(r < 0.32)
+	else if (r < 0.32)
 	{	
 		self.movetype = MOVETYPE_WALK; 
 		makevectors2 (self.angles);
@@ -1010,21 +1018,21 @@ void() symbolshoot1 =[$symbolshoot1, symbolshoot2]{ai_face();self.glowmod = '0.6
 	self.light_lev = 3.5;
 	self.color ='0.75 0.1 0.1';
 };
-void() symbolshoot2 =[$symbolshoot2, symbolshoot3]{ai_face();self.glowmod = '0.65 0.65 0.65';self.light_lev += 3;self.velocity * 0.95;};
-void() symbolshoot3 =[$symbolshoot3, symbolshoot4]{ai_face();self.glowmod = '0.7 0.7 0.7';self.light_lev += 3;self.velocity * 0.95;};
-void() symbolshoot4 =[$symbolshoot4, symbolshoot5]{ai_face();self.glowmod = '0.75 0.75 0.75';self.light_lev += 3;self.velocity * 0.95;};
-void() symbolshoot5 =[$symbolshoot5, symbolshoot6]{ai_face();self.glowmod = '0.8 0.8 0.8';self.light_lev += 3;self.velocity * 0.95;};
-void() symbolshoot6 =[$symbolshoot6, symbolshoot7]{ai_face();self.glowmod = '0.85 0.85 0.85';self.light_lev += 3;self.velocity * 0.95;};
-void() symbolshoot7 =[$symbolshoot7, symbolshoot8]{ai_face();self.glowmod = '0.9 0.9 0.9';self.light_lev += 3;self.velocity * 0.95;};
-void() symbolshoot8 =[$symbolshoot8, symbolshoot9]{ai_face();self.glowmod = '1 1 1';self.light_lev += 3;self.velocity * 0.95;};
-void() symbolshoot9 =[$symbolshoot9, symbolshoot10]{ai_face();self.glowmod = '1.05 1.05 1.05';self.light_lev += 3;self.velocity * 0.95;};
+void() symbolshoot2 =[$symbolshoot2, symbolshoot3]{ai_face();self.glowmod = '0.65 0.65 0.65';self.light_lev += 3;self.velocity *= 0.95;};
+void() symbolshoot3 =[$symbolshoot3, symbolshoot4]{ai_face();self.glowmod = '0.7 0.7 0.7';self.light_lev += 3;self.velocity *= 0.95;};
+void() symbolshoot4 =[$symbolshoot4, symbolshoot5]{ai_face();self.glowmod = '0.75 0.75 0.75';self.light_lev += 3;self.velocity *= 0.95;};
+void() symbolshoot5 =[$symbolshoot5, symbolshoot6]{ai_face();self.glowmod = '0.8 0.8 0.8';self.light_lev += 3;self.velocity *= 0.95;};
+void() symbolshoot6 =[$symbolshoot6, symbolshoot7]{ai_face();self.glowmod = '0.85 0.85 0.85';self.light_lev += 3;self.velocity *= 0.95;};
+void() symbolshoot7 =[$symbolshoot7, symbolshoot8]{ai_face();self.glowmod = '0.9 0.9 0.9';self.light_lev += 3;self.velocity *= 0.95;};
+void() symbolshoot8 =[$symbolshoot8, symbolshoot9]{ai_face();self.glowmod = '1 1 1';self.light_lev += 3;self.velocity *= 0.95;};
+void() symbolshoot9 =[$symbolshoot9, symbolshoot10]{ai_face();self.glowmod = '1.05 1.05 1.05';self.light_lev += 3;self.velocity *= 0.95;};
 void() symbolshoot10 =[$symbolshoot10, symbolshoot11]
 {
 	self.pain_finished = time + 1;
 	ai_face();
 	self.glowmod += '0.075 0.075 0.075';
 	self.light_lev += 3;
-	if(self.glowmod_x <= 1.45)
+	if (self.glowmod_x <= 1.45)
 	{
 		self.think = symbolshoot10;
 	}
@@ -1042,9 +1050,9 @@ void() symbolshoot11 =[$symbolshoot11, symbolshoot12a]
 	self.glowmod = '1.5 1.5 1.5';
 	float symbol_angles = 1.5;
 	self.movetype = MOVETYPE_STEP; 
-	if(self.movetype == MOVETYPE_FLY) 
+	if (self.movetype == MOVETYPE_FLY) 
 		self.velocity = '0 0 -256';
-	if(self.movetype == MOVETYPE_WALK) 
+	if (self.movetype == MOVETYPE_WALK) 
 	{
 		makevectors2 (self.angles);
 		self.velocity = v_right * 3* -128;
@@ -1052,7 +1060,7 @@ void() symbolshoot11 =[$symbolshoot11, symbolshoot12a]
 
 
 	sound (self, CHAN_WEAPON, "enemies/symbol/fire.ogg", 1, 0.1);
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 	{
 		float bparticle = particleeffectnum("flask_particle");
 		pointparticles(bparticle, self.origin, '0 0 0', 1);
@@ -1067,26 +1075,26 @@ void() symbolshoot12a =[$symbolshoot11, symbolshoot12]
 	self.ammo_revolver ++;	
 
 	float cnttimer = 3;
-	if(self.movetype == MOVETYPE_STEP)
+	if (self.movetype == MOVETYPE_STEP)
 	cnttimer = 2;
 
-	if(self.ammo_revolver < cnttimer)
+	if (self.ammo_revolver < cnttimer)
 		self.think = symbolshoot12a;
 };
 void() symbolshoot12 =[$symbolshoot12, symbolshoot13a]{self.glowmod = '1.05 1.05 1.05';self.nextthink = time + 0.05;
-	self.velocity * 0.95;
-	if(self.movetype == MOVETYPE_FLY) 
+	self.velocity *= 0.95; //R00k: Maybe?
+	if (self.movetype == MOVETYPE_FLY) 
 		self.velocity = '0 0 256';
-	if(self.movetype == MOVETYPE_WALK) 
+	if (self.movetype == MOVETYPE_WALK) 
 	{
 		makevectors2 (self.angles);
 		self.velocity = v_right * 3* 128;
 	}
 	ai_face();
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 	{
 
-		if(self.wrath_time != 1)
+		if (self.wrath_time != 1)
 		{
 			symbol_missileattack(self,"tag_muzfzle_c",-3* symbol_proj_angle,0);
 			symbol_missileattack(self,"tag_muzfzle_d",3* symbol_proj_angle,0);
@@ -1108,26 +1116,26 @@ void() symbolshoot13a =[$symbolshoot12, symbolshoot13]
 	ai_face();
 	self.ammo_revolver ++;	
 	float cnttimer = 3;
-	if(self.movetype == MOVETYPE_STEP)
+	if (self.movetype == MOVETYPE_STEP)
 	cnttimer = 2;
-	self.velocity * 0.95;
-	if(self.ammo_revolver < cnttimer)
+	self.velocity *= 0.95; //R00k: Maybe?
+	if (self.ammo_revolver < cnttimer)
 		self.think = symbolshoot13a;
 };
 void() symbolshoot13 =[$symbolshoot13, symbolshoot14]{self.glowmod = '1 1 1';self.nextthink = time + 0.05;
 
 	ai_face();
-	if(self.movetype == MOVETYPE_FLY) 
+	if (self.movetype == MOVETYPE_FLY) 
 		self.velocity = '0 0 -256';
-	if(self.movetype == MOVETYPE_WALK) 
+	if (self.movetype == MOVETYPE_WALK) 
 	{
 		makevectors2 (self.angles);
 		self.velocity = v_right * 3* -128;
 	}
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 	{
 
-		if(self.wrath_time != 1)
+		if (self.wrath_time != 1)
 		{
 			symbol_missileattack(self,"tag_muzzfle_a",-7 * symbol_proj_angle,0);
 			symbol_missileattack(self,"tag_muzzfle_b",7* symbol_proj_angle,0);
@@ -1145,7 +1153,7 @@ void() symbolshoot13 =[$symbolshoot13, symbolshoot14]{self.glowmod = '1 1 1';sel
 		self.attack_finished = time + random(0,1);
 		self.pflags = 0;
 	}
-	self.velocity * 0.95;
+	self.velocity *= 0.95; //R00k: Maybe?
 };
 
 
@@ -1171,9 +1179,9 @@ void() symbolshoot18 =[$symbolshoot18, symbolshoot19]{ai_face();self.glowmod = '
 
 
 	float r = random();
-	if(r > 0.5)
+	if (r > 0.5)
 	{
-		if(visible(self.enemy))
+		if (visible(self.enemy))
 		{
 			self.think = symbolshoot1;
 		}
@@ -1191,7 +1199,7 @@ void() symbolshoot27 =[$symbolshoot27, symbolshoot28]{ai_face();self.nextthink =
 void() symbolshoot28 =[$symbolshoot28, symbolshoot29]
 {
 	ai_face();	
-	if((self.enemy) &&(self.enemy.health < 0))
+	if ((self.enemy) &&(self.enemy.health < 0))
 	{
 		self.nextenemy_time = 0;
 		next_enemy();
@@ -1206,7 +1214,7 @@ void() symbolshoot29 =[$symbolshoot29, symbol_run1]
 	SUB_AttackFinished(2);
 
 
-	if(self.symbol_sliding <= 0)
+	if (self.symbol_sliding <= 0)
 		self.symbol_sliding = random (45,90);
 	else
 		self.symbol_sliding = random (-90,-45);
@@ -1223,11 +1231,11 @@ void() symbolshoot29 =[$symbolshoot29, symbol_run1]
 	
 	if ((zoom_down_check(-192)) || (v_dist > random(-64,0)))
 	{
-		if((r < 0.5) || (!visible(self.enemy)))
+		if ((r < 0.5) || (!visible(self.enemy)))
 			self.think = symbol_shortfly;
 		else
 		{
-			if((visible(self.enemy)))
+			if ((visible(self.enemy)))
 				self.think = symbolshoot1;	
 		}
 	}
@@ -1245,7 +1253,7 @@ void() symbolshoot29 =[$symbolshoot29, symbol_run1]
 
 		else
 		{
-			if((visible(self.enemy)))
+			if ((visible(self.enemy)))
 				self.think = symbolshoot1;	
 		}
 
@@ -1312,7 +1320,7 @@ void()symbolshoot =
 		dist = 1;
 	float r = random();
 	
-	if((zoom_down_check(-192)) && (r > 0.5))
+	if ((zoom_down_check(-192)) && (r > 0.5))
 		self.think = symbol_fly1;
 	else
 		self.think = symbolshoot1;
@@ -1321,7 +1329,7 @@ void()symbolshoot =
 
 void() symbol_forward {
 
-	//if(self.enemy.health > 0)
+	//if (self.enemy.health > 0)
 	ai_face();
 	makevectors2 (self.angles);
 	self.velocity =v_forward * 382;
@@ -1346,7 +1354,7 @@ void() symbol_shortfly9 =[$symbolwalk19, symbol_run1]
 	self.velocity = self.velocity * 0.9;
 	self.movetype = MOVETYPE_STEP;
 	self.wrath_time = 1;	
-	if((visible(self.enemy)))
+	if ((visible(self.enemy)))
 		self.think = symbolshoot10;
 	
 	self.colormod = '1 1 1';
@@ -1355,9 +1363,9 @@ void() symbol_shortfly9 =[$symbolwalk19, symbol_run1]
 
 void() double_fps =
 {
-	if(self.think)
+	if (self.think)
 		self.nextthink = time + 0.05;
-	if(self.movetype != MOVETYPE_STEP)
+	if (self.movetype != MOVETYPE_STEP)
 		self.velocity =self.velocity * 0.9;
 };
 
@@ -1428,13 +1436,13 @@ void() symbol_death2 =[2, SUB_Null]
 {
 
 	sound7(self, CHAN_VOICE2, "misc/null", 0, 0.2,100,0);
-	local vector tagorg;
-	local float tagindex;
-	local string tagname;
+	vector tagorg;
+	float tagindex;
+	string tagname;
 	tagname = ("tag_muzzle");
 	tagindex = gettagindex(self, tagname);
 	tagorg = gettaginfo(self, tagindex);
-	local entity bloodgib;
+	entity bloodgib;
 	bloodgib = spawn();
 	bloodgib.alpha = 0.7;
 	//		bloodgib.skin =  (ceil (random() *4)) *5;
@@ -1442,7 +1450,7 @@ void() symbol_death2 =[2, SUB_Null]
 	setmodel(bloodgib, "particles/explo/explo_blood4.md3");
 	bloodgib.think = bloodgib_think;
 	bloodgib.nextthink = time + 0.05;
-	local float nparticles;
+	float nparticles;
 	nparticles = particleeffectnum("symbol_gib");
 	pointparticles(nparticles, self.origin, '0 0 0', 1);
 	//sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -1538,7 +1546,7 @@ void() symbol_die = {	// check for gib
 	symbol_death1();
 };
 
-void() random_symbolpain = { local float r;
+void() random_symbolpain = { float r;
 	r = random() * self.painframe;
 	self.sustained_damage = 0;
     if (r > 0.5)
@@ -1558,7 +1566,7 @@ void(entity attacker, float damage) symbol_pain =
 	if ((damage < 20) && (attacker.weapon != IT_CRYSTAL))
 		return;	// didn't flinch
 
-	if(damage > 100)
+	if (damage > 100)
 		self.painframe = 1;
 	else
 		self.painframe = 0;
@@ -1687,7 +1695,7 @@ void() monster_symbol = {
 	self.movetype = MOVETYPE_STEP;
 	self.classname = "monster_symbol";
 	setmodel(self, "models/enemies/symbol/symbol.md3");
-	local float r;
+	float r;
 	r = (random() *3);
 	if (r < 3)
 		self.noise = "enemies/symbol/sight3.ogg";

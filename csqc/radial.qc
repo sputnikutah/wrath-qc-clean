@@ -188,8 +188,8 @@ void() slot_icons = { float slot1, slot2, slot3, slot4, slot5, slot6, slot7, slo
 		col10 = '0.5 0.5 0.5';
 	//col8 = '1 1 1';
 
-	local vector real_r_si1, real_r_si2, real_r_si3, real_r_si4, real_r_si5, real_r_si6, real_r_si7, real_r_si8, real_r_si9, real_r_si10;
-	local vector real_r_ic1, real_r_ic2, real_r_ic3, real_r_ic4, real_r_ic5, real_r_ic6, real_r_ic7, real_r_ic8, real_r_ic9, real_r_ic10;
+	vector real_r_si1, real_r_si2, real_r_si3, real_r_si4, real_r_si5, real_r_si6, real_r_si7, real_r_si8, real_r_si9, real_r_si10;
+	vector real_r_ic1, real_r_ic2, real_r_ic3, real_r_ic4, real_r_ic5, real_r_ic6, real_r_ic7, real_r_ic8, real_r_ic9, real_r_ic10;
 
 	real_r_si1 = relconsizex(r_si1);
 	real_r_si2 = relconsizex(r_si2);
@@ -312,15 +312,15 @@ void() slot_icons = { float slot1, slot2, slot3, slot4, slot5, slot6, slot7, slo
 	
 	if (firstslot < 6)
 	{
-		if((firstslot == 1) && (relomp_x <= real_r_ic1_x+ 16 * ry)) 
+		if ((firstslot == 1) && (relomp_x <= real_r_ic1_x+ 16 * ry)) 
 			marker_pos_x = real_r_ic1_x + 16 * ry;
-		if((firstslot == 2) && (relomp_x <= real_r_ic2_x+ 16 * ry))
+		if ((firstslot == 2) && (relomp_x <= real_r_ic2_x+ 16 * ry))
 			marker_pos_x = real_r_ic2_x + 16 * ry;
-		if((firstslot == 3) && (relomp_x <= real_r_ic3_x+ 16 * ry)) 
+		if ((firstslot == 3) && (relomp_x <= real_r_ic3_x+ 16 * ry)) 
 			marker_pos_x = real_r_ic3_x + 16 * ry;
-		if((firstslot == 4) && (relomp_x <= real_r_ic4_x+ 16 * ry)) 
+		if ((firstslot == 4) && (relomp_x <= real_r_ic4_x+ 16 * ry)) 
 			marker_pos_x = real_r_ic4_x + 16 * ry;
-		if((firstslot == 5) && (relomp_x <= real_r_ic5_x+ 16 * ry)) 
+		if ((firstslot == 5) && (relomp_x <= real_r_ic5_x+ 16 * ry)) 
 			marker_pos_x = real_r_ic5_x + 16 * ry;
 	}
 	else
@@ -331,15 +331,15 @@ void() slot_icons = { float slot1, slot2, slot3, slot4, slot5, slot6, slot7, slo
 	
 	if (lastslot > 5)
 	{
-		if((lastslot == 10) && (relomp_x >= real_r_ic10_x+ 16 * ry)) 
+		if ((lastslot == 10) && (relomp_x >= real_r_ic10_x+ 16 * ry)) 
 			marker_pos_x = real_r_ic10_x + 16 * ry;
-		if((lastslot == 9) && (relomp_x >= real_r_ic9_x+ 16 * ry)) 
+		if ((lastslot == 9) && (relomp_x >= real_r_ic9_x+ 16 * ry)) 
 			marker_pos_x = real_r_ic9_x + 16 * ry;
-		if((lastslot == 8) && (relomp_x >= real_r_ic8_x+ 16 * ry)) 
+		if ((lastslot == 8) && (relomp_x >= real_r_ic8_x+ 16 * ry)) 
 			marker_pos_x = real_r_ic8_x + 16 * ry;
-		if((lastslot == 7) && (relomp_x >= real_r_ic7_x+ 16 * ry))
+		if ((lastslot == 7) && (relomp_x >= real_r_ic7_x+ 16 * ry))
 			marker_pos_x = real_r_ic7_x + 16 * ry;
-		if((lastslot == 6) && (relomp_x >= real_r_ic6_x+ 16 * ry)) 
+		if ((lastslot == 6) && (relomp_x >= real_r_ic6_x+ 16 * ry)) 
 			marker_pos_x = real_r_ic6_x + 16 * ry;
 	}
 	else
@@ -347,29 +347,29 @@ void() slot_icons = { float slot1, slot2, slot3, slot4, slot5, slot6, slot7, slo
 			marker_pos_x = real_r_ic6_x + 1 * ry;
 	
 	
-	if(((marker_pos_x >= real_r_ic1_x) && (marker_pos_x <real_r_ic1_x + 50* ry)) && (slot1))
+	if (((marker_pos_x >= real_r_ic1_x) && (marker_pos_x <real_r_ic1_x + 50* ry)) && (slot1))
 	slotradialselected = 1;
-	if(((marker_pos_x >= real_r_ic2_x) && (marker_pos_x <real_r_ic2_x + 50* ry)) && (slot2))
+	if (((marker_pos_x >= real_r_ic2_x) && (marker_pos_x <real_r_ic2_x + 50* ry)) && (slot2))
 	slotradialselected = 2;
-	if(((marker_pos_x >= real_r_ic3_x) && (marker_pos_x <real_r_ic3_x + 50* ry)) && (slot3))
+	if (((marker_pos_x >= real_r_ic3_x) && (marker_pos_x <real_r_ic3_x + 50* ry)) && (slot3))
 	slotradialselected = 3;
-	if(((marker_pos_x >= real_r_ic4_x) && (marker_pos_x <real_r_ic4_x + 50* ry)) && (slot4))
+	if (((marker_pos_x >= real_r_ic4_x) && (marker_pos_x <real_r_ic4_x + 50* ry)) && (slot4))
 	slotradialselected = 4;
-	if(((marker_pos_x >= real_r_ic5_x) && (marker_pos_x <real_r_ic5_x + 50* ry)) && (slot5))
+	if (((marker_pos_x >= real_r_ic5_x) && (marker_pos_x <real_r_ic5_x + 50* ry)) && (slot5))
 	slotradialselected = 5;
-	if(((marker_pos_x >= real_r_ic6_x) && (marker_pos_x <real_r_ic6_x + 50* ry)) && (slot6))
+	if (((marker_pos_x >= real_r_ic6_x) && (marker_pos_x <real_r_ic6_x + 50* ry)) && (slot6))
 	slotradialselected = 6;
-	if(((marker_pos_x >= real_r_ic7_x) && (marker_pos_x <real_r_ic7_x + 50* ry)) && (slot7))
+	if (((marker_pos_x >= real_r_ic7_x) && (marker_pos_x <real_r_ic7_x + 50* ry)) && (slot7))
 	slotradialselected = 7;
-	if(((marker_pos_x >= real_r_ic8_x) && (marker_pos_x <real_r_ic8_x + 50* ry)) && (slot8))
+	if (((marker_pos_x >= real_r_ic8_x) && (marker_pos_x <real_r_ic8_x + 50* ry)) && (slot8))
 	slotradialselected = 8;
-	if(((marker_pos_x >= real_r_ic9_x) && (marker_pos_x <real_r_ic9_x + 50* ry)) && (slot9))
+	if (((marker_pos_x >= real_r_ic9_x) && (marker_pos_x <real_r_ic9_x + 50* ry)) && (slot9))
 	slotradialselected = 9;
-	if(((marker_pos_x >= real_r_ic10_x) && (marker_pos_x <real_r_ic10_x + 50* ry)) && (slot10))
+	if (((marker_pos_x >= real_r_ic10_x) && (marker_pos_x <real_r_ic10_x + 50* ry)) && (slot10))
 	slotradialselected = 10;
 	
 		
-	if(firstslot)
+	if (firstslot)
 	DImage2(marker_pos - '240 0 0' , "gfx/artifactmenu/artifact_marker.tga", 1 *rmenualpha, r_ic, '1 1 1', '16 76 0', radialflag2);
 //	drawstring(gomp, "X", '20 20 0', '1 1 1', 1, 0);
 
@@ -742,7 +742,7 @@ float(float cs) prevslot = {
 	else
 		return 1;
 };
-float deathmatch;
+//float deathmatch;
 
 float inventory_active;
 void() ArtifactMenu = { vector vi;
@@ -778,7 +778,7 @@ void() ArtifactMenu = { vector vi;
 		vector relomp;	//, relmp;
 		relomp_x = omp_x;
 		relomp_y = omp_y;
-		//local float rdist;
+		//float rdist;
 		float slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10;
 		slot1 = getstatf(STAT_RD_MR);
 		slot2 = getstatf(STAT_RD_DA);
@@ -1002,7 +1002,7 @@ void() ArtifactMenu = { vector vi;
 	{
 		if ((oldslotradialselected > 0) && (oldslotradialselected < 12))
 		{
-			local string impulselected;
+			string impulselected;
 			impulselected = strcat("impulse ", ftos(20 + slotradialselected), "\n");
 			localcmd("slowmo 1\n");
 			localcmd("crosshair 2\n");

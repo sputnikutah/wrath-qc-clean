@@ -18,7 +18,7 @@ void() idle_shotgun = { if (self.playerdeadtime > time)
 		self.realoding = 0;
 	if (self.sfcg)
 		self.sfcg = 0;
-	//if((self.vweaponglowmod_x != -0.1)&& (!self.button3))		
+	//if ((self.vweaponglowmod_x != -0.1)&& (!self.button3))		
 	//self.vweaponglowmod = '-0.1 -0.1 -0.1';
 	if (self.timezoom > time)
 		self.timezoom = 0;
@@ -44,20 +44,20 @@ vector() wall_velocity;
 .float checkspeedtime;
 void() shot_projectile_think =
 {
-	if(self.solid != SOLID_BBOX)
+	if (self.solid != SOLID_BBOX)
 		self.solid = SOLID_BBOX;
 
-	if(self.movetype !=MOVETYPE_BOUNCEMISSILE)
+	if (self.movetype !=MOVETYPE_BOUNCEMISSILE)
 	self.movetype = MOVETYPE_BOUNCEMISSILE;
-	if(self.cnt < 2)
+	if (self.cnt < 2)
 	self.cnt +=1;
-	if(self.cnt == 2)
+	if (self.cnt == 2)
 	self.traileffectnum = particleeffectnum("shottrail");
 
-	if(self.checkspeedtime < time)
+	if (self.checkspeedtime < time)
 	{
 		float speed = vlen(self.velocity);
-		if((speed <= self.nspeed) || (self.origin == self.oldorigin))
+		if ((speed <= self.nspeed) || (self.origin == self.oldorigin))
 		{
 			vector dir = normalize (self.angles);
 			self.movetype = MOVETYPE_NOCLIP;
@@ -66,10 +66,10 @@ void() shot_projectile_think =
 		}
 	self.checkspeedtime = time + 0.5;
 	}
-	if(self.velocity_z == 0)
+	if (self.velocity_z == 0)
 	self.velocity_z = random(-500, 500);
 
-	if((self.lifetime > time) && (self.count > 0))
+	if ((self.lifetime > time) && (self.count > 0))
 		self.think = shot_projectile_think;
 	else
 		self.think = SUB_Remove;
@@ -101,12 +101,12 @@ void() shot_projectile_think =
 .float waittime;
 .float copied;
 void(string locsound, float rnd, float vol, float nchannel, float iswav, float atten) randomsound2;
-void() shotgun_proj_touch = { local vector org;
+void() shotgun_proj_touch = { vector org;
 	//self.velocity =	self.oldvelocity;
 
 	if (other == self.owner)
 		return;
-	if(self.count < 0)
+	if (self.count < 0)
 		remove(self);
 
 	if ((other.solid == SOLID_TRIGGER) && (self.classname != "projectiles_shot"))
@@ -126,7 +126,7 @@ void() shotgun_proj_touch = { local vector org;
 	if ((other == world) || (other.solid == SOLID_BSP))
 	{
 		self.count -= 1;
-		if(time > self.waittime)
+		if (time > self.waittime)
 			randomsound2  ("impact/projectiles/rico",15,0.5, CHAN_WEAPON, 0, 0.25);
 
         vector partvel =normalize(trace_plane_normal) * 92;
@@ -134,68 +134,68 @@ void() shotgun_proj_touch = { local vector org;
 		material_impacts(material,self.origin,partvel,1,0);
 	}
 	float dm = 1;
-	if((self.alreadytoucher == 1) && (other.alreadytouched1 > time))dm = 0;
-	if((self.alreadytoucher == 2) && (other.alreadytouched2 > time))dm = 0;
-	if((self.alreadytoucher == 3) && (other.alreadytouched3 > time))dm = 0;
-	if((self.alreadytoucher == 4) && (other.alreadytouched4 > time))dm = 0;
-	if((self.alreadytoucher == 5) && (other.alreadytouched5 > time))dm = 0;
-	if((self.alreadytoucher == 6) && (other.alreadytouched6 > time))dm = 0;
-	if((self.alreadytoucher == 7) && (other.alreadytouched7 > time))dm = 0;
-	if((self.alreadytoucher == 8) && (other.alreadytouched8 > time))dm = 0;
-	if((self.alreadytoucher == 9) && (other.alreadytouched9 > time))dm = 0;
-	if((self.alreadytoucher == 10) && (other.alreadytouched10 > time))dm = 0;
-	if((self.alreadytoucher == 11) && (other.alreadytouched11 > time))dm = 0;
-	if((self.alreadytoucher == 12) && (other.alreadytouched12 > time))dm = 0;
-	if((self.alreadytoucher == 13) && (other.alreadytouched13 > time))dm = 0;
-	if((self.alreadytoucher == 14) && (other.alreadytouched14 > time))dm = 0;
-	if((self.alreadytoucher == 15) && (other.alreadytouched15 > time))dm = 0;
+	if ((self.alreadytoucher == 1) && (other.alreadytouched1 > time))dm = 0;
+	if ((self.alreadytoucher == 2) && (other.alreadytouched2 > time))dm = 0;
+	if ((self.alreadytoucher == 3) && (other.alreadytouched3 > time))dm = 0;
+	if ((self.alreadytoucher == 4) && (other.alreadytouched4 > time))dm = 0;
+	if ((self.alreadytoucher == 5) && (other.alreadytouched5 > time))dm = 0;
+	if ((self.alreadytoucher == 6) && (other.alreadytouched6 > time))dm = 0;
+	if ((self.alreadytoucher == 7) && (other.alreadytouched7 > time))dm = 0;
+	if ((self.alreadytoucher == 8) && (other.alreadytouched8 > time))dm = 0;
+	if ((self.alreadytoucher == 9) && (other.alreadytouched9 > time))dm = 0;
+	if ((self.alreadytoucher == 10) && (other.alreadytouched10 > time))dm = 0;
+	if ((self.alreadytoucher == 11) && (other.alreadytouched11 > time))dm = 0;
+	if ((self.alreadytoucher == 12) && (other.alreadytouched12 > time))dm = 0;
+	if ((self.alreadytoucher == 13) && (other.alreadytouched13 > time))dm = 0;
+	if ((self.alreadytoucher == 14) && (other.alreadytouched14 > time))dm = 0;
+	if ((self.alreadytoucher == 15) && (other.alreadytouched15 > time))dm = 0;
 	
-	if((self.alreadytoucher == 16) && (other.alreadytouched16 > time))dm = 0;
-	if((self.alreadytoucher == 17) && (other.alreadytouched17 > time))dm = 0;
-	if((self.alreadytoucher == 18) && (other.alreadytouched18 > time))dm = 0;
-	if((self.alreadytoucher == 19) && (other.alreadytouched19 > time))dm = 0;
-	if((self.alreadytoucher == 20) && (other.alreadytouched20 > time))dm = 0;	
+	if ((self.alreadytoucher == 16) && (other.alreadytouched16 > time))dm = 0;
+	if ((self.alreadytoucher == 17) && (other.alreadytouched17 > time))dm = 0;
+	if ((self.alreadytoucher == 18) && (other.alreadytouched18 > time))dm = 0;
+	if ((self.alreadytoucher == 19) && (other.alreadytouched19 > time))dm = 0;
+	if ((self.alreadytoucher == 20) && (other.alreadytouched20 > time))dm = 0;	
 	if (other.takedamage) 
 	{
-		if(self.alreadytoucher == 1)
+		if (self.alreadytoucher == 1)
 			other.alreadytouched1 = time + 0.1;
-		if(self.alreadytoucher == 2)
+		if (self.alreadytoucher == 2)
 			other.alreadytouched2 = time + 0.1;
-		if(self.alreadytoucher == 3)
+		if (self.alreadytoucher == 3)
 			other.alreadytouched3 = time + 0.1;
-		if(self.alreadytoucher == 4)
+		if (self.alreadytoucher == 4)
 			other.alreadytouched4 = time + 0.1;
-		if(self.alreadytoucher == 5)
+		if (self.alreadytoucher == 5)
 			other.alreadytouched5 = time + 0.1;
-		if(self.alreadytoucher == 6)
+		if (self.alreadytoucher == 6)
 			other.alreadytouched6 = time + 0.1;
-		if(self.alreadytoucher == 7)
+		if (self.alreadytoucher == 7)
 			other.alreadytouched7 = time + 0.1;
-		if(self.alreadytoucher == 8)
+		if (self.alreadytoucher == 8)
 			other.alreadytouched8 = time + 0.1;
-		if(self.alreadytoucher == 9)
+		if (self.alreadytoucher == 9)
 			other.alreadytouched9 = time + 0.1;
-		if(self.alreadytoucher == 10)
+		if (self.alreadytoucher == 10)
 			other.alreadytouched10 = time + 0.1;
-		if(self.alreadytoucher == 11)
+		if (self.alreadytoucher == 11)
 			other.alreadytouched11 = time + 0.1;
-		if(self.alreadytoucher == 12)
+		if (self.alreadytoucher == 12)
 			other.alreadytouched12 = time + 0.1;
-		if(self.alreadytoucher == 13)
+		if (self.alreadytoucher == 13)
 			other.alreadytouched13 = time + 0.1;
-		if(self.alreadytoucher == 14)
+		if (self.alreadytoucher == 14)
 			other.alreadytouched14 = time + 0.1;
-		if(self.alreadytoucher == 15)
+		if (self.alreadytoucher == 15)
 			other.alreadytouched15 = time + 0.1;
-		if(self.alreadytoucher == 16)
+		if (self.alreadytoucher == 16)
 			other.alreadytouched16 = time + 0.1;
-		if(self.alreadytoucher == 17)
+		if (self.alreadytoucher == 17)
 			other.alreadytouched17 = time + 0.1;
-		if(self.alreadytoucher == 18)
+		if (self.alreadytoucher == 18)
 			other.alreadytouched18 = time + 0.1;
-		if(self.alreadytoucher == 19)
+		if (self.alreadytoucher == 19)
 			other.alreadytouched19 = time + 0.1;
-		if(self.alreadytoucher == 20)
+		if (self.alreadytoucher == 20)
 			other.alreadytouched20 = time + 0.1;
 		if (other.flags &FL_MONSTER)
 		{
@@ -206,7 +206,7 @@ void() shotgun_proj_touch = { local vector org;
 			else if (other.classname != "monster_oppressor")
 				spawn_touchblood2(9, 1);
 
-			local float r;
+			float r;
 			r = random();
 			if (r < 1)
 			{
@@ -233,14 +233,14 @@ void() shotgun_proj_touch = { local vector org;
 		traceline(self.origin, self.origin + v_forward * 1024, MOVE_HITMODEL, self);
 		if (trace_ent != other)
 			trace_endpos = old_impact;
-        if(other.bloody == 2)
+        if (other.bloody == 2)
         {
 		    makevectors2 (self.angles);
 		    if ((bossvulnerable == 1))
 		    {
-			    if(other == trace_ent)
+			    if (other == trace_ent)
 			    {
-					if(other.classname == "boss_guardian2")
+					if (other.classname == "boss_guardian2")
 						explo_blood_sprite(2, trace_endpos);
 					else
 						explo_blood_sprite(5, trace_endpos);
@@ -256,7 +256,7 @@ void() shotgun_proj_touch = { local vector org;
 			T_Damage(other, self, self.owner, 25 * dm);
 		else
 		{	
-		if(other.classname == "player")
+		if (other.classname == "player")
 			T_Damage(other, self, self.owner,self.owner.revolver_damage2_mp * dm);
 		else
 			T_Damage(other, self, self.owner,self.owner.revolver_damage2 * dm);
@@ -277,7 +277,7 @@ void() shotgun_proj_touch = { local vector org;
 				Steam_AchievementUnlock(world, ST_ACHIEVEMENTS::SP_FEAT_SCATTER);
 		}
 
-		if((other.classname == "boss_guardian1") || (other.classname == "boss_guardian2") || (other.classname == "boss_guardian3"))
+		if ((other.classname == "boss_guardian1") || (other.classname == "boss_guardian2") || (other.classname == "boss_guardian3"))
 		{
 			self.movetype = MOVETYPE_NOCLIP;
 			self.solid = SOLID_TRIGGER;
@@ -287,11 +287,12 @@ void() shotgun_proj_touch = { local vector org;
 			return;
 		}
 
+		vector neworg = '0 0 0';
 
-        if(other.radial_time < time)
+        if (other.radial_time < time)
 		{
 			entity bullet_clone = spawn();
-			if(!self.copied)
+			if (!self.copied)
 			{
 			copyentity(self,bullet_clone);
 			self.copied = 1;
@@ -300,10 +301,9 @@ void() shotgun_proj_touch = { local vector org;
 			bullet_clone.solid = SOLID_NOT;
 			makevectors2(self.angles);
 			if ((other.classname == "monster_lurker"))
-			{
-				vector neworg  = self.origin + v_forward * 5;
-			}
-			vector neworg  = self.origin + v_forward * 2;
+				neworg  = self.origin + v_forward * 5;
+			else //R00k added..
+				neworg  = self.origin + v_forward * 2;
 			setorigin (bullet_clone, neworg);
 			bullet_clone.velocity = v_forward * self.nspeed;// prevent potential stucks
 			bullet_clone.nextthink = time + 0.1;
@@ -328,7 +328,7 @@ void() shotgun_proj_touch = { local vector org;
 };
 
 
-void(entity ownr) client_shot_collector = { local entity garbage;
+void(entity ownr) client_shot_collector = { entity garbage;
 	garbage = nextent(world);
 	while (garbage)	
 	{
@@ -358,7 +358,7 @@ void() dripper_fix_angle =
 void(vector org, vector dir, float order, entity ownerproj) launch_projectile_revolver =
 {
 	client_shot_collector(ownerproj);
-	local entity shotgun_proj;
+	entity shotgun_proj;
 	shotgun_proj = spawn ();
 	shotgun_proj.owner = ownerproj;
 	shotgun_proj.movetype = MOVETYPE_BOUNCEMISSILE;
@@ -375,13 +375,13 @@ void(vector org, vector dir, float order, entity ownerproj) launch_projectile_re
 	shotgun_proj.wrathflags += FL_PROJECTILE;
 	setmodel (shotgun_proj, "models/projectiles/proj_shrapnel.md3");
 	setsize (shotgun_proj, '0 0 0', '0 0 0');
-	if(ownerproj.classname == "player")
+	if (ownerproj.classname == "player")
 	makevectors(ownerproj.v_angle);
 	else
 	makevectors(ownerproj.angles);
 	//org -=v_forward*order ;
 	setorigin (shotgun_proj, org);
-	local vector rvec;
+	vector rvec;
 	rvec_x += ownerproj.revolver_spread2 * 0.25;
 	rvec_y += ownerproj.revolver_spread2 * 0.25;
 	rvec = crandom()*(rvec_x )*v_right + crandom()*(rvec_y)*v_up;
@@ -392,11 +392,11 @@ void(vector org, vector dir, float order, entity ownerproj) launch_projectile_re
 };
 void(vector org, vector dir, float order, entity ownerproj) launch_projectile = 
 { 
-	local entity shotgun_proj;
+	entity shotgun_proj;
 	//shot_water_dripper(org -'0 0 4', dir, self);
 
 	/*
-	if(!(ownerproj.waterlevel >= 2))
+	if (!(ownerproj.waterlevel >= 2))
 	{
 		entity dripper = spawn();
 		dripper.origin = org;
@@ -437,7 +437,7 @@ void(vector org, vector dir, float order, entity ownerproj) launch_projectile =
 		makevectors(ownerproj.angles);
 	//org -=v_forward*order ;
 	setorigin(shotgun_proj, org);
-	local vector rvec;
+	vector rvec;
 	rvec_x += ownerproj.shotgun_spread1;
 	rvec_y += ownerproj.shotgun_spread1;
 	rvec = crandom() *(rvec_x) *v_right + crandom() *(rvec_y) *v_up;
@@ -449,18 +449,18 @@ void(vector org, vector dir, float order, entity ownerproj) launch_projectile =
 .float rsound_cntr;
 void()launch_projectiles_explosion =
 {
-	local vector dir;
-	local float pcount;
+	vector dir;
+	float pcount;
 	pcount = 20;
 	makevectors(self.angles);
 	client_shot_collector(self.owner);
 	
 	while(pcount > 0)
 	{
-		if(!self.count)
+		if (!self.count)
 		{
-			local float surfnum;
-			local vector s;
+			float surfnum;
+			vector s;
 			surfnum = getsurfacenearpoint(world, self.origin);
 			if (surfnum >= 0)
 			{
@@ -496,9 +496,9 @@ void()shotgun_projectile_explo =
 	float nosprite = 0;
 	
 
-	//if(nosprite != 1)
+	//if (nosprite != 1)
 	{
-		local entity explosion_sprite;
+		entity explosion_sprite;
 		explosion_sprite = spawn();
 		explosion_sprite.origin = self.origin;
 		setmodel(explosion_sprite, "models/projectiles/proj_shotgun_explo.md3");
@@ -522,7 +522,7 @@ void()shotgun_projectile_explo =
 };
 void()shotgun_projectile_touch = 
 {
-	local vector org;
+	vector org;
 	org = self.origin;
 	if (other == self.owner)
 		return;
@@ -551,7 +551,7 @@ void()shotgun_projectile_touch =
 			else
 				spawn_touchblood2(9, 1);
 
-			local float r;
+			float r;
 			r = random();
 			if (r < 1)
 			{
@@ -573,7 +573,7 @@ void()shotgun_projectile_touch =
 
 	if (other.flags &FL_MONSTER)
 		float istmonster = 1;
-	if(other.classname == "player")
+	if (other.classname == "player")
 		T_Damage(other, self, self.owner, self.owner.shotgun_proj_dmg_mp);
 	else
 		T_Damage(other, self, self.owner, self.owner.shotgun_proj_dmg);
@@ -589,10 +589,10 @@ void()shotgun_projectile_touch =
 	float material = GetTraceMaterial();
 
 
-	if(material != MAT_GENERIC)
+	if (material != MAT_GENERIC)
 		material_impacts(material,org,partvel,1,0);
 
-	if(self.classname == "secondaryprojectileshotgunb")
+	if (self.classname == "secondaryprojectileshotgunb")
 	self.nextthink =  time + 0.1;
 
 	self.think = shotgun_projectile_explo;
@@ -603,11 +603,11 @@ void()shotgun_projectile_touch =
 void() shotgun_projectile_drunk = 
 { 
 
-	if(time < self.drunktime)
+	if (time < self.drunktime)
 	self.velocity = ((self.velocity + ((v_right *proj_shotgun_drunkfactorh) *crandom())) + ((v_up *proj_shotgun_drunkfactorv) *crandom()));
 	self.drunktime = time + proj_shotgun_timing;	// screw up fast
 
-	if(self.origin ==  self.oldorigin)
+	if (self.origin ==  self.oldorigin)
 	{
 		self.think = shotgun_projectile_explo;
 	}
@@ -630,14 +630,14 @@ void() shotgun_projectile_drunk =
 void() wfire_shotgunempty1 = { 
 
 	float centered_frames;
-	if(self.centered == 1)	centered_frames = 100;	
+	if (self.centered == 1)	centered_frames = 100;	
 	self.empty_shells = 1;
 	self.vweaponframe += 1;
 	self.shotgun_fire1 = 1;
 	if (self.vweaponframe == 113 + centered_frames)
 	{
 		#if 0
-		local vector dir;
+		vector dir;
 		self.vweaponglowmod = '0.9 0.9 0.9';
 		makevectors(self.v_angle);
 		float wvol = cvar ("weapons_fire_volume");
@@ -646,12 +646,12 @@ void() wfire_shotgunempty1 = {
 		FireBullets(self.buckshot_count, dir, '0.3 0.3 0', self.shotgun_damage1, self.shotgun_spread1);
 		self.effects += EF_MUZZLEFLASH;
 		float active_punchangle = cvar ("cl_punch");
-		if(active_punchangle == 1)
+		if (active_punchangle == 1)
 			self.punchangle_x = -5;
 		self.ammo_shotgun -= 2;
 		//muzzle_shotgun(self.vweapon, 1);
-		local entity muzzle;
-		local string muzzlemodel;
+		entity muzzle;
+		string muzzlemodel;
 		muzzlemodel = "models/weapons/shotgun/flash_small.md3";
 		muzzle = spawn();
 		muzzle.owner = self;
@@ -674,7 +674,7 @@ void() wfire_shotgunempty1 = {
 		self.vweaponglowmod_z -= 0.1;
 	}
 
-	//		if(self.vweaponframe == 123)
+	//		if (self.vweaponframe == 123)
 	//		sound(self,CHAN_WEAPON,"misc/null.wav",1,1);
 
 	if (self.vweaponframe >= 130 + centered_frames)
@@ -690,19 +690,19 @@ void() wsfire_shotgunempty1 = { self.empty_shells = 1;
 
 	self.vweaponframe += 1;
 	float centered_frames;
-	if(self.centered == 1)	centered_frames = 100;	
+	if (self.centered == 1)	centered_frames = 100;	
 	
 	
 	if ((self.vweaponframe == 113) || ((self.centered == 1) && (self.vweaponframe == 213)))
 	{
-		local vector dir, tagorg;
-		local float tagindex;
+		vector dir, tagorg;
+		float tagindex;
 		float wvol = cvar ("weapons_fire_volume");
 		sound(self, CHAN_AUTO, "weapons/shotgun/firetoempty.ogg", wvol, ATTN_NORM);
 		
 		tagindex = gettagindex(self.vweapon, "tag_barrela");
 		tagorg = gettaginfo(self.vweapon, tagindex);
-		local entity sotgun_projectile;
+		entity sotgun_projectile;
 		sotgun_projectile=  spawn();
 		sotgun_projectile.classname = "secondaryprojectileshotguna";
 		sotgun_projectile.movetype = MOVETYPE_FLYMISSILE;
@@ -728,7 +728,7 @@ void() wsfire_shotgunempty1 = { self.empty_shells = 1;
 		tagindex = gettagindex(self.vweapon, "tag_barrelb");
 		tagorg = gettaginfo(self.vweapon, tagindex);
 		dir = aim(self, 1000);
-		local entity sotgun_projectileb;
+		entity sotgun_projectileb;
 		sotgun_projectileb=  spawn();
 		sotgun_projectileb.movetype = MOVETYPE_FLYMISSILE;
 		sotgun_projectileb.solid = SOLID_TRIGGER;
@@ -752,7 +752,7 @@ void() wsfire_shotgunempty1 = { self.empty_shells = 1;
 		sotgun_projectileb.lifetime =  time + 12;
 		sotgun_projectile.lifetime =  time + 12;
 		
-		local float r, r1;
+		float r, r1;
 		r = floor(random() *5) + 1;
 		sotgun_projectile.rsound_cntr = r;
 		r1 = floor(random() *5) + 1;
@@ -764,10 +764,10 @@ void() wsfire_shotgunempty1 = { self.empty_shells = 1;
 		self.attack_finished = time + self.shotgun_time2;
 		self.time_fire_shotgun = time + self.shotgun_time2;
 		float active_punchangle = cvar ("cl_punch");
-		if(active_punchangle == 1)
+		if (active_punchangle == 1)
 			self.punchangle_x = -7;
 		makevectors(self.angles);
-		local float rf;
+		float rf;
 		if ((self.flags &FL_ONGROUND))
 		{
 			rf = 512;
@@ -780,8 +780,8 @@ void() wsfire_shotgunempty1 = { self.empty_shells = 1;
 		self.effects += EF_MUZZLEFLASH;
 		self.ammo_shotgun -= 2;
 		self.shotgun_clip = 0;
-		local entity muzzle;
-		local string muzzlemodel;
+		entity muzzle;
+		string muzzlemodel;
 		muzzlemodel = "models/weapons/shotgun/flash_small.md3";
 		muzzle = spawn();
 		muzzle.owner = self;
@@ -807,7 +807,7 @@ void() wsfire_shotgunempty1 = { self.empty_shells = 1;
 	if (self.vweaponframe == 116 + centered_frames)
 		self.timezoom = time + self.shotgun_time1 / 2;
 
-	//	if(self.vweaponframe == 123)
+	//	if (self.vweaponframe == 123)
 	//		sound(self,CHAN_WEAPON,"misc/null.wav",1,1);
 
 	if (self.vweaponframe == 130+ centered_frames)
@@ -829,17 +829,17 @@ void() wsfire_shotgun1 = { self.vweaponframe += 1;
 	float centered_frames;
 
 
-	if(self.centered == 1)	centered_frames = 131;	
+	if (self.centered == 1)	centered_frames = 131;	
 	if (self.vweaponframe == 43 + centered_frames)
 	{
-		local vector dir, tagorg;
-		local float tagindex;
+		vector dir, tagorg;
+		float tagindex;
 		playerwsound("weapons/shotgun/fire2_", 2, CHAN_WEAPON);
 
 
 		tagindex = gettagindex(self.vweapon, "tag_barrela");
 		tagorg = gettaginfo(self.vweapon, tagindex);
-		local entity sotgun_projectile;
+		entity sotgun_projectile;
 		sotgun_projectile=  spawn();
 		sotgun_projectile.movetype = MOVETYPE_FLYMISSILE;
 		sotgun_projectile.solid = SOLID_TRIGGER;
@@ -862,7 +862,7 @@ void() wsfire_shotgun1 = { self.vweaponframe += 1;
 		tagindex = gettagindex(self.vweapon, "tag_barrelb");
 		tagorg = gettaginfo(self.vweapon, tagindex);
 		dir = aim(self, 1000);
-		local entity sotgun_projectileb;
+		entity sotgun_projectileb;
 		sotgun_projectileb=  spawn();
 		sotgun_projectileb.wrathflags += FL_PROJECTILE;
 		sotgun_projectileb.movetype = MOVETYPE_FLYMISSILE;
@@ -879,7 +879,7 @@ void() wsfire_shotgun1 = { self.vweaponframe += 1;
 		sotgun_projectileb.touch = shotgun_projectile_touch;
 		sotgun_projectileb.effects = EF_NOSHADOW;
 		sotgun_projectileb.classname = "secondaryprojectileshotgun";
-		local float r, r1;
+		float r, r1;
 		r = floor(random() *5) + 1;
 		sotgun_projectile.rsound_cntr = r;
 		r1 = floor(random() *5) + 1;
@@ -899,10 +899,10 @@ void() wsfire_shotgun1 = { self.vweaponframe += 1;
 		
 		self.attack_finished = time + self.shotgun_time2;
 		float active_punchangle = cvar ("cl_punch");
-		if(active_punchangle == 1)
+		if (active_punchangle == 1)
 			self.punchangle_x = -5;
 		makevectors(self.angles);
-		local float rf;
+		float rf;
 		if ((self.flags &FL_ONGROUND))
 		{
 			rf = 512;
@@ -915,8 +915,8 @@ void() wsfire_shotgun1 = { self.vweaponframe += 1;
 		self.effects += EF_MUZZLEFLASH;
 		self.ammo_shotgun -= 2;
 		self.shotgun_clip = 0;
-		local entity muzzle;
-		local string muzzlemodel;
+		entity muzzle;
+		string muzzlemodel;
 		muzzlemodel = "models/weapons/shotgun/flash_small.md3";
 		muzzle = spawn();
 		muzzle.owner = self;
@@ -970,10 +970,10 @@ void() wfire_shotgun1 = {
 	self.shotgun_fire1 = 1;
 	
 	float centered_frames;
-	if(self.centered == 1)	centered_frames = 131;	
+	if (self.centered == 1)	centered_frames = 131;	
 	if (self.vweaponframe == 3 + centered_frames)
 	{
-		local vector dir;
+//		vector dir;
 		self.vweaponglowmod = '0.9 0.9 0.9';
 		#if 0
 		makevectors(self.v_angle);
@@ -984,12 +984,12 @@ void() wfire_shotgun1 = {
 		#if 0
 		self.effects += EF_MUZZLEFLASH;
 		float active_punchangle = cvar ("cl_punch");
-		if(active_punchangle == 1)
+		if (active_punchangle == 1)
 			self.punchangle_x = -5;
 		self.ammo_shotgun -= 2;
 		//muzzle_shotgun(self.vweapon, 1);
-		local entity muzzle;
-		local string muzzlemodel;
+		entity muzzle;
+		string muzzlemodel;
 		muzzlemodel = "models/weapons/shotgun/flash_small.md3";
 		muzzle = spawn();
 		muzzle.owner = self;
@@ -1013,7 +1013,7 @@ void() wfire_shotgun1 = {
 		self.vweaponglowmod_z -= 0.1;
 	}
 
-	///	if(self.charge_shotgun == self.charge_shotgun_count)
+	///	if (self.charge_shotgun == self.charge_shotgun_count)
 	//	{
 	//		self.timezoom = time + self.shotgun_time1 /2;
 	//	}
@@ -1026,7 +1026,7 @@ void() wfire_shotgun1 = {
 	else if (self.vweaponframe == (30 + centered_frames))
 		Controller_Rumble(self, 0.25, 0.1, 160);
 
-	//	if(self.vweaponframe == 40)
+	//	if (self.vweaponframe == 40)
 	//	self.timezoomframe = time;
 	if (self.vweaponframe >= 41 + centered_frames)
 	{
@@ -1040,7 +1040,7 @@ void() wfire_shotgun1 = {
 
 void() wsfire_shotgunwait = {
 	float centered_frames,centered_framesb;
-	if(self.centered == 1)	
+	if (self.centered == 1)	
 	{
 	centered_frames = 131; 
 	centered_framesb = 100; 	}
@@ -1084,7 +1084,7 @@ void() wsfire_shotgunwait = {
 void() wsfire_shotgun = {
 
 	float centered_frames;
-	if(self.centered == 1)	
+	if (self.centered == 1)	
 		centered_frames = 0;
 	if (time > self.time_piston)
 		sound(self, CHAN_AUTO, "weapons/shotgun/piston_in.ogg", 1, ATTN_NORM);
@@ -1098,7 +1098,7 @@ void() wsfire_shotgun = {
 void() wfire_shotgun = { 
 
 	float centered_frames,centered_framesb;
-	if(self.centered == 1)	
+	if (self.centered == 1)	
 	{
 	    centered_frames = 131; 
 	    centered_framesb = 100; 	
@@ -1108,6 +1108,9 @@ void() wfire_shotgun = {
 		self.attack_finished = time + 0.05;
 		return;
 	}
+
+	entity muzzle;
+	float active_punchangle = 0;
 
 	if (self.vweaponglowmod_x < 1)
 	{
@@ -1126,8 +1129,8 @@ void() wfire_shotgun = {
 			#endif
 			#if 1
 			self.effects += EF_MUZZLEFLASH;
-			float active_punchangle = cvar ("cl_punch");
-			if(active_punchangle == 1)
+			active_punchangle = cvar ("cl_punch");
+			if (active_punchangle == 1)
 				self.punchangle_x = -5;
 			
 			// Reki (December 3 2023): Added controller rumble
@@ -1136,13 +1139,13 @@ void() wfire_shotgun = {
 
 			self.ammo_shotgun -= 2;
 			//muzzle_shotgun(self.vweapon, 1);
-			local entity muzzle;
-			local string muzzlemodel;
-			muzzlemodel = "models/weapons/shotgun/flash_small.md3";
+			
+//			string muzzlemodel;
+//			muzzlemodel = "models/weapons/shotgun/flash_small.md3";
 			muzzle = spawn();
 			muzzle.owner = self;
 			muzzle.scale = 2;
-			setmodel(muzzle, muzzlemodel);
+			setmodel(muzzle, "models/weapons/shotgun/flash_small.md3");
 			muzzle.viewmodelforclient = self;
 			setattachment(muzzle, self.vweapon, "tag_muzzle");
 			muzzle.angles_z = random() *360;
@@ -1163,8 +1166,8 @@ void() wfire_shotgun = {
 			dir = aim(self, 100000);
 			FireBullets(self.buckshot_count, dir, '0.3 0.3 0', self.shotgun_damage1, self.shotgun_spread1);
 			self.effects += EF_MUZZLEFLASH;
-			float active_punchangle = cvar ("cl_punch");
-			if(active_punchangle == 1)
+			active_punchangle = cvar ("cl_punch");
+			if (active_punchangle == 1)
 				self.punchangle_x = -5;
 
 			// Reki (December 3 2023): Added controller rumble
@@ -1173,13 +1176,13 @@ void() wfire_shotgun = {
 
 			self.ammo_shotgun -= 2;
 			//muzzle_shotgun(self.vweapon, 1);
-			local entity muzzle;
-			local string muzzlemodel;
-			muzzlemodel = "models/weapons/shotgun/flash_small.md3";
+			//entity muzzle;
+			//string muzzlemodel;
+			//muzzlemodel = "models/weapons/shotgun/flash_small.md3";
 			muzzle = spawn();
 			muzzle.owner = self;
 			muzzle.scale = 2;
-			setmodel(muzzle, muzzlemodel);
+			setmodel(muzzle, "models/weapons/shotgun/flash_small.md3");
 			muzzle.viewmodelforclient = self;
 			setattachment(muzzle, self.vweapon, "tag_muzzle");
 			muzzle.angles_z = random() *360;

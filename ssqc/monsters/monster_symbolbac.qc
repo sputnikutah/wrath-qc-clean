@@ -48,12 +48,12 @@ void()	symbolAttackFinished =
 
 void() projectile_symbol_touch = 
 { 
-	local float damg;
+	float damg;
 	if (other == self.owner)
 		return;
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
-	if(other.wrathflags & FL_PROJECTILE)
+	if (other.wrathflags & FL_PROJECTILE)
 		return;
 	
 
@@ -81,13 +81,13 @@ void() symbol_proj_think =
 {
 
 	float speed = vlen (self.velocity);
-	if(speed < symbol_proj_speed * symbol_proj_aceleration)
+	if (speed < symbol_proj_speed * symbol_proj_aceleration)
 		self.velocity = self.velocity * 1.1; 
 
-	if(speed < 10)
+	if (speed < 10)
 	self.lifetime = 0;
 
-	if((self.lifetime < time ) || (speed < 10))
+	if ((self.lifetime < time ) || (speed < 10))
 	{	
 		self.movetype = 0; 
 		self.think = slag_explode1;
@@ -111,12 +111,12 @@ void(entity e, string tagname, float spread, float enemyorigin) symbol_missileat
 { 
 	e.effects = EF_MUZZLEFLASH;
 
-	local entity projectile;
+	entity projectile;
 	projectile = spawn();
 	projectile.owner = e;
 	setmodel(projectile, "models/projectiles/proj_symbol.md3");
 	projectile.traileffectnum = particleeffectnum("oppressor_proj_trail");
-	local vector tagorg;
+	vector tagorg;
 	makevectors (self.angles);
 	tagorg = tag_origin(tagname, e);
 	projectile.classname = "symbol_projectile";
@@ -129,7 +129,7 @@ void(entity e, string tagname, float spread, float enemyorigin) symbol_missileat
 	setsize (projectile,'-16 -16 -16','16 16 16');
 
 
-	if(enemyorigin == 1)
+	if (enemyorigin == 1)
     {
 		float playerspeed = (vlen (self.enemy.velocity));
 		vector nextpos = (normalize (self.enemy.velocity)) * playerspeed;	
@@ -156,7 +156,7 @@ void(entity e, string tagname, float spread, float enemyorigin) symbol_missileat
 
 void() symb_idlesound =
 {
-	local float wr;
+	float wr;
 	wr = random() * 5;
 
 	if (self.waitmin < time)
@@ -173,7 +173,7 @@ void() symb_idlesound =
 
 void()	symb_stand1	=
 {
-	if(self.frame_time < time)
+	if (self.frame_time < time)
 	{	
 		self.frame = $symbol_stand;
 		self.frame_time = time + 3;
@@ -186,7 +186,7 @@ void()	symb_stand1	=
 
 void()	symb_walk2	=
 {
-	if(self.frame_time <= time) 
+	if (self.frame_time <= time) 
 	{	
 		self.frame = $symbol_frwrdloop;
 		self.frame_time = time + 0.5;
@@ -200,9 +200,9 @@ void()	symb_walk2	=
 void()	symb_walk1	=
 {
 	self.colormod = '1 1 3';
-	if(self.frame_time <= time)
+	if (self.frame_time <= time)
 	{	
-		if(self.frame_active != 1)
+		if (self.frame_active != 1)
 		{
 			self.frame = $symbol_frwrdloop;
 			self.frame_time = time + 0.5;
@@ -260,9 +260,9 @@ void(float distforward, float distside)ai_symbol_run =
 	self.velocity = v_forward *distforward * 6;
 	self.velocity += v_right *distside * 6;
 	self.velocity_z = 0;
-	if((self.origin_z - self.enemy.origin_z) > 192)
+	if ((self.origin_z - self.enemy.origin_z) > 192)
 		self.velocity_z = -64;
-	else if((self.enemy.origin_z - self.origin_z) > 192)
+	else if ((self.enemy.origin_z - self.origin_z) > 192)
 		self.velocity_z = 64;
 
 };
@@ -281,9 +281,9 @@ void() symb_check_speed =
 
 	float symbol_speed = symbol_runspeed;
 	
-	if(self.symbolCheckDirectiontime < time)
+	if (self.symbolCheckDirectiontime < time)
 	{
-		if(self.pipes.cnt > 0)
+		if (self.pipes.cnt > 0)
 			symbolCheckDirection(1);
 		else
 			symbolCheckDirection(-1);
@@ -291,7 +291,7 @@ void() symb_check_speed =
 
     if (d <= 512 )
 	{
-		if(visible(self.enemy))
+		if (visible(self.enemy))
 		{	
 			ai_symbol_run(0, symbol_speed * self.pipes.cnt);
 			self.frame = $symbol_frwrd;
@@ -321,14 +321,14 @@ void()symb_postfast1;
 
 void() symb_side_fly =
 {
-	if(self.pipes.cnt > 0)
+	if (self.pipes.cnt > 0)
 		symbolCheckDirection(1);
 	else
 		symbolCheckDirection(-1);
 	self.frame = $symbol_frwrd;
 
 	float speed = vlen (self.velocity);
-    if(speed >= symbol_runspeed* 0.5) 
+    if (speed >= symbol_runspeed* 0.5) 
 	{
     	symb_check_speed();
 		self.colormod = '0 0 0';
@@ -340,11 +340,11 @@ void() symb_side_fly =
 		self.velocity_z += random(64,128);	
 		self.symb_flying_away = time + random(0.5,2);
     }
-	if(self.symb_flying_away < time)
+	if (self.symb_flying_away < time)
 		ai_symbol_run(0, symbol_runspeed * self.pipes.cnt);
 
 
-	if(self.frame_time < time)
+	if (self.frame_time < time)
 	{	
 		self.frame_time = time + random(2,3);
 		self.ideal_yaw = vectoyaw(rorigin(self.enemy) - rorigin(self));
@@ -360,9 +360,9 @@ void()	symb_run1	=
 {
 
 	self.movetype = MOVETYPE_FLY;	
-	if(self.flags & FL_FLY)
+	if (self.flags & FL_FLY)
 		self.flags -= FL_FLY;
-	if(self.symb_flying_away > time)
+	if (self.symb_flying_away > time)
 	{
 		self.ideal_yaw = vectoyaw(rorigin(self.enemy) - rorigin(self));
 		ChangeYaw();
@@ -370,12 +370,12 @@ void()	symb_run1	=
 		self.nextthink = time + 0.05;
 		return;
 	}
-	if(self.origin == self.oldorigin)
+	if (self.origin == self.oldorigin)
 		self.think = symb_postfast1;
 	self.vweapon.cnt = 0;
 
 	float speed = vlen (self.velocity);
-    if(speed >= symbol_runspeed* 0.5) 
+    if (speed >= symbol_runspeed* 0.5) 
     	symb_check_speed();
     else
     {
@@ -398,9 +398,9 @@ void()	symb_run1	=
 void()	symb_fast1	=
 {
 	ai_face(); 
-	if(self.frame_time < time)
+	if (self.frame_time < time)
 	{	
-		if(self.frame_active != 1)
+		if (self.frame_active != 1)
 		{
 			self.frame_time = time + 1;
 			self.frame_active = 1;
@@ -418,7 +418,7 @@ void()	symb_fast1	=
 	else
 		self.think = symb_fast1;
 
-	if((self.attack_finished < time) && (self.frame_active == 1) &&(visible(self.enemy)))
+	if ((self.attack_finished < time) && (self.frame_active == 1) &&(visible(self.enemy)))
 	{
 		self.vweapon.cnt = 1.2;
 		self.attack_finished = time + random(1.5, 3);
@@ -426,7 +426,7 @@ void()	symb_fast1	=
 
 		float symbol_angles = 1.5;
 		sound (self, CHAN_WEAPON, "enemies/symbol/fire.ogg", 1, 0.1);
-		if(visible(self.enemy))
+		if (visible(self.enemy))
 		{
 			symbol_missileattack(self,"tag_muzzfle_a",-7 * symbol_angles,1);
 			symbol_missileattack(self,"tag_muzzfle_b",7* symbol_angles,1);
@@ -449,7 +449,7 @@ void()	symb_fastb5	=
 
 	float symbol_angles = 1.5;
 	sound (self, CHAN_WEAPON, "enemies/symbol/fire.ogg", 1, 0.1);
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 	{
 		symbol_missileattack(self,"tag_no",0,0);
 		symbol_missileattack(self,"tag_muzzfle_a",-12 * symbol_angles,0);
@@ -472,7 +472,7 @@ void()	symb_fastb3	=
 	float symbol_angles = 1.5;
 
 	sound (self, CHAN_WEAPON, "enemies/symbol/fire.ogg", 1, 0.1);
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 	{
 		symbol_missileattack(self,"tag_muzfzle_c",-6* symbol_angles,0);
 		symbol_missileattack(self,"tag_muzfzle_d",6* symbol_angles,0);
@@ -496,7 +496,7 @@ void()	symb_fastb1	=
 	float symbol_angles = 1.5;
 
 	sound (self, CHAN_WEAPON, "enemies/symbol/fire.ogg", 1, 0.1);
-	if(visible(self.enemy))
+	if (visible(self.enemy))
 		symbol_missileattack(self,"tag_no",0,1);
 	self.nextthink = time + 0.15;
 };
@@ -510,9 +510,9 @@ void()	symb_fastb0	=
 void() symb_postfast1 = 
 {
 	self.velocity_z = symbol_upspeed;
-	if(self.frame_time < time)
+	if (self.frame_time < time)
 	{
-		if(self.frame_active != 1)
+		if (self.frame_active != 1)
 		{		
 			self.frame_active = 1;
 			self.frame_time = time + 0.55;
@@ -548,7 +548,7 @@ void()	symb_prefast1 =
 		dist = 1;
 	float distance_to_zoom = 128 * (1- (dist/1024));
 	
-	if((dist < 1024) && ((self.origin_z - self.enemy.origin_z) < distance_to_zoom) &&(zoom_up_check())) 
+	if ((dist < 1024) && ((self.origin_z - self.enemy.origin_z) < distance_to_zoom) &&(zoom_up_check())) 
 	{
 		self.movetype = MOVETYPE_FLY;
 		//self.velocity = '0 0 0';
@@ -564,7 +564,7 @@ void()	symb_prefast1 =
 	else
 	{	
 		float roll_dice = random();
-		if((visible(self.enemy)) && roll_dice > 0.5)
+		if ((visible(self.enemy)) && roll_dice > 0.5)
 		{	
 			self.frame = $symbol_flytoattack;
 			self.frame_active = 0;
@@ -646,9 +646,9 @@ void() precache_monster_symbol =
 
 void()symb_glow_controller_think = 
 {
-	if(self.cnt > 0)
+	if (self.cnt > 0)
 	{
-		if(self.owner.glowmod_x <=self.cnt)
+		if (self.owner.glowmod_x <=self.cnt)
 		{
 			self.owner.glowmod_x += 0.05;
 			self.owner.glowmod_y += 0.05;
@@ -657,14 +657,14 @@ void()symb_glow_controller_think =
 	}
 	else
 	{
-		if(self.owner.glowmod_x >= self.cnt)
+		if (self.owner.glowmod_x >= self.cnt)
 		{
 			self.owner.glowmod_x -= 0.05;
 			self.owner.glowmod_y -= 0.05;
 			self.owner.glowmod_z -= 0.05;
 		}	
 	}	
-	if(self.owner.glowmod_x <= 0)
+	if (self.owner.glowmod_x <= 0)
 	{
 		self.owner.glowmod_x = 0.01;
 		self.owner.glowmod_y = 0.01;
@@ -677,7 +677,7 @@ void()symb_glow_controller_think =
 
 void()desacelerator_think =
 {
-	if(self.cnt > 0)
+	if (self.cnt > 0)
 		self.cnt = random(-1.25,-1);
 	else
 		self.cnt = random(1,1.25);

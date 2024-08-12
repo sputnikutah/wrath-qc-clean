@@ -22,12 +22,12 @@ void() monster_death_use = { if (self.flags &FL_FLY)
 
 	if ((!self.target) && (!self.death_target))
 			return;
-	if(self.target)
+	if (self.target)
 	{
 		activator = self.enemy;
 		SUB_UseTargets();
 	}
-	if(self.death_target)
+	if (self.death_target)
 	{
 		self.target = self.death_target;
 		activator = self.enemy;
@@ -60,7 +60,7 @@ void() walkmonster_start_go = { self.origin_z = self.origin_z + 1;	// raise off 
 		self.yaw_speed = 20;
 	self.view_ofs = '0 0 25';
 	self.use = monster_use;
-	if(!(self.flags & FL_MONSTER))
+	if (!(self.flags & FL_MONSTER))
 		self.flags = self.flags | FL_MONSTER;
 		
 	if (self.target != string_null)
@@ -91,7 +91,7 @@ void() walkmonster_start_go = { self.origin_z = self.origin_z + 1;	// raise off 
 
 			if (self.classname == "monster_stricken")
 			{
-				local entity head;
+				entity head;
 
 				head = findradius(self.origin, stricken_walkradius);	//send lightning line to anything in 250 radius
 				while (head)	// while looking for head
@@ -149,7 +149,7 @@ float() Send_Indicator = { WriteByte(MSG_ENTITY, ENT::HMMSG);
 void(entity selff) indicator = { 
 	return;//
 	/*
-	local entity indicator;	
+	entity indicator;	
 	indicator = spawn();
 	indicator.owner = selff;
 	indicator.classname = "indicator";
@@ -171,7 +171,7 @@ void()color_controller_think =
 {
 
 	self.warpframe += 1;
-	if(self.warpframe >= 10)
+	if (self.warpframe >= 10)
 	{
 		self.colormod = '1 1 1';
 		self.think = SUB_Remove;
@@ -194,11 +194,11 @@ void()color_controller_think =
 
 void() check_redinvulnerability =
 {
-	if(self.health > 0)
+	if (self.health > 0)
 	{
-		if((!(self.colormod = '1 1 1')) && (self.takedamage != DAMAGE_AIM))
+		if ((!(self.colormod = '1 1 1')) && (self.takedamage != DAMAGE_AIM))
 		{
-			if(!(self.colormod = '1 1 1'))
+			if (!(self.colormod = '1 1 1'))
 			{
 				entity color_controller = spawn();
 				setmodel	 (color_controller,"");
@@ -209,7 +209,7 @@ void() check_redinvulnerability =
 				color_controller.nextthink = time;
 			}
 		}
-		if(self.takedamage != DAMAGE_AIM)
+		if (self.takedamage != DAMAGE_AIM)
 			self.takedamage = DAMAGE_AIM;
 	}
 };
@@ -219,7 +219,7 @@ void() warped_go = { self.flags = self.flags | FL_MONSTER;
 	self.frame += 1;
 
 
-	if(!self.warpframe)
+	if (!self.warpframe)
 	{
 		entity color_controller = spawn();
 		setmodel	 (color_controller,"");
@@ -231,7 +231,7 @@ void() warped_go = { self.flags = self.flags | FL_MONSTER;
 	}
 
 	self.warpframe += 1;
-	if(self.warpframe < 3)
+	if (self.warpframe < 3)
 		self.takedamage = 0;
 	else	
 		self.takedamage = DAMAGE_AIM;
@@ -241,10 +241,10 @@ void() warped_go = { self.flags = self.flags | FL_MONSTER;
 	{
 
 
-		if((self.likecharge == 1)  && (self.classname == "monster_afflicted"))
+		if ((self.likecharge == 1)  && (self.classname == "monster_afflicted"))
 		{
 			self.yaw_speed = 90;
-			if(self.enemy != single_player)
+			if (self.enemy != single_player)
 				self.enemy = single_player;
 			self.ideal_yaw = vectoyaw(rorigin(self.enemy) - rorigin(self));
 			self.angles_y = self.ideal_yaw;
@@ -306,7 +306,7 @@ void() warped_go = { self.flags = self.flags | FL_MONSTER;
 		}
 
 
-		if((self.likecharge == 1) && (self.classname == "monster_afflicted"))
+		if ((self.likecharge == 1) && (self.classname == "monster_afflicted"))
 		{
 			self.enemy = single_player;
 			self.ideal_yaw = vectoyaw(rorigin(self.enemy) - rorigin(self));
@@ -329,7 +329,7 @@ void() walkmonster_start =
 	self.oldstepheight_delta = self.stepheight_delta;
 
 	self.flags = self.flags | FL_MONSTER;
-	if(self.classname != "monster_oppressor")
+	if (self.classname != "monster_oppressor")
 		self.bloody = 1;
 	else
 		spawn_emitters(self);
@@ -397,7 +397,7 @@ void() warpedfly_go = { self.flags = self.flags | FL_MONSTER;
 	self.frame += 1;
 	self.max_health = self.health;
 
-	if(!self.warpframe)
+	if (!self.warpframe)
 	{
 		entity color_controller = spawn();
 		setmodel	 (color_controller,"");
@@ -409,7 +409,7 @@ void() warpedfly_go = { self.flags = self.flags | FL_MONSTER;
 	}
 	self.warpedtime = time + 0.1;
 	self.warpframe += 1;
-	if(self.warpframe < 3)
+	if (self.warpframe < 3)
 		self.takedamage = 0;
 	else	
 		self.takedamage = DAMAGE_AIM;

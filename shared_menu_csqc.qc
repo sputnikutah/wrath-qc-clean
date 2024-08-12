@@ -1,7 +1,7 @@
 void(string filefrom, string fileto)fcopy_wrath2 =
 {
 
-if(fexists(strcat ("data/",filefrom)))
+if (fexists(strcat ("data/",filefrom)))
 fcopy (filefrom, fileto);
 };
 
@@ -18,7 +18,7 @@ void(float istether) load_save_maps =
 
 	// episode 1
 
-	local string intromap, hub1map, e1m1map, e1m2map, e1m3map, e1m4map, e1m5map, boss1map;
+	string intromap, hub1map, e1m1map, e1m2map, e1m3map, e1m4map, e1m5map, boss1map;
 	intromap = strcat("data/profiles/", profilename, "/maps/intro.sav");
 	hub1map = strcat("data/profiles/", profilename, "/maps/hub1.sav");
 	e1m1map = strcat("data/profiles/", profilename, "/maps/e1m1.sav");
@@ -28,14 +28,14 @@ void(float istether) load_save_maps =
 	e1m5map = strcat("data/profiles/", profilename, "/maps/e1m5.sav");
 	boss1map = strcat("data/profiles/", profilename, "/maps/boss1map.sav");
 
-	if(fexists(intromap)) data_fremove (intromap);
-	if(fexists(hub1map)) data_fremove (hub1map);
-	if(fexists(e1m1map)) data_fremove (e1m1map);
-	if(fexists(e1m2map)) data_fremove (e1m2map);
-	if(fexists(e1m3map)) data_fremove (e1m3map);
-	if(fexists(e1m4map)) data_fremove (e1m4map);
-	if(fexists(e1m5map)) data_fremove (e1m5map);
-	if(fexists(boss1map)) data_fremove (boss1map);
+	if (fexists(intromap)) data_fremove (intromap);
+	if (fexists(hub1map)) data_fremove (hub1map);
+	if (fexists(e1m1map)) data_fremove (e1m1map);
+	if (fexists(e1m2map)) data_fremove (e1m2map);
+	if (fexists(e1m3map)) data_fremove (e1m3map);
+	if (fexists(e1m4map)) data_fremove (e1m4map);
+	if (fexists(e1m5map)) data_fremove (e1m5map);
+	if (fexists(boss1map)) data_fremove (boss1map);
 
 
 	string tointromap, tohub1map, toe1m1map, toe1m2map, toe1m3map, toe1m4map, toe1m5map, toboss1map;
@@ -52,7 +52,7 @@ void(float istether) load_save_maps =
 
 	string fromintromap, fromhub1map, frome1m1map, frome1m2map, frome1m3map, frome1m4map, frome1m5map, fromboss1map;
 
-	if(istether == 1)
+	if (istether == 1)
 	{
 		fromintromap = strcat("profiles/", profilename, "/tether/maps/intro.sav");
 		fromhub1map = strcat("profiles/", profilename, "/tether/maps/hub1.sav");
@@ -63,7 +63,7 @@ void(float istether) load_save_maps =
 		frome1m5map = strcat("profiles/", profilename, "/tether/maps/e1m5.sav");	
 		fromboss1map = strcat("profiles/", profilename, "/tether/maps/boss1.sav");	
 	}
-	if(istether == 2)
+	if (istether == 2)
 	{
 		fromintromap = strcat("profiles/", profilename, "/shrine/maps/intro.sav");
 		fromhub1map = strcat("profiles/", profilename, "/shrine/maps/hub1.sav");
@@ -74,7 +74,7 @@ void(float istether) load_save_maps =
 		frome1m5map = strcat("profiles/", profilename, "/shrine/maps/e1m5.sav");	
 		fromboss1map = strcat("profiles/", profilename, "/shrine/maps/boss1.sav");	
 	}	
-	if(istether == 3)
+	if (istether == 3)
 	{
 		fromintromap = strcat("profiles/", profilename, "/autosave/maps/intro.sav");
 		fromhub1map = strcat("profiles/", profilename, "/autosave/maps/hub1.sav");
@@ -96,7 +96,7 @@ void(float istether) load_save_maps =
 	fcopy(fromboss1map, toboss1map);
 
 
-	local string introstat, hub1stat, e1m1stat, e1m2stat, e1m3stat, e1m4stat, e1m5stat, boss1stat;
+	string introstat, hub1stat, e1m1stat, e1m2stat, e1m3stat, e1m4stat, e1m5stat, boss1stat;
 
 	introstat = strcat("profiles/", profilename, "/maps/intro.stats");
 	hub1stat = strcat("profiles/", profilename, "/maps/hub1.stats");
@@ -106,13 +106,13 @@ void(float istether) load_save_maps =
 	e1m4stat = strcat("profiles/", profilename, "/maps/e1m4.stats");
 	e1m5stat = strcat("profiles/", profilename, "/maps/e1m5.stats");
 
-	if(fexists(introstat)) fremove (introstat);
-	if(fexists(hub1stat)) fremove (hub1stat);
-	if(fexists(e1m1stat)) fremove (e1m1stat);
-	if(fexists(e1m2stat)) fremove (e1m2stat);
-	if(fexists(e1m3stat)) fremove (e1m3stat);
-	if(fexists(e1m4stat)) fremove (e1m4stat);
-	if(fexists(e1m5stat)) fremove (e1m5stat);
+	if (fexists(introstat)) fremove (introstat);
+	if (fexists(hub1stat)) fremove (hub1stat);
+	if (fexists(e1m1stat)) fremove (e1m1stat);
+	if (fexists(e1m2stat)) fremove (e1m2stat);
+	if (fexists(e1m3stat)) fremove (e1m3stat);
+	if (fexists(e1m4stat)) fremove (e1m4stat);
+	if (fexists(e1m5stat)) fremove (e1m5stat);
 
 	string tointrostat, tohub1stat, toe1m1stat, toe1m2stat, toe1m3stat, toe1m4stat, toe1m5stat, toboss1stat;
 	
@@ -174,7 +174,7 @@ void(float istether) load_save_maps =
 
 	// episode 2
 
-	local string hub2map, e2m1map, e2m2map, e2m3map, e2m4map, e2m5map,boss2map;
+	string hub2map, e2m1map, e2m2map, e2m3map, e2m4map, e2m5map,boss2map;
 
 	hub2map = strcat("data/profiles/", profilename, "/maps/hub2.sav");
 	e2m1map = strcat("data/profiles/", profilename, "/maps/e2m1.sav");
@@ -184,13 +184,13 @@ void(float istether) load_save_maps =
 	e2m5map = strcat("data/profiles/", profilename, "/maps/e2m5.sav");
 	boss2map = strcat("data/profiles/", profilename, "/maps/boss2.sav");
 
-	if(fexists(hub2map)) fremove (hub2map);
-	if(fexists(e2m1map)) fremove (e2m1map);
-	if(fexists(e2m2map)) fremove (e2m2map);
-	if(fexists(e2m3map)) fremove (e2m3map);
-	if(fexists(e2m4map)) fremove (e2m4map);
-	if(fexists(e2m5map)) fremove (e2m5map);
-	if(fexists(boss2map)) fremove (boss2map);
+	if (fexists(hub2map)) fremove (hub2map);
+	if (fexists(e2m1map)) fremove (e2m1map);
+	if (fexists(e2m2map)) fremove (e2m2map);
+	if (fexists(e2m3map)) fremove (e2m3map);
+	if (fexists(e2m4map)) fremove (e2m4map);
+	if (fexists(e2m5map)) fremove (e2m5map);
+	if (fexists(boss2map)) fremove (boss2map);
 
 	string tohub2map, toe2m1map, toe2m2map, toe2m3map, toe2m4map, toe2m5map, toboss2map;
 	tohub2map = strcat("profiles/", profilename, "/maps/hub2.sav");
@@ -202,7 +202,7 @@ void(float istether) load_save_maps =
 	toboss2map = strcat("profiles/", profilename, "/maps/boss2.sav");
 
 	string fromhub2map, frome2m1map, frome2m2map, frome2m3map, frome2m4map, frome2m5map, fromboss2map;
-	if(istether == 1)
+	if (istether == 1)
 	{
 		fromhub2map = strcat("profiles/", profilename, "/tether/maps/hub2.sav");
 		frome2m1map = strcat("profiles/", profilename, "/tether/maps/e2m1.sav");
@@ -212,7 +212,7 @@ void(float istether) load_save_maps =
 		frome2m5map = strcat("profiles/", profilename, "/tether/maps/e2m5.sav");	
 		fromboss2map = strcat("profiles/", profilename, "/tether/maps/boss2.sav");	
 	}
-	if(istether == 2)
+	if (istether == 2)
 	{
 		fromhub2map = strcat("profiles/", profilename, "/shrine/maps/hub2.sav");
 		frome2m1map = strcat("profiles/", profilename, "/shrine/maps/e2m1.sav");
@@ -222,7 +222,7 @@ void(float istether) load_save_maps =
 		frome2m5map = strcat("profiles/", profilename, "/shrine/maps/e2m5.sav");	
 		fromboss2map = strcat("profiles/", profilename, "/shrine/maps/boss2.sav");	
 	}	
-	if(istether == 3)
+	if (istether == 3)
 	{
 		fromhub2map = strcat("profiles/", profilename, "/autosave/maps/hub2.sav");
 		frome2m1map = strcat("profiles/", profilename, "/autosave/maps/e2m1.sav");
@@ -242,7 +242,7 @@ void(float istether) load_save_maps =
 	fcopy(fromboss2map, toboss2map);
 
 
-	local string hub2stat, e2m1stat, e2m2stat, e2m3stat, e2m4stat, e2m5stat, boss2stat;
+	string hub2stat, e2m1stat, e2m2stat, e2m3stat, e2m4stat, e2m5stat, boss2stat;
 
 	hub2stat = strcat("profiles/", profilename, "/maps/hub2.stats");
 	e2m1stat = strcat("profiles/", profilename, "/maps/e2m1.stats");
@@ -252,13 +252,13 @@ void(float istether) load_save_maps =
 	e2m5stat = strcat("profiles/", profilename, "/maps/e2m5.stats");
 	boss2stat = strcat("profiles/", profilename, "/maps/boss2.stats");
 
-	if(fexists(hub2stat)) fremove (hub2stat);
-	if(fexists(e2m1stat)) fremove (e2m1stat);
-	if(fexists(e2m2stat)) fremove (e2m2stat);
-	if(fexists(e2m3stat)) fremove (e2m3stat);
-	if(fexists(e2m4stat)) fremove (e2m4stat);
-	if(fexists(e2m5stat)) fremove (e2m5stat);
-	if(fexists(boss2stat)) fremove (boss2stat);
+	if (fexists(hub2stat)) fremove (hub2stat);
+	if (fexists(e2m1stat)) fremove (e2m1stat);
+	if (fexists(e2m2stat)) fremove (e2m2stat);
+	if (fexists(e2m3stat)) fremove (e2m3stat);
+	if (fexists(e2m4stat)) fremove (e2m4stat);
+	if (fexists(e2m5stat)) fremove (e2m5stat);
+	if (fexists(boss2stat)) fremove (boss2stat);
 
 
 	string tohub2stat, toe2m1stat, toe2m2stat, toe2m3stat, toe2m4stat, toe2m5stat, toboss2stat;
@@ -315,7 +315,7 @@ void(float istether) load_save_maps =
 
 	// episode 3
 
-	local string hub3map, e3m1map, e3m2map, e3m3map, e3m4map, e3m5map,boss3map;
+	string hub3map, e3m1map, e3m2map, e3m3map, e3m4map, e3m5map,boss3map;
 
 	hub3map = strcat("data/profiles/", profilename, "/maps/hub3.sav");
 	e3m1map = strcat("data/profiles/", profilename, "/maps/e3m1.sav");
@@ -325,13 +325,13 @@ void(float istether) load_save_maps =
 	e3m5map = strcat("data/profiles/", profilename, "/maps/e3m5.sav");
 	boss3map = strcat("data/profiles/", profilename, "/maps/boss3.sav");
 
-	if(fexists(hub3map)) fremove (hub3map);
-	if(fexists(e3m1map)) fremove (e3m1map);
-	if(fexists(e3m2map)) fremove (e3m2map);
-	if(fexists(e3m3map)) fremove (e3m3map);
-	if(fexists(e3m4map)) fremove (e3m4map);
-	if(fexists(e3m5map)) fremove (e3m5map);
-	if(fexists(boss3map)) fremove (boss3map);
+	if (fexists(hub3map)) fremove (hub3map);
+	if (fexists(e3m1map)) fremove (e3m1map);
+	if (fexists(e3m2map)) fremove (e3m2map);
+	if (fexists(e3m3map)) fremove (e3m3map);
+	if (fexists(e3m4map)) fremove (e3m4map);
+	if (fexists(e3m5map)) fremove (e3m5map);
+	if (fexists(boss3map)) fremove (boss3map);
 
 	string tohub3map, toe3m1map, toe3m2map, toe3m3map, toe3m4map, toe3m5map, toboss3map;
 	tohub3map = strcat("profiles/", profilename, "/maps/hub3.sav");
@@ -343,7 +343,7 @@ void(float istether) load_save_maps =
 	toboss3map = strcat("profiles/", profilename, "/maps/boss3.sav");
 
 	string fromhub3map, frome3m1map, frome3m2map, frome3m3map, frome3m4map, frome3m5map, fromboss3map;
-	if(istether == 1)
+	if (istether == 1)
 	{
 		fromhub3map = strcat("profiles/", profilename, "/tether/maps/hub3.sav");
 		frome3m1map = strcat("profiles/", profilename, "/tether/maps/e3m1.sav");
@@ -353,7 +353,7 @@ void(float istether) load_save_maps =
 		frome3m5map = strcat("profiles/", profilename, "/tether/maps/e3m5.sav");	
 		fromboss3map = strcat("profiles/", profilename, "/tether/maps/boss3.sav");	
 	}
-	if(istether == 2)
+	if (istether == 2)
 	{
 		fromhub3map = strcat("profiles/", profilename, "/shrine/maps/hub3.sav");
 		frome3m1map = strcat("profiles/", profilename, "/shrine/maps/e3m1.sav");
@@ -363,7 +363,7 @@ void(float istether) load_save_maps =
 		frome3m5map = strcat("profiles/", profilename, "/shrine/maps/e3m5.sav");	
 		fromboss3map = strcat("profiles/", profilename, "/shrine/maps/boss3.sav");	
 	}	
-	if(istether == 3)
+	if (istether == 3)
 	{
 		fromhub3map = strcat("profiles/", profilename, "/autosave/maps/hub3.sav");
 		frome3m1map = strcat("profiles/", profilename, "/autosave/maps/e3m1.sav");
@@ -383,7 +383,7 @@ void(float istether) load_save_maps =
 	fcopy(fromboss3map, toboss3map);
 
 
-	local string hub3stat, e3m1stat, e3m2stat, e3m3stat, e3m4stat, e3m5stat, boss3stat;
+	string hub3stat, e3m1stat, e3m2stat, e3m3stat, e3m4stat, e3m5stat, boss3stat;
 
 	hub3stat = strcat("profiles/", profilename, "/maps/hub3.stats");
 	e3m1stat = strcat("profiles/", profilename, "/maps/e3m1.stats");
@@ -393,13 +393,13 @@ void(float istether) load_save_maps =
 	e3m5stat = strcat("profiles/", profilename, "/maps/e3m5.stats");
 	boss3stat = strcat("profiles/", profilename, "/maps/boss3.stats");
 
-	if(fexists(hub3stat)) fremove (hub3stat);
-	if(fexists(e3m1stat)) fremove (e3m1stat);
-	if(fexists(e3m2stat)) fremove (e3m2stat);
-	if(fexists(e3m3stat)) fremove (e3m3stat);
-	if(fexists(e3m4stat)) fremove (e3m4stat);
-	if(fexists(e3m5stat)) fremove (e3m5stat);
-	if(fexists(boss3stat)) fremove (boss3stat);
+	if (fexists(hub3stat)) fremove (hub3stat);
+	if (fexists(e3m1stat)) fremove (e3m1stat);
+	if (fexists(e3m2stat)) fremove (e3m2stat);
+	if (fexists(e3m3stat)) fremove (e3m3stat);
+	if (fexists(e3m4stat)) fremove (e3m4stat);
+	if (fexists(e3m5stat)) fremove (e3m5stat);
+	if (fexists(boss3stat)) fremove (boss3stat);
 
 
 	string tohub3stat, toe3m1stat, toe3m2stat, toe3m3stat, toe3m4stat, toe3m5stat, toboss3stat;
@@ -480,7 +480,7 @@ void() load_autosave = { cmd("set cvar_restoregame 0\n");
 	load_save_maps(3);
 	string savename = strcat("profiles/", profilename, "/autosave.sav\n");
 
-//	if(fexists(strcat ("data/",savename)))
+//	if (fexists(strcat ("data/",savename)))
 //	{
 		string cname = strcat("load ","data/", savename);
 		cmd("scratch3 0 \n");

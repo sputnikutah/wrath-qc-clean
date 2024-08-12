@@ -91,6 +91,7 @@ officialmap_t officialmaps[] = {
 
 void() null;
 void DecodeLevelParms(void);
+
 void Check_SaveCompatibility(void)
 {
 	dprint(sprintf("^3%s: (%.0f vs %.0f) (%.0f vs %.0f)\n", __func__, world.prog_version, prog_save_version, world.map_version, map_save_version));
@@ -122,11 +123,13 @@ void Check_SaveCompatibility(void)
 				{
 					// sadly, we need to just give the player back any relics and call it a day
 					float have_relics = self.foundedrelics;
-
+					
 					// restore any relics we had found from this episode
 					self.relics = 0;
 					self.s_relics = 0;
+#pragma warning disable Q207				//R00k: oh well...
 					#define X(x, t) RL_##x,
+
 					if (map.relic == 1)
 						float e_relics[] = {LIST_EPISODE1_MAPS};
 					else if (map.relic == 2)
@@ -134,7 +137,7 @@ void Check_SaveCompatibility(void)
 					else
 						float e_relics[] = {LIST_EPISODE3_MAPS};
 					#undef X
-
+#pragma warning enable Q207
 					// don't mind the blatant QuakeC quirky scope abuse here... yikes
 					//dprint(sprintf("^3ADDING RELICS... %x\n", have_relics));
 					for(float i = 0; i < 5; i++)
@@ -178,14 +181,14 @@ void Check_SaveCompatibility(void)
 		resetmap_keepitems:
 		// try to undo the coffer count...
 		entity lst = world;
-		while(lst = find(lst, classname, "coffer"))
+		while ((lst = find(lst, classname, "coffer")))
 		{
 			if (lst.use != null)
 				continue;
 			self.opened_coffers--;
 		}
 		lst = world;
-		while(lst = find(lst, classname, "coffer_open")) // why....
+		while ((lst = find(lst, classname, "coffer_open"))) // why....
 		{
 			if (lst.use != null)
 				continue;

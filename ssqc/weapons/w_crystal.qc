@@ -54,36 +54,36 @@ void(entity e)sub_beam2 =
 void() crystalbeam_update_view =
 {
 
-	if(self == self.owner.lastbeam_view)
+	if (self == self.owner.lastbeam_view)
 	{
-		if(self.owner.beam_counter_view > ((self.owner.beam_lenght / 2) + 1))
+		if (self.owner.beam_counter_view > ((self.owner.beam_lenght / 2) + 1))
 		{
 			self.owner.beam_counter_view --;
 			self.owner.lastbeam_view = self.lastbeam_view;
 			remove(self);
 			return;
 		}
-		if(self.owner.beam_counter_view < (self.owner.beam_lenght / 2))
+		if (self.owner.beam_counter_view < (self.owner.beam_lenght / 2))
 		{
 			self.owner.beam_counter_view ++;
-			local entity beam;
+			entity beam;
 			beam = spawn();
 			beam.beam_counter  = self.owner.beam_counter_view;
 			beam.classname = "crystalbeam_view";
 			beam.owner = self.owner;
-			if(self.cnt >= 5)
+			if (self.cnt >= 5)
 				beam.cnt = 1;
 			else
 			beam.cnt = self.cnt + 1;
-			if(beam.cnt == 1)	
+			if (beam.cnt == 1)	
 				setmodel (beam,"models/projectiles/beam_crystala.md3");
-			if(beam.cnt == 2)	
+			if (beam.cnt == 2)	
 				setmodel (beam,"models/projectiles/beam_crystalb.md3");
-			if(beam.cnt == 3)	
+			if (beam.cnt == 3)	
 				setmodel (beam,"models/projectiles/beam_crystalc.md3");
-			if(beam.cnt == 4)	
+			if (beam.cnt == 4)	
 				setmodel (beam,"models/projectiles/beam_crystald.md3");
-			if(beam.cnt == 5)	
+			if (beam.cnt == 5)	
 				setmodel (beam,"models/projectiles/beam_crystale.md3");
 			beam.lastbeam_view = self.owner.lastbeam_view;
 			self.owner.lastbeam_view = beam;
@@ -96,7 +96,7 @@ void() crystalbeam_update_view =
 		
 	}		
 
-	if(!self.owner.spawnedcrystal)
+	if (!self.owner.spawnedcrystal)
 		self.think = alphafade3;
 	else
 		self.think = crystalbeam_update_view;	
@@ -107,36 +107,36 @@ void() crystalbeam_update_view =
 void() boss2crystalbeam_update_view =
 {
 
-	if(self == self.owner.lastbeam_view)
+	if (self == self.owner.lastbeam_view)
 	{
-		if(self.owner.beam_counter_view > ((self.owner.beam_lenght / 2) + 1))
+		if (self.owner.beam_counter_view > ((self.owner.beam_lenght / 2) + 1))
 		{
 			self.owner.beam_counter_view --;
 			self.owner.lastbeam_view = self.lastbeam_view;
 			remove(self);
 			return;
 		}
-		if(self.owner.beam_counter_view < (self.owner.beam_lenght / 2))
+		if (self.owner.beam_counter_view < (self.owner.beam_lenght / 2))
 		{
 			self.owner.beam_counter_view ++;
-			local entity beam;
+			entity beam;
 			beam = spawn();
 			beam.beam_counter  = self.owner.beam_counter_view;
 			beam.classname = "crystalbeam_view";
 			beam.owner = self.owner;
-			if(self.cnt >= 5)
+			if (self.cnt >= 5)
 				beam.cnt = 1;
 			else
 			beam.cnt = self.cnt + 1;
-			if(beam.cnt == 1)	
+			if (beam.cnt == 1)	
 				setmodel (beam,"models/projectiles/beam_crystala.md3");
-			if(beam.cnt == 2)	
+			if (beam.cnt == 2)	
 				setmodel (beam,"models/projectiles/beam_crystalb.md3");
-			if(beam.cnt == 3)	
+			if (beam.cnt == 3)	
 				setmodel (beam,"models/projectiles/beam_crystalc.md3");
-			if(beam.cnt == 4)	
+			if (beam.cnt == 4)	
 				setmodel (beam,"models/projectiles/beam_crystald.md3");
-			if(beam.cnt == 5)	
+			if (beam.cnt == 5)	
 				setmodel (beam,"models/projectiles/beam_crystale.md3");
 			beam.lastbeam_view = self.owner.lastbeam_view;
 			self.owner.lastbeam_view = beam;
@@ -149,7 +149,7 @@ void() boss2crystalbeam_update_view =
 		
 	}		
 
-	if(!self.owner.spawnedcrystal)
+	if (!self.owner.spawnedcrystal)
 		self.think = alphafade3;
 	else
 		self.think = boss2crystalbeam_update_view;	
@@ -157,7 +157,7 @@ void() boss2crystalbeam_update_view =
 };
 void() muzzle_crystal_update =
 {
-	if(!self.owner.spawnedcrystal)
+	if (!self.owner.spawnedcrystal)
 		self.think = alphafade3;
 	else
 		self.think = muzzle_crystal_update;
@@ -171,14 +171,14 @@ void(entity e) te_crystal =
 	beam.classname = "crystalbeam_view";
 	e.lastbeam_view = beam;
 
-	if(e.classname == "boss_guardian2")
+	if (e.classname == "boss_guardian2")
 		beam.scale = 2;
 	else
 		beam.scale = 0.5;
 
-	if(e.classname != "boss_guardian2")
+	if (e.classname != "boss_guardian2")
 	{
-		if(e.centered == 1)
+		if (e.centered == 1)
 			beam.angles += '0.75 0 0';
 		else
 			beam.angles += '0.75 1 0';
@@ -191,7 +191,7 @@ void(entity e) te_crystal =
 	beam.movetype = MOVETYPE_NOCLIP;
 	beam.avelocity = '0 0 120';
 	beam.think = crystalbeam_update_view;
-	if(beam.scale == 2)
+	if (beam.scale == 2)
 		beam.think = boss2crystalbeam_update_view;
 
 	entity muzzle = spawn();
@@ -208,9 +208,9 @@ void() crystal_muzzle_think =
 {
 	self.frame ++;
 	self.alpha -= 0.1;
-	if(self.alpha == 0)
+	if (self.alpha == 0)
 		self.alpha = -1;
-	if(self.alpha > 0) 
+	if (self.alpha > 0) 
 		self.think = crystal_muzzle_think;
 	else
 		self.think = SUB_Remove;
@@ -224,14 +224,14 @@ void(vector org, vector dest, float beamsize, float lifetime, float alpha_time, 
 	muzzle.scale = random (1.5,2);
 
 	float beam_count = (vlen (org - dest) / beamsize) - 2;
-	if(beam_count <= 2)
+	if (beam_count <= 2)
 	{
 		dest = alternativedest;
 		beam_count = (vlen (org - dest) / beamsize) - 2;
 	muzzle.scale = random (2,3);
 	}
 
-	if(beam_count >= 255)
+	if (beam_count >= 255)
 	beam_count = 255;
 
 	setmodel(muzzle, "models/projectiles/proj_crystal.md3");
@@ -257,7 +257,7 @@ void(vector org, vector dest, float beamsize, float lifetime, float alpha_time, 
 	pbeam.scale = 0.5;
 	pbeam.origin = org;
 	pbeam.angles = vectoangles (beam_angles);
-	if(eangles != world)
+	if (eangles != world)
 	{
 		vector beamangles;
 		beamangles_x = eangles.v_angle_x * -1;
@@ -282,19 +282,19 @@ void(vector org, vector dest, float beamsize, float lifetime, float alpha_time, 
 	float beamcnt = 1;
 	while (beam_count > 0)
 	{
-		if(beamcnt > 5)
+		if (beamcnt > 5)
 			beamcnt = 1;
 		entity beam = spawn();
 		//beam.colormod = '2 0 1';
-		if(beamcnt == 1)	
+		if (beamcnt == 1)	
 			setmodel (beam,"models/projectiles/beam_crystala.md3");
-		if(beamcnt == 2)	
+		if (beamcnt == 2)	
 			setmodel (beam,"models/projectiles/beam_crystalb.md3");
-		if(beamcnt == 3)	
+		if (beamcnt == 3)	
 			setmodel (beam,"models/projectiles/beam_crystalc.md3");
-		if(beamcnt == 4)	
+		if (beamcnt == 4)	
 			setmodel (beam,"models/projectiles/beam_crystald.md3");
-		if(beamcnt == 5)	
+		if (beamcnt == 5)	
 			setmodel (beam,"models/projectiles/beam_crystale.md3");
 		beam.movetype = MOVETYPE_NOCLIP;
 		setattachment (beam,lastbeam,"tag_nextbeam");
@@ -315,13 +315,13 @@ void(vector org, vector dest, float beamsize, float lifetime, float alpha_time, 
 void()trail_remove2;
 void()check_owner_button =
 {
-	if(!(self.owner.button0))
+	if (!(self.owner.button0))
 	remove(self);
-	if(self.oldorigin != self.owner.origin)
+	if (self.oldorigin != self.owner.origin)
 	remove(self);
-	if(self.owner.v_angle != self.angles)
+	if (self.owner.v_angle != self.angles)
 	remove(self);
-	if(self.lifetime < time)
+	if (self.lifetime < time)
 	self.think = SUB_Remove;
 	else	
 	self.think = check_owner_button;
@@ -396,7 +396,7 @@ void() wfire_crystal_releaseloop =
 
 void() wfire_crystal =
 {
-	if(self.ammo_crystal <= 0)
+	if (self.ammo_crystal <= 0)
 	{
 		self.spawnedcrystal = 0;	
 		self.soundfade = 2;
@@ -408,11 +408,11 @@ void() wfire_crystal =
 
 		return;
 	}
-	if((self.button0))
+	if ((self.button0))
 	{
 		Controller_Rumble(self, 0.0, 0.1, 120);
 
-		if(!self.spawnedcrystal)
+		if (!self.spawnedcrystal)
 		{
 			string string_sound = "weapons/crystal/crystallizer_fire1.ogg";
 			float r = random();
@@ -433,9 +433,9 @@ void() wfire_crystal =
 			self.soundfade = 1;
 		}
 		self.pipes.vweaponstate = 2;
-		if(self.crystal_frame_time < time)
+		if (self.crystal_frame_time < time)
 		{
-			if(self.crystal_frame == 1)
+			if (self.crystal_frame == 1)
 			{
 				self.crystal_frame_time = time + 0.9;
 				self.vweaponframe = 2;
@@ -448,13 +448,13 @@ void() wfire_crystal =
 			}
 		}
 		
-		if(self.crystal_ammo_timing < time)
+		if (self.crystal_ammo_timing < time)
 		{
 			self.crystal_ammo_timing = time + 0.1;
 			self.ammo_crystal --;
 		}
 
-		if(self.beamtime < time)
+		if (self.beamtime < time)
 		{
 			vector tagorg = tag_origin("tag_muzzle",self.vweapon);
 			//bloodparticles_beam(self,tagorg);
@@ -464,7 +464,7 @@ void() wfire_crystal =
 			vector direction = aim(self, 100000);
 			self.crystal_secondary = 1;
 			float validimpact;
-			if((trace_fraction != 1.0))
+			if ((trace_fraction != 1.0))
 				validimpact = TRUE;
 
 			vector hit_position = trace_endpos;
@@ -476,15 +476,15 @@ void() wfire_crystal =
 
 			if (trace_fraction != 1.0 && !GetSkyMaterial())
 			{
-				if(self.particle_crystal_time < time)
+				if (self.particle_crystal_time < time)
 				{
 					float tracedist = vlen(tagorg - hit_position);
-					if(self.centered != 1)
+					if (self.centered != 1)
 						vector endparticles = hit_position - v_forward *2 + v_right * -2 + v_up * 3;
 					else
 					{
 						float relcenteredrightoffset = 1 + (tracedist / 60);
-						//if(relcenteredrightoffset > 9)
+						//if (relcenteredrightoffset > 9)
 							//relcenteredrightoffset = 9;
 						endparticles = hit_position - v_forward *2 + v_right * -(relcenteredrightoffset) + v_up * 5;
 					}
@@ -500,25 +500,25 @@ void() wfire_crystal =
 					vector dorg = hit_position;
 					pointparticles(particleeffectnum("crystal_impact1"), dorg, '0 0 0', 1);
 
-					if((trace_ent.flags & FL_MONSTER)|| (trace_ent.classname == "crystallised") ||((trace_ent.classname == "func_destruct") && (trace_ent.crystallized == 1)))
+					if ((trace_ent.flags & FL_MONSTER)|| (trace_ent.classname == "crystallised") ||((trace_ent.classname == "func_destruct") && (trace_ent.crystallized == 1)))
 					{
 
 						SpawnBlood(dorg, '0 0 0', 10, 1, 0);
 						float subbeam_count;
-						if(trace_ent.classname == "crystallised")
+						if (trace_ent.classname == "crystallised")
 							subbeam_count = 5;
 						else
 							subbeam_count = 1;
 			
-						if(trace_ent.classname == "crystallised")
+						if (trace_ent.classname == "crystallised")
 							float hittingacrystal = 1;	
 
-						if(trace_ent.classname == "func_destruct")
+						if (trace_ent.classname == "func_destruct")
 							 hittingacrystal = 2;	
 
-						if(hittingacrystal != 1)
+						if (hittingacrystal != 1)
 						{
-							if(self.lastcrystalimpacted.particle_crystal_time > time)
+							if (self.lastcrystalimpacted.particle_crystal_time > time)
 								entity head = self.lastcrystalimpacted;
 							else
 								head = findradius(trace_ent.origin, 512);
@@ -526,7 +526,7 @@ void() wfire_crystal =
 						else
 							head = findradius(trace_ent.origin, 512);
 
-						if(hittingacrystal == 2)
+						if (hittingacrystal == 2)
 							head = findradius(trace_endpos, 512);
 
 
@@ -544,7 +544,7 @@ void() wfire_crystal =
 							dmge = 0;
 						if (trace_ent.classname == "crystallised")
 							dmge = 0;
-						if(dmge > 0)
+						if (dmge > 0)
 						T_Damage (trace_ent, self, self, dmge);
 						pointparticles(particleeffectnum("crystal_impact4"), hit_position, '0 0 0', 1);
 
@@ -558,23 +558,23 @@ void() wfire_crystal =
 							vector visible_part_of_enemy_offset;
 
 							visible_part_of_enemy = head.origin;
-							if(visibleb(dorg, visible_part_of_enemy,trace_ent))
+							if (visibleb(dorg, visible_part_of_enemy,trace_ent))
 								visible_instances = 1;
 
 
-							if(visible_instances == 0)
+							if (visible_instances == 0)
 							{	
 								visible_part_of_enemy_offset_z = head.mins_z / 0.7;
 								visible_part_of_enemy = head.origin + visible_part_of_enemy_offset;
-								if(visibleb(dorg, visible_part_of_enemy ,trace_ent))
+								if (visibleb(dorg, visible_part_of_enemy ,trace_ent))
 									visible_instances = 2;
 							}	
 
-							if(visible_instances == 0)
+							if (visible_instances == 0)
 							{	
 								visible_part_of_enemy_offset_z = head.maxs_z / 0.7;
 								visible_part_of_enemy = head.origin - visible_part_of_enemy_offset;
-								if(visibleb(dorg, visible_part_of_enemy,trace_ent))
+								if (visibleb(dorg, visible_part_of_enemy,trace_ent))
 									visible_instances = 3;
 							}
 								
@@ -583,10 +583,10 @@ void() wfire_crystal =
 								monsters_hit++;
 								hittingmonster = 1;
 								pointparticles(particleeffectnum("crystal_impact2"), head.origin, '0 0 0', 1);
-								if(head.particle_time < time)
+								if (head.particle_time < time)
 								{
 
-									if(hittingacrystal != 1)
+									if (hittingacrystal != 1)
 									{
 										self.lastcrystalimpacted = head;
 										self.lastcrystalimpacted.particle_crystal_time = time + 0.5;
@@ -612,7 +612,7 @@ void() wfire_crystal =
 							Steam_AchievementUnlock(self, ST_ACHIEVEMENTS::SP_FEAT_CRYSTALSPREAD);
 						}
 
-						if(trace_ent && (hittingmonster == 0) && (trace_ent.attack_finished < time))
+						if (trace_ent && (hittingmonster == 0) && (trace_ent.attack_finished < time))
 						{	
 							trace_ent.attack_finished = time + 2;
 							makevectors (self.v_angle);		
@@ -622,19 +622,19 @@ void() wfire_crystal =
 							rdest = normalize (rdest);			
 							wtracebox(dorg, rdest * 758, MOVE_WORLDONLY, self,'2 2 2');
 							te_crystal2(dorg, trace_endpos,12,0.25,0.25,1,world,rdest);
-							if(trace_ent.takedamage)
+							if (trace_ent.takedamage)
 								T_Damage (trace_ent, self, self, crystal1_damage);
 						}
 						
 					}
 					else
 					{
-						if(trace_ent.bloody == 2)
+						if (trace_ent.bloody == 2)
 						{
 							SpawnBlood(dorg, '0 0 0', 20, 6, 0);
 							if ((bossvulnerable == 1))
 							{
-										if(trace_ent.classname == "boss_guardian2")
+										if (trace_ent.classname == "boss_guardian2")
 											explo_blood_sprite(2, trace_endpos);
 										else
 											explo_blood_sprite(5, trace_endpos);
@@ -678,10 +678,10 @@ void() wfire_crystal =
 
 			vector partoffset = -v_up * 4 + v_right * 5;
 
-			if(self.centered == 1)
+			if (self.centered == 1)
 				partoffset = -v_up * 4.2 + v_right * -0.05;
 
-			if(validimpact == TRUE)
+			if (validimpact == TRUE)
 				pointparticles(particleeffectnum("crystal_impact3"), hit_position + partoffset, '0 0 0', 1);
 
 			#if 1
@@ -690,11 +690,11 @@ void() wfire_crystal =
 			#else
 			wtracebox(tagorg - v_forward * 8, t_dest, FALSE, self,'2 2 2');	
 			self.beam_lenght = vlen (tagorg - trace_endpos) / 12;
-			if(self.beam_lenght > 64)
+			if (self.beam_lenght > 64)
 				self.beam_lenght = 64;					
 			self.beamtime = time + 0.1;
 			//self.crystal_beam_end = trace_endpos - v_forward * 12;
-			if(!self.spawnedcrystal)
+			if (!self.spawnedcrystal)
 			{	
 				self.beam_counter = 0;
 				self.beam_counter_view = 0;
@@ -723,7 +723,7 @@ void() wfire_crystal =
 /*
 void(entity e) beamcrystal_spawner =
 {
-	local entity beam;
+	entity beam;
 	beam = spawn();
 	beam.classname = "crystalbeam_view";
 	beam.owner = e;
@@ -736,11 +736,11 @@ void(entity e) beamcrystal_spawner =
 }
 void(entity e) te_beamcrystal =
 {
-	local entity beam;
+	entity beam;
 	beam = spawn();
 	beam.owner = e;
 	e.lastbeam = beam;
-	if(self.owner.beam_lenght <= 1)
+	if (self.owner.beam_lenght <= 1)
 		setmodel (beam,"models/weapons/crystal/raila.md3");
 	else
 		setmodel (beam,"models/weapons/crystal/railb.md3");
@@ -759,10 +759,10 @@ void(entity e) te_beamcrystal =
 */
 void(entity e, float beamlenght) sub_beam2crystal =
 {
-	local entity beam;
+	entity beam;
 
 	beam = spawn();
-	//if( beamlenght > 0)
+	//if ( beamlenght > 0)
 		setmodel(beam, "models/projectiles/boibeamb.md3");
 	//else
 	//	setmodel(beam, "models/projectiles/proj_raila.md3");
@@ -779,13 +779,13 @@ void(entity e, float beamlenght) sub_beam2crystal =
 
 void(entity e, vector tagorg, vector tangles) te_beamcrystal =
 {
-	local entity beam;
-	local float beamlenght;
+	entity beam;
+	float beamlenght;
 
 	beam = spawn();
 	self.owner = e;
 	e.lastbeam = beam;
-	//if(self.owner.beam_lenght <= 1)
+	//if (self.owner.beam_lenght <= 1)
 		setmodel (beam,"models/projectiles/boibeama.md3");
 	//else
 	//	setmodel (models/projectiles/proj_railb.md3");
@@ -809,7 +809,7 @@ void(entity e, vector tagorg, vector tangles) te_beamcrystal =
 
 void()trail_remove2 =
 {
-	if(other == self.owner)
+	if (other == self.owner)
 		return;
 	else 
 		remove(self);
@@ -820,7 +820,7 @@ void() fade_mark =
 	setmodel (self, "models/warp/warp.md3");
 	self.alpha -= 0.025;
 
-	if(self.alpha <= 0)
+	if (self.alpha <= 0)
 	{
 		self.alpha = -1;
 		remove(self);
@@ -834,7 +834,7 @@ void()flamedissapear =
 {
 	self.light_lev -= 0.48;
 
-	if(self.light_lev < 1)
+	if (self.light_lev < 1)
 	{
 		self.scale = 0.25;
 		self.think = fade_mark;
@@ -848,11 +848,11 @@ void()flamedissapear =
 
 void()telefrag_touch =
 {
-	if(other == self.owner)
+	if (other == self.owner)
 		return;
-	if(other.classname == "player")
+	if (other.classname == "player")
 		T_Damage (self, other, other, 5000);
-	if(other.flags & FL_MONSTER)
+	if (other.flags & FL_MONSTER)
 		T_Damage (other, self, self, 5000);
 };
 
@@ -863,15 +863,15 @@ void()telefrag_touch =
 
 void() monster_goodbye_touch = 
 {
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;	
 	T_Damage(self, self, self, 500);	
 
-	if(other.takedamage)
+	if (other.takedamage)
 	{	
 
 		float dmg = crystal2_damage * (1+ self.ammo_revolver);
-		if(other.classname != "player")
+		if (other.classname != "player")
 		T_Damage(other, self.enemy, self.enemy, dmg);	
 	}	
 	self.movetype = MOVETYPE_TOSS;
@@ -887,7 +887,7 @@ void() monster_pregoodbye =
 	else
 		self.jump_flag = 0;
 	
-	if(self.jump_flag <= -250)
+	if (self.jump_flag <= -250)
 	self.touch = monster_goodbye_touch;
 	
 	self.movetype = MOVETYPE_TOSS;
@@ -899,14 +899,14 @@ void() monster_flyer_pregoodbye =
 {
 	float speed = vlen (self.velocity);
 
-	if((self.oldorigin == self.origin) || (self.flags &FL_ONGROUND) || (speed <= 5))
+	if ((self.oldorigin == self.origin) || (self.flags &FL_ONGROUND) || (speed <= 5))
 	{
 		self.think = monster_goodbye_touch;
 		self.nextthink = time + 0.05;
 		return;
 	}
 	
-	if(self.velocity_z > -320)
+	if (self.velocity_z > -320)
 	self.velocity_z -= 5; 
 
 
@@ -925,7 +925,7 @@ void()cist_crystal_think =
 	self.velocity_y = self.velocity_y * 0.9;
 
 
-	if(self.velocity_z > 0)
+	if (self.velocity_z > 0)
 	self.velocity_z = self.velocity_z * 0.9;
 	self.avelocity_x = self.avelocity_x * 0.9;
 	self.avelocity_y = self.avelocity_y * 0.9;
@@ -967,21 +967,21 @@ void()cist_crystal_prethink =
 
 void()cist_crystal_touch =
 {
-	if(other.solid == SOLID_TRIGGER)
+	if (other.solid == SOLID_TRIGGER)
 		return;
 	float r = random();
 
 
-	if(self.attack_finished < time)
+	if (self.attack_finished < time)
 	{
-		if(r < 0.2)
+		if (r < 0.2)
 		{
 			sound7(self, CHAN_WEAPON, "impact/destruct/glass_small_break.ogg", 1, 0.25, 80 + random() *30, 0);
 			self.attack_finished =  time + random();
 		}
 	}
 
-	if(other.solid == SOLID_BSP)
+	if (other.solid == SOLID_BSP)
 	{
 		traceline(self.origin, self.origin -'0 0 12',TRUE,self);
 		if (trace_fraction != 1.0)
@@ -1009,15 +1009,15 @@ void() death_crystal_gibs =
 
 
 	gibaccount = self.maxs_x;
-	if((self.classname == "func_destruct") &&(self.gibcount > 0))
+	if ((self.classname == "func_destruct") &&(self.gibcount > 0))
 		gibaccount = self.gibcount;
 	float healthfactor = (self.health) * -0.005;
-	if(self.classname == "func_destruct")
+	if (self.classname == "func_destruct")
 		healthfactor = (self.health) * -0.0075;
 
-	if(gibaccount > 32)
+	if (gibaccount > 32)
 		gibaccount = 32;
-	if(self.classname == "func_destruct")
+	if (self.classname == "func_destruct")
 		SUB_UseTargets();
 
 	//	void(string locsound, float rnd, float vol, float nchannel, float iswav, float atten) randomsound2 =
@@ -1025,7 +1025,7 @@ void() death_crystal_gibs =
 
 	while(gibaccount > 0)
 	{
-		local vector org;
+		vector org;
 		org_x = random(-gibaccount, gibaccount) + self.origin_x;
 		org_y = random(-gibaccount, gibaccount) + self.origin_y;
 		org_z = random(-gibaccount, gibaccount) + self.origin_z;
@@ -1043,22 +1043,22 @@ void() death_crystal_gibs =
 		setorigin (crystalgibs,org);
 		crystalgibs.originjitter = self.origin;
 
-		if(self.oldclassname == "monster_wretch")
+		if (self.oldclassname == "monster_wretch")
 			crystalgibs.scale = random (2,7);
-		else if(self.oldclassname == "executioner")
+		else if (self.oldclassname == "executioner")
 			crystalgibs.scale = random (5,12);
-		else if(self.oldclassname == "monster_symbol")
+		else if (self.oldclassname == "monster_symbol")
 			crystalgibs.scale = random (5,12);
-		else if(self.oldclassname == "monster_widow")
+		else if (self.oldclassname == "monster_widow")
 			crystalgibs.scale = random (3,7);
 		else
 			crystalgibs.scale = random (1,5);
 
-		if(self.classname == "func_destruct")
+		if (self.classname == "func_destruct")
 		{
 			crystalgibs.scale = random(self.base_scale *0.75, self.base_scale * 3.33);
 			float r = random();
-			if(r < 0.3)
+			if (r < 0.3)
 				pointparticles(particleeffectnum("crystallize"), crystalgibs.origin, '0 0 0', 1);
 		}
 
@@ -1081,10 +1081,10 @@ void() death_crystal_gibs =
 
 void() crystalized_think = 
 {
-	if(self.alpha < 0.9)
+	if (self.alpha < 0.9)
 	self.alpha += 0.05;
 	float healthfactor = self.owner.health * -0.005;
-	if(self.owner.health>0) 
+	if (self.owner.health>0) 
 	{
 		self.think = crystalized_think;
 		self.oldorigin = self.owner.origin;
@@ -1093,7 +1093,7 @@ void() crystalized_think =
 	else
 	{
 		float r = random();
-		if(r < 0.3)
+		if (r < 0.3)
 		pointparticles(particleeffectnum("crystallize"), self.oldorigin, '0 0 0', 1);
 		self.pipes.effects = 0;
 		self.pipes.movetype = MOVETYPE_BOUNCE;
@@ -1104,15 +1104,15 @@ void() crystalized_think =
 		self.pipes.origin = org;
 		setorigin (self.pipes,org);
 		self.pipes.originjitter = self.owner.origin;
-		if(self.owner.oldclassname == "monster_afflicted")
+		if (self.owner.oldclassname == "monster_afflicted")
 			self.pipes.scale = self.pipes.scale * 1;
-		else if(self.owner.oldclassname == "monster_wretch")
+		else if (self.owner.oldclassname == "monster_wretch")
 			self.pipes.scale = self.pipes.scale * 1;
-		else if(self.owner.oldclassname == "monster_symbol")
+		else if (self.owner.oldclassname == "monster_symbol")
 			self.pipes.scale = self.pipes.scale * 0.5;
-		else if(self.owner.oldclassname == "monster_widow")
+		else if (self.owner.oldclassname == "monster_widow")
 			self.pipes.scale = self.pipes.scale * 1.5;
-		else if(self.owner.oldclassname == "monster_fallen")
+		else if (self.owner.oldclassname == "monster_fallen")
 			self.pipes.scale = self.pipes.scale * 10;
 		else
 			self.pipes.scale = self.pipes.scale * 2.5;
@@ -1183,22 +1183,22 @@ void() doppelalphafade =
 
 void() glowmodderthink = 
 {
-	if(self.owner.colormod_x >   self.oldcolormod_x)
+	if (self.owner.colormod_x >   self.oldcolormod_x)
 		self.owner.colormod_x -= 0.25; 	
 	else
 		self.owner.colormod_x =  self.oldcolormod_x; 	
 		
-	if(self.owner.colormod_y >   self.oldcolormod_x)
+	if (self.owner.colormod_y >   self.oldcolormod_x)
 		self.owner.colormod_y -= 0.25; 	
 	else
 		self.owner.colormod_y =  self.oldcolormod_y; 	
 
-	if(self.owner.colormod_z >  self.oldcolormod_x)
+	if (self.owner.colormod_z >  self.oldcolormod_x)
 		self.owner.colormod_z -= 0.25; 	
 	else
 		self.owner.colormod_z = self.oldcolormod_z; 	
 
-	if(self.owner.colormod == self.oldcolormod)
+	if (self.owner.colormod == self.oldcolormod)
 	{	
 		self.think = SUB_Remove;
 	}
@@ -1217,7 +1217,7 @@ void() loop_widow_soundoff;
 float(float dmgmultiplier) crystal_impact =
 {
 	vector org = trace_endpos;
-	if(trace_ent.classname == "player")
+	if (trace_ent.classname == "player")
 		float tdmg = crystal2_damage_mp * dmgmultiplier * 2;
 	else
 		tdmg = crystal2_damage * dmgmultiplier * 2;
@@ -1227,7 +1227,7 @@ float(float dmgmultiplier) crystal_impact =
 	{
 
 
-		if((trace_ent.wrathflags & FL_CRYSTAL))
+		if ((trace_ent.wrathflags & FL_CRYSTAL))
 		    T_Damage(trace_ent, self, self, tdmg);
 
 		if ((trace_ent.flags &FL_MONSTER) && ((trace_ent.health <= trace_ent.max_health * 0.25) || (tdmg >= trace_ent.health)))
@@ -1247,7 +1247,7 @@ float(float dmgmultiplier) crystal_impact =
 			self.oldflags = self.flags;
 			pointparticles(particleeffectnum("crystallize"), self.origin, '0 0 0', 2);
 			//self.alpha = 0.9;
-			//if(self.classname == "monster_widow")
+			//if (self.classname == "monster_widow")
 			//	loop_widow_soundoff();
 			//msound(self, CHAN_VOICE, "enemies/widow/run.ogg", 0, 0);
 			
@@ -1260,32 +1260,32 @@ float(float dmgmultiplier) crystal_impact =
 			sound(self, CHAN_ITEM, "misc/null.wav", 0, 1);
 			sound(self, CHAN_FOOT, "misc/null.wav", 0, 1);
 			
-			if(self.classname == "monster_afflicted")
+			if (self.classname == "monster_afflicted")
 			{			crystalized(self,"tag_leg_r_l.tag_leg_r_b.tag_leg_r_a.tag_leg_l_a.tag_head.tag_arm_r_b.tag_arm_r_a.tag_arm_l_b.tag_arm_l_a.tag_hand.tag_a.tag_b.tag_c.tag_d",5);
 				self.skin = 1;
 
 			}
-			if(self.classname == "monster_brute")
+			if (self.classname == "monster_brute")
 			{
 				crystalized(self,"tag_face.tag_arma.tag_armb.tag_armc.tag_armd.tag_arme.tag_lega.tag_legb.tag_legc.tag_legd.tag_lege.tag_back.tag_howitzer.tag_howitzer_gun",8.5);
 				self.skin += 2;
 			}
-			else if(self.classname == "executioner")
+			else if (self.classname == "executioner")
 			{
 				crystalized(self,"tag_head.tag_arma.tag_armb.tag_armc.tag_armd.tag_lega.tag_legb.tag_legc.tag_legd.tag_lege.tag_backa.tag_backb.tag_arm_left.tag_arm_right.tag_fake",8.5);
 				self.skin = self.skin + 3;				
 			}
-			else if(self.classname == "monster_fallen")
+			else if (self.classname == "monster_fallen")
 			{
 				crystalized(self,"tag_head.tag_waist.tag_torso.tag_leg_b_r.tag_leg_b_l.tag_knee_r.tag_knee_l.tag_arm_b_l.tag_arm_b_r.tag_arm_a_l.tag_arm_a_r", 0.5);
 				self.skin = self.skin + 6;	
 			}
-			else if(self.classname == "monster_heretic")
+			else if (self.classname == "monster_heretic")
 			{
 				crystalized(self,"tag_muzzle.tag_tongues.tag_jawb.tag_jawa.tag_heada.tag_headb.tag_headc.tag_jawc.tag_backa.tag_backb",3.5);
 				self.skin = 1;				
 			}
-			else if(self.classname == "monster_incisor")
+			else if (self.classname == "monster_incisor")
 			{
 				crystalized(self,"tag_Head.tag_R_Upper_Arm.tag_R_Mid_Arm.tag_R_Lower_Arm.tag_L_Upper_Arm.tag_L_Mid_Arm.tag_L_Lower_Arm.tag_R_Leg_Thigh.tag_R_Leg_Mid.tag_R_Leg_Calf.tag_L_Leg_Thigh.tag_L_Leg_Mid.tag_L_Leg_Calf",3);
 				self.skin = 1;	
@@ -1293,45 +1293,45 @@ float(float dmgmultiplier) crystal_impact =
 				self.effects = 0;	
 
 			}
-			else if(self.classname == "monster_invader")
+			else if (self.classname == "monster_invader")
 			{
 				crystalized(self,"tag_leg_r.tag_leg.tag_head.tag_body.tag_head.tag_arm_r.tag_arm_l.tag_hair_a.tag_hair_b.tag_hair_c.tag_fake",3);
 				self.skin = self.skin + 4;				
 			}			
-			else if(self.classname == "monster_lurker")
+			else if (self.classname == "monster_lurker")
 			{
 				crystalized(self,"tag_arm_a_l.tag_arm_a_r.tag_arm_b_l.tag_arm_b_r.tag_head_a.tag_head_b.tag_head_c.tag_tail_a.tag_tail_b",3);
 				self.skin = 1;
 				self.alpha = 1;
 				self.effects = 0;
 			}
-			else if(self.classname == "monster_oppressor")
+			else if (self.classname == "monster_oppressor")
 			{
 				crystalized(self,"tag_shoulder_r.tag_shoulder_l.tag_pelvis.tag_leg_r.tag_leg_l.tag_head_face.tag_head_top.tag_foota.tag_footb.tag_dripa.tag_dripb.tag_core.tag_cannon_r.tag_cannon_l",3);
 				self.skin = 1;
 			}
-			else if(self.classname == "monster_stricken")
+			else if (self.classname == "monster_stricken")
 			{
 			self.skin = 1;				
 crystalized(self,"tag_cyst_a.tag_cyst_b.tag_cyst_c.tag_cyst_d.tag_cyst_e.tag_cyst_explo.tag_sides.tag_arm_l_b.tag_arm_l_a.tag_tail.tag_arm_r_b.tag_arm_r_a.tag_jaw.tag_head.tag_mouth",9);
 			}
 
-			else if(self.classname == "monster_symbol")
+			else if (self.classname == "monster_symbol")
 			{
 				crystalized(self,"tag_muzzle_a.tag_muzzle_b.tag_muzzle_c.tag_muzzle_d.tag_c_br.tag_c_bl.tag_head.tag_t_fl.tag_t_fm.tag_t_fr.tag_t_bl.tag_t_bm.tag_t_br.tag_c_tl.tag_c_tr",7);
 				self.skin = 1;				
 			}
-			else if(self.classname == "monster_wraith")
+			else if (self.classname == "monster_wraith")
 			{
 				crystalized(self,"tag_head.tag_muzzle.tag_arm1.tag_arm2.tag_arm3.tag_arm4.tag_back1.tag_back2.tag_back3.tag_tail1.tag_tail2",3);
 				self.skin = 1;				
 			}
-			else if(self.classname == "monster_wretch")
+			else if (self.classname == "monster_wretch")
 			{
 				crystalized(self,"tag_leg2_l.tag_leg2_r.tag_leg1_1.tag_leg1_r.tag_head.tag_proj.tag_dest.tag_arm2_l.tag_arm2_r.tag_arm1_l.tag_arm1_r",5);
 				self.skin = 1;
 			}			
-			else if(self.classname == "monster_widow")
+			else if (self.classname == "monster_widow")
 			{
 				crystalized(self,"tag_leg_r_b.tag_leg_l_b.tag_leg_r_a.tag_leg_l_a.tag_head.tag_arm_r_b.tag_arm_r_a.tag_arm_l_b.tag_arm_l_a",3);
 				self.skin = 1;				
@@ -1350,9 +1350,9 @@ crystalized(self,"tag_cyst_a.tag_cyst_b.tag_cyst_c.tag_cyst_d.tag_cyst_e.tag_cys
 				self.gravity = 1;
 				self.skin = 1;
 			}
-			if((self.classname == "monster_wraith")||(self.classname == "monster_heretic")||(self.classname == "monster_symbol"))
+			if ((self.classname == "monster_wraith")||(self.classname == "monster_heretic")||(self.classname == "monster_symbol"))
 			{
-				if(self.flags & FL_FLY)
+				if (self.flags & FL_FLY)
 				self.flags -= FL_FLY;
 				self.gravity = 1.25;
 				vector height;
@@ -1368,19 +1368,19 @@ crystalized(self,"tag_cyst_a.tag_cyst_b.tag_cyst_c.tag_cyst_d.tag_cyst_e.tag_cys
 				self.velocity_y =  self.velocity_y * 0.2;
 				self.velocity_z =  self.velocity_z * 0.2;
 
-				if(self.classname == "monster_wraith")
+				if (self.classname == "monster_wraith")
 				{
 					self.velocity += v_forward * (tdmg / 2);
 					self.velocity_z += random(64,128);
 					self.ammo_revolver = 2;
 				}
-				if(self.classname == "monster_heretic")
+				if (self.classname == "monster_heretic")
 				{
 					self.velocity += v_forward * (tdmg / 1.75);
 					self.velocity_z += random(64,128);
 					self.ammo_revolver = 5;
 				}
-				if(self.classname == "monster_symbol")
+				if (self.classname == "monster_symbol")
 				{
 					self.velocity = v_forward * (tdmg / 1.75);
 					self.velocity_z += random(128,256);
@@ -1465,7 +1465,7 @@ crystalized(self,"tag_cyst_a.tag_cyst_b.tag_cyst_c.tag_cyst_d.tag_cyst_e.tag_cys
 			self.colormod_x = 0.3 + flight_x * 0.7; 	
 			self.colormod_y = 0.3 + flight_y * 0.7; 
 			self.colormod_z = 0.3 + flight_z * 0.7; 
-			if((self.movetype == MOVETYPE_BOUNCE) || (self.movetype == MOVETYPE_TOSS))
+			if ((self.movetype == MOVETYPE_BOUNCE) || (self.movetype == MOVETYPE_TOSS))
 			{
 				self.touch = monster_goodbye_touch;
 				self.think = monster_flyer_pregoodbye;
@@ -1489,7 +1489,7 @@ crystalized(self,"tag_cyst_a.tag_cyst_b.tag_cyst_c.tag_cyst_d.tag_cyst_e.tag_cys
 		{
 			if ((trace_ent.health > trace_ent.max_health * 0.25)&& (trace_ent.flags & FL_MONSTER))
 			{
-				if(trace_ent.colormod == '0 0 0')
+				if (trace_ent.colormod == '0 0 0')
 				trace_ent.colormod = '1 1 1';
 				/*glowmodder = spawn();
 				glowmodder.owner = trace_ent;
@@ -1500,15 +1500,15 @@ crystalized(self,"tag_cyst_a.tag_cyst_b.tag_cyst_c.tag_cyst_d.tag_cyst_e.tag_cys
 				glowmodder.delay = 0.0125;*/
 				trace_ent.sustained_damage = trace_ent.damagetopain + 1;
 			}
-			if(!(trace_ent.wrathflags & FL_CRYSTAL))
+			if (!(trace_ent.wrathflags & FL_CRYSTAL))
 			T_Damage(trace_ent, self, self, tdmg);
 
-			if(trace_ent.bloody == 2)
+			if (trace_ent.bloody == 2)
 			{
 				SpawnBlood(trace_endpos, '0 0 0', 20, 12, 0);
 				if ((bossvulnerable == 1))
 				{
-					if(trace_ent.classname == "boss_guardian2")
+					if (trace_ent.classname == "boss_guardian2")
 					{
 						explo_blood_sprite(7, trace_endpos);
 						explo_blood_sprite(7, trace_endpos +  randomvector('-5 -5 8','5 5 16'));
@@ -1539,7 +1539,7 @@ crystalized(self,"tag_cyst_a.tag_cyst_b.tag_cyst_c.tag_cyst_d.tag_cyst_e.tag_cys
 
 void()crystals_muzzle_think = 
 {
-	if(!self.owner.button3)	
+	if (!self.owner.button3)	
 		self.think = alphafade;
 	else
 		self.think = crystals_muzzle_think;
@@ -1550,11 +1550,11 @@ void()crystals_muzzle_think =
 void() wsfire_crystal =
 {
 	vector tagorg = tag_origin("tag_muzzle",self.vweapon);
-	if(self.beamtime > time)
+	if (self.beamtime > time)
 		return;
-	if((self.button3))
+	if ((self.button3))
 	{
-		if(!self.wsfire_crystal_dmgcnt)
+		if (!self.wsfire_crystal_dmgcnt)
 		{
             float wvol = cvar ("weapons_fire_volume");
 			sound7(self,CHAN_WEAPONFADE,"weapons/crystal/crystallizer_fire_alt_loop.ogg",wvol,0.25,100,0);
@@ -1564,9 +1564,9 @@ void() wsfire_crystal =
 		Controller_Rumble(self, 0.0, 0.05 + (self.wsfire_crystal_dmgcnt / 100), 30);
 		self.wsfire_crystal_time = time + 0.1;		
 
-		if(self.crystal_frame_time < time)
+		if (self.crystal_frame_time < time)
 		{
-			if(self.crystal_frame == 1)
+			if (self.crystal_frame == 1)
 			{
 				self.crystal_frame_time = time + 0.75;
 				if (self.wsfire_crystal_dmgcnt < 20)
@@ -1583,7 +1583,7 @@ void() wsfire_crystal =
 			}
 		}
 
-		if(self.wsfire_crystal_time_charging < time)
+		if (self.wsfire_crystal_time_charging < time)
 		{
 			if ((self.ammo_crystal >= 1) && (self.wsfire_crystal_dmgcnt < 20))	
 			{
@@ -1598,11 +1598,11 @@ void() wsfire_crystal =
 				muzzle.scale = 0.3 + 0.01 * self.wsfire_crystal_dmgcnt; 
 				muzzle.colormod = '1.2 0.3 0.75';	
 
-				if(self.wsfire_crystal_dmgcnt < 19)
+				if (self.wsfire_crystal_dmgcnt < 19)
 				{			
 					muzzle.alphatime = 0.2;
 					muzzle.alpha = 0.5;
-					if(self.ammo_crystal > 0)
+					if (self.ammo_crystal > 0)
 					{	
 						muzzle.think = alphafade;					
 						muzzle.nextthink = self.wsfire_crystal_time_charging;
@@ -1638,7 +1638,7 @@ void() wsfire_crystal =
 		float dmg_cnt = 	self.wsfire_crystal_dmgcnt;
 		self.soundfade = 2;
 		wvol = cvar ("weapons_fire_volume");
-		if(dmg_cnt <= 6)
+		if (dmg_cnt <= 6)
 			sound7(self,CHAN_AUTO,"weapons/crystal/crystallizer_altfire1_light.ogg",wvol * 0.6,0.25,100,0);
 		else if ((dmg_cnt > 6) && (dmg_cnt <= 12))
 			sound7(self,CHAN_AUTO,"weapons/crystal/crystallizer_altfire1_light.ogg",wvol * 0.8,0.25,100,0);
@@ -1656,7 +1656,7 @@ void() wsfire_crystal =
 			Controller_Rumble(self, 0.2, 0.12 + (dmg_cnt / 100), 120 + (dmg_cnt * 3));
 		
 
-		if((self.wsfire_crystal_time > time) && (self.wsfire_crystal_dmgcnt))
+		if ((self.wsfire_crystal_time > time) && (self.wsfire_crystal_dmgcnt))
 		{
 
 			makevectors(self.v_angle);
@@ -1680,11 +1680,11 @@ void() wsfire_crystal =
 			setorigin (muzzle2,trace_endpos + v_forward * -12);
 
 
-			if(self.beam_muzzle)
+			if (self.beam_muzzle)
 				remove(self.beam_muzzle);
 			if (crystal_impact(self.wsfire_crystal_dmgcnt) == FALSE)
 			{
-				if(dmg_cnt <= 6)
+				if (dmg_cnt <= 6)
 				pointparticles(particleeffectnum("crystal_altimpacta"), trace_endpos + v_forward *(-16),'0 0 0', 1);
 				else if ((dmg_cnt > 6) && (dmg_cnt <= 12))
 				pointparticles(particleeffectnum("crystal_altimpactb"), trace_endpos + v_forward *(-20),'0 0 0', 1);
@@ -1698,7 +1698,7 @@ void() wsfire_crystal =
 
 			makevectors(self.v_angle);
 
-			if(deathmatch == 1) 
+			if (deathmatch == 1) 
 				vector dir = v_forward * self.wsfire_crystal_dmgcnt * -35;
 			else
 				dir = v_forward * self.wsfire_crystal_dmgcnt * -12;
@@ -1707,7 +1707,7 @@ void() wsfire_crystal =
 			self.velocity += '0 0 24'; 
 			self.velocity += dir;
 			float active_punchangle = cvar ("cl_punch");
-			if(active_punchangle == 1)			
+			if (active_punchangle == 1)			
 				self.punchangle_x = -self.wsfire_crystal_dmgcnt * 0.75;
 			else
 				self.punchangle_x = -self.wsfire_crystal_dmgcnt * 0.25;
@@ -1746,24 +1746,24 @@ void() crystal_glowmod_controller_think =
 	float maxglow;
 	float minglow;
 
-	if(self.vweaponstate == 1)
+	if (self.vweaponstate == 1)
 	{
 		minglow = 0.2;
 		maxglow = 0.7;
 	}
-	if(self.vweaponstate == 2)
+	if (self.vweaponstate == 2)
 	{
 		minglow = 0.75;
 		maxglow = 1.25;		
 	}
-	if(self.vweaponstate == 3)
+	if (self.vweaponstate == 3)
 	{
 		minglow = 1.3;
 		maxglow = 1.8;
 	}
-	if(self.count == 1)
+	if (self.count == 1)
 	{
-		if(self.glowmod_x > maxglow + 0.05)
+		if (self.glowmod_x > maxglow + 0.05)
 		{
 			self.glowmod_x -= 0.15;
 			self.glowmod_y -= 0.15;
@@ -1776,7 +1776,7 @@ void() crystal_glowmod_controller_think =
 			self.glowmod_z -= 0.05;
 		}
 
-		if(self.glowmod_x <= minglow)
+		if (self.glowmod_x <= minglow)
 			self.count = 0;
 	}
 	else
@@ -1784,20 +1784,20 @@ void() crystal_glowmod_controller_think =
 		self.glowmod_x += 0.05;
 		self.glowmod_y += 0.05;
 		self.glowmod_z += 0.05;
-		if(self.glowmod_x > maxglow)
+		if (self.glowmod_x > maxglow)
 			self.count = 1;
 	}
-	if(self.cnt != 1)
+	if (self.cnt != 1)
 	{
 		self.owner.pipes = self;
 		self.cnt = 1;
 	}
 	self.owner.vweaponglowmod = self.glowmod;
 
-	if(self.owner.weapon != IT_CRYSTAL)
+	if (self.owner.weapon != IT_CRYSTAL)
 		self.think = SUB_Remove;
 
-	if(self.vweaponstate == 1)
+	if (self.vweaponstate == 1)
 		self.nextthink = time + 0.1;
 	else
 		self.nextthink = time + 0.05;
