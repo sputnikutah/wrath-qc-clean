@@ -450,7 +450,7 @@ accessor strbuf : float
 	inline set float asfloat[float idx] = {
 			bufstr_set(this, idx, ftos(value));
 		};
-	
+
 	// we can get away with directly referencing existing functions/builtins
 	get string[float] = bufstr_get;
 	set string[float] = bufstr_set;
@@ -463,7 +463,7 @@ inline string chara_atpos(chara this, float pos)
 }
 string chara_setpos(chara this, float pos, string c)
 {
-	float idx = min(pos, strlen((string)this))
+	float idx = min(pos, strlen((string)this));
 
 	string s1 = substring((string)this, 0, idx);
 	string s2 = substring((string)this, idx + 1, strlen((string)this));

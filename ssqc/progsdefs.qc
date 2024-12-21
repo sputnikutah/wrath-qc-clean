@@ -42,8 +42,7 @@ float		killed_monsters;	// number of monsters killed
 
 // spawnparms are used to encode information about clients across server
 // level changes
-float		parm1, parm2, parm3, parm4, parm5, parm6, parm7, parm8, parm9, parm10, parm11, parm12, parm13, parm14, parm15, parm16, parm17, parm18,  parm19,  parm20,  parm21,  parm22,  parm23,  parm24,  parm25,  parm26,  parm27,  parm28,  parm29, parm30, parm31, parm32, parm33, parm34, parm35, parm36, parm37, parm38, parm39, parm40, 
-parm41, parm42, parm43, parm44, parm45, parm46, parm47, parm48, parm49, parm50, parm51, parm52, parm53, parm54, parm55, parm56, parm57, parm58, parm59, parm60, parm61, parm62, parm63, parm64; 
+float		parm1, parm2, parm3, parm4, parm5, parm6, parm7, parm8, parm9, parm10, parm11, parm12, parm13, parm14, parm15, parm16;
 
 //
 // global variables set by built in functions
@@ -508,3 +507,25 @@ entity single_player;
 .float oldrelics;
 ////////////////////////////////////////////////////////////////////////
 
+float parm17, parm18,  parm19,  parm20,  parm21,  parm22,  parm23,  parm24,  parm25,  parm26,  parm27,  parm28,  parm29, parm30, parm31, parm32, parm33, parm34, parm35, parm36, parm37, parm38, parm39, parm40, parm41, parm42, parm43;
+__unused float parm44;
+__unused float parm45;
+__unused float parm46;
+__unused float parm47;
+__unused float parm48;
+__unused float parm49;
+__unused float parm50;
+__unused float parm51;
+__unused float parm52;
+__unused float parm53;
+__unused float parm54;
+__unused float parm55;
+__unused float parm56;
+__unused float parm57;
+__unused float parm58;
+__unused float parm59;
+__unused float parm60;
+__unused float parm61;
+__unused float parm62;
+__unused float parm63;
+__unused float parm64;

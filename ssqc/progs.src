@@ -3,7 +3,7 @@
 #define SSQC
 #define DEBUG 0
 #pragma includedir "../"
-#pragma warning disable Q208
+#pragma forcecrc 5927
 #pragma warning disable F314            // Implicit cast from float(entity to, float sendflags) to float()
 progsdefs.qc                            // Definitions
 dpextensions.qc

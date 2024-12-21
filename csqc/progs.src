@@ -1,4 +1,4 @@
-../../csprogs.dat
+../csprogs.dat
 
 #define CSQC
 #define DEBUG 0
